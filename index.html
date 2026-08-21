@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>❤️</title>
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #250018;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.box {
+    padding: 30px;
+}
+
+button {
+    border: 0;
+    border-radius: 50px;
+    padding: 18px 35px;
+    background: #ff277f;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+#text {
+    display: none;
+    margin-top: 25px;
+    font-size: 20px;
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h1>Для тебя ❤️</h1>
+
+    <button id="btn" type="button">
+        Нажми сюда ❤️
+    </button>
+
+    <div id="text">
+        Ты мне очень нравишься ❤️
+        <br><br>
+        Это маленькое послание только для тебя 💕
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btn = document.getElementById("btn");
+    const text = document.getElementById("text");
+
+    btn.addEventListener("click", function () {
+        text.style.display = "block";
+        btn.style.display = "none";
+    });
+
+});
+</script>
+
+</body>
+</html>
