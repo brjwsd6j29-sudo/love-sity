@@ -2,78 +2,802 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>❤️</title>
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      viewport-fit=cover">
+
+<meta name="theme-color" content="#080812">
+
+<title>✨ Для тебя</title>
 
 <style>
-body {
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
     min-height: 100vh;
+    min-height: 100dvh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #35305c,
+            #141321 45%,
+            #07070d
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   ФОН
+========================= */
+
+.bg {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.glow {
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    border-radius: 50%;
+
+    filter: blur(80px);
+
+    opacity: .35;
+}
+
+.glow.one {
+    background: #7c5cff;
+    top: -80px;
+    left: -80px;
+}
+
+.glow.two {
+    background: #ff4da6;
+    bottom: -100px;
+    right: -80px;
+}
+
+
+/* =========================
+   КОНТЕЙНЕР
+========================= */
+
+.app {
+
+    width: 100%;
+    max-width: 480px;
+
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    margin: auto;
+
+    padding:
+        max(25px, env(safe-area-inset-top))
+        18px
+        max(25px, env(safe-area-inset-bottom))
+        18px;
+
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+}
+
+
+/* =========================
+   ВЕРХ
+========================= */
+
+.top {
+
+    display: flex;
+
+    justify-content: space-between;
     align-items: center;
-    background: #250018;
-    color: white;
-    font-family: Arial, sans-serif;
+
+    margin-bottom: 35px;
+}
+
+.logo {
+
+    font-size: 19px;
+    font-weight: 700;
+
+}
+
+.status {
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    color:
+        rgba(255,255,255,.65);
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   ГЛАВНЫЙ ЭКРАН
+========================= */
+
+.hero {
+
     text-align: center;
+
+    margin-top: 45px;
 }
 
-.box {
-    padding: 30px;
+.emoji {
+
+    font-size: 70px;
+
+    animation:
+        floating 3s ease-in-out infinite;
 }
 
-button {
-    border: 0;
-    border-radius: 50px;
-    padding: 18px 35px;
-    background: #ff277f;
+@keyframes floating {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+h1 {
+
+    font-size: 36px;
+
+    margin:
+        18px 0 10px;
+
+    letter-spacing: -1px;
+}
+
+.description {
+
+    color:
+        rgba(255,255,255,.65);
+
+    line-height: 1.6;
+
+    font-size: 16px;
+
+    max-width: 330px;
+
+    margin: auto;
+}
+
+
+/* =========================
+   ГЛАВНАЯ КНОПКА
+========================= */
+
+.main-button {
+
+    width: 100%;
+
+    margin-top: 30px;
+
+    min-height: 60px;
+
+    border: none;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #765cff,
+            #b44dff
+        );
+
     color: white;
+
     font-size: 18px;
-    font-weight: bold;
-    -webkit-appearance: none;
-    appearance: none;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 15px 40px
+        rgba(115,80,255,.35);
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    transition: .2s;
 }
 
-#text {
+.main-button:active {
+
+    transform:
+        scale(.96);
+}
+
+
+/* =========================
+   МЕНЮ
+========================= */
+
+.menu {
+
     display: none;
-    margin-top: 25px;
-    font-size: 20px;
+
+    margin-top: 35px;
+
+    animation:
+        menuAppear .5s ease;
+}
+
+@keyframes menuAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+}
+
+
+.card {
+
+    min-height: 125px;
+
+    padding: 18px;
+
+    border-radius: 23px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    backdrop-filter:
+        blur(15px);
+
+    -webkit-backdrop-filter:
+        blur(15px);
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.card:active {
+
+    transform:
+        scale(.96);
+}
+
+.card-icon {
+
+    font-size: 32px;
+
+    margin-bottom: 12px;
+}
+
+.card-title {
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+.card-text {
+
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    color:
+        rgba(255,255,255,.5);
+}
+
+
+/* =========================
+   ОКНО
+========================= */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 50;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,.65);
+
+    backdrop-filter:
+        blur(10px);
+
+    -webkit-backdrop-filter:
+        blur(10px);
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.modal-box {
+
+    width: 100%;
+    max-width: 400px;
+
+    padding: 30px 22px;
+
+    border-radius: 28px;
+
+    text-align: center;
+
+    background:
+        #181722;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    animation:
+        popup .35s ease;
+}
+
+@keyframes popup {
+
+    from {
+        transform: scale(.85);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-icon {
+
+    font-size: 55px;
+
+    margin-bottom: 15px;
+}
+
+.modal-box h2 {
+
+    margin:
+        0 0 12px;
+
+    font-size: 25px;
+}
+
+.modal-box p {
+
+    color:
+        rgba(255,255,255,.65);
+
     line-height: 1.6;
 }
+
+.close {
+
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 17px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   НИЗ
+========================= */
+
+.footer {
+
+    margin-top: auto;
+
+    padding-top: 30px;
+
+    text-align: center;
+
+    color:
+        rgba(255,255,255,.35);
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   АДАПТАЦИЯ
+========================= */
+
+@media(max-width:360px) {
+
+    h1 {
+        font-size: 31px;
+    }
+
+    .emoji {
+        font-size: 60px;
+    }
+
+    .card {
+        min-height: 115px;
+    }
+}
+
 </style>
 </head>
 
+
 <body>
 
-<div class="box">
 
-    <h1>Для тебя ❤️</h1>
+<div class="bg">
 
-    <button id="btn" type="button">
-        Нажми сюда ❤️
-    </button>
+    <div class="glow one"></div>
+    <div class="glow two"></div>
 
-    <div id="text">
-        Ты мне очень нравишься ❤️
-        <br><br>
-        Это маленькое послание только для тебя 💕
+</div>
+
+
+<div class="app">
+
+
+    <div class="top">
+
+        <div class="logo">
+            ✨ MiniSpace
+        </div>
+
+        <div class="status">
+            online
+        </div>
+
+    </div>
+
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+
+    <div class="hero">
+
+        <div class="emoji">
+            🎁
+        </div>
+
+        <h1>
+            Маленький сюрприз
+        </h1>
+
+        <p class="description">
+            Здесь спрятано несколько
+            маленьких вещей, которые
+            могут поднять настроение.
+        </p>
+
+
+        <button
+            class="main-button"
+            id="openButton">
+
+            Открыть ✨
+
+        </button>
+
+    </div>
+
+
+    <!-- МЕНЮ -->
+
+    <div
+        class="menu"
+        id="menu">
+
+        <div class="cards">
+
+
+            <div
+                class="card"
+                onclick="openModal(
+                    '💌',
+                    'Послание',
+                    'Ты замечательный человек. Никогда не забывай об этом ❤️'
+                )">
+
+                <div class="card-icon">
+                    💌
+                </div>
+
+                <div class="card-title">
+                    Послание
+                </div>
+
+                <div class="card-text">
+                    Небольшие слова
+                </div>
+
+            </div>
+
+
+            <div
+                class="card"
+                onclick="openModal(
+                    '🎁',
+                    'Сюрприз',
+                    'Иногда маленькая неожиданность может сделать день намного лучше ✨'
+                )">
+
+                <div class="card-icon">
+                    🎁
+                </div>
+
+                <div class="card-title">
+                    Сюрприз
+                </div>
+
+                <div class="card-text">
+                    Открой и узнай
+                </div>
+
+            </div>
+
+
+            <div
+                class="card"
+                onclick="openModal(
+                    '🧠',
+                    'Вопрос дня',
+                    'Что сегодня сделало тебя счастливее всего?'
+                )">
+
+                <div class="card-icon">
+                    🧠
+                </div>
+
+                <div class="card-title">
+                    Вопрос дня
+                </div>
+
+                <div class="card-text">
+                    Подумай немного
+                </div>
+
+            </div>
+
+
+            <div
+                class="card"
+                onclick="openModal(
+                    '🌟',
+                    'Для тебя',
+                    'Пусть сегодняшний день будет немного лучше вчерашнего 🌟'
+                )">
+
+                <div class="card-icon">
+                    🌟
+                </div>
+
+                <div class="card-title">
+                    Для тебя
+                </div>
+
+                <div class="card-text">
+                    Просто потому что
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        Сделано с хорошим настроением ✨
+
+    </div>
+
+
+</div>
+
+
+<!-- ОКНО -->
+
+<div
+    class="modal"
+    id="modal">
+
+    <div class="modal-box">
+
+        <div
+            class="modal-icon"
+            id="modalIcon">
+        </div>
+
+        <h2 id="modalTitle">
+        </h2>
+
+        <p id="modalText">
+        </p>
+
+        <button
+            class="close"
+            onclick="closeModal()">
+
+            Закрыть
+
+        </button>
+
     </div>
 
 </div>
 
+
 <script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    const btn = document.getElementById("btn");
-    const text = document.getElementById("text");
 
-    btn.addEventListener("click", function () {
-        text.style.display = "block";
-        btn.style.display = "none";
-    });
+/* =========================
+   ОТКРЫТИЕ МЕНЮ
+========================= */
 
-});
+const openButton =
+    document.getElementById(
+        "openButton"
+    );
+
+const menu =
+    document.getElementById(
+        "menu"
+    );
+
+
+openButton.addEventListener(
+    "click",
+    function() {
+
+        openButton.style.display =
+            "none";
+
+        menu.style.display =
+            "block";
+
+    }
+);
+
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(
+    icon,
+    title,
+    text
+) {
+
+    document.getElementById(
+        "modalIcon"
+    ).textContent = icon;
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent = title;
+
+    document.getElementById(
+        "modalText"
+    ).textContent = text;
+
+
+    document.getElementById(
+        "modal"
+    ).style.display = "flex";
+}
+
+
+function closeModal() {
+
+    document.getElementById(
+        "modal"
+    ).style.display = "none";
+}
+
+
+/* Закрытие по нажатию на фон */
+
+document.getElementById(
+    "modal"
+).addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === this
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
 </script>
+
 
 </body>
 </html>
