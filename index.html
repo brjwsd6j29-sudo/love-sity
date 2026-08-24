@@ -15,7 +15,6 @@ body {
 }
 .app { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 15px; }
 
-/* ВЕРХНЯЯ ПАНЕЛЬ С БАЛАНСОМ */
 .top-bar {
     background: rgba(255, 255, 255, .08);
     border: 1px solid rgba(255, 255, 255, .12);
@@ -26,10 +25,9 @@ body {
 .user-name { font-size: 16px; font-weight: 700; }
 .user-id { font-size: 11px; color: rgba(255,255,255,.4); }
 .balance-box { text-align: right; }
-.balance-label { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,.5); letter-spacing: 0.5px; }
+.balance-label { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,.5); }
 .balance-val { font-size: 18px; font-weight: 800; color: #b44dff; }
 
-/* КАРТОЧКА ИГРЫ */
 .card {
     background: rgba(255, 255, 255, .07);
     border: 1px solid rgba(255, 255, 255, .1);
@@ -40,19 +38,13 @@ body {
     padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,.1);
     margin: 20px 0; justify-content: center; min-height: 95px; align-items: center;
 }
-.reel-item {
-    transition: filter 0.1s ease;
-}
-.spinning {
-    filter: blur(3px);
-    transform: scale(0.95);
-}
+.spinning { filter: blur(3px); transform: scale(0.95); }
+
 input {
     width: 100%; padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,.2);
     background: rgba(0,0,0,.3); color: white; text-align: center; font-size: 18px;
     font-weight: 700; margin-bottom: 15px; outline: none;
 }
-input:focus { border-color: #b44dff; }
 button {
     width: 100%; padding: 16px; border: none; border-radius: 16px;
     background: linear-gradient(135deg, #765cff, #b44dff); color: white;
@@ -66,7 +58,6 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 <body>
 
 <div class="app">
-    <!-- БАЛАНС И ПРОФИЛЬ -->
     <div class="top-bar">
         <div class="user-info">
             <span class="user-name" id="userName">Игрок</span>
@@ -78,13 +69,12 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
         </div>
     </div>
 
-    <!-- МИНИ-ИГРА: СЛОТЫ -->
     <div class="card">
         <h2 style="margin:0;">🎰 Lira Slots</h2>
         <div class="reels">
-            <span class="reel-item" id="r1">🎰</span>
-            <span class="reel-item" id="r2">🎰</span>
-            <span class="reel-item" id="r3">🎰</span>
+            <span id="r1">🎰</span>
+            <span id="r2">🎰</span>
+            <span id="r3">🎰</span>
         </div>
         <input type="number" id="bet" placeholder="Ставка..." value="100">
         <button id="spinBtn" onclick="play()">Крутить 🚀</button>
@@ -97,18 +87,29 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-// Считываем баланс из URL параметра (?bal=10000)
+// Данные профиля
+if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    const user = tg.initDataUnsafe.user;
+    document.getElementById("userName").textContent = user.first_name;
+    document.getElementById("userId").textContent = "ID: " + user.id;
+}
+
+// Считывание баланса из URL (?bal=...)
 const urlParams = new URLSearchParams(window.location.search);
 let currentBalance = parseInt(urlParams.get('bal')) || 0;
-
-// Выводим баланс на экран
 document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
+
+const symbols = ["🍋", "🍒", "7️⃣", "💎"];
 
 function play() {
     const betInput = document.getElementById("bet");
     const bet = parseInt(betInput.value);
     const msg = document.getElementById("msg");
     const btn = document.getElementById("spinBtn");
+    
+    const r1 = document.getElementById("r1");
+    const r2 = document.getElementById("r2");
+    const r3 = document.getElementById("r3");
 
     if (!bet || bet <= 0) {
         msg.textContent = "❌ Введите сумму ставки!";
@@ -117,7 +118,7 @@ function play() {
     }
 
     if (bet > currentBalance) {
-        msg.textContent = "❌ Недостаточно Lira на балансе!";
+        msg.textContent = "❌ Недостаточно Lira!";
         msg.style.color = "#ff4d4d";
         return;
     }
@@ -126,12 +127,10 @@ function play() {
     msg.textContent = "Крутим...";
     msg.style.color = "#ffffff";
 
-    const symbols = ["🍋", "🍒", "7️⃣", "💎"];
-    const r1 = document.getElementById("r1");
-    const r2 = document.getElementById("r2");
-    const r3 = document.getElementById("r3");
+    r1.classList.add("spinning");
+    r2.classList.add("spinning");
+    r3.classList.add("spinning");
 
-    // Анимация вращения
     let interval = setInterval(() => {
         r1.textContent = symbols[Math.floor(Math.random() * symbols.length)];
         r2.textContent = symbols[Math.floor(Math.random() * symbols.length)];
@@ -141,6 +140,10 @@ function play() {
     setTimeout(() => {
         clearInterval(interval);
 
+        r1.classList.remove("spinning");
+        r2.classList.remove("spinning");
+        r3.classList.remove("spinning");
+
         const f1 = symbols[Math.floor(Math.random() * symbols.length)];
         const f2 = symbols[Math.floor(Math.random() * symbols.length)];
         const f3 = symbols[Math.floor(Math.random() * symbols.length)];
@@ -149,7 +152,6 @@ function play() {
         r2.textContent = f2;
         r3.textContent = f3;
 
-        // Расчет коэффициента
         let mult = 0;
         if (f1 === f2 && f2 === f3) {
             mult = (f1 === "💎") ? 5 : 3;
@@ -159,25 +161,23 @@ function play() {
 
         const win = Math.floor(bet * mult);
 
-        // 1. Мгновенно пересчитываем баланс на экране
+        // Обновляем баланс на экране
         currentBalance = currentBalance - bet + win;
         document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
 
-        // 2. Отображаем статус
         if (win > 0) {
             msg.textContent = `🎉 Выигрыш: +${win.toLocaleString()} Lira!`;
             msg.style.color = "#4dff88";
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         } else {
             msg.textContent = `😔 Проигрыш: -${bet.toLocaleString()} Lira`;
             msg.style.color = "#ff4d4d";
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
         }
 
-        // 3. Отправляем точные данные в Telegram-бот для записи в БД через upd_bal
+        // Передача результата боту
         setTimeout(() => {
-            tg.sendData(JSON.stringify({
-                bet: bet,
-                win: win
-            }));
+            tg.sendData(JSON.stringify({ bet: bet, win: win }));
         }, 1000);
 
     }, 1500);
