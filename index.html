@@ -3,287 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#080812">
-<title>✨ Lira Game — Личный кабинет</title>
-
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>✨ Lira Game — Профиль</title>
 <style>
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-}
-
+* { box-sizing: border-box; }
 body {
-    min-height: 100vh;
-    min-height: 100dvh;
+    margin: 0; padding: 18px; color: white;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: white;
     background: radial-gradient(circle at 50% 0%, #35305c, #141321 45%, #07070d);
-    overflow-x: hidden;
+    min-height: 100vh; display: flex; flex-direction: column;
 }
-
-.bg {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
+.card {
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+    backdrop-filter: blur(15px); border-radius: 24px; padding: 20px; text-align: center;
 }
-
-.glow {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: .35;
-}
-
-.glow.one { background: #7c5cff; top: -80px; left: -80px; }
-.glow.two { background: #ff4da6; bottom: -100px; right: -80px; }
-
-.app {
-    width: 100%;
-    max-width: 480px;
-    min-height: 100vh;
-    min-height: 100dvh;
-    margin: auto;
-    padding: max(25px, env(safe-area-inset-top)) 18px max(25px, env(safe-area-inset-bottom)) 18px;
-    display: flex;
-    flex-direction: column;
-}
-
-.top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.logo { font-size: 20px; font-weight: 700; }
-.status {
-    padding: 7px 12px;
-    border-radius: 20px;
-    background: rgba(255,255,255,.08);
-    color: rgba(255,255,255,.65);
-    font-size: 12px;
-}
-
-/* ФОРМА АВТОРИЗАЦИИ */
-.auth-container {
-    text-align: center;
-    margin-top: 40px;
-}
-
-.hero-icon { font-size: 65px; margin-bottom: 15px; }
-
-h1 { font-size: 28px; margin: 10px 0; }
-.description { color: rgba(255,255,255,.65); font-size: 15px; line-height: 1.5; margin-bottom: 25px; }
-
-.key-input {
-    width: 100%;
-    padding: 16px;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,.15);
-    background: rgba(255,255,255,.06);
-    color: white;
-    font-size: 16px;
-    text-align: center;
-    outline: none;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
-}
-
-.key-input:focus { border-color: #765cff; }
-
-.btn-primary {
-    width: 100%;
-    min-height: 55px;
-    border: none;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #765cff, #b44dff);
-    color: white;
-    font-size: 17px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(115,80,255,.3);
-    transition: .2s;
-}
-
-.btn-primary:active { transform: scale(.97); }
-
-/* ДАШБОРД ИГРОКА */
-.dashboard {
-    display: none;
-    flex-direction: column;
-    gap: 15px;
-    animation: fadeIn .4s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.user-card {
-    background: rgba(255,255,255,.07);
-    border: 1px solid rgba(255,255,255,.1);
-    backdrop-filter: blur(15px);
-    border-radius: 24px;
-    padding: 20px;
-    text-align: center;
-}
-
-.user-avatar { font-size: 50px; margin-bottom: 10px; }
-.user-name { font-size: 22px; font-weight: 700; }
-.user-id { font-size: 13px; color: rgba(255,255,255,.4); margin-top: 4px; }
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-}
-
-.stat-item {
-    background: rgba(255,255,255,.05);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 18px;
-    padding: 15px;
-    text-align: center;
-}
-
-.stat-value { font-size: 20px; font-weight: 700; color: #b44dff; margin-top: 5px; }
-.stat-label { font-size: 12px; color: rgba(255,255,255,.5); }
-
-.btn-logout {
-    margin-top: 15px;
-    background: rgba(255,255,255,.08);
-    border: none;
-    border-radius: 16px;
-    padding: 14px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.footer {
-    margin-top: auto;
-    padding-top: 30px;
-    text-align: center;
-    color: rgba(255,255,255,.35);
-    font-size: 12px;
-}
+.avatar { font-size: 50px; margin-bottom: 10px; }
+.name { font-size: 22px; font-weight: 700; }
+.id { font-size: 13px; color: rgba(255,255,255,.4); margin-top: 4px; }
 </style>
 </head>
-
 <body>
 
-<div class="bg">
-    <div class="glow one"></div>
-    <div class="glow two"></div>
-</div>
-
-<div class="app">
-    <div class="top">
-        <div class="logo">🎮 Lira Profile</div>
-        <div class="status" id="statusBadge">Авторизация</div>
-    </div>
-
-    <!-- ФОРМА ВХОДА -->
-    <div class="auth-container" id="authBlock">
-        <div class="hero-icon">🔑</div>
-        <h1>Вход в аккаунт</h1>
-        <p class="description">Получите секретный ключ авторизации у бота в Telegram и введите его ниже.</p>
-        
-        <input type="password" id="accessKey" class="key-input" placeholder="Введите ваш ключ..." autocomplete="off">
-        <button class="btn-primary" onclick="loginWithKey()">Войти в профиль</button>
-    </div>
-
-    <!-- ПРОФИЛЬ ИГРОКА (ПОСЛЕ ВХОДА) -->
-    <div class="dashboard" id="dashBlock">
-        <div class="user-card">
-            <div class="user-avatar">👤</div>
-            <div class="user-name" id="userName">Player</div>
-            <div class="user-id" id="userId">ID: 00000000</div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-label">Баланс Lira</div>
-                <div class="stat-value" id="valLira">0</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-label">Баланс DCoin</div>
-                <div class="stat-value" id="valDCoin">0</div>
-            </div>
-        </div>
-
-        <button class="btn-logout" onclick="logout()">Выйти</button>
-    </div>
-
-    <div class="footer">Lira Bot Ecosystem ✨</div>
+<div class="card">
+    <div class="avatar">👤</div>
+    <div class="name" id="userName">Загрузка...</div>
+    <div class="id" id="userId">ID: 00000000</div>
 </div>
 
 <script>
-// Укажите URL вашего сервера (где запущен бот/API)
-const API_URL = "https://your-bot-domain.com/api/user";
+const tg = window.Telegram.WebApp;
+tg.expand();
 
-// Проверка сохраненного ключа при загрузке
-document.addEventListener("DOMContentLoaded", () => {
-    const savedKey = localStorage.getItem("lira_auth_key");
-    if (savedKey) {
-        fetchUserData(savedKey);
-    }
-});
-
-async function loginWithKey() {
-    const key = document.getElementById("accessKey").value.trim();
-    if (!key) {
-        alert("Введите ключ!");
-        return;
-    }
-    await fetchUserData(key);
-}
-
-async function fetchUserData(key) {
-    try {
-        const response = await fetch(`${API_URL}?key=${encodeURIComponent(key)}`);
-        
-        if (!response.ok) {
-            throw new Error("Неверный ключ или ошибка сервера");
-        }
-
-        const data = await response.json();
-        
-        // Успешный вход
-        localStorage.setItem("lira_auth_key", key);
-        
-        document.getElementById("userName").textContent = data.username || "Игрок";
-        document.getElementById("userId").textContent = `ID: ${data.telegram_id}`;
-        document.getElementById("valLira").textContent = data.lira_balance.toLocaleString();
-        document.getElementById("valDCoin").textContent = data.dcoin_balance.toLocaleString();
-
-        document.getElementById("authBlock").style.display = "none";
-        document.getElementById("dashBlock").style.display = "flex";
-        document.getElementById("statusBadge").textContent = "Online";
-
-    } catch (err) {
-        alert(err.message);
-        localStorage.removeItem("lira_auth_key");
-    }
-}
-
-function logout() {
-    localStorage.removeItem("lira_auth_key");
-    document.getElementById("dashBlock").style.display = "none";
-    document.getElementById("authBlock").style.display = "block";
-    document.getElementById("statusBadge").textContent = "Авторизация";
-    document.getElementById("accessKey").value = "";
+if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    const user = tg.initDataUnsafe.user;
+    document.getElementById("userName").textContent = user.first_name + (user.last_name ? " " + user.last_name : "");
+    document.getElementById("userId").textContent = "ID: " + user.id;
+} else {
+    document.getElementById("userName").textContent = "Откройте через Telegram!";
 }
 </script>
 
