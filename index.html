@@ -97,44 +97,21 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-// 1. Установка данных пользователя
-if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-    const user = tg.initDataUnsafe.user;
-    document.getElementById("userName").textContent = user.first_name;
-    document.getElementById("userId").textContent = "ID: " + user.id;
-}
-
-// 2. Получение баланса из параметров URL (?bal=1000000)
-// Получение баланса из параметров URL
+// Считываем баланс из URL параметра (?bal=10000)
 const urlParams = new URLSearchParams(window.location.search);
-const rawBal = urlParams.get('bal');
-
-let currentBalance = 0;
-
-if (rawBal !== null && !isNaN(parseInt(rawBal))) {
-    currentBalance = parseInt(rawBal);
-    document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
-} else {
-    // Если зашли по кнопке меню без параметров
-    document.getElementById("userBalance").textContent = "Перезапустите бота";
-}
 let currentBalance = parseInt(urlParams.get('bal')) || 0;
-document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
 
-const symbols = ["🍋", "🍒", "7️⃣", "💎"];
+// Выводим баланс на экран
+document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
 
 function play() {
     const betInput = document.getElementById("bet");
     const bet = parseInt(betInput.value);
     const msg = document.getElementById("msg");
     const btn = document.getElementById("spinBtn");
-    
-    const r1 = document.getElementById("r1");
-    const r2 = document.getElementById("r2");
-    const r3 = document.getElementById("r3");
 
     if (!bet || bet <= 0) {
-        msg.textContent = "❌ Введите корректную ставку!";
+        msg.textContent = "❌ Введите сумму ставки!";
         msg.style.color = "#ff4d4d";
         return;
     }
@@ -145,71 +122,63 @@ function play() {
         return;
     }
 
-    // Блокируем кнопку на время анимации
     btn.disabled = true;
     msg.textContent = "Крутим...";
     msg.style.color = "#ffffff";
 
-    // Эффект вращения (быстрая смена символов)
-    r1.classList.add("spinning");
-    r2.classList.add("spinning");
-    r3.classList.add("spinning");
+    const symbols = ["🍋", "🍒", "7️⃣", "💎"];
+    const r1 = document.getElementById("r1");
+    const r2 = document.getElementById("r2");
+    const r3 = document.getElementById("r3");
 
-    let counter = 0;
-    const interval = setInterval(() => {
+    // Анимация вращения
+    let interval = setInterval(() => {
         r1.textContent = symbols[Math.floor(Math.random() * symbols.length)];
         r2.textContent = symbols[Math.floor(Math.random() * symbols.length)];
         r3.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        counter++;
     }, 80);
 
-    // Остановка анимации и получение результата через 1.5 секунды
     setTimeout(() => {
         clearInterval(interval);
 
-        r1.classList.remove("spinning");
-        r2.classList.remove("spinning");
-        r3.classList.remove("spinning");
+        const f1 = symbols[Math.floor(Math.random() * symbols.length)];
+        const f2 = symbols[Math.floor(Math.random() * symbols.length)];
+        const f3 = symbols[Math.floor(Math.random() * symbols.length)];
 
-        const final1 = symbols[Math.floor(Math.random() * symbols.length)];
-        const final2 = symbols[Math.floor(Math.random() * symbols.length)];
-        const final3 = symbols[Math.floor(Math.random() * symbols.length)];
+        r1.textContent = f1;
+        r2.textContent = f2;
+        r3.textContent = f3;
 
-        r1.textContent = final1;
-        r2.textContent = final2;
-        r3.textContent = final3;
-
-        // Расчет выигрыша
+        // Расчет коэффициента
         let mult = 0;
-        if (final1 === final2 && final2 === final3) {
-            mult = (final1 === "💎") ? 5 : 3;
-        } else if (final1 === final2 || final2 === final3 || final1 === final3) {
+        if (f1 === f2 && f2 === f3) {
+            mult = (f1 === "💎") ? 5 : 3;
+        } else if (f1 === f2 || f2 === f3 || f1 === f3) {
             mult = 1.5;
         }
 
         const win = Math.floor(bet * mult);
 
-        // Обновляем виртуальный баланс на экране
+        // 1. Мгновенно пересчитываем баланс на экране
         currentBalance = currentBalance - bet + win;
         document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
 
+        // 2. Отображаем статус
         if (win > 0) {
             msg.textContent = `🎉 Выигрыш: +${win.toLocaleString()} Lira!`;
             msg.style.color = "#4dff88";
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         } else {
-            msg.textContent = `😔 Проигрыш -${bet.toLocaleString()} Lira`;
+            msg.textContent = `😔 Проигрыш: -${bet.toLocaleString()} Lira`;
             msg.style.color = "#ff4d4d";
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
         }
 
-        // Отправка данных боту
+        // 3. Отправляем точные данные в Telegram-бот для записи в БД через upd_bal
         setTimeout(() => {
             tg.sendData(JSON.stringify({
                 bet: bet,
                 win: win
             }));
-        }, 1200);
+        }, 1000);
 
     }, 1500);
 }
