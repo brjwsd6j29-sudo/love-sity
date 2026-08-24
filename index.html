@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#080812">
-<title>✨ Для тебя</title>
+<title>✨ Lira Game — Личный кабинет</title>
 
 <style>
 * {
@@ -22,13 +22,12 @@ html, body {
 body {
     min-height: 100vh;
     min-height: 100dvh;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: white;
     background: radial-gradient(circle at 50% 0%, #35305c, #141321 45%, #07070d);
     overflow-x: hidden;
 }
 
-/* ФОН */
 .bg {
     position: fixed;
     inset: 0;
@@ -45,19 +44,9 @@ body {
     opacity: .35;
 }
 
-.glow.one {
-    background: #7c5cff;
-    top: -80px;
-    left: -80px;
-}
+.glow.one { background: #7c5cff; top: -80px; left: -80px; }
+.glow.two { background: #ff4da6; bottom: -100px; right: -80px; }
 
-.glow.two {
-    background: #ff4da6;
-    bottom: -100px;
-    right: -80px;
-}
-
-/* КОНТЕЙНЕР */
 .app {
     width: 100%;
     max-width: 480px;
@@ -69,19 +58,14 @@ body {
     flex-direction: column;
 }
 
-/* ВЕРХ */
 .top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
 }
 
-.logo {
-    font-size: 19px;
-    font-weight: 700;
-}
-
+.logo { font-size: 20px; font-weight: 700; }
 .status {
     padding: 7px 12px;
     border-radius: 20px;
@@ -90,211 +74,109 @@ body {
     font-size: 12px;
 }
 
-/* ГЛАВНЫЙ ЭКРАН */
-.hero {
+/* ФОРМА АВТОРИЗАЦИИ */
+.auth-container {
     text-align: center;
-    margin-top: 45px;
+    margin-top: 40px;
 }
 
-.emoji {
-    font-size: 70px;
-    animation: floating 3s ease-in-out infinite;
-}
+.hero-icon { font-size: 65px; margin-bottom: 15px; }
 
-@keyframes floating {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
+h1 { font-size: 28px; margin: 10px 0; }
+.description { color: rgba(255,255,255,.65); font-size: 15px; line-height: 1.5; margin-bottom: 25px; }
 
-h1 {
-    font-size: 36px;
-    margin: 18px 0 10px;
-    letter-spacing: -1px;
-}
-
-.description {
-    color: rgba(255,255,255,.65);
-    line-height: 1.6;
-    font-size: 16px;
-    max-width: 330px;
-    margin: auto;
-}
-
-/* ГЛАВНАЯ КНОПКА */
-.main-button {
+.key-input {
     width: 100%;
-    margin-top: 30px;
-    min-height: 60px;
+    padding: 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.06);
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    outline: none;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.key-input:focus { border-color: #765cff; }
+
+.btn-primary {
+    width: 100%;
+    min-height: 55px;
     border: none;
-    border-radius: 22px;
+    border-radius: 18px;
     background: linear-gradient(135deg, #765cff, #b44dff);
     color: white;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
-    box-shadow: 0 15px 40px rgba(115,80,255,.35);
     cursor: pointer;
-    touch-action: manipulation;
+    box-shadow: 0 10px 30px rgba(115,80,255,.3);
     transition: .2s;
 }
 
-.main-button:active {
-    transform: scale(.96);
-}
+.btn-primary:active { transform: scale(.97); }
 
-/* МЕНЮ */
-.menu {
+/* ДАШБОРД ИГРОКА */
+.dashboard {
     display: none;
-    margin-top: 35px;
-    animation: menuAppear .5s ease;
+    flex-direction: column;
+    gap: 15px;
+    animation: fadeIn .4s ease;
 }
 
-@keyframes menuAppear {
-    from { opacity: 0; transform: translateY(20px); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-.cards {
+.user-card {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.1);
+    backdrop-filter: blur(15px);
+    border-radius: 24px;
+    padding: 20px;
+    text-align: center;
+}
+
+.user-avatar { font-size: 50px; margin-bottom: 10px; }
+.user-name { font-size: 22px; font-weight: 700; }
+.user-id { font-size: 13px; color: rgba(255,255,255,.4); margin-top: 4px; }
+
+.stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
 }
 
-.card {
-    min-height: 125px;
-    padding: 18px;
-    border-radius: 23px;
-    background: rgba(255,255,255,.07);
-    border: 1px solid rgba(255,255,255,.08);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    cursor: pointer;
-    transition: .2s;
-}
-
-.card:active {
-    transform: scale(.96);
-}
-
-.card-icon {
-    font-size: 32px;
-    margin-bottom: 12px;
-}
-
-.card-title {
-    font-size: 16px;
-    font-weight: 700;
-}
-
-.card-text {
-    margin-top: 5px;
-    font-size: 12px;
-    color: rgba(255,255,255,.5);
-}
-
-/* ОКНО */
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    padding: 20px;
-    background: rgba(0,0,0,.65);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-box {
-    width: 100%;
-    max-width: 400px;
-    padding: 30px 22px;
-    border-radius: 28px;
-    text-align: center;
-    background: #181722;
-    border: 1px solid rgba(255,255,255,.1);
-    animation: popup .35s ease;
-}
-
-@keyframes popup {
-    from { transform: scale(.85); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-.modal-icon {
-    font-size: 55px;
-    margin-bottom: 15px;
-}
-
-.modal-box h2 {
-    margin: 0 0 12px;
-    font-size: 25px;
-}
-
-.modal-box p {
-    color: rgba(255,255,255,.65);
-    line-height: 1.6;
-}
-
-/* ПОЛЯ ВВОДА И КНОПКИ ФОРМЫ */
-.comment-input {
-    width: 100%;
-    height: 100px;
-    margin-top: 15px;
-    padding: 12px 15px;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,.15);
+.stat-item {
     background: rgba(255,255,255,.05);
-    color: white;
-    font-family: inherit;
-    font-size: 14px;
-    resize: none;
-    outline: none;
-}
-
-.comment-input:focus {
-    border-color: #765cff;
-}
-
-.send-btn {
-    width: 100%;
-    margin-top: 12px;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px;
     padding: 15px;
-    border: none;
-    border-radius: 17px;
-    background: linear-gradient(135deg, #765cff, #b44dff);
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
+    text-align: center;
 }
 
-.close {
-    width: 100%;
-    margin-top: 10px;
-    padding: 15px;
-    border: none;
-    border-radius: 17px;
+.stat-value { font-size: 20px; font-weight: 700; color: #b44dff; margin-top: 5px; }
+.stat-label { font-size: 12px; color: rgba(255,255,255,.5); }
+
+.btn-logout {
+    margin-top: 15px;
     background: rgba(255,255,255,.08);
+    border: none;
+    border-radius: 16px;
+    padding: 14px;
     color: white;
-    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
 }
 
-/* НИЗ */
 .footer {
     margin-top: auto;
     padding-top: 30px;
     text-align: center;
     color: rgba(255,255,255,.35);
     font-size: 12px;
-}
-
-@media(max-width:360px) {
-    h1 { font-size: 31px; }
-    .emoji { font-size: 60px; }
-    .card { min-height: 115px; }
 }
 </style>
 </head>
@@ -308,139 +190,100 @@ h1 {
 
 <div class="app">
     <div class="top">
-        <div class="logo">✨ MiniSpace</div>
-        <div class="status">online</div>
+        <div class="logo">🎮 Lira Profile</div>
+        <div class="status" id="statusBadge">Авторизация</div>
     </div>
 
-    <!-- ГЛАВНЫЙ ЭКРАН -->
-    <div class="hero">
-        <div class="emoji">🎁</div>
-        <h1>Маленький сюрприз</h1>
-        <p class="description">Здесь спрятано несколько маленьких вещей, которые могут поднять настроение.</p>
-        <button class="main-button" id="openButton">Открыть ✨</button>
-    </div>
-
-    <!-- МЕНЮ -->
-    <div class="menu" id="menu">
-        <div class="cards">
-            <div class="card" onclick="openModal('💌', 'Послание', 'Ты замечательный человек. Никогда не забывай об этом ❤️')">
-                <div class="card-icon">💌</div>
-                <div class="card-title">Послание</div>
-                <div class="card-text">Небольшие слова</div>
-            </div>
-
-            <div class="card" onclick="openModal('🎁', 'Сюрприз', 'Иногда маленькая неожиданность может сделать день намного лучше ✨')">
-                <div class="card-icon">🎁</div>
-                <div class="card-title">Сюрприз</div>
-                <div class="card-text">Открой и узнай</div>
-            </div>
-
-            <div class="card" onclick="openModal('🧠', 'Вопрос дня', 'Что сегодня сделало тебя счастливее всего?')">
-                <div class="card-icon">🧠</div>
-                <div class="card-title">Вопрос дня</div>
-                <div class="card-text">Подумай немного</div>
-            </div>
-
-            <!-- Новая карточка для отзыва -->
-            <div class="card" onclick="openFeedbackModal()">
-                <div class="card-icon">💬</div>
-                <div class="card-title">Написать</div>
-                <div class="card-text">Отправить комментарий</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">Сделано с хорошим настроением ✨ / Разработчик - Nurlan Dias</div>
-</div>
-
-<!-- ОКНО -->
-<div class="modal" id="modal">
-    <div class="modal-box">
-        <div class="modal-icon" id="modalIcon"></div>
-        <h2 id="modalTitle"></h2>
-        <p id="modalText"></p>
+    <!-- ФОРМА ВХОДА -->
+    <div class="auth-container" id="authBlock">
+        <div class="hero-icon">🔑</div>
+        <h1>Вход в аккаунт</h1>
+        <p class="description">Получите секретный ключ авторизации у бота в Telegram и введите его ниже.</p>
         
-        <!-- Поле для ввода комментария (скрыто по умолчанию) -->
-        <div id="feedbackForm" style="display: none;">
-            <textarea id="commentInput" class="comment-input" placeholder="Напиши сообщение..."></textarea>
-            <button class="send-btn" onclick="sendComment()">Отправить админу 🚀</button>
+        <input type="password" id="accessKey" class="key-input" placeholder="Введите ваш ключ..." autocomplete="off">
+        <button class="btn-primary" onclick="loginWithKey()">Войти в профиль</button>
+    </div>
+
+    <!-- ПРОФИЛЬ ИГРОКА (ПОСЛЕ ВХОДА) -->
+    <div class="dashboard" id="dashBlock">
+        <div class="user-card">
+            <div class="user-avatar">👤</div>
+            <div class="user-name" id="userName">Player</div>
+            <div class="user-id" id="userId">ID: 00000000</div>
         </div>
 
-        <button class="close" onclick="closeModal()">Закрыть</button>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-label">Баланс Lira</div>
+                <div class="stat-value" id="valLira">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Баланс DCoin</div>
+                <div class="stat-value" id="valDCoin">0</div>
+            </div>
+        </div>
+
+        <button class="btn-logout" onclick="logout()">Выйти</button>
     </div>
+
+    <div class="footer">Lira Bot Ecosystem ✨</div>
 </div>
 
 <script>
-// НАСТРОЙКИ TELEGRAM БОТА
-const BOT_TOKEN = "7970093988:AAG6SOK52IeEHSKoTOO7yHR7XAb6IPFQF3U";
-const ADMIN_CHAT_ID = "7895911575";
+// Укажите URL вашего сервера (где запущен бот/API)
+const API_URL = "https://your-bot-domain.com/api/user";
 
-const openButton = document.getElementById("openButton");
-const menu = document.getElementById("menu");
-
-openButton.addEventListener("click", function() {
-    openButton.style.display = "none";
-    menu.style.display = "block";
-});
-
-function openModal(icon, title, text) {
-    document.getElementById("modalIcon").textContent = icon;
-    document.getElementById("modalTitle").textContent = title;
-    document.getElementById("modalText").textContent = text;
-    document.getElementById("feedbackForm").style.display = "none";
-    document.getElementById("modal").style.display = "flex";
-}
-
-function openFeedbackModal() {
-    document.getElementById("modalIcon").textContent = "💬";
-    document.getElementById("modalTitle").textContent = "Написать админу";
-    document.getElementById("modalText").textContent = "Оставь своё сообщение или отзыв ниже:";
-    document.getElementById("feedbackForm").style.display = "block";
-    document.getElementById("modal").style.display = "flex";
-}
-
-function closeModal() {
-    document.getElementById("modal").style.display = "none";
-    document.getElementById("commentInput").value = "";
-}
-
-document.getElementById("modal").addEventListener("click", function(event) {
-    if (event.target === this) {
-        closeModal();
+// Проверка сохраненного ключа при загрузке
+document.addEventListener("DOMContentLoaded", () => {
+    const savedKey = localStorage.getItem("lira_auth_key");
+    if (savedKey) {
+        fetchUserData(savedKey);
     }
 });
 
-// Отправка комментариев в Telegram
-async function sendComment() {
-    const text = document.getElementById("commentInput").value.trim();
-    if (!text) {
-        alert("Пожалуйста, введите текст!");
+async function loginWithKey() {
+    const key = document.getElementById("accessKey").value.trim();
+    if (!key) {
+        alert("Введите ключ!");
         return;
     }
+    await fetchUserData(key);
+}
 
-    const message = `📩 *Новый комментарий с сайта:*\n\n${text}`;
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-
+async function fetchUserData(key) {
     try {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                chat_id: ADMIN_CHAT_ID,
-                text: message,
-                parse_mode: "Markdown"
-            })
-        });
-
-        if (response.ok) {
-            alert("Сообщение успешно отправлено!");
-            closeModal();
-        } else {
-            alert("Ошибка при отправке. Проверьте настройки бота.");
+        const response = await fetch(`${API_URL}?key=${encodeURIComponent(key)}`);
+        
+        if (!response.ok) {
+            throw new Error("Неверный ключ или ошибка сервера");
         }
-    } catch (error) {
-        alert("Ошибка сети или неправильный Bot Token.");
+
+        const data = await response.json();
+        
+        // Успешный вход
+        localStorage.setItem("lira_auth_key", key);
+        
+        document.getElementById("userName").textContent = data.username || "Игрок";
+        document.getElementById("userId").textContent = `ID: ${data.telegram_id}`;
+        document.getElementById("valLira").textContent = data.lira_balance.toLocaleString();
+        document.getElementById("valDCoin").textContent = data.dcoin_balance.toLocaleString();
+
+        document.getElementById("authBlock").style.display = "none";
+        document.getElementById("dashBlock").style.display = "flex";
+        document.getElementById("statusBadge").textContent = "Online";
+
+    } catch (err) {
+        alert(err.message);
+        localStorage.removeItem("lira_auth_key");
     }
+}
+
+function logout() {
+    localStorage.removeItem("lira_auth_key");
+    document.getElementById("dashBlock").style.display = "none";
+    document.getElementById("authBlock").style.display = "block";
+    document.getElementById("statusBadge").textContent = "Авторизация";
+    document.getElementById("accessKey").value = "";
 }
 </script>
 
