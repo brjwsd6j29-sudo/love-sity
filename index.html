@@ -52,19 +52,41 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
+// 1. Отображение имени и ID
+if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    const user = tg.initDataUnsafe.user;
+    document.getElementById("userName").textContent = user.first_name;
+    document.getElementById("userId").textContent = "ID: " + user.id;
+}
+
+// 2. Чтение баланса из ссылки (?bal=1000000)
+const urlParams = new URLSearchParams(window.location.search);
+let currentBalance = parseInt(urlParams.get('bal')) || 0;
+
+// Выводим полученный баланс на экран
+document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
+
 function play() {
-    const bet = parseInt(document.getElementById("bet").value);
+    const betInput = document.getElementById("bet");
+    const bet = parseInt(betInput.value);
     const msg = document.getElementById("msg");
     const btn = document.getElementById("spinBtn");
 
     if (!bet || bet <= 0) {
-        msg.textContent = "❌ Введите ставку!";
+        msg.textContent = "❌ Введите корректную ставку!";
+        msg.style.color = "#ff4d4d";
+        return;
+    }
+
+    if (bet > currentBalance) {
+        msg.textContent = "❌ Недостаточно средств на балансе!";
+        msg.style.color = "#ff4d4d";
         return;
     }
 
     btn.disabled = true;
-    
-    // Рулетка
+
+    // Вращение слотов
     const symbols = ["🍋", "🍒", "7️⃣", "💎"];
     const c1 = symbols[Math.floor(Math.random() * symbols.length)];
     const c2 = symbols[Math.floor(Math.random() * symbols.length)];
@@ -82,7 +104,11 @@ function play() {
     }
 
     const win = Math.floor(bet * mult);
-    
+
+    // Обновляем визуальный баланс на экране прямо сейчас
+    currentBalance = currentBalance - bet + win;
+    document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
+
     if (win > 0) {
         msg.textContent = `🎉 Выигрыш: ${win} Lira!`;
         msg.style.color = "#4dff88";
@@ -91,13 +117,13 @@ function play() {
         msg.style.color = "#ff4d4d";
     }
 
-    // Отправляем результат обратно боту в Telegram!
+    // Отправляем итог боту для сохранения в БД
     setTimeout(() => {
         tg.sendData(JSON.stringify({
             bet: bet,
             win: win
         }));
-    }, 1500);
+    }, 1200);
 }
 </script>
 
