@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#080812">
-<title>✨ Lira Space</title>
-
-<!-- Подключение Telegram WebApp SDK -->
+<title>✨ Lira Games MiniApp</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
@@ -16,55 +14,165 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: white;
     background: radial-gradient(circle at 50% 0%, #35305c, #141321 45%, #07070d);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 20px;
+    display: flex; flex-direction: column; align-items: center; padding: 20px;
 }
-.card {
-    width: 100%; max-width: 400px;
+.app { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 15px; }
+
+/* КАРТОЧКА ПРОФИЛЯ */
+.profile-card {
     background: rgba(255, 255, 255, .07);
     border: 1px solid rgba(255, 255, 255, .1);
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    border-radius: 28px; padding: 25px; text-align: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, .4);
+    backdrop-filter: blur(15px); border-radius: 20px; padding: 18px;
+    display: flex; justify-content: space-between; align-items: center;
 }
-.avatar { font-size: 60px; margin-bottom: 10px; }
-.username { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
-.user-id { font-size: 14px; color: rgba(255, 255, 255, .5); margin-bottom: 20px; }
-.status-badge {
-    display: inline-block; padding: 6px 16px; border-radius: 20px;
-    background: linear-gradient(135deg, #765cff, #b44dff);
-    font-size: 13px; font-weight: 600;
+.user-info { display: flex; flex-direction: column; }
+.user-name { font-size: 18px; font-weight: 700; }
+.user-id { font-size: 12px; color: rgba(255,255,255,.5); }
+.balance-box { text-align: right; }
+.balance-val { font-size: 20px; font-weight: 800; color: #b44dff; }
+
+/* КАРТОЧКА ИГРЫ (СЛОТЫ / СНИН) */
+.game-card {
+    background: rgba(255, 255, 255, .07);
+    border: 1px solid rgba(255, 255, 255, .1);
+    backdrop-filter: blur(15px); border-radius: 24px; padding: 25px;
+    text-align: center; display: flex; flex-direction: column; align-items: center;
 }
+.reels {
+    display: flex; gap: 10px; font-size: 55px; background: rgba(0,0,0,.3);
+    padding: 15px 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,.1);
+    margin: 20px 0; width: 100%; justify-content: center;
+}
+.bet-input {
+    width: 100%; padding: 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.05); color: white; text-align: center; font-size: 16px;
+    margin-bottom: 12px; outline: none;
+}
+.spin-btn {
+    width: 100%; padding: 16px; border: none; border-radius: 16px;
+    background: linear-gradient(135deg, #765cff, #b44dff); color: white;
+    font-size: 18px; font-weight: 700; cursor: pointer; transition: .2s;
+}
+.spin-btn:active { transform: scale(.96); }
+.result-text { margin-top: 15px; font-weight: 600; min-height: 24px; }
 </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="avatar">👤</div>
-    <div class="username" id="userName">Загрузка...</div>
-    <div class="user-id" id="userId">ID: ---------</div>
-    <div class="status-badge">Telegram Авторизация</div>
+<div class="app">
+    <!-- БАЛАНС И ПРОФИЛЬ -->
+    <div class="profile-card">
+        <div class="user-info">
+            <span class="user-name" id="userName">Игрок</span>
+            <span class="user-id" id="userId">ID: 0</span>
+        </div>
+        <div class="balance-box">
+            <div style="font-size: 11px; color: rgba(255,255,255,.5);">Баланс Lira</div>
+            <div class="balance-val" id="userBalance">0</div>
+        </div>
+    </div>
+
+    <!-- МИНИ-ИГРА: СЛОТЫ -->
+    <div class="game-card">
+        <h2 style="margin: 0;">🎰 Lira Slots</h2>
+        <div class="reels">
+            <span id="r1">🎰</span>
+            <span id="r2">🎰</span>
+            <span id="r3">🎰</span>
+        </div>
+        <input type="number" id="betAmount" class="bet-input" placeholder="Введите ставку..." value="100">
+        <button class="spin-btn" id="spinBtn" onclick="playSlots()">Крутить 🚀</button>
+        <div class="result-text" id="resultMsg"></div>
+    </div>
 </div>
 
 <script>
-// Инициализация Telegram WebApp
 const tg = window.Telegram.WebApp;
 tg.ready();
-tg.expand(); // Разворачивает окно на весь экран
+tg.expand();
 
-// Получение данных пользователя Telegram
+// Замените на IP вашего хостинга с запущенным aiohttp сервера бота
+const SERVER_URL = "http://YOUR_SERVER_IP:8080";
+
+let telegramId = 0;
+let balance = 0;
+
+// Инициализация пользователя
 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-    const user = tg.initDataUnsafe.user;
-    
-    // Имя пользователя
-    const fullName = user.first_name + (user.last_name ? " " + user.last_name : "");
-    document.getElementById("userName").textContent = fullName;
-    
-    // Telegram ID
-    document.getElementById("userId").textContent = "ID: " + user.id;
-} else {
-    document.getElementById("userName").textContent = "Игрок";
-    document.getElementById("userId").textContent = "Запущено вне Telegram";
+    const u = tg.initDataUnsafe.user;
+    telegramId = u.id;
+    document.getElementById("userName").textContent = u.first_name;
+    document.getElementById("userId").textContent = "ID: " + u.id;
+    loadBalance();
+}
+
+// Загрузка баланса с сервера бота
+async function loadBalance() {
+    try {
+        const res = await fetch(`${SERVER_URL}/api/get_balance?user_id=${telegramId}`);
+        const data = await res.json();
+        if (data.ok) {
+            balance = data.balance;
+            document.getElementById("userBalance").textContent = balance.toLocaleString();
+        }
+    } catch(e) {
+        console.log("Ошибка загрузки баланса:", e);
+    }
+}
+
+// Запуск игры
+async function playSlots() {
+    const bet = parseInt(document.getElementById("betAmount").value);
+    const msg = document.getElementById("resultMsg");
+    const btn = document.getElementById("spinBtn");
+
+    if (isNaN(bet) || bet <= 0) {
+        msg.textContent = "❌ Введите корректную ставку!";
+        msg.style.color = "#ff4d4d";
+        return;
+    }
+
+    btn.disabled = true;
+    msg.textContent = "Крутим...";
+    msg.style.color = "white";
+
+    try {
+        const res = await fetch(`${SERVER_URL}/api/play_spin`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_id: telegramId, bet: bet })
+        });
+        const data = await res.json();
+
+        if (!data.ok) {
+            msg.textContent = "❌ " + data.message;
+            msg.style.color = "#ff4d4d";
+            btn.disabled = false;
+            return;
+        }
+
+        // Анимация вращения
+        document.getElementById("r1").textContent = data.combo[0];
+        document.getElementById("r2").textContent = data.combo[1];
+        document.getElementById("r3").textContent = data.combo[2];
+
+        balance = data.new_balance;
+        document.getElementById("userBalance").textContent = balance.toLocaleString();
+
+        if (data.win > 0) {
+            msg.textContent = `🎉 Вы выиграли ${data.win} Lira! (x${data.mult})`;
+            msg.style.color = "#4dff88";
+        } else {
+            msg.textContent = "😔 Проигрыш. Попробуйте ещё!";
+            msg.style.color = "#ff4d4d";
+        }
+
+    } catch(e) {
+        msg.textContent = " Ошибка соединения с сервером";
+        msg.style.color = "#ff4d4d";
+    }
+
+    btn.disabled = false;
 }
 </script>
 
