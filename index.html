@@ -6,45 +6,90 @@
 <title>🎰 Lira Slots</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-* { box-sizing: border-box; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body {
     margin: 0; padding: 20px; color: white;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: radial-gradient(circle at 50% 0%, #35305c, #141321 45%, #07070d);
     min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
+.app { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 15px; }
+
+/* ВЕРХНЯЯ ПАНЕЛЬ С БАЛАНСОМ */
+.top-bar {
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .12);
+    backdrop-filter: blur(15px); border-radius: 20px; padding: 14px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.user-info { display: flex; flex-direction: column; text-align: left; }
+.user-name { font-size: 16px; font-weight: 700; }
+.user-id { font-size: 11px; color: rgba(255,255,255,.4); }
+.balance-box { text-align: right; }
+.balance-label { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,.5); letter-spacing: 0.5px; }
+.balance-val { font-size: 18px; font-weight: 800; color: #b44dff; }
+
+/* КАРТОЧКА ИГРЫ */
 .card {
-    width: 100%; max-width: 350px; background: rgba(255,255,255,.07);
-    border: 1px solid rgba(255,255,255,.1); backdrop-filter: blur(15px);
-    border-radius: 24px; padding: 25px; text-align: center;
+    background: rgba(255, 255, 255, .07);
+    border: 1px solid rgba(255, 255, 255, .1);
+    backdrop-filter: blur(15px); border-radius: 24px; padding: 25px; text-align: center;
 }
 .reels {
-    display: flex; gap: 10px; font-size: 50px; background: rgba(0,0,0,.3);
-    padding: 15px; border-radius: 18px; margin: 20px 0; justify-content: center;
+    display: flex; gap: 12px; font-size: 55px; background: rgba(0,0,0,.4);
+    padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,.1);
+    margin: 20px 0; justify-content: center; min-height: 95px; align-items: center;
+}
+.reel-item {
+    transition: filter 0.1s ease;
+}
+.spinning {
+    filter: blur(3px);
+    transform: scale(0.95);
 }
 input {
-    width: 100%; padding: 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,.2);
-    background: rgba(0,0,0,.3); color: white; text-align: center; font-size: 16px; margin-bottom: 15px;
+    width: 100%; padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,.2);
+    background: rgba(0,0,0,.3); color: white; text-align: center; font-size: 18px;
+    font-weight: 700; margin-bottom: 15px; outline: none;
 }
+input:focus { border-color: #b44dff; }
 button {
     width: 100%; padding: 16px; border: none; border-radius: 16px;
     background: linear-gradient(135deg, #765cff, #b44dff); color: white;
-    font-size: 18px; font-weight: 700; cursor: pointer;
+    font-size: 18px; font-weight: 700; cursor: pointer; transition: transform .1s, opacity .2s;
 }
+button:active { transform: scale(.97); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.msg { margin-top: 15px; font-weight: 700; min-height: 24px; font-size: 15px; }
 </style>
 </head>
 <body>
 
-<div class="card">
-    <h2 style="margin:0;">🎰 Lira Slots</h2>
-    <div class="reels">
-        <span id="r1">🎰</span>
-        <span id="r2">🎰</span>
-        <span id="r3">🎰</span>
+<div class="app">
+    <!-- БАЛАНС И ПРОФИЛЬ -->
+    <div class="top-bar">
+        <div class="user-info">
+            <span class="user-name" id="userName">Игрок</span>
+            <span class="user-id" id="userId">ID: 0</span>
+        </div>
+        <div class="balance-box">
+            <div class="balance-label">Баланс Lira</div>
+            <div class="balance-val" id="userBalance">0</div>
+        </div>
     </div>
-    <input type="number" id="bet" placeholder="Ставка..." value="100">
-    <button id="spinBtn" onclick="play()">Крутить 🚀</button>
-    <p id="msg" style="margin-top:15px; font-weight:bold;"></p>
+
+    <!-- МИНИ-ИГРА: СЛОТЫ -->
+    <div class="card">
+        <h2 style="margin:0;">🎰 Lira Slots</h2>
+        <div class="reels">
+            <span class="reel-item" id="r1">🎰</span>
+            <span class="reel-item" id="r2">🎰</span>
+            <span class="reel-item" id="r3">🎰</span>
+        </div>
+        <input type="number" id="bet" placeholder="Ставка..." value="100">
+        <button id="spinBtn" onclick="play()">Крутить 🚀</button>
+        <div class="msg" id="msg"></div>
+    </div>
 </div>
 
 <script>
@@ -52,25 +97,29 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-// 1. Отображение имени и ID
+// 1. Установка данных пользователя
 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
     const user = tg.initDataUnsafe.user;
     document.getElementById("userName").textContent = user.first_name;
     document.getElementById("userId").textContent = "ID: " + user.id;
 }
 
-// 2. Чтение баланса из ссылки (?bal=1000000)
+// 2. Получение баланса из параметров URL (?bal=1000000)
 const urlParams = new URLSearchParams(window.location.search);
 let currentBalance = parseInt(urlParams.get('bal')) || 0;
-
-// Выводим полученный баланс на экран
 document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
+
+const symbols = ["🍋", "🍒", "7️⃣", "💎"];
 
 function play() {
     const betInput = document.getElementById("bet");
     const bet = parseInt(betInput.value);
     const msg = document.getElementById("msg");
     const btn = document.getElementById("spinBtn");
+    
+    const r1 = document.getElementById("r1");
+    const r2 = document.getElementById("r2");
+    const r3 = document.getElementById("r3");
 
     if (!bet || bet <= 0) {
         msg.textContent = "❌ Введите корректную ставку!";
@@ -79,51 +128,78 @@ function play() {
     }
 
     if (bet > currentBalance) {
-        msg.textContent = "❌ Недостаточно средств на балансе!";
+        msg.textContent = "❌ Недостаточно Lira на балансе!";
         msg.style.color = "#ff4d4d";
         return;
     }
 
+    // Блокируем кнопку на время анимации
     btn.disabled = true;
+    msg.textContent = "Крутим...";
+    msg.style.color = "#ffffff";
 
-    // Вращение слотов
-    const symbols = ["🍋", "🍒", "7️⃣", "💎"];
-    const c1 = symbols[Math.floor(Math.random() * symbols.length)];
-    const c2 = symbols[Math.floor(Math.random() * symbols.length)];
-    const c3 = symbols[Math.floor(Math.random() * symbols.length)];
+    // Эффект вращения (быстрая смена символов)
+    r1.classList.add("spinning");
+    r2.classList.add("spinning");
+    r3.classList.add("spinning");
 
-    document.getElementById("r1").textContent = c1;
-    document.getElementById("r2").textContent = c2;
-    document.getElementById("r3").textContent = c3;
+    let counter = 0;
+    const interval = setInterval(() => {
+        r1.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        r2.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        r3.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        counter++;
+    }, 80);
 
-    let mult = 0;
-    if (c1 === c2 && c2 === c3) {
-        mult = (c1 === "💎") ? 5 : 3;
-    } else if (c1 === c2 || c2 === c3 || c1 === c3) {
-        mult = 1.5;
-    }
-
-    const win = Math.floor(bet * mult);
-
-    // Обновляем визуальный баланс на экране прямо сейчас
-    currentBalance = currentBalance - bet + win;
-    document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
-
-    if (win > 0) {
-        msg.textContent = `🎉 Выигрыш: ${win} Lira!`;
-        msg.style.color = "#4dff88";
-    } else {
-        msg.textContent = "😔 Проигрыш!";
-        msg.style.color = "#ff4d4d";
-    }
-
-    // Отправляем итог боту для сохранения в БД
+    // Остановка анимации и получение результата через 1.5 секунды
     setTimeout(() => {
-        tg.sendData(JSON.stringify({
-            bet: bet,
-            win: win
-        }));
-    }, 1200);
+        clearInterval(interval);
+
+        r1.classList.remove("spinning");
+        r2.classList.remove("spinning");
+        r3.classList.remove("spinning");
+
+        const final1 = symbols[Math.floor(Math.random() * symbols.length)];
+        const final2 = symbols[Math.floor(Math.random() * symbols.length)];
+        const final3 = symbols[Math.floor(Math.random() * symbols.length)];
+
+        r1.textContent = final1;
+        r2.textContent = final2;
+        r3.textContent = final3;
+
+        // Расчет выигрыша
+        let mult = 0;
+        if (final1 === final2 && final2 === final3) {
+            mult = (final1 === "💎") ? 5 : 3;
+        } else if (final1 === final2 || final2 === final3 || final1 === final3) {
+            mult = 1.5;
+        }
+
+        const win = Math.floor(bet * mult);
+
+        // Обновляем виртуальный баланс на экране
+        currentBalance = currentBalance - bet + win;
+        document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
+
+        if (win > 0) {
+            msg.textContent = `🎉 Выигрыш: +${win.toLocaleString()} Lira!`;
+            msg.style.color = "#4dff88";
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        } else {
+            msg.textContent = `😔 Проигрыш -${bet.toLocaleString()} Lira`;
+            msg.style.color = "#ff4d4d";
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+        }
+
+        // Отправка данных боту
+        setTimeout(() => {
+            tg.sendData(JSON.stringify({
+                bet: bet,
+                win: win
+            }));
+        }, 1200);
+
+    }, 1500);
 }
 </script>
 
