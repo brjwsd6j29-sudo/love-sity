@@ -105,7 +105,19 @@ if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
 }
 
 // 2. Получение баланса из параметров URL (?bal=1000000)
+// Получение баланса из параметров URL
 const urlParams = new URLSearchParams(window.location.search);
+const rawBal = urlParams.get('bal');
+
+let currentBalance = 0;
+
+if (rawBal !== null && !isNaN(parseInt(rawBal))) {
+    currentBalance = parseInt(rawBal);
+    document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
+} else {
+    // Если зашли по кнопке меню без параметров
+    document.getElementById("userBalance").textContent = "Перезапустите бота";
+}
 let currentBalance = parseInt(urlParams.get('bal')) || 0;
 document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
 
