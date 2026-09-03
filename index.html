@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-    <meta
-        name="theme-color"
-        content="#0b0b0d">
-    <meta
-        name="description"
-        content="Школьное расписание уроков">
-    <title>Моё расписание</title>
+<meta charset="UTF-8">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+<meta
+    name="theme-color"
+    content="#08090b">
+<title>Наш класс</title>
 <style>
 /* =========================================================
-   ОСНОВНЫЕ ПЕРЕМЕННЫЕ
+   RESET
 ========================================================= */
 * {
     margin: 0;
@@ -24,49 +21,63 @@
 html {
     scroll-behavior: smooth;
 }
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+/* =========================================================
+   VARIABLES
+========================================================= */
 :root {
     --bg: #f4f5f7;
-    --bg-secondary: #ffffff;
     --card: #ffffff;
-    --card-hover: #f0f1f3;
+    --card2: #f0f1f3;
     --text: #111216;
-    --text-secondary: #6d717a;
-    --border: #e1e3e7;
+    --muted: #70747d;
+    --border: #e0e2e6;
     --accent: #111111;
     --accent-text: #ffffff;
     --green: #16834b;
-    --green-light: #e5f6ed;
-    --orange: #d97706;
-    --orange-light: #fff4df;
+    --green-bg: #e5f6ed;
+    --red: #dc2626;
+    --red-bg: #feeaea;
     --blue: #2563eb;
-    --blue-light: #e9f0ff;
+    --blue-bg: #e9f0ff;
+    --orange: #d97706;
+    --orange-bg: #fff4df;
     --shadow:
-        0 15px 40px rgba(0, 0, 0, 0.08);
+        0 15px 40px rgba(0,0,0,.08);
     --shadow-small:
-        0 5px 20px rgba(0, 0, 0, 0.06);
+        0 5px 20px rgba(0,0,0,.06);
     --radius: 20px;
 }
 body.dark {
     --bg: #08090b;
-    --bg-secondary: #0e1013;
-    --card: #14171c;
-    --card-hover: #1d2128;
+    --card: #13161b;
+    --card2: #1c2026;
     --text: #f4f4f5;
-    --text-secondary: #a1a6af;
-    --border: #282d35;
+    --muted: #a0a5ae;
+    --border: #292e36;
     --accent: #ffffff;
     --accent-text: #111111;
     --green: #42d58c;
-    --green-light: #123526;
-    --orange: #f59e0b;
-    --orange-light: #392b10;
+    --green-bg: #123526;
+    --red: #f87171;
+    --red-bg: #3a1717;
     --blue: #60a5fa;
-    --blue-light: #17243c;
+    --blue-bg: #17243c;
+    --orange: #f59e0b;
+    --orange-bg: #392b10;
     --shadow:
-        0 15px 40px rgba(0, 0, 0, 0.35);
+        0 15px 40px rgba(0,0,0,.35);
     --shadow-small:
-        0 5px 20px rgba(0, 0, 0, 0.25);
+        0 5px 20px rgba(0,0,0,.25);
 }
+/* =========================================================
+   BODY
+========================================================= */
 body {
     min-height: 100vh;
     background: var(--bg);
@@ -79,8 +90,153 @@ body {
         Arial,
         sans-serif;
     transition:
-        background 0.25s ease,
-        color 0.25s ease;
+        background .25s,
+        color .25s;
+}
+/* =========================================================
+   AUTH SCREEN
+========================================================= */
+#authScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background:
+        var(--bg);
+}
+.auth-box {
+    width: 100%;
+    max-width: 440px;
+    padding: 32px;
+    background: var(--card);
+    border:
+        1px solid var(--border);
+    border-radius: 25px;
+    box-shadow: var(--shadow);
+    animation:
+        authAppear .35s ease;
+}
+@keyframes authAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+.auth-logo {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    border-radius: 20px;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 30px;
+}
+.auth-title {
+    text-align: center;
+    font-size: 29px;
+    font-weight: 850;
+    letter-spacing: -1px;
+}
+.auth-subtitle {
+    text-align: center;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+.auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 25px;
+    padding: 5px;
+    border-radius: 13px;
+    background: var(--card2);
+}
+.auth-tab {
+    border: 0;
+    border-radius: 9px;
+    padding: 10px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-weight: 750;
+}
+.auth-tab.active {
+    background: var(--card);
+    color: var(--text);
+    box-shadow: var(--shadow-small);
+}
+.auth-form {
+    margin-top: 20px;
+}
+.field {
+    margin-bottom: 14px;
+}
+.field label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 750;
+}
+.field input {
+    width: 100%;
+    height: 49px;
+    padding: 0 14px;
+    border:
+        1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card2);
+    color: var(--text);
+    outline: none;
+}
+.field input:focus {
+    border-color:
+        var(--muted);
+}
+.auth-button {
+    width: 100%;
+    height: 50px;
+    margin-top: 5px;
+    border: 0;
+    border-radius: 13px;
+    background: var(--accent);
+    color: var(--accent-text);
+    cursor: pointer;
+    font-weight: 800;
+    transition: .2s;
+}
+.auth-button:hover {
+    transform: translateY(-1px);
+}
+.auth-error {
+    min-height: 20px;
+    margin-top: 12px;
+    text-align: center;
+    color: var(--red);
+    font-size: 13px;
+    font-weight: 650;
+}
+.auth-info {
+    margin-top: 17px;
+    padding: 12px;
+    border-radius: 11px;
+    background: var(--blue-bg);
+    color: var(--blue);
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
 }
 /* =========================================================
    HEADER
@@ -89,1262 +245,1365 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
-    width: 100%;
     background:
-        rgba(244, 245, 247, 0.88);
-    border-bottom:
-        1px solid var(--border);
+        color-mix(
+            in srgb,
+            var(--bg) 88%,
+            transparent
+        );
     backdrop-filter:
         blur(18px);
-    -webkit-backdrop-filter:
-        blur(18px);
-}
-body.dark .header {
-    background:
-        rgba(8, 9, 11, 0.88);
+    border-bottom:
+        1px solid var(--border);
 }
 .header-container {
     max-width: 1200px;
-    min-height: 76px;
+    min-height: 70px;
     margin: auto;
-    padding:
-        12px 20px;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 15px;
 }
-/* =========================================================
-   LOGO
-========================================================= */
 .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
-    user-select: none;
+    gap: 11px;
 }
 .logo-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: var(--accent);
-    color: var(--accent-text);
+    width: 43px;
+    height: 43px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    box-shadow:
-        var(--shadow-small);
-}
-.logo-content {
-    display: flex;
-    flex-direction: column;
+    border-radius: 13px;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 20px;
 }
 .logo-title {
-    font-size: 17px;
-    font-weight: 800;
-    letter-spacing:
-        -0.3px;
+    font-size: 16px;
+    font-weight: 850;
 }
 .logo-subtitle {
     margin-top: 2px;
-    font-size: 11px;
-    color:
-        var(--text-secondary);
+    color: var(--muted);
+    font-size: 10px;
 }
-/* =========================================================
-   HEADER CONTROLS
-========================================================= */
 .header-controls {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
 }
-.language-select {
-    height: 42px;
-    padding:
-        0 12px;
+.header-button {
+    height: 40px;
+    padding: 0 12px;
     border:
         1px solid var(--border);
-    border-radius: 12px;
-    background:
-        var(--card);
-    color:
-        var(--text);
-    font-size: 14px;
-    font-weight: 600;
-    outline: none;
+    border-radius: 11px;
+    background: var(--card);
+    color: var(--text);
     cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
 }
-.theme-button {
-    width: 44px;
-    height: 42px;
-    padding: 0;
-    border:
-        1px solid var(--border);
-    border-radius: 12px;
-    background:
-        var(--card);
-    color:
-        var(--text);
-    cursor: pointer;
-    font-size: 18px;
-    transition:
-        0.2s;
-}
-.theme-button:hover {
-    background:
-        var(--card-hover);
-    transform:
-        translateY(-1px);
+.header-button:hover {
+    background: var(--card2);
 }
 /* =========================================================
-   MAIN
+   APP
 ========================================================= */
+#app {
+    display: none;
+    min-height: 100vh;
+}
 .main {
     max-width: 1200px;
     margin: auto;
-    padding:
-        40px 20px 70px;
+    padding: 30px 20px 70px;
+}
+/* =========================================================
+   PROFILE MINI
+========================================================= */
+.profile-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.avatar {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-weight: 850;
+}
+.online-dot {
+    position: absolute;
+    right: -1px;
+    bottom: 0;
+    width: 11px;
+    height: 11px;
+    border: 2px solid var(--card);
+    border-radius: 50%;
+    background: #22c55e;
+}
+.profile-mini-name {
+    max-width: 120px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    font-weight: 750;
+}
+/* =========================================================
+   NAVIGATION
+========================================================= */
+.main-nav {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    padding-bottom: 3px;
+}
+.nav-button {
+    flex: 0 0 auto;
+    height: 43px;
+    padding: 0 16px;
+    border:
+        1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 750;
+    transition: .2s;
+}
+.nav-button.active {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+}
+/* =========================================================
+   PAGES
+========================================================= */
+.page {
+    display: none;
+    animation: fadeIn .25s ease;
+}
+.page.active {
+    display: block;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 /* =========================================================
    HERO
 ========================================================= */
 .hero {
     position: relative;
-    padding:
-        34px;
-    margin-bottom:
-        25px;
+    overflow: hidden;
+    padding: 32px;
+    margin-bottom: 20px;
     border:
         1px solid var(--border);
-    border-radius:
-        25px;
-    background:
-        var(--card);
-    box-shadow:
-        var(--shadow);
-    overflow: hidden;
-}
-.hero::before {
-    content: "";
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    right: -100px;
-    top: -130px;
-    border-radius: 50%;
-    background:
-        var(--card-hover);
-    opacity:
-        0.7;
-}
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
-.hero-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding:
-        7px 11px;
-    border-radius: 9px;
-    background:
-        var(--card-hover);
-    color:
-        var(--text-secondary);
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom:
-        14px;
+    border-radius: 23px;
+    background: var(--card);
+    box-shadow: var(--shadow);
 }
 .hero h1 {
     font-size:
-        clamp(32px, 6vw, 54px);
-    line-height:
-        1.05;
-    letter-spacing:
-        -2px;
-    font-weight:
-        850;
+        clamp(30px, 6vw, 50px);
+    letter-spacing: -2px;
+    line-height: 1.05;
 }
 .hero p {
-    max-width: 700px;
-    margin-top:
-        12px;
-    color:
-        var(--text-secondary);
-    font-size:
-        16px;
-    line-height:
-        1.6;
+    max-width: 680px;
+    margin-top: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 15px;
+}
+.hero-label {
+    display: inline-block;
+    margin-bottom: 13px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: var(--card2);
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 750;
 }
 /* =========================================================
-   LIVE INFORMATION
+   LIVE GRID
 ========================================================= */
-.live-panel {
+.live-grid {
     display: grid;
     grid-template-columns:
         1.2fr 1fr 1fr 1fr;
-    gap: 12px;
-    margin-bottom:
-        24px;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 .live-card {
-    min-height:
-        130px;
-    padding:
-        19px;
+    min-height: 115px;
+    padding: 17px;
     border:
         1px solid var(--border);
-    border-radius:
-        18px;
-    background:
-        var(--card);
-    box-shadow:
-        var(--shadow-small);
-    transition:
-        0.2s;
+    border-radius: 17px;
+    background: var(--card);
+    box-shadow: var(--shadow-small);
 }
-.live-card:hover {
-    transform:
-        translateY(-2px);
-}
-.live-card.main-time {
-    background:
-        var(--accent);
-    color:
-        var(--accent-text);
+.live-card.dark-card {
+    background: var(--accent);
+    color: var(--accent-text);
 }
 .live-label {
-    font-size:
-        12px;
-    font-weight:
-        700;
-    color:
-        var(--text-secondary);
-    margin-bottom:
-        9px;
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 750;
 }
-.main-time .live-label {
+.dark-card .live-label {
     color:
-        rgba(255,255,255,0.65);
+        rgba(255,255,255,.65);
 }
 .live-value {
-    font-size:
-        25px;
-    font-weight:
-        850;
-    letter-spacing:
-        -0.8px;
+    font-size: 21px;
+    font-weight: 850;
+    letter-spacing: -.5px;
 }
 .live-small {
-    margin-top:
-        6px;
-    font-size:
-        12px;
-    color:
-        var(--text-secondary);
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 11px;
 }
-.main-time .live-small {
+.dark-card .live-small {
     color:
-        rgba(255,255,255,0.7);
+        rgba(255,255,255,.65);
 }
 /* =========================================================
    CURRENT LESSON
 ========================================================= */
-.current-lesson-card {
-    margin-bottom:
-        25px;
-    padding:
-        23px;
+.current-card {
+    margin-bottom: 20px;
+    padding: 21px;
     border:
         1px solid var(--border);
-    border-radius:
-        20px;
-    background:
-        var(--card);
-    box-shadow:
-        var(--shadow-small);
+    border-radius: 18px;
+    background: var(--card);
+    box-shadow: var(--shadow-small);
 }
 .current-top {
     display: flex;
-    align-items:
-        center;
-    justify-content:
-        space-between;
-    gap: 15px;
-    margin-bottom:
-        14px;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 .current-status {
-    display: inline-flex;
-    align-items:
-        center;
-    gap: 7px;
-    color:
-        var(--green);
-    font-size:
-        13px;
-    font-weight:
-        800;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 800;
 }
-.status-dot {
-    width:
-        8px;
-    height:
-        8px;
-    border-radius:
-        50%;
-    background:
-        var(--green);
-    animation:
-        pulse 1.5s infinite;
-}
-@keyframes pulse {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.4;
-        transform: scale(0.8);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-.current-time {
-    color:
-        var(--text-secondary);
-    font-size:
-        13px;
-    font-weight:
-        700;
+.current-clock {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
 }
 .current-name {
-    font-size:
-        clamp(22px, 4vw, 31px);
-    font-weight:
-        850;
-    letter-spacing:
-        -0.7px;
+    font-size: 26px;
+    font-weight: 850;
 }
-.progress-container {
-    margin-top:
-        17px;
+.progress-wrap {
+    margin-top: 15px;
 }
 .progress-bar {
-    width:
-        100%;
-    height:
-        9px;
-    border-radius:
-        20px;
-    overflow:
-        hidden;
-    background:
-        var(--card-hover);
+    height: 8px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--card2);
 }
 .progress {
-    height:
-        100%;
-    width:
-        0%;
-    background:
-        var(--green);
-    border-radius:
-        inherit;
-    transition:
-        width 0.5s linear;
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: var(--green);
+    transition: width .5s linear;
 }
 .progress-info {
     display: flex;
-    justify-content:
-        space-between;
-    margin-top:
-        8px;
-    color:
-        var(--text-secondary);
-    font-size:
-        12px;
+    justify-content: space-between;
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 11px;
+}
+/* =========================================================
+   CHAT
+========================================================= */
+.chat-layout {
+    display: grid;
+    grid-template-columns:
+        1fr 280px;
+    gap: 15px;
+}
+.chat-card {
+    height: 650px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border:
+        1px solid var(--border);
+    border-radius: 20px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+}
+.chat-header {
+    padding: 17px 19px;
+    border-bottom:
+        1px solid var(--border);
+}
+.chat-title {
+    font-size: 18px;
+    font-weight: 850;
+}
+.chat-subtitle {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 11px;
+}
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 17px;
+}
+.message {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 15px;
+}
+.message.own {
+    justify-content: flex-end;
+}
+.message.own .message-avatar {
+    display: none;
+}
+.message.own .message-content {
+    align-items: flex-end;
+}
+.message-avatar {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--card2);
+    font-size: 12px;
+    font-weight: 850;
+}
+.message-content {
+    max-width: 78%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.message-author {
+    margin-bottom: 4px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 750;
+}
+.message-bubble {
+    padding: 9px 12px;
+    border-radius: 13px;
+    background: var(--card2);
+    font-size: 13px;
+    line-height: 1.45;
+    word-break: break-word;
+}
+.message.own .message-bubble {
+    background: var(--accent);
+    color: var(--accent-text);
+}
+.message-time {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 9px;
+}
+.message-delete {
+    margin-left: 5px;
+    border: 0;
+    background: transparent;
+    color: var(--red);
+    cursor: pointer;
+    font-size: 10px;
+}
+.chat-input-area {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top:
+        1px solid var(--border);
+}
+.chat-input {
+    flex: 1;
+    min-width: 0;
+    min-height: 43px;
+    max-height: 100px;
+    padding: 11px 13px;
+    resize: none;
+    outline: none;
+    border:
+        1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card2);
+    color: var(--text);
+    font-size: 13px;
+}
+.send-button {
+    width: 45px;
+    height: 43px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--accent);
+    color: var(--accent-text);
+    cursor: pointer;
+    font-size: 18px;
+}
+/* =========================================================
+   USERS
+========================================================= */
+.users-card {
+    height: 650px;
+    padding: 17px;
+    overflow-y: auto;
+    border:
+        1px solid var(--border);
+    border-radius: 20px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+}
+.users-title {
+    margin-bottom: 14px;
+    font-size: 16px;
+    font-weight: 850;
+}
+.user-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 6px;
+    border-radius: 11px;
+}
+.user-item:hover {
+    background: var(--card2);
+}
+.user-avatar {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--card2);
+    font-size: 11px;
+    font-weight: 850;
+}
+.user-online {
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    width: 9px;
+    height: 9px;
+    border: 2px solid var(--card);
+    border-radius: 50%;
+    background: #22c55e;
+}
+.user-name {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    font-weight: 700;
 }
 /* =========================================================
    SEARCH
 ========================================================= */
-.search-wrapper {
-    margin-bottom:
-        18px;
-}
 .search-box {
-    position:
-        relative;
-}
-.search-icon {
-    position:
-        absolute;
-    left:
-        17px;
-    top:
-        50%;
-    transform:
-        translateY(-50%);
-    font-size:
-        17px;
-    opacity:
-        0.65;
+    margin-bottom: 15px;
 }
 .search-input {
-    width:
-        100%;
-    height:
-        52px;
-    padding:
-        0 18px 0 48px;
+    width: 100%;
+    height: 49px;
+    padding: 0 15px;
     border:
         1px solid var(--border);
-    border-radius:
-        15px;
-    background:
-        var(--card);
-    color:
-        var(--text);
-    outline:
-        none;
-    font-size:
-        15px;
-    box-shadow:
-        var(--shadow-small);
-    transition:
-        0.2s;
-}
-.search-input:focus {
-    border-color:
-        var(--text-secondary);
-}
-.search-input::placeholder {
-    color:
-        var(--text-secondary);
+    border-radius: 13px;
+    background: var(--card);
+    color: var(--text);
+    outline: none;
+    font-size: 13px;
 }
 /* =========================================================
-   DAYS NAVIGATION
+   DAYS
 ========================================================= */
-.days-navigation {
-    display:
-        flex;
-    gap:
-        9px;
-    overflow-x:
-        auto;
-    padding:
-        2px 2px 16px;
-    scrollbar-width:
-        thin;
+.days {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 14px;
+    padding-bottom: 5px;
 }
-.days-navigation::-webkit-scrollbar {
-    height:
-        4px;
-}
-.days-navigation::-webkit-scrollbar-thumb {
-    background:
-        var(--border);
-    border-radius:
-        20px;
-}
-.day-button {
-    position:
-        relative;
-    flex:
-        0 0 auto;
-    min-width:
-        125px;
-    padding:
-        13px 16px;
+.day {
+    flex: 0 0 auto;
+    padding: 11px 14px;
     border:
         1px solid var(--border);
-    border-radius:
-        13px;
-    background:
-        var(--card);
-    color:
-        var(--text);
-    cursor:
-        pointer;
-    font-size:
-        14px;
-    font-weight:
-        700;
-    transition:
-        0.2s;
+    border-radius: 11px;
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 750;
 }
-.day-button:hover {
-    background:
-        var(--card-hover);
-}
-.day-button.active {
-    background:
-        var(--accent);
-    color:
-        var(--accent-text);
-    border-color:
-        var(--accent);
-    box-shadow:
-        var(--shadow-small);
-}
-.day-button.today-day::after {
-    content:
-        "";
-    position:
-        absolute;
-    width:
-        6px;
-    height:
-        6px;
-    top:
-        7px;
-    right:
-        7px;
-    border-radius:
-        50%;
-    background:
-        #42c984;
+.day.active {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
 }
 /* =========================================================
    SCHEDULE
 ========================================================= */
-.schedule-card {
-    overflow:
-        hidden;
+.schedule {
+    overflow: hidden;
     border:
         1px solid var(--border);
-    border-radius:
-        23px;
-    background:
-        var(--card);
-    box-shadow:
-        var(--shadow);
+    border-radius: 20px;
+    background: var(--card);
+    box-shadow: var(--shadow);
 }
-.schedule-header {
-    padding:
-        23px 25px;
-    display:
-        flex;
-    align-items:
-        center;
-    justify-content:
-        space-between;
-    gap:
-        20px;
+.schedule-head {
+    padding: 19px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom:
         1px solid var(--border);
 }
-.schedule-day-name {
-    font-size:
-        26px;
-    font-weight:
-        800;
+.schedule-title {
+    font-size: 21px;
+    font-weight: 850;
 }
 .schedule-date {
-    margin-top:
-        4px;
-    color:
-        var(--text-secondary);
-    font-size:
-        13px;
-}
-.lesson-count {
-    padding:
-        8px 11px;
-    border-radius:
-        10px;
-    background:
-        var(--card-hover);
-    color:
-        var(--text-secondary);
-    font-size:
-        13px;
-    font-weight:
-        700;
-    white-space:
-        nowrap;
-}
-/* =========================================================
-   LESSONS
-========================================================= */
-.lessons {
-    padding:
-        8px 15px 15px;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
 }
 .lesson {
-    display:
-        grid;
+    min-height: 72px;
+    display: grid;
     grid-template-columns:
-        52px 1fr auto;
-    align-items:
-        center;
-    gap:
-        15px;
-    min-height:
-        78px;
-    padding:
-        10px;
+        43px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
     border-bottom:
         1px solid var(--border);
-    border-radius:
-        13px;
-    transition:
-        0.2s;
 }
 .lesson:last-child {
-    border-bottom:
-        none;
+    border-bottom: 0;
 }
 .lesson:hover {
-    background:
-        var(--card-hover);
+    background: var(--card2);
 }
 .lesson-number {
-    width:
-        43px;
-    height:
-        43px;
-    border-radius:
-        12px;
-    background:
-        var(--card-hover);
-    display:
-        flex;
-    align-items:
-        center;
-    justify-content:
-        center;
-    font-weight:
-        800;
-    font-size:
-        15px;
-}
-.lesson-info {
-    min-width:
-        0;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: var(--card2);
+    font-size: 13px;
+    font-weight: 850;
 }
 .lesson-name {
-    font-size:
-        16px;
-    font-weight:
-        700;
-    line-height:
-        1.35;
+    font-size: 14px;
+    font-weight: 750;
 }
 .lesson-time {
-    display:
-        inline-block;
-    margin-top:
-        5px;
-    color:
-        var(--text-secondary);
-    font-size:
-        12px;
-    font-weight:
-        650;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
 }
 .lesson-arrow {
-    color:
-        var(--text-secondary);
-    font-size:
-        19px;
+    color: var(--muted);
+    font-size: 18px;
 }
-/* =========================================================
-   ТЕКУЩИЙ УРОК
-========================================================= */
 .lesson.current {
-    background:
-        var(--green-light);
-    border-color:
-        transparent;
+    background: var(--green-bg);
 }
 .lesson.current .lesson-number {
-    background:
-        var(--green);
-    color:
-        white;
+    background: var(--green);
+    color: white;
 }
-.lesson.current .lesson-name {
-    font-weight:
-        850;
-}
-.current-badge {
-    display:
-        inline-flex;
-    align-items:
-        center;
-    margin-left:
-        7px;
-    padding:
-        3px 7px;
-    border-radius:
-        6px;
-    background:
-        var(--green);
-    color:
-        white;
-    font-size:
-        10px;
-    font-weight:
-        800;
-    vertical-align:
-        middle;
+.now-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 6px;
+    border-radius: 5px;
+    background: var(--green);
+    color: white;
+    font-size: 8px;
+    font-weight: 850;
 }
 /* =========================================================
-   ПЕРЕМЕНА
+   PROFILE PAGE
 ========================================================= */
-.break-message {
-    margin:
-        10px 0;
-    padding:
-        17px;
-    border-radius:
-        14px;
-    background:
-        var(--orange-light);
-    color:
-        var(--orange);
-    text-align:
-        center;
-    font-size:
-        14px;
-    font-weight:
-        750;
+.profile-page {
+    max-width: 650px;
+    margin: auto;
 }
-/* =========================================================
-   ВЫХОДНЫЕ
-========================================================= */
-.weekend-message {
-    padding:
-        60px 20px;
-    text-align:
-        center;
-    color:
-        var(--text-secondary);
+.profile-card {
+    padding: 25px;
+    border:
+        1px solid var(--border);
+    border-radius: 22px;
+    background: var(--card);
+    box-shadow: var(--shadow);
 }
-.weekend-icon {
-    font-size:
-        42px;
-    margin-bottom:
-        13px;
+.profile-big {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom:
+        1px solid var(--border);
 }
-.weekend-title {
-    color:
-        var(--text);
-    font-size:
-        21px;
-    font-weight:
-        800;
-    margin-bottom:
-        6px;
+.profile-big-avatar {
+    width: 75px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 22px;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 27px;
+    font-weight: 850;
+}
+.profile-big-name {
+    font-size: 23px;
+    font-weight: 850;
+}
+.profile-big-status {
+    margin-top: 4px;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+}
+.profile-stat-grid {
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
+    gap: 9px;
+    margin-bottom: 20px;
+}
+.stat {
+    padding: 15px;
+    border-radius: 13px;
+    background: var(--card2);
+}
+.stat-label {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+}
+.stat-value {
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: 850;
+}
+.save-button {
+    width: 100%;
+    height: 47px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--accent);
+    color: var(--accent-text);
+    cursor: pointer;
+    font-weight: 800;
+}
+.logout-button {
+    width: 100%;
+    height: 47px;
+    margin-top: 9px;
+    border:
+        1px solid var(--red);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--red);
+    cursor: pointer;
+    font-weight: 800;
 }
 /* =========================================================
    EMPTY
 ========================================================= */
 .empty {
-    padding:
-        55px 20px;
-    text-align:
-        center;
-    color:
-        var(--text-secondary);
+    padding: 50px 20px;
+    text-align: center;
+    color: var(--muted);
 }
 .empty-icon {
-    font-size:
-        38px;
-    margin-bottom:
-        12px;
+    margin-bottom: 10px;
+    font-size: 35px;
 }
 .empty-title {
-    color:
-        var(--text);
-    font-size:
-        18px;
-    font-weight:
-        750;
-    margin-bottom:
-        5px;
+    margin-bottom: 5px;
+    color: var(--text);
+    font-weight: 800;
 }
 /* =========================================================
    FOOTER
 ========================================================= */
 .footer {
-    max-width:
-        1200px;
-    margin:
-        auto;
-    padding:
-        0 20px 35px;
-    text-align:
-        center;
-    color:
-        var(--text-secondary);
-    font-size:
-        13px;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px 30px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
 }
 .footer-line {
-    height:
-        1px;
-    background:
-        var(--border);
-    margin-bottom:
-        20px;
-}
-/* =========================================================
-   АНИМАЦИИ
-========================================================= */
-.fade-in {
-    animation:
-        fadeIn 0.3s ease;
-}
-@keyframes fadeIn {
-    from {
-        opacity:
-            0;
-        transform:
-            translateY(7px);
-    }
-    to {
-        opacity:
-            1;
-        transform:
-            translateY(0);
-    }
+    height: 1px;
+    margin-bottom: 17px;
+    background: var(--border);
 }
 /* =========================================================
    MOBILE
 ========================================================= */
-@media (max-width: 850px) {
-    .live-panel {
+@media (max-width: 900px) {
+    .live-grid {
         grid-template-columns:
             1fr 1fr;
     }
-}
-@media (max-width: 650px) {
-    .header-container {
-        min-height:
-            68px;
-        padding:
-            10px 14px;
-    }
-    .logo-subtitle {
-        display:
-            none;
-    }
-    .logo-title {
-        font-size:
-            15px;
-    }
-    .logo-icon {
-        width:
-            41px;
-        height:
-            41px;
-        border-radius:
-            12px;
-        font-size:
-            19px;
-    }
-    .header-controls {
-        gap:
-            5px;
-    }
-    .language-select {
-        max-width:
-            110px;
-        height:
-            40px;
-        padding:
-            0 7px;
-        font-size:
-            12px;
-    }
-    .theme-button {
-        width:
-            40px;
-        height:
-            40px;
-    }
-    .main {
-        padding:
-            25px 14px 55px;
-    }
-    .hero {
-        padding:
-            26px 21px;
-        border-radius:
-            20px;
-    }
-    .hero h1 {
-        font-size:
-            35px;
-        letter-spacing:
-            -1.3px;
-    }
-    .hero p {
-        font-size:
-            14px;
-    }
-    .live-panel {
-        grid-template-columns:
-            1fr 1fr;
-        gap:
-            9px;
-    }
-    .live-card {
-        min-height:
-            105px;
-        padding:
-            15px;
-    }
-    .live-value {
-        font-size:
-            20px;
-    }
-    .current-lesson-card {
-        padding:
-            18px;
-    }
-    .current-name {
-        font-size:
-            22px;
-    }
-    .day-button {
-        min-width:
-            112px;
-        padding:
-            11px 13px;
-        font-size:
-            13px;
-    }
-    .schedule-card {
-        border-radius:
-            18px;
-    }
-    .schedule-header {
-        padding:
-            19px 17px;
-    }
-    .schedule-day-name {
-        font-size:
-            22px;
-    }
-    .lesson {
-        grid-template-columns:
-            43px 1fr;
-        gap:
-            12px;
-        padding:
-            12px 5px;
-    }
-    .lesson-arrow {
-        display:
-            none;
-    }
-    .lesson-number {
-        width:
-            39px;
-        height:
-            39px;
-        border-radius:
-            10px;
-    }
-    .lesson-name {
-        font-size:
-            14px;
-    }
-    .lesson-time {
-        font-size:
-            11px;
-    }
-    .lessons {
-        padding:
-            6px 11px 11px;
-    }
-}
-@media (max-width: 430px) {
-    .logo-title {
-        font-size:
-            14px;
-    }
-    .language-select {
-        width:
-            98px;
-    }
-    .hero h1 {
-        font-size:
-            31px;
-    }
-    .live-panel {
+    .chat-layout {
         grid-template-columns:
             1fr;
     }
-    .schedule-day-name {
-        font-size:
-            20px;
+    .users-card {
+        display: none;
     }
-    .lesson-name {
+}
+@media (max-width: 600px) {
+    .header-container {
+        padding:
+            9px 13px;
+    }
+    .logo-subtitle {
+        display: none;
+    }
+    .profile-mini-name {
+        display: none;
+    }
+    .header-button {
+        width: 40px;
+        padding: 0;
+        font-size: 17px;
+    }
+    .main {
+        padding:
+            20px 13px 50px;
+    }
+    .hero {
+        padding:
+            25px 20px;
+        border-radius:
+            19px;
+    }
+    .hero h1 {
         font-size:
-            13.5px;
+            34px;
+    }
+    .hero p {
+        font-size:
+            13px;
+    }
+    .live-grid {
+        grid-template-columns:
+            1fr 1fr;
+        gap: 8px;
+    }
+    .live-card {
+        min-height: 100px;
+        padding: 13px;
+    }
+    .live-value {
+        font-size: 17px;
+    }
+    .current-card {
+        padding: 17px;
+    }
+    .current-name {
+        font-size: 21px;
+    }
+    .chat-card {
+        height: 600px;
+    }
+    .message-content {
+        max-width: 82%;
+    }
+    .lesson {
+        grid-template-columns:
+            39px 1fr;
+    }
+    .lesson-arrow {
+        display: none;
+    }
+    .auth-box {
+        padding: 25px 20px;
+    }
+}
+@media (max-width: 400px) {
+    .live-grid {
+        grid-template-columns:
+            1fr;
+    }
+    .hero h1 {
+        font-size:
+            30px;
     }
 }
 </style>
 </head>
 <body>
-<!-- =======================================================
-     HEADER
-======================================================= -->
+<!-- =========================================================
+     AUTH SCREEN
+========================================================= -->
+<div id="authScreen">
+    <div class="auth-box">
+        <div class="auth-logo">
+            🎓
+        </div>
+        <div
+            class="auth-title"
+            id="authTitle">
+            Наш класс
+        </div>
+        <div
+            class="auth-subtitle"
+            id="authSubtitle">
+            Войди в аккаунт, чтобы открыть расписание и чат класса.
+        </div>
+        <div class="auth-tabs">
+            <button
+                class="auth-tab active"
+                id="loginTab">
+                Вход
+            </button>
+            <button
+                class="auth-tab"
+                id="registerTab">
+                Регистрация
+            </button>
+        </div>
+        <!-- LOGIN -->
+        <form
+            class="auth-form"
+            id="loginForm">
+            <div class="field">
+                <label>
+                    Имя / ник
+                </label>
+                <input
+                    id="loginName"
+                    type="text"
+                    maxlength="30"
+                    autocomplete="username"
+                    placeholder="Например: Dias">
+            </div>
+            <div class="field">
+                <label>
+                    Пароль
+                </label>
+                <input
+                    id="loginPassword"
+                    type="password"
+                    maxlength="50"
+                    autocomplete="current-password"
+                    placeholder="Введите пароль">
+            </div>
+            <button
+                class="auth-button"
+                type="submit">
+                Войти
+            </button>
+        </form>
+        <!-- REGISTER -->
+        <form
+            class="auth-form"
+            id="registerForm"
+            style="display:none">
+            <div class="field">
+                <label>
+                    Имя / ник
+                </label>
+                <input
+                    id="registerName"
+                    type="text"
+                    maxlength="30"
+                    placeholder="Например: Dias">
+            </div>
+            <div class="field">
+                <label>
+                    Пароль
+                </label>
+                <input
+                    id="registerPassword"
+                    type="password"
+                    maxlength="50"
+                    placeholder="Придумай пароль">
+            </div>
+            <div class="field">
+                <label>
+                    Повтори пароль
+                </label>
+                <input
+                    id="registerPassword2"
+                    type="password"
+                    maxlength="50"
+                    placeholder="Повтори пароль">
+            </div>
+            <button
+                class="auth-button"
+                type="submit">
+                Создать аккаунт
+            </button>
+        </form>
+        <div
+            class="auth-error"
+            id="authError">
+        </div>
+        <div class="auth-info">
+            🔒 Данные этой демо-версии сохраняются
+            только в браузере этого устройства.
+        </div>
+    </div>
+</div>
+<!-- =========================================================
+     APP
+========================================================= -->
+<div id="app">
+<!-- HEADER -->
 <header class="header">
     <div class="header-container">
         <div class="logo">
             <div class="logo-icon">
-                📚
+                🎓
             </div>
-            <div class="logo-content">
+            <div>
                 <div
                     class="logo-title"
                     id="logoTitle">
-                    Моё расписание
+                    Наш класс
                 </div>
-                <div
-                    class="logo-subtitle"
-                    id="logoSubtitle">
-                    Школьный портал
+                <div class="logo-subtitle">
+                    11 класс
                 </div>
             </div>
         </div>
         <div class="header-controls">
-            <select
-                class="language-select"
-                id="languageSelect">
-                <option value="ru">
-                    🇷🇺 Русский
-                </option>
-                <option value="kk">
-                    🇰🇿 Қазақ тілі
-                </option>
-            </select>
             <button
-                class="theme-button"
+                class="header-button"
+                id="languageButton">
+                🇷🇺
+            </button>
+            <button
+                class="header-button"
                 id="themeButton">
                 🌙
             </button>
+            <div
+                class="profile-mini"
+                id="profileMini">
+                <div class="avatar">
+                    <span id="miniAvatar">
+                        D
+                    </span>
+                    <span class="online-dot"></span>
+                </div>
+                <div
+                    class="profile-mini-name"
+                    id="miniName">
+                    User
+                </div>
+            </div>
         </div>
     </div>
 </header>
-<!-- =======================================================
-     MAIN
-======================================================= -->
+<!-- MAIN -->
 <main class="main">
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-content">
+    <!-- NAVIGATION -->
+    <nav class="main-nav">
+        <button
+            class="nav-button active"
+            data-page="home">
+            🏠 Главная
+        </button>
+        <button
+            class="nav-button"
+            data-page="schedule">
+            📚 Расписание
+        </button>
+        <button
+            class="nav-button"
+            data-page="chat">
+            💬 Чат
+        </button>
+        <button
+            class="nav-button"
+            data-page="profile">
+            👤 Профиль
+        </button>
+    </nav>
+    <!-- =====================================================
+         HOME
+    ====================================================== -->
+    <section
+        class="page active"
+        id="page-home">
+        <section class="hero">
             <div class="hero-label">
-                🗓️
-                <span id="heroLabel">
-                    Школьное расписание
-                </span>
+                🎓 Школьный портал
             </div>
-            <h1 id="heroTitle">
-                Расписание уроков
+            <h1>
+                <span id="helloText">
+                    Привет
+                </span>,
+                <span id="helloName">
+                    User
+                </span> 👋
             </h1>
-            <p id="heroDescription">
-                Все уроки на одной странице.
-                Выбирай нужный день и быстро
-                находи нужный предмет.
+            <p id="homeDescription">
+                Здесь твоё расписание, текущий урок
+                и общий чат одноклассников.
+            </p>
+        </section>
+        <!-- LIVE -->
+        <section class="live-grid">
+            <div class="live-card dark-card">
+                <div class="live-label">
+                    Текущее время
+                </div>
+                <div
+                    class="live-value"
+                    id="homeTime">
+                    00:00:00
+                </div>
+                <div
+                    class="live-small"
+                    id="homeDate">
+                    --
+                </div>
+            </div>
+            <div class="live-card">
+                <div class="live-label">
+                    Сегодня
+                </div>
+                <div
+                    class="live-value"
+                    id="homeDay">
+                    --
+                </div>
+                <div
+                    class="live-small"
+                    id="homeFullDate">
+                    --
+                </div>
+            </div>
+            <div class="live-card">
+                <div class="live-label">
+                    Сейчас
+                </div>
+                <div
+                    class="live-value"
+                    id="homeCurrentLesson">
+                    --
+                </div>
+                <div
+                    class="live-small"
+                    id="homeCurrentTime">
+                    --
+                </div>
+            </div>
+            <div class="live-card">
+                <div class="live-label">
+                    Следующий урок
+                </div>
+                <div
+                    class="live-value"
+                    id="homeNextLesson">
+                    --
+                </div>
+                <div
+                    class="live-small"
+                    id="homeNextTime">
+                    --
+                </div>
+            </div>
+        </section>
+        <!-- CURRENT -->
+        <section class="current-card">
+            <div class="current-top">
+                <div
+                    class="current-status"
+                    id="currentStatus">
+                    ● Сейчас идёт урок
+                </div>
+                <div
+                    class="current-clock"
+                    id="currentLessonClock">
+                    --
+                </div>
+            </div>
+            <div
+                class="current-name"
+                id="currentLessonName">
+                Загрузка...
+            </div>
+            <div
+                class="progress-wrap"
+                id="progressWrap">
+                <div class="progress-bar">
+                    <div
+                        class="progress"
+                        id="progress">
+                    </div>
+                </div>
+                <div class="progress-info">
+                    <span id="progressStart">
+                        --
+                    </span>
+                    <span id="timeLeft">
+                        --
+                    </span>
+                    <span id="progressEnd">
+                        --
+                    </span>
+                </div>
+            </div>
+        </section>
+    </section>
+    <!-- =====================================================
+         SCHEDULE PAGE
+    ====================================================== -->
+    <section
+        class="page"
+        id="page-schedule">
+        <div class="hero">
+            <div class="hero-label">
+                📚 Расписание
+            </div>
+            <h1>
+                Уроки
+            </h1>
+            <p>
+                Выбирай день и смотри расписание.
             </p>
         </div>
-    </section>
-    <!-- ===================================================
-         LIVE INFORMATION
-    ==================================================== -->
-    <section class="live-panel">
-        <!-- TIME -->
-        <div class="live-card main-time">
-            <div
-                class="live-label"
-                id="timeLabel">
-                Текущее время
-            </div>
-            <div
-                class="live-value"
-                id="liveTime">
-                00:00:00
-            </div>
-            <div
-                class="live-small"
-                id="liveDate">
-                3 сентября 2026
-            </div>
-        </div>
-        <!-- TODAY -->
-        <div class="live-card">
-            <div
-                class="live-label"
-                id="todayLabel">
-                Сегодня
-            </div>
-            <div
-                class="live-value"
-                id="todayDay">
-                Четверг
-            </div>
-            <div
-                class="live-small"
-                id="todayDate">
-                --
-            </div>
-        </div>
-        <!-- CURRENT -->
-        <div class="live-card">
-            <div
-                class="live-label"
-                id="currentLabel">
-                Сейчас
-            </div>
-            <div
-                class="live-value"
-                id="currentLessonSmall">
-                --
-            </div>
-            <div
-                class="live-small"
-                id="currentLessonTimeSmall">
-                --
-            </div>
-        </div>
-        <!-- NEXT -->
-        <div class="live-card">
-            <div
-                class="live-label"
-                id="nextLabel">
-                Следующий урок
-            </div>
-            <div
-                class="live-value"
-                id="nextLessonSmall">
-                --
-            </div>
-            <div
-                class="live-small"
-                id="nextLessonTimeSmall">
-                --
-            </div>
-        </div>
-    </section>
-    <!-- ===================================================
-         CURRENT LESSON
-    ==================================================== -->
-    <section
-        class="current-lesson-card"
-        id="currentLessonCard">
-        <div class="current-top">
-            <div class="current-status">
-                <span
-                    class="status-dot"
-                    id="statusDot">
-                </span>
-                <span id="currentStatusText">
-                    Сейчас идёт урок
-                </span>
-            </div>
-            <div
-                class="current-time"
-                id="currentLessonTime">
-                --
-            </div>
-        </div>
-        <div
-            class="current-name"
-            id="currentLessonName">
-            Загрузка...
-        </div>
-        <div
-            class="progress-container"
-            id="progressContainer">
-            <div class="progress-bar">
-                <div
-                    class="progress"
-                    id="progressBar">
-                </div>
-            </div>
-            <div class="progress-info">
-                <span id="progressStart">
-                    08:00
-                </span>
-                <span id="timeLeft">
-                    --
-                </span>
-                <span id="progressEnd">
-                    08:40
-                </span>
-            </div>
-        </div>
-    </section>
-    <!-- ===================================================
-         SEARCH
-    ==================================================== -->
-    <div class="search-wrapper">
         <div class="search-box">
-            <span class="search-icon">
-                🔎
-            </span>
             <input
-                type="text"
                 class="search-input"
-                id="searchInput"
-                placeholder="Поиск по предметам..."
-                autocomplete="off">
+                id="scheduleSearch"
+                placeholder="🔎 Поиск по предметам...">
         </div>
-    </div>
-    <!-- ===================================================
-         DAYS
-    ==================================================== -->
-    <nav
-        class="days-navigation"
-        id="daysNavigation">
-    </nav>
-    <!-- ===================================================
-         SCHEDULE
-    ==================================================== -->
-    <section class="schedule-card">
-        <div class="schedule-header">
-            <div>
-                <div
-                    class="schedule-day-name"
-                    id="scheduleDayName">
-                </div>
-                <div
-                    class="schedule-date"
-                    id="scheduleDate">
+        <div
+            class="days"
+            id="days">
+        </div>
+        <section class="schedule">
+            <div class="schedule-head">
+                <div>
+                    <div
+                        class="schedule-title"
+                        id="scheduleTitle">
+                        Понедельник
+                    </div>
+                    <div
+                        class="schedule-date"
+                        id="scheduleDate">
+                        --
+                    </div>
                 </div>
             </div>
             <div
-                class="lesson-count"
-                id="lessonCount">
+                id="scheduleLessons">
             </div>
+        </section>
+    </section>
+    <!-- =====================================================
+         CHAT PAGE
+    ====================================================== -->
+    <section
+        class="page"
+        id="page-chat">
+        <div class="hero">
+            <div class="hero-label">
+                💬 Общение
+            </div>
+            <h1>
+                Чат класса
+            </h1>
+            <p>
+                Общайся с одноклассниками.
+            </p>
         </div>
-        <div
-            class="lessons"
-            id="lessonsContainer">
+        <div class="chat-layout">
+            <section class="chat-card">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        💬 Общий чат
+                    </div>
+                    <div
+                        class="chat-subtitle"
+                        id="chatOnline">
+                        Онлайн: 1
+                    </div>
+                </div>
+                <div
+                    class="messages"
+                    id="messages">
+                </div>
+                <form
+                    class="chat-input-area"
+                    id="chatForm">
+                    <textarea
+                        class="chat-input"
+                        id="chatInput"
+                        maxlength="500"
+                        rows="1"
+                        placeholder="Напиши сообщение..."></textarea>
+                    <button
+                        class="send-button"
+                        type="submit">
+                        ➤
+                    </button>
+                </form>
+            </section>
+            <!-- USERS -->
+            <aside class="users-card">
+                <div class="users-title">
+                    👥 Одноклассники
+                </div>
+                <div
+                    id="usersList">
+                </div>
+            </aside>
+        </div>
+    </section>
+    <!-- =====================================================
+         PROFILE PAGE
+    ====================================================== -->
+    <section
+        class="page"
+        id="page-profile">
+        <div class="profile-page">
+            <div class="profile-card">
+                <div class="profile-big">
+                    <div
+                        class="profile-big-avatar"
+                        id="profileAvatar">
+                        D
+                    </div>
+                    <div>
+                        <div
+                            class="profile-big-name"
+                            id="profileName">
+                            User
+                        </div>
+                        <div
+                            class="profile-big-status">
+                            🟢 В сети
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-stat-grid">
+                    <div class="stat">
+                        <div class="stat-label">
+                            Сообщений
+                        </div>
+                        <div
+                            class="stat-value"
+                            id="profileMessages">
+                            0
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">
+                            Регистрация
+                        </div>
+                        <div
+                            class="stat-value"
+                            id="profileRegistered">
+                            --
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>
+                        Имя / ник
+                    </label>
+                    <input
+                        id="profileNameInput"
+                        maxlength="30">
+                </div>
+                <div class="field">
+                    <label>
+                        Статус
+                    </label>
+                    <input
+                        id="profileStatusInput"
+                        maxlength="80"
+                        placeholder="Например: На связи 👋">
+                </div>
+                <button
+                    class="save-button"
+                    id="saveProfile">
+                    💾 Сохранить профиль
+                </button>
+                <button
+                    class="logout-button"
+                    id="logoutButton">
+                    🚪 Выйти из аккаунта
+                </button>
+            </div>
         </div>
     </section>
 </main>
-<!-- =======================================================
-     FOOTER
-======================================================= -->
 <footer class="footer">
     <div class="footer-line"></div>
-    <div id="footerText">
-        Моё расписание • GitHub Pages
-    </div>
+    Наш класс • Школьный портал
 </footer>
+</div>
 <script>
 /* =========================================================
    РАСПИСАНИЕ
@@ -1400,7 +1659,7 @@ const schedule = {
     ]
 };
 /* =========================================================
-   ВРЕМЯ УРОКОВ
+   ВРЕМЯ
 ========================================================= */
 const lessonTimes = [
     {
@@ -1437,161 +1696,15 @@ const lessonTimes = [
     }
 ];
 /* =========================================================
-   ПЕРЕВОДЫ
+   ДНИ
 ========================================================= */
-const translations = {
-    ru: {
-        logoTitle:
-            "Моё расписание",
-        logoSubtitle:
-            "Школьный портал",
-        heroLabel:
-            "Школьное расписание",
-        heroTitle:
-            "Расписание уроков",
-        heroDescription:
-            "Все уроки на одной странице. Выбирай нужный день и быстро находи нужный предмет.",
-        timeLabel:
-            "Текущее время",
-        todayLabel:
-            "Сегодня",
-        currentLabel:
-            "Сейчас",
-        nextLabel:
-            "Следующий урок",
-        currentStatus:
-            "Сейчас идёт урок",
-        breakStatus:
-            "Сейчас перемена",
-        beforeStatus:
-            "Уроки ещё не начались",
-        afterStatus:
-            "Уроки закончились",
-        breakText:
-            "☕ Перемена",
-        nextLesson:
-            "Следующий",
-        noNext:
-            "Больше нет",
-        lesson:
-            "уроков",
-        lessonOne:
-            "урок",
-        today:
-            "Сегодня",
-        minutes:
-            "мин",
-        left:
-            "осталось",
-        ended:
-            "Урок закончился",
-        starts:
-            "Начало",
-        ends:
-            "Конец",
-        search:
-            "Поиск по предметам...",
-        emptyTitle:
-            "Ничего не найдено",
-        emptyText:
-            "Попробуй изменить запрос поиска.",
-        weekendTitle:
-            "Сегодня выходной",
-        weekendText:
-            "Уроков по расписанию нет.",
-        footer:
-            "Моё расписание • GitHub Pages",
-        days: {
-            monday:
-                "Понедельник",
-            tuesday:
-                "Вторник",
-            wednesday:
-                "Среда",
-            thursday:
-                "Четверг",
-            friday:
-                "Пятница"
-        }
-    },
-    kk: {
-        logoTitle:
-            "Менің сабақ кестем",
-        logoSubtitle:
-            "Мектеп порталы",
-        heroLabel:
-            "Сабақ кестесі",
-        heroTitle:
-            "Сабақ кестесі",
-        heroDescription:
-            "Барлық сабақ бір жерде. Қажетті күнді таңдап, керек пәнді оңай тап.",
-        timeLabel:
-            "Қазіргі уақыт",
-        todayLabel:
-            "Бүгін",
-        currentLabel:
-            "Қазір",
-        nextLabel:
-            "Келесі сабақ",
-        currentStatus:
-            "Қазір сабақ өтіп жатыр",
-        breakStatus:
-            "Қазір үзіліс",
-        beforeStatus:
-            "Сабақ әлі басталған жоқ",
-        afterStatus:
-            "Сабақтар аяқталды",
-        breakText:
-            "☕ Үзіліс",
-        nextLesson:
-            "Келесі",
-        noNext:
-            "Басқа сабақ жоқ",
-        lesson:
-            "сабақ",
-        lessonOne:
-            "сабақ",
-        today:
-            "Бүгін",
-        minutes:
-            "мин",
-        left:
-            "қалды",
-        ended:
-            "Сабақ аяқталды",
-        starts:
-            "Басталуы",
-        ends:
-            "Аяқталуы",
-        search:
-            "Пән бойынша іздеу...",
-        emptyTitle:
-            "Ештеңе табылмады",
-        emptyText:
-            "Іздеу сұранысын өзгертіп көр.",
-        weekendTitle:
-            "Бүгін демалыс",
-        weekendText:
-            "Бүгін сабақ жоқ.",
-        footer:
-            "Менің сабақ кестем • GitHub Pages",
-        days: {
-            monday:
-                "Дүйсенбі",
-            tuesday:
-                "Сейсенбі",
-            wednesday:
-                "Сәрсенбі",
-            thursday:
-                "Бейсенбі",
-            friday:
-                "Жұма"
-        }
-    }
+const days = {
+    monday: "Понедельник",
+    tuesday: "Вторник",
+    wednesday: "Среда",
+    thursday: "Четверг",
+    friday: "Пятница"
 };
-/* =========================================================
-   ДНИ НЕДЕЛИ
-========================================================= */
 const dayKeys = [
     "monday",
     "tuesday",
@@ -1600,120 +1713,604 @@ const dayKeys = [
     "friday"
 ];
 /* =========================================================
-   DOM
+   AUTH STORAGE
 ========================================================= */
-const languageSelect =
-    document.getElementById(
-        "languageSelect"
+const USERS_KEY =
+    "class_site_users";
+const CURRENT_USER_KEY =
+    "class_site_current_user";
+const MESSAGES_KEY =
+    "class_site_messages";
+function getUsers() {
+    try {
+        return JSON.parse(
+            localStorage.getItem(
+                USERS_KEY
+            )
+        ) || {};
+    } catch {
+        return {};
+    }
+}
+function saveUsers(users) {
+    localStorage.setItem(
+        USERS_KEY,
+        JSON.stringify(users)
     );
-const themeButton =
+}
+function getMessages() {
+    try {
+        return JSON.parse(
+            localStorage.getItem(
+                MESSAGES_KEY
+            )
+        ) || [];
+    } catch {
+        return [];
+    }
+}
+function saveMessages(messages) {
+    localStorage.setItem(
+        MESSAGES_KEY,
+        JSON.stringify(messages)
+    );
+}
+/* =========================================================
+   CURRENT USER
+========================================================= */
+let currentUsername =
+    localStorage.getItem(
+        CURRENT_USER_KEY
+    );
+function getCurrentUser() {
+    if (!currentUsername) {
+        return null;
+    }
+    const users =
+        getUsers();
+    return users[currentUsername] || null;
+}
+/* =========================================================
+   DOM AUTH
+========================================================= */
+const authScreen =
+    document.getElementById(
+        "authScreen"
+    );
+const app =
+    document.getElementById(
+        "app"
+    );
+const loginTab =
+    document.getElementById(
+        "loginTab"
+    );
+const registerTab =
+    document.getElementById(
+        "registerTab"
+    );
+const loginForm =
+    document.getElementById(
+        "loginForm"
+    );
+const registerForm =
+    document.getElementById(
+        "registerForm"
+    );
+const authError =
+    document.getElementById(
+        "authError"
+    );
+/* =========================================================
+   AUTH TABS
+========================================================= */
+loginTab.addEventListener(
+    "click",
+    () => {
+        loginTab.classList.add(
+            "active"
+        );
+        registerTab.classList.remove(
+            "active"
+        );
+        loginForm.style.display =
+            "block";
+        registerForm.style.display =
+            "none";
+        authError.textContent =
+            "";
+    }
+);
+registerTab.addEventListener(
+    "click",
+    () => {
+        registerTab.classList.add(
+            "active"
+        );
+        loginTab.classList.remove(
+            "active"
+        );
+        loginForm.style.display =
+            "none";
+        registerForm.style.display =
+            "block";
+        authError.textContent =
+            "";
+    }
+);
+/* =========================================================
+   REGISTER
+========================================================= */
+registerForm.addEventListener(
+    "submit",
+    function(event) {
+        event.preventDefault();
+        const name =
+            document.getElementById(
+                "registerName"
+            ).value.trim();
+        const password =
+            document.getElementById(
+                "registerPassword"
+            ).value;
+        const password2 =
+            document.getElementById(
+                "registerPassword2"
+            ).value;
+        if (
+            name.length < 2
+        ) {
+            authError.textContent =
+                "Имя должно содержать минимум 2 символа.";
+            return;
+        }
+        if (
+            password.length < 4
+        ) {
+            authError.textContent =
+                "Пароль должен быть минимум 4 символа.";
+            return;
+        }
+        if (
+            password !==
+            password2
+        ) {
+            authError.textContent =
+                "Пароли не совпадают.";
+            return;
+        }
+        const users =
+            getUsers();
+        const normalized =
+            name.toLowerCase();
+        if (
+            users[normalized]
+        ) {
+            authError.textContent =
+                "Пользователь с таким именем уже существует.";
+            return;
+        }
+        users[normalized] = {
+            username:
+                name,
+            password:
+                password,
+            status:
+                "На связи 👋",
+            registered:
+                new Date().toISOString(),
+            messages:
+                0
+        };
+        saveUsers(users);
+        currentUsername =
+            normalized;
+        localStorage.setItem(
+            CURRENT_USER_KEY,
+            currentUsername
+        );
+        openApp();
+    }
+);
+/* =========================================================
+   LOGIN
+========================================================= */
+loginForm.addEventListener(
+    "submit",
+    function(event) {
+        event.preventDefault();
+        const name =
+            document.getElementById(
+                "loginName"
+            ).value.trim();
+        const password =
+            document.getElementById(
+                "loginPassword"
+            ).value;
+        const users =
+            getUsers();
+        const normalized =
+            name.toLowerCase();
+        const user =
+            users[normalized];
+        if (!user) {
+            authError.textContent =
+                "Пользователь не найден.";
+            return;
+        }
+        if (
+            user.password !==
+            password
+        ) {
+            authError.textContent =
+                "Неверный пароль.";
+            return;
+        }
+        currentUsername =
+            normalized;
+        localStorage.setItem(
+            CURRENT_USER_KEY,
+            currentUsername
+        );
+        openApp();
+    }
+);
+/* =========================================================
+   OPEN APP
+========================================================= */
+function openApp() {
+    const user =
+        getCurrentUser();
+    if (!user) {
+        authScreen.style.display =
+            "flex";
+        app.style.display =
+            "none";
+        return;
+    }
+    authScreen.style.display =
+        "none";
+    app.style.display =
+        "block";
+    updateProfileUI();
+    renderSchedule();
+    renderMessages();
+    renderUsers();
+    updateClock();
+}
+/* =========================================================
+   PROFILE UI
+========================================================= */
+function getInitials(name) {
+    if (!name) {
+        return "?";
+    }
+    return name
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+}
+function updateProfileUI() {
+    const user =
+        getCurrentUser();
+    if (!user) {
+        return;
+    }
+    const initial =
+        getInitials(
+            user.username
+        );
+    document.getElementById(
+        "miniAvatar"
+    ).textContent =
+        initial;
+    document.getElementById(
+        "miniName"
+    ).textContent =
+        user.username;
+    document.getElementById(
+        "helloName"
+    ).textContent =
+        user.username;
+    document.getElementById(
+        "profileAvatar"
+    ).textContent =
+        initial;
+    document.getElementById(
+        "profileName"
+    ).textContent =
+        user.username;
+    document.getElementById(
+        "profileNameInput"
+    ).value =
+        user.username;
+    document.getElementById(
+        "profileStatusInput"
+    ).value =
+        user.status || "";
+    document.getElementById(
+        "profileMessages"
+    ).textContent =
+        user.messages || 0;
+    if (user.registered) {
+        const date =
+            new Date(
+                user.registered
+            );
+        document.getElementById(
+            "profileRegistered"
+        ).textContent =
+            date.toLocaleDateString(
+                "ru-RU"
+            );
+    }
+}
+/* =========================================================
+   SAVE PROFILE
+========================================================= */
+document.getElementById(
+    "saveProfile"
+).addEventListener(
+    "click",
+    () => {
+        const users =
+            getUsers();
+        const oldKey =
+            currentUsername;
+        const newName =
+            document.getElementById(
+                "profileNameInput"
+            ).value.trim();
+        const status =
+            document.getElementById(
+                "profileStatusInput"
+            ).value.trim();
+        if (
+            newName.length < 2
+        ) {
+            alert(
+                "Имя слишком короткое."
+            );
+            return;
+        }
+        const newKey =
+            newName.toLowerCase();
+        if (
+            newKey !== oldKey &&
+            users[newKey]
+        ) {
+            alert(
+                "Такое имя уже занято."
+            );
+            return;
+        }
+        const user =
+            users[oldKey];
+        delete users[oldKey];
+        user.username =
+            newName;
+        user.status =
+            status ||
+            "На связи 👋";
+        users[newKey] =
+            user;
+        saveUsers(users);
+        currentUsername =
+            newKey;
+        localStorage.setItem(
+            CURRENT_USER_KEY,
+            currentUsername
+        );
+        updateProfileUI();
+        renderMessages();
+        renderUsers();
+        alert(
+            "Профиль сохранён!"
+        );
+    }
+);
+/* =========================================================
+   LOGOUT
+========================================================= */
+document.getElementById(
+    "logoutButton"
+).addEventListener(
+    "click",
+    () => {
+        localStorage.removeItem(
+            CURRENT_USER_KEY
+        );
+        currentUsername =
+            null;
+        app.style.display =
+            "none";
+        authScreen.style.display =
+            "flex";
+        document.getElementById(
+            "loginName"
+        ).value =
+            "";
+        document.getElementById(
+            "loginPassword"
+        ).value =
+            "";
+    }
+);
+/* =========================================================
+   NAVIGATION
+========================================================= */
+document
+    .querySelectorAll(
+        ".nav-button"
+    )
+    .forEach(
+        button => {
+            button.addEventListener(
+                "click",
+                () => {
+                    const page =
+                        button.dataset.page;
+                    document
+                        .querySelectorAll(
+                            ".nav-button"
+                        )
+                        .forEach(
+                            b =>
+                                b.classList.remove(
+                                    "active"
+                                )
+                        );
+                    document
+                        .querySelectorAll(
+                            ".page"
+                        )
+                        .forEach(
+                            p =>
+                                p.classList.remove(
+                                    "active"
+                                )
+                        );
+                    button.classList.add(
+                        "active"
+                    );
+                    document
+                        .getElementById(
+                            "page-" + page
+                        )
+                        .classList.add(
+                            "active"
+                        );
+                }
+            );
+        }
+    );
+/* =========================================================
+   PROFILE MINI CLICK
+========================================================= */
+document.getElementById(
+    "profileMini"
+).addEventListener(
+    "click",
+    () => {
+        document
+            .querySelector(
+                '[data-page="profile"]'
+            )
+            .click();
+    }
+);
+/* =========================================================
+   THEME
+========================================================= */
+const savedTheme =
+    localStorage.getItem(
+        "classTheme"
+    );
+if (
+    savedTheme ===
+    "dark"
+) {
+    document.body.classList.add(
+        "dark"
+    );
+}
+function updateThemeIcon() {
     document.getElementById(
         "themeButton"
-    );
-const daysNavigation =
-    document.getElementById(
-        "daysNavigation"
-    );
-const lessonsContainer =
-    document.getElementById(
-        "lessonsContainer"
-    );
-const scheduleDayName =
-    document.getElementById(
-        "scheduleDayName"
-    );
-const scheduleDate =
-    document.getElementById(
-        "scheduleDate"
-    );
-const lessonCount =
-    document.getElementById(
-        "lessonCount"
-    );
-const searchInput =
-    document.getElementById(
-        "searchInput"
-    );
-const liveTime =
-    document.getElementById(
-        "liveTime"
-    );
-const liveDate =
-    document.getElementById(
-        "liveDate"
-    );
-const todayDay =
-    document.getElementById(
-        "todayDay"
-    );
-const todayDate =
-    document.getElementById(
-        "todayDate"
-    );
-const currentLessonSmall =
-    document.getElementById(
-        "currentLessonSmall"
-    );
-const currentLessonTimeSmall =
-    document.getElementById(
-        "currentLessonTimeSmall"
-    );
-const nextLessonSmall =
-    document.getElementById(
-        "nextLessonSmall"
-    );
-const nextLessonTimeSmall =
-    document.getElementById(
-        "nextLessonTimeSmall"
-    );
-const currentStatusText =
-    document.getElementById(
-        "currentStatusText"
-    );
-const currentLessonTime =
-    document.getElementById(
-        "currentLessonTime"
-    );
-const currentLessonName =
-    document.getElementById(
-        "currentLessonName"
-    );
-const progressBar =
-    document.getElementById(
-        "progressBar"
-    );
-const progressStart =
-    document.getElementById(
-        "progressStart"
-    );
-const progressEnd =
-    document.getElementById(
-        "progressEnd"
-    );
-const timeLeft =
-    document.getElementById(
-        "timeLeft"
-    );
-const progressContainer =
-    document.getElementById(
-        "progressContainer"
-    );
+    ).textContent =
+        document.body.classList.contains(
+            "dark"
+        )
+            ? "☀️"
+            : "🌙";
+}
+document.getElementById(
+    "themeButton"
+).addEventListener(
+    "click",
+    () => {
+        document.body.classList.toggle(
+            "dark"
+        );
+        localStorage.setItem(
+            "classTheme",
+            document.body.classList.contains(
+                "dark"
+            )
+                ? "dark"
+                : "light"
+        );
+        updateThemeIcon();
+    }
+);
+updateThemeIcon();
 /* =========================================================
-   СОСТОЯНИЕ
+   LANGUAGE BUTTON
 ========================================================= */
-let currentLanguage =
+let language =
     localStorage.getItem(
-        "scheduleLanguage"
+        "classLanguage"
     ) || "ru";
-let currentDay =
-    localStorage.getItem(
-        "scheduleDay"
-    ) || getCurrentDay();
-let searchQuery = "";
+document.getElementById(
+    "languageButton"
+).addEventListener(
+    "click",
+    () => {
+        language =
+            language === "ru"
+                ? "kk"
+                : "ru";
+        localStorage.setItem(
+            "classLanguage",
+            language
+        );
+        applyLanguage();
+    }
+);
+function applyLanguage() {
+    document.getElementById(
+        "languageButton"
+    ).textContent =
+        language === "ru"
+            ? "🇷🇺"
+            : "🇰🇿";
+    if (
+        language === "kk"
+    ) {
+        document.getElementById(
+            "homeDescription"
+        ).textContent =
+            "Мұнда сабақ кестесі, қазіргі сабақ және сыныптастармен ортақ чат бар.";
+    } else {
+        document.getElementById(
+            "homeDescription"
+        ).textContent =
+            "Здесь твоё расписание, текущий урок и общий чат одноклассников.";
+    }
+}
+applyLanguage();
 /* =========================================================
-   ТЕКУЩИЙ ДЕНЬ
+   TIME HELPERS
 ========================================================= */
-function getCurrentDay() {
+function timeToMinutes(time) {
+    const [
+        h,
+        m
+    ] =
+        time.split(":")
+            .map(Number);
+    return h * 60 + m;
+}
+function getCurrentMinutes() {
+    const now =
+        new Date();
+    return (
+        now.getHours() * 60 +
+        now.getMinutes() +
+        now.getSeconds() / 60
+    );
+}
+function getCurrentDayKey() {
     const day =
         new Date().getDay();
     const map = {
@@ -1726,132 +2323,40 @@ function getCurrentDay() {
     return map[day] || null;
 }
 /* =========================================================
-   ПОЛУЧЕНИЕ ВРЕМЕНИ В МИНУТАХ
-========================================================= */
-function timeToMinutes(time) {
-    const parts =
-        time.split(":");
-    const hours =
-        Number(parts[0]);
-    const minutes =
-        Number(parts[1]);
-    return (
-        hours * 60 +
-        minutes
-    );
-}
-/* =========================================================
-   ТЕКУЩЕЕ ВРЕМЯ В МИНУТАХ
-========================================================= */
-function getCurrentMinutes() {
-    const now =
-        new Date();
-    return (
-        now.getHours() * 60 +
-        now.getMinutes() +
-        now.getSeconds() / 60
-    );
-}
-/* =========================================================
-   ФОРМАТ ДАТЫ
-========================================================= */
-function formatDate(date) {
-    const locale =
-        currentLanguage === "kk"
-            ? "kk-KZ"
-            : "ru-RU";
-    return date.toLocaleDateString(
-        locale,
-        {
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        }
-    );
-}
-/* =========================================================
-   ФОРМАТ ДНЯ
-========================================================= */
-function getDayName(dayKey) {
-    if (!dayKey) {
-        return "—";
-    }
-    return translations[
-        currentLanguage
-    ].days[dayKey];
-}
-/* =========================================================
-   ЖИВОЕ ВРЕМЯ
-========================================================= */
-function updateClock() {
-    const now =
-        new Date();
-    const hours =
-        String(
-            now.getHours()
-        ).padStart(2, "0");
-    const minutes =
-        String(
-            now.getMinutes()
-        ).padStart(2, "0");
-    const seconds =
-        String(
-            now.getSeconds()
-        ).padStart(2, "0");
-    liveTime.textContent =
-        `${hours}:${minutes}:${seconds}`;
-    liveDate.textContent =
-        formatDate(now);
-    todayDate.textContent =
-        formatDate(now);
-    const today =
-        getCurrentDay();
-    todayDay.textContent =
-        getDayName(today);
-    updateCurrentLesson();
-}
-/* =========================================================
-   ОПРЕДЕЛЕНИЕ ТЕКУЩЕГО УРОКА
+   CURRENT LESSON
 ========================================================= */
 function getLessonState() {
-    const today =
-        getCurrentDay();
-    if (!today) {
+    const day =
+        getCurrentDayKey();
+    if (!day) {
         return {
             type: "weekend"
         };
     }
-    const currentMinutes =
+    const now =
         getCurrentMinutes();
     for (
         let i = 0;
         i < lessonTimes.length;
         i++
     ) {
-        const lesson =
-            lessonTimes[i];
         const start =
             timeToMinutes(
-                lesson.start
+                lessonTimes[i].start
             );
         const end =
             timeToMinutes(
-                lesson.end
+                lessonTimes[i].end
             );
         if (
-            currentMinutes >= start &&
-            currentMinutes <= end
+            now >= start &&
+            now < end
         ) {
             return {
                 type: "lesson",
                 index: i,
                 start,
-                end,
-                remaining:
-                    Math.ceil(
-                        end -
-                        currentMinutes
-                    )
+                end
             };
         }
     }
@@ -1865,17 +2370,12 @@ function getLessonState() {
                 lessonTimes[i].start
             );
         if (
-            currentMinutes <
-            start
+            now < start
         ) {
             return {
                 type: "before",
                 nextIndex: i,
-                remaining:
-                    Math.ceil(
-                        start -
-                        currentMinutes
-                    )
+                start
             };
         }
     }
@@ -1884,391 +2384,446 @@ function getLessonState() {
     };
 }
 /* =========================================================
-   СЛЕДУЮЩИЙ УРОК
+   CLOCK
 ========================================================= */
-function getNextLessonIndex() {
-    const today =
-        getCurrentDay();
-    if (!today) {
-        return null;
-    }
-    const currentMinutes =
-        getCurrentMinutes();
-    for (
-        let i = 0;
-        i < lessonTimes.length;
-        i++
-    ) {
-        const start =
-            timeToMinutes(
-                lessonTimes[i].start
+function updateClock() {
+    const now =
+        new Date();
+    const hh =
+        String(
+            now.getHours()
+        ).padStart(2,"0");
+    const mm =
+        String(
+            now.getMinutes()
+        ).padStart(2,"0");
+    const ss =
+        String(
+            now.getSeconds()
+        ).padStart(2,"0");
+    const time =
+        `${hh}:${mm}:${ss}`;
+    const date =
+        now.toLocaleDateString(
+            language === "kk"
+                ? "kk-KZ"
+                : "ru-RU",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+    document.getElementById(
+        "homeTime"
+    ).textContent =
+        time;
+    document.getElementById(
+        "homeDate"
+    ).textContent =
+        date;
+    document.getElementById(
+        "homeFullDate"
+    ).textContent =
+        date;
+    const dayKey =
+        getCurrentDayKey();
+    document.getElementById(
+        "homeDay"
+    ).textContent =
+        dayKey
+            ? days[dayKey]
+            : (
+                language === "kk"
+                    ? "Демалыс"
+                    : "Выходной"
             );
-        if (
-            currentMinutes <
-            start
-        ) {
-            return i;
-        }
-    }
-    return null;
+    updateCurrentLesson();
 }
 /* =========================================================
-   ОБНОВЛЕНИЕ ТЕКУЩЕГО УРОКА
+   UPDATE CURRENT
 ========================================================= */
 function updateCurrentLesson() {
-    const t =
-        translations[
-            currentLanguage
-        ];
-    const today =
-        getCurrentDay();
+    const day =
+        getCurrentDayKey();
     const state =
         getLessonState();
-    /* ВЫХОДНОЙ */
+    const currentName =
+        document.getElementById(
+            "currentLessonName"
+        );
+    const status =
+        document.getElementById(
+            "currentStatus"
+        );
+    const progressWrap =
+        document.getElementById(
+            "progressWrap"
+        );
     if (
         state.type ===
         "weekend"
     ) {
-        currentStatusText.textContent =
-            t.weekendTitle;
-        currentLessonName.textContent =
-            t.weekendText;
-        currentLessonTime.textContent =
-            "";
-        currentLessonSmall.textContent =
+        currentName.textContent =
+            language === "kk"
+                ? "Бүгін демалыс"
+                : "Сегодня выходной";
+        status.textContent =
+            language === "kk"
+                ? "● Сабақ жоқ"
+                : "● Уроков сегодня нет";
+        document.getElementById(
+            "homeCurrentLesson"
+        ).textContent =
             "—";
-        currentLessonTimeSmall.textContent =
+        document.getElementById(
+            "homeCurrentTime"
+        ).textContent =
             "—";
-        nextLessonSmall.textContent =
+        document.getElementById(
+            "homeNextLesson"
+        ).textContent =
             "—";
-        nextLessonTimeSmall.textContent =
+        document.getElementById(
+            "homeNextTime"
+        ).textContent =
             "—";
-        progressContainer.style.display =
+        progressWrap.style.display =
             "none";
         return;
     }
-    progressContainer.style.display =
+    progressWrap.style.display =
         "block";
-    /* ИДЁТ УРОК */
     if (
         state.type ===
         "lesson"
     ) {
-        const index =
-            state.index;
         const subject =
-            schedule[today][index];
+            schedule[day][
+                state.index
+            ];
         const time =
-            lessonTimes[index];
-        currentStatusText.textContent =
-            t.currentStatus;
-        currentLessonTime.textContent =
-            `${time.start} – ${time.end}`;
-        currentLessonName.textContent =
-            subject;
-        currentLessonSmall.textContent =
-            `${index + 1}. ${subject}`;
-        currentLessonTimeSmall.textContent =
-            `${time.start} – ${time.end}`;
-        progressStart.textContent =
-            time.start;
-        progressEnd.textContent =
-            time.end;
+            lessonTimes[
+                state.index
+            ];
+        const current =
+            getCurrentMinutes();
+        const elapsed =
+            current -
+            state.start;
         const duration =
             state.end -
             state.start;
-        const elapsed =
-            getCurrentMinutes() -
-            state.start;
-        let percent =
-            (
-                elapsed /
-                duration
-            ) * 100;
-        percent =
+        const percent =
             Math.max(
                 0,
                 Math.min(
                     100,
-                    percent
+                    elapsed / duration * 100
                 )
             );
-        progressBar.style.width =
+        const remainingSeconds =
+            Math.max(
+                0,
+                Math.ceil(
+                    (
+                        state.end -
+                        current
+                    ) * 60
+                )
+            );
+        const remainingMinutes =
+            Math.floor(
+                remainingSeconds / 60
+            );
+        const remainingSecs =
+            remainingSeconds % 60;
+        currentName.textContent =
+            `${state.index + 1}. ${subject}`;
+        status.textContent =
+            language === "kk"
+                ? "● Қазір сабақ өтіп жатыр"
+                : "● Сейчас идёт урок";
+        document.getElementById(
+            "currentLessonClock"
+        ).textContent =
+            `${time.start} – ${time.end}`;
+        document.getElementById(
+            "homeCurrentLesson"
+        ).textContent =
+            subject;
+        document.getElementById(
+            "homeCurrentTime"
+        ).textContent =
+            `${time.start} – ${time.end}`;
+        document.getElementById(
+            "progressStart"
+        ).textContent =
+            time.start;
+        document.getElementById(
+            "progressEnd"
+        ).textContent =
+            time.end;
+        document.getElementById(
+            "progress"
+        ).style.width =
             percent + "%";
-        timeLeft.textContent =
-            `${t.left}: ${state.remaining} ${t.minutes}`;
+        document.getElementById(
+            "timeLeft"
+        ).textContent =
+            language === "kk"
+                ? `Қалды: ${remainingMinutes} мин ${String(remainingSecs).padStart(2,"0")} сек`
+                : `Осталось: ${remainingMinutes} мин ${String(remainingSecs).padStart(2,"0")} сек`;
         const nextIndex =
-            index + 1;
+            state.index + 1;
         if (
             nextIndex <
-            schedule[today].length
+            schedule[day].length
         ) {
-            nextLessonSmall.textContent =
-                `${nextIndex + 1}. ${schedule[today][nextIndex]}`;
-            nextLessonTimeSmall.textContent =
+            document.getElementById(
+                "homeNextLesson"
+            ).textContent =
+                schedule[day][
+                    nextIndex
+                ];
+            document.getElementById(
+                "homeNextTime"
+            ).textContent =
                 `${lessonTimes[nextIndex].start} – ${lessonTimes[nextIndex].end}`;
         } else {
-            nextLessonSmall.textContent =
-                t.noNext;
-            nextLessonTimeSmall.textContent =
+            document.getElementById(
+                "homeNextLesson"
+            ).textContent =
+                language === "kk"
+                    ? "Басқа сабақ жоқ"
+                    : "Больше нет";
+            document.getElementById(
+                "homeNextTime"
+            ).textContent =
                 "";
         }
         return;
     }
-    /* ПЕРЕД УРОКАМИ */
     if (
         state.type ===
         "before"
     ) {
-        const nextIndex =
+        const i =
             state.nextIndex;
-        const time =
-            lessonTimes[nextIndex];
-        currentStatusText.textContent =
-            t.beforeStatus;
-        currentLessonName.textContent =
-            `${t.nextLesson}: ${schedule[today][nextIndex]}`;
-        currentLessonTime.textContent =
-            `${time.start} – ${time.end}`;
-        currentLessonSmall.textContent =
-            `${nextIndex + 1}. ${schedule[today][nextIndex]}`;
-        currentLessonTimeSmall.textContent =
-            `${time.start} – ${time.end}`;
-        progressContainer.style.display =
+        currentName.textContent =
+            language === "kk"
+                ? `Келесі: ${schedule[day][i]}`
+                : `Следующий: ${schedule[day][i]}`;
+        status.textContent =
+            language === "kk"
+                ? "● Сабақ әлі басталған жоқ"
+                : "● Уроки ещё не начались";
+        document.getElementById(
+            "currentLessonClock"
+        ).textContent =
+            lessonTimes[i].start;
+        document.getElementById(
+            "homeCurrentLesson"
+        ).textContent =
+            "—";
+        document.getElementById(
+            "homeCurrentTime"
+        ).textContent =
+            language === "kk"
+                ? "Сабақ әлі басталған жоқ"
+                : "Ещё не начался";
+        document.getElementById(
+            "homeNextLesson"
+        ).textContent =
+            schedule[day][i];
+        document.getElementById(
+            "homeNextTime"
+        ).textContent =
+            `${lessonTimes[i].start} – ${lessonTimes[i].end}`;
+        progressWrap.style.display =
             "none";
-        nextLessonSmall.textContent =
-            `${nextIndex + 1}. ${schedule[today][nextIndex]}`;
-        nextLessonTimeSmall.textContent =
-            `${time.start} – ${time.end}`;
         return;
     }
-    /* ПОСЛЕ УРОКОВ */
     if (
         state.type ===
         "after"
     ) {
-        currentStatusText.textContent =
-            t.afterStatus;
-        currentLessonName.textContent =
-            t.ended;
-        currentLessonTime.textContent =
+        currentName.textContent =
+            language === "kk"
+                ? "Сабақтар аяқталды"
+                : "Уроки закончились";
+        status.textContent =
+            language === "kk"
+                ? "● Бүгінгі сабақтар аяқталды"
+                : "● Все уроки закончились";
+        document.getElementById(
+            "currentLessonClock"
+        ).textContent =
             "14:00";
-        currentLessonSmall.textContent =
+        document.getElementById(
+            "homeCurrentLesson"
+        ).textContent =
             "—";
-        currentLessonTimeSmall.textContent =
-            t.ended;
-        progressContainer.style.display =
+        document.getElementById(
+            "homeCurrentTime"
+        ).textContent =
+            language === "kk"
+                ? "Аяқталды"
+                : "Закончились";
+        document.getElementById(
+            "homeNextLesson"
+        ).textContent =
+            "—";
+        document.getElementById(
+            "homeNextTime"
+        ).textContent =
+            language === "kk"
+                ? "Басқа сабақ жоқ"
+                : "Больше уроков нет";
+        progressWrap.style.display =
             "none";
-        nextLessonSmall.textContent =
-            "—";
-        nextLessonTimeSmall.textContent =
-            t.noNext;
     }
 }
 /* =========================================================
-   РЕНДЕР ЯЗЫКА
+   SCHEDULE STATE
 ========================================================= */
-function renderLanguage() {
-    const t =
-        translations[
-            currentLanguage
-        ];
-    document.documentElement.lang =
-        currentLanguage === "kk"
-            ? "kk"
-            : "ru";
-    document.getElementById(
-        "logoTitle"
-    ).textContent =
-        t.logoTitle;
-    document.getElementById(
-        "logoSubtitle"
-    ).textContent =
-        t.logoSubtitle;
-    document.getElementById(
-        "heroLabel"
-    ).textContent =
-        t.heroLabel;
-    document.getElementById(
-        "heroTitle"
-    ).textContent =
-        t.heroTitle;
-    document.getElementById(
-        "heroDescription"
-    ).textContent =
-        t.heroDescription;
-    document.getElementById(
-        "timeLabel"
-    ).textContent =
-        t.timeLabel;
-    document.getElementById(
-        "todayLabel"
-    ).textContent =
-        t.todayLabel;
-    document.getElementById(
-        "currentLabel"
-    ).textContent =
-        t.currentLabel;
-    document.getElementById(
-        "nextLabel"
-    ).textContent =
-        t.nextLabel;
-    document.getElementById(
-        "footerText"
-    ).textContent =
-        t.footer;
-    searchInput.placeholder =
-        t.search;
-    renderDays();
-    renderSchedule();
-    updateClock();
-}
+let selectedDay =
+    localStorage.getItem(
+        "selectedScheduleDay"
+    ) ||
+    getCurrentDayKey() ||
+    "monday";
+let scheduleSearch =
+    "";
 /* =========================================================
-   РЕНДЕР ДНЕЙ
+   RENDER DAYS
 ========================================================= */
 function renderDays() {
-    const t =
-        translations[
-            currentLanguage
-        ];
-    daysNavigation.innerHTML =
+    const container =
+        document.getElementById(
+            "days"
+        );
+    container.innerHTML =
         "";
-    const today =
-        getCurrentDay();
     dayKeys.forEach(
-        day => {
+        key => {
             const button =
                 document.createElement(
                     "button"
                 );
             button.className =
-                "day-button";
+                "day";
             if (
-                day ===
-                currentDay
+                key ===
+                selectedDay
             ) {
                 button.classList.add(
                     "active"
                 );
             }
-            if (
-                day ===
-                today
-            ) {
-                button.classList.add(
-                    "today-day"
-                );
-            }
             button.textContent =
-                t.days[day];
+                days[key];
             button.addEventListener(
                 "click",
                 () => {
-                    currentDay =
-                        day;
+                    selectedDay =
+                        key;
                     localStorage.setItem(
-                        "scheduleDay",
-                        currentDay
+                        "selectedScheduleDay",
+                        key
                     );
-                    searchInput.value =
-                        "";
-                    searchQuery =
-                        "";
                     renderDays();
                     renderSchedule();
                 }
             );
-            daysNavigation.appendChild(
+            container.appendChild(
                 button
             );
         }
     );
 }
 /* =========================================================
-   РЕНДЕР РАСПИСАНИЯ
+   RENDER SCHEDULE
 ========================================================= */
 function renderSchedule() {
-    const t =
-        translations[
-            currentLanguage
-        ];
     const subjects =
         schedule[
-            currentDay
+            selectedDay
         ];
-    scheduleDayName.textContent =
-        t.days[currentDay];
-    scheduleDate.textContent =
-        formatDate(
-            new Date()
+    document.getElementById(
+        "scheduleTitle"
+    ).textContent =
+        days[selectedDay];
+    document.getElementById(
+        "scheduleDate"
+    ).textContent =
+        new Date().toLocaleDateString(
+            "ru-RU",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
         );
-    const filtered =
-        subjects.filter(
-            subject =>
-                subject
-                    .toLowerCase()
-                    .includes(
-                        searchQuery
-                            .toLowerCase()
-                    )
+    const container =
+        document.getElementById(
+            "scheduleLessons"
         );
-    lessonCount.textContent =
-        `${filtered.length} ${t.lesson}`;
-    lessonsContainer.innerHTML =
+    container.innerHTML =
         "";
-    lessonsContainer.classList.remove(
-        "fade-in"
-    );
-    void lessonsContainer.offsetWidth;
-    lessonsContainer.classList.add(
-        "fade-in"
-    );
+    const currentDay =
+        getCurrentDayKey();
+    const state =
+        getLessonState();
+    const filtered =
+        subjects
+            .map(
+                (subject,index) => ({
+                    subject,
+                    index
+                })
+            )
+            .filter(
+                item =>
+                    item.subject
+                        .toLowerCase()
+                        .includes(
+                            scheduleSearch
+                                .toLowerCase()
+                        )
+            );
     if (
         filtered.length === 0
     ) {
-        lessonsContainer.innerHTML = `
+        container.innerHTML = `
             <div class="empty">
                 <div class="empty-icon">
                     🔎
                 </div>
                 <div class="empty-title">
-                    ${t.emptyTitle}
+                    Ничего не найдено
                 </div>
-                <div>
-                    ${t.emptyText}
-                </div>
+                Попробуй другой запрос.
             </div>
         `;
         return;
     }
-    const today =
-        getCurrentDay();
-    const state =
-        getLessonState();
     filtered.forEach(
-        subject => {
-            const originalIndex =
-                subjects.indexOf(
-                    subject
-                );
-            const time =
-                lessonTimes[
-                    originalIndex
-                ];
+        item => {
             const lesson =
                 document.createElement(
                     "div"
                 );
             lesson.className =
                 "lesson";
-            if (
-                currentDay ===
-                today &&
+            const isCurrent =
+                selectedDay ===
+                currentDay &&
                 state.type ===
                 "lesson" &&
                 state.index ===
-                originalIndex
-            ) {
+                item.index;
+            if (isCurrent) {
                 lesson.classList.add(
                     "current"
                 );
@@ -2280,13 +2835,11 @@ function renderSchedule() {
             number.className =
                 "lesson-number";
             number.textContent =
-                originalIndex + 1;
+                item.index + 1;
             const info =
                 document.createElement(
                     "div"
                 );
-            info.className =
-                "lesson-info";
             const name =
                 document.createElement(
                     "div"
@@ -2294,40 +2847,33 @@ function renderSchedule() {
             name.className =
                 "lesson-name";
             name.textContent =
-                subject;
-            if (
-                currentDay ===
-                today &&
-                state.type ===
-                "lesson" &&
-                state.index ===
-                originalIndex
-            ) {
+                item.subject;
+            if (isCurrent) {
                 const badge =
                     document.createElement(
                         "span"
                     );
                 badge.className =
-                    "current-badge";
+                    "now-badge";
                 badge.textContent =
-                    t.today;
+                    "СЕЙЧАС";
                 name.appendChild(
                     badge
                 );
             }
-            const timeElement =
+            const time =
                 document.createElement(
                     "div"
                 );
-            timeElement.className =
+            time.className =
                 "lesson-time";
-            timeElement.textContent =
-                `🕐 ${time.start} – ${time.end}`;
+            time.textContent =
+                `🕐 ${lessonTimes[item.index].start} – ${lessonTimes[item.index].end}`;
             info.appendChild(
                 name
             );
             info.appendChild(
-                timeElement
+                time
             );
             const arrow =
                 document.createElement(
@@ -2346,140 +2892,372 @@ function renderSchedule() {
             lesson.appendChild(
                 arrow
             );
-            lessonsContainer.appendChild(
+            container.appendChild(
                 lesson
             );
         }
     );
 }
-/* =========================================================
-   ПОИСК
-========================================================= */
-searchInput.addEventListener(
+document.getElementById(
+    "scheduleSearch"
+).addEventListener(
     "input",
-    function () {
-        searchQuery =
-            this.value.trim();
+    event => {
+        scheduleSearch =
+            event.target.value;
         renderSchedule();
     }
 );
 /* =========================================================
-   СМЕНА ЯЗЫКА
+   CHAT
 ========================================================= */
-languageSelect.value =
-    currentLanguage;
-languageSelect.addEventListener(
-    "change",
-    function () {
-        currentLanguage =
-            this.value;
-        localStorage.setItem(
-            "scheduleLanguage",
-            currentLanguage
+const chatForm =
+    document.getElementById(
+        "chatForm"
+    );
+const chatInput =
+    document.getElementById(
+        "chatInput"
+    );
+chatForm.addEventListener(
+    "submit",
+    event => {
+        event.preventDefault();
+        const text =
+            chatInput.value.trim();
+        if (
+            !text
+        ) {
+            return;
+        }
+        const user =
+            getCurrentUser();
+        if (!user) {
+            return;
+        }
+        const messages =
+            getMessages();
+        messages.push({
+            id:
+                Date.now() +
+                Math.random(),
+            username:
+                currentUsername,
+            name:
+                user.username,
+            text:
+                text,
+            time:
+                new Date().toISOString()
+        });
+        saveMessages(
+            messages
         );
-        renderLanguage();
+        const users =
+            getUsers();
+        if (
+            users[currentUsername]
+        ) {
+            users[currentUsername].messages =
+                (
+                    users[currentUsername].messages ||
+                    0
+                ) + 1;
+            saveUsers(users);
+        }
+        chatInput.value =
+            "";
+        renderMessages();
+        renderUsers();
+        updateProfileUI();
     }
 );
 /* =========================================================
-   ТЕМА
+   RENDER MESSAGES
 ========================================================= */
-function updateThemeIcon() {
-    const dark =
-        document.body.classList.contains(
-            "dark"
+function renderMessages() {
+    const container =
+        document.getElementById(
+            "messages"
         );
-    themeButton.textContent =
-        dark
-            ? "☀️"
-            : "🌙";
-}
-themeButton.addEventListener(
-    "click",
-    function () {
-        const dark =
-            document.body.classList.toggle(
-                "dark"
+    const messages =
+        getMessages();
+    container.innerHTML =
+        "";
+    if (
+        messages.length === 0
+    ) {
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">
+                    💬
+                </div>
+                <div class="empty-title">
+                    Пока сообщений нет
+                </div>
+                Будь первым, кто напишет!
+            </div>
+        `;
+        return;
+    }
+    messages.forEach(
+        message => {
+            const own =
+                message.username ===
+                currentUsername;
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+            wrapper.className =
+                "message";
+            if (own) {
+                wrapper.classList.add(
+                    "own"
+                );
+            }
+            const avatar =
+                document.createElement(
+                    "div"
+                );
+            avatar.className =
+                "message-avatar";
+            avatar.textContent =
+                getInitials(
+                    message.name
+                );
+            const content =
+                document.createElement(
+                    "div"
+                );
+            content.className =
+                "message-content";
+            const author =
+                document.createElement(
+                    "div"
+                );
+            author.className =
+                "message-author";
+            author.textContent =
+                own
+                    ? "Вы"
+                    : message.name;
+            const bubble =
+                document.createElement(
+                    "div"
+                );
+            bubble.className =
+                "message-bubble";
+            bubble.textContent =
+                message.text;
+            const messageTime =
+                document.createElement(
+                    "div"
+                );
+            messageTime.className =
+                "message-time";
+            const date =
+                new Date(
+                    message.time
+                );
+            messageTime.textContent =
+                date.toLocaleTimeString(
+                    "ru-RU",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+            if (own) {
+                const deleteButton =
+                    document.createElement(
+                        "button"
+                    );
+                deleteButton.className =
+                    "message-delete";
+                deleteButton.textContent =
+                    "Удалить";
+                deleteButton.addEventListener(
+                    "click",
+                    () => {
+                        deleteMessage(
+                            message.id
+                        );
+                    }
+                );
+                messageTime.appendChild(
+                    deleteButton
+                );
+            }
+            content.appendChild(
+                author
             );
-        localStorage.setItem(
-            "scheduleTheme",
-            dark
-                ? "dark"
-                : "light"
+            content.appendChild(
+                bubble
+            );
+            content.appendChild(
+                messageTime
+            );
+            wrapper.appendChild(
+                avatar
+            );
+            wrapper.appendChild(
+                content
+            );
+            container.appendChild(
+                wrapper
+            );
+        }
+    );
+    container.scrollTop =
+        container.scrollHeight;
+}
+/* =========================================================
+   DELETE MESSAGE
+========================================================= */
+function deleteMessage(id) {
+    const messages =
+        getMessages();
+    const filtered =
+        messages.filter(
+            message =>
+                !(
+                    message.id === id &&
+                    message.username ===
+                    currentUsername
+                )
         );
-        updateThemeIcon();
+    saveMessages(
+        filtered
+    );
+    renderMessages();
+}
+/* =========================================================
+   USERS
+========================================================= */
+function renderUsers() {
+    const container =
+        document.getElementById(
+            "usersList"
+        );
+    const users =
+        getUsers();
+    container.innerHTML =
+        "";
+    const keys =
+        Object.keys(
+            users
+        );
+    if (
+        keys.length === 0
+    ) {
+        return;
+    }
+    keys.forEach(
+        key => {
+            const user =
+                users[key];
+            const item =
+                document.createElement(
+                    "div"
+                );
+            item.className =
+                "user-item";
+            const avatar =
+                document.createElement(
+                    "div"
+                );
+            avatar.className =
+                "user-avatar";
+            avatar.textContent =
+                getInitials(
+                    user.username
+                );
+            const dot =
+                document.createElement(
+                    "span"
+                );
+            dot.className =
+                "user-online";
+            avatar.appendChild(
+                dot
+            );
+            const name =
+                document.createElement(
+                    "div"
+                );
+            name.className =
+                "user-name";
+            name.textContent =
+                user.username;
+            item.appendChild(
+                avatar
+            );
+            item.appendChild(
+                name
+            );
+            container.appendChild(
+                item
+            );
+        }
+    );
+    document.getElementById(
+        "chatOnline"
+    ).textContent =
+        `Онлайн: ${keys.length}`;
+}
+/* =========================================================
+   ENTER KEY CHAT
+========================================================= */
+chatInput.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+            event.preventDefault();
+            chatForm.requestSubmit();
+        }
     }
 );
 /* =========================================================
-   ЗАГРУЗКА ТЕМЫ
-========================================================= */
-const savedTheme =
-    localStorage.getItem(
-        "scheduleTheme"
-    );
-if (
-    savedTheme ===
-    "dark"
-) {
-    document.body.classList.add(
-        "dark"
-    );
-}
-updateThemeIcon();
-/* =========================================================
-   АВТОМАТИЧЕСКИЙ ВЫБОР СЕГОДНЯ
-========================================================= */
-const actualToday =
-    getCurrentDay();
-if (
-    actualToday &&
-    !localStorage.getItem(
-        "scheduleDay"
-    )
-) {
-    currentDay =
-        actualToday;
-}
-/* =========================================================
-   ПЕРВИЧНЫЙ ЗАПУСК
-========================================================= */
-renderLanguage();
-/* =========================================================
-   ЖИВЫЕ ЧАСЫ
+   AUTO UPDATE
 ========================================================= */
 setInterval(
-    updateClock,
+    () => {
+        updateClock();
+        renderSchedule();
+    },
     1000
 );
 /* =========================================================
-   ОБНОВЛЕНИЕ РАСПИСАНИЯ КАЖДУЮ МИНУТУ
+   REFRESH CHAT
+=========================================================
+   В этой версии localStorage используется
+   только внутри одного браузера.
 ========================================================= */
 setInterval(
     () => {
-        const today =
-            getCurrentDay();
-        if (
-            today &&
-            currentDay === today
-        ) {
-            renderSchedule();
-        }
+        renderMessages();
+        renderUsers();
     },
-    30000
+    3000
 );
 /* =========================================================
-   ПРИ ВОЗВРАТЕ НА ВКЛАДКУ
+   INITIALIZE
 ========================================================= */
-document.addEventListener(
-    "visibilitychange",
-    () => {
-        if (
-            !document.hidden
-        ) {
-            updateClock();
-            renderSchedule();
-        }
-    }
-);
+if (
+    currentUsername &&
+    getCurrentUser()
+) {
+    openApp();
+} else {
+    authScreen.style.display =
+        "flex";
+    app.style.display =
+        "none";
+}
 </script>
 </body>
 </html>
