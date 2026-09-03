@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b0b0d">
-<meta name="description" content="Моё расписание уроков">
-<title>Моё расписание</title>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <meta
+        name="theme-color"
+        content="#0b0b0d">
+    <meta
+        name="description"
+        content="Школьное расписание уроков">
+    <title>Моё расписание</title>
 <style>
 /* =========================================================
-   ОСНОВНЫЕ НАСТРОЙКИ
+   ОСНОВНЫЕ ПЕРЕМЕННЫЕ
 ========================================================= */
 * {
     margin: 0;
@@ -28,10 +34,16 @@ html {
     --border: #e1e3e7;
     --accent: #111111;
     --accent-text: #ffffff;
-    --success: #16834b;
-    --success-bg: #e5f6ed;
-    --shadow: 0 15px 40px rgba(0,0,0,0.08);
-    --shadow-small: 0 5px 20px rgba(0,0,0,0.06);
+    --green: #16834b;
+    --green-light: #e5f6ed;
+    --orange: #d97706;
+    --orange-light: #fff4df;
+    --blue: #2563eb;
+    --blue-light: #e9f0ff;
+    --shadow:
+        0 15px 40px rgba(0, 0, 0, 0.08);
+    --shadow-small:
+        0 5px 20px rgba(0, 0, 0, 0.06);
     --radius: 20px;
 }
 body.dark {
@@ -44,10 +56,16 @@ body.dark {
     --border: #282d35;
     --accent: #ffffff;
     --accent-text: #111111;
-    --success: #42d58c;
-    --success-bg: #123526;
-    --shadow: 0 15px 40px rgba(0,0,0,0.35);
-    --shadow-small: 0 5px 20px rgba(0,0,0,0.25);
+    --green: #42d58c;
+    --green-light: #123526;
+    --orange: #f59e0b;
+    --orange-light: #392b10;
+    --blue: #60a5fa;
+    --blue-light: #17243c;
+    --shadow:
+        0 15px 40px rgba(0, 0, 0, 0.35);
+    --shadow-small:
+        0 5px 20px rgba(0, 0, 0, 0.25);
 }
 body {
     min-height: 100vh;
@@ -72,20 +90,25 @@ body {
     top: 0;
     z-index: 1000;
     width: 100%;
-    background: rgba(244,245,247,0.86);
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    transition: 0.25s;
+    background:
+        rgba(244, 245, 247, 0.88);
+    border-bottom:
+        1px solid var(--border);
+    backdrop-filter:
+        blur(18px);
+    -webkit-backdrop-filter:
+        blur(18px);
 }
 body.dark .header {
-    background: rgba(8,9,11,0.86);
+    background:
+        rgba(8, 9, 11, 0.88);
 }
 .header-container {
     max-width: 1200px;
-    margin: auto;
     min-height: 76px;
-    padding: 12px 20px;
+    margin: auto;
+    padding:
+        12px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -109,8 +132,9 @@ body.dark .header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 23px;
-    box-shadow: var(--shadow-small);
+    font-size: 22px;
+    box-shadow:
+        var(--shadow-small);
 }
 .logo-content {
     display: flex;
@@ -119,12 +143,14 @@ body.dark .header {
 .logo-title {
     font-size: 17px;
     font-weight: 800;
-    letter-spacing: -0.3px;
+    letter-spacing:
+        -0.3px;
 }
 .logo-subtitle {
     margin-top: 2px;
     font-size: 11px;
-    color: var(--text-secondary);
+    color:
+        var(--text-secondary);
 }
 /* =========================================================
    HEADER CONTROLS
@@ -134,44 +160,43 @@ body.dark .header {
     align-items: center;
     gap: 8px;
 }
-.control-button {
-    height: 42px;
-    padding: 0 13px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        border 0.2s ease;
-}
-.control-button:hover {
-    background: var(--card-hover);
-    transform: translateY(-1px);
-}
-.control-button:active {
-    transform: scale(0.97);
-}
-.theme-button {
-    width: 44px;
-    padding: 0;
-    font-size: 18px;
-}
 .language-select {
     height: 42px;
-    padding: 0 12px;
-    border: 1px solid var(--border);
+    padding:
+        0 12px;
+    border:
+        1px solid var(--border);
     border-radius: 12px;
-    background: var(--card);
-    color: var(--text);
+    background:
+        var(--card);
+    color:
+        var(--text);
     font-size: 14px;
     font-weight: 600;
     outline: none;
     cursor: pointer;
+}
+.theme-button {
+    width: 44px;
+    height: 42px;
+    padding: 0;
+    border:
+        1px solid var(--border);
+    border-radius: 12px;
+    background:
+        var(--card);
+    color:
+        var(--text);
+    cursor: pointer;
+    font-size: 18px;
+    transition:
+        0.2s;
+}
+.theme-button:hover {
+    background:
+        var(--card-hover);
+    transform:
+        translateY(-1px);
 }
 /* =========================================================
    MAIN
@@ -179,31 +204,40 @@ body.dark .header {
 .main {
     max-width: 1200px;
     margin: auto;
-    padding: 45px 20px 70px;
+    padding:
+        40px 20px 70px;
 }
 /* =========================================================
    HERO
 ========================================================= */
 .hero {
     position: relative;
-    padding: 35px;
-    margin-bottom: 28px;
-    border: 1px solid var(--border);
-    border-radius: 26px;
-    background: var(--card);
-    box-shadow: var(--shadow);
+    padding:
+        34px;
+    margin-bottom:
+        25px;
+    border:
+        1px solid var(--border);
+    border-radius:
+        25px;
+    background:
+        var(--card);
+    box-shadow:
+        var(--shadow);
     overflow: hidden;
 }
 .hero::before {
     content: "";
     position: absolute;
-    width: 230px;
-    height: 230px;
-    right: -90px;
-    top: -100px;
+    width: 280px;
+    height: 280px;
+    right: -100px;
+    top: -130px;
     border-radius: 50%;
-    background: var(--card-hover);
-    opacity: 0.7;
+    background:
+        var(--card-hover);
+    opacity:
+        0.7;
 }
 .hero-content {
     position: relative;
@@ -213,370 +247,851 @@ body.dark .header {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    padding: 7px 11px;
+    padding:
+        7px 11px;
     border-radius: 9px;
-    background: var(--card-hover);
-    color: var(--text-secondary);
+    background:
+        var(--card-hover);
+    color:
+        var(--text-secondary);
     font-size: 12px;
     font-weight: 700;
-    margin-bottom: 14px;
+    margin-bottom:
+        14px;
 }
 .hero h1 {
-    font-size: clamp(32px, 6vw, 54px);
-    line-height: 1.05;
-    letter-spacing: -2px;
-    font-weight: 850;
+    font-size:
+        clamp(32px, 6vw, 54px);
+    line-height:
+        1.05;
+    letter-spacing:
+        -2px;
+    font-weight:
+        850;
 }
 .hero p {
-    max-width: 650px;
-    margin-top: 12px;
-    color: var(--text-secondary);
-    font-size: 16px;
-    line-height: 1.6;
+    max-width: 700px;
+    margin-top:
+        12px;
+    color:
+        var(--text-secondary);
+    font-size:
+        16px;
+    line-height:
+        1.6;
+}
+/* =========================================================
+   LIVE INFORMATION
+========================================================= */
+.live-panel {
+    display: grid;
+    grid-template-columns:
+        1.2fr 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom:
+        24px;
+}
+.live-card {
+    min-height:
+        130px;
+    padding:
+        19px;
+    border:
+        1px solid var(--border);
+    border-radius:
+        18px;
+    background:
+        var(--card);
+    box-shadow:
+        var(--shadow-small);
+    transition:
+        0.2s;
+}
+.live-card:hover {
+    transform:
+        translateY(-2px);
+}
+.live-card.main-time {
+    background:
+        var(--accent);
+    color:
+        var(--accent-text);
+}
+.live-label {
+    font-size:
+        12px;
+    font-weight:
+        700;
+    color:
+        var(--text-secondary);
+    margin-bottom:
+        9px;
+}
+.main-time .live-label {
+    color:
+        rgba(255,255,255,0.65);
+}
+.live-value {
+    font-size:
+        25px;
+    font-weight:
+        850;
+    letter-spacing:
+        -0.8px;
+}
+.live-small {
+    margin-top:
+        6px;
+    font-size:
+        12px;
+    color:
+        var(--text-secondary);
+}
+.main-time .live-small {
+    color:
+        rgba(255,255,255,0.7);
+}
+/* =========================================================
+   CURRENT LESSON
+========================================================= */
+.current-lesson-card {
+    margin-bottom:
+        25px;
+    padding:
+        23px;
+    border:
+        1px solid var(--border);
+    border-radius:
+        20px;
+    background:
+        var(--card);
+    box-shadow:
+        var(--shadow-small);
+}
+.current-top {
+    display: flex;
+    align-items:
+        center;
+    justify-content:
+        space-between;
+    gap: 15px;
+    margin-bottom:
+        14px;
+}
+.current-status {
+    display: inline-flex;
+    align-items:
+        center;
+    gap: 7px;
+    color:
+        var(--green);
+    font-size:
+        13px;
+    font-weight:
+        800;
+}
+.status-dot {
+    width:
+        8px;
+    height:
+        8px;
+    border-radius:
+        50%;
+    background:
+        var(--green);
+    animation:
+        pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.current-time {
+    color:
+        var(--text-secondary);
+    font-size:
+        13px;
+    font-weight:
+        700;
+}
+.current-name {
+    font-size:
+        clamp(22px, 4vw, 31px);
+    font-weight:
+        850;
+    letter-spacing:
+        -0.7px;
+}
+.progress-container {
+    margin-top:
+        17px;
+}
+.progress-bar {
+    width:
+        100%;
+    height:
+        9px;
+    border-radius:
+        20px;
+    overflow:
+        hidden;
+    background:
+        var(--card-hover);
+}
+.progress {
+    height:
+        100%;
+    width:
+        0%;
+    background:
+        var(--green);
+    border-radius:
+        inherit;
+    transition:
+        width 0.5s linear;
+}
+.progress-info {
+    display: flex;
+    justify-content:
+        space-between;
+    margin-top:
+        8px;
+    color:
+        var(--text-secondary);
+    font-size:
+        12px;
 }
 /* =========================================================
    SEARCH
 ========================================================= */
 .search-wrapper {
-    margin-bottom: 22px;
+    margin-bottom:
+        18px;
 }
 .search-box {
-    position: relative;
+    position:
+        relative;
 }
 .search-icon {
-    position: absolute;
-    left: 17px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 17px;
-    opacity: 0.65;
+    position:
+        absolute;
+    left:
+        17px;
+    top:
+        50%;
+    transform:
+        translateY(-50%);
+    font-size:
+        17px;
+    opacity:
+        0.65;
 }
 .search-input {
-    width: 100%;
-    height: 52px;
-    padding: 0 18px 0 48px;
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    background: var(--card);
-    color: var(--text);
-    outline: none;
-    font-size: 15px;
-    box-shadow: var(--shadow-small);
-    transition: 0.2s;
+    width:
+        100%;
+    height:
+        52px;
+    padding:
+        0 18px 0 48px;
+    border:
+        1px solid var(--border);
+    border-radius:
+        15px;
+    background:
+        var(--card);
+    color:
+        var(--text);
+    outline:
+        none;
+    font-size:
+        15px;
+    box-shadow:
+        var(--shadow-small);
+    transition:
+        0.2s;
 }
 .search-input:focus {
-    border-color: var(--text-secondary);
+    border-color:
+        var(--text-secondary);
 }
 .search-input::placeholder {
-    color: var(--text-secondary);
+    color:
+        var(--text-secondary);
 }
 /* =========================================================
-   DAY NAVIGATION
+   DAYS NAVIGATION
 ========================================================= */
 .days-navigation {
-    display: flex;
-    gap: 9px;
-    overflow-x: auto;
-    padding: 2px 2px 16px;
-    scrollbar-width: thin;
+    display:
+        flex;
+    gap:
+        9px;
+    overflow-x:
+        auto;
+    padding:
+        2px 2px 16px;
+    scrollbar-width:
+        thin;
 }
 .days-navigation::-webkit-scrollbar {
-    height: 4px;
+    height:
+        4px;
 }
 .days-navigation::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 20px;
+    background:
+        var(--border);
+    border-radius:
+        20px;
 }
 .day-button {
-    flex: 0 0 auto;
-    min-width: 125px;
-    padding: 12px 16px;
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 700;
-    transition: 0.2s;
+    position:
+        relative;
+    flex:
+        0 0 auto;
+    min-width:
+        125px;
+    padding:
+        13px 16px;
+    border:
+        1px solid var(--border);
+    border-radius:
+        13px;
+    background:
+        var(--card);
+    color:
+        var(--text);
+    cursor:
+        pointer;
+    font-size:
+        14px;
+    font-weight:
+        700;
+    transition:
+        0.2s;
 }
 .day-button:hover {
-    background: var(--card-hover);
+    background:
+        var(--card-hover);
 }
 .day-button.active {
-    background: var(--accent);
-    color: var(--accent-text);
-    border-color: var(--accent);
-    box-shadow: var(--shadow-small);
-}
-.day-button.today-day {
-    position: relative;
+    background:
+        var(--accent);
+    color:
+        var(--accent-text);
+    border-color:
+        var(--accent);
+    box-shadow:
+        var(--shadow-small);
 }
 .day-button.today-day::after {
-    content: "";
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    top: 7px;
-    right: 7px;
-    border-radius: 50%;
-    background: #42c984;
+    content:
+        "";
+    position:
+        absolute;
+    width:
+        6px;
+    height:
+        6px;
+    top:
+        7px;
+    right:
+        7px;
+    border-radius:
+        50%;
+    background:
+        #42c984;
 }
 /* =========================================================
-   SCHEDULE CARD
+   SCHEDULE
 ========================================================= */
 .schedule-card {
-    overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: 23px;
-    background: var(--card);
-    box-shadow: var(--shadow);
+    overflow:
+        hidden;
+    border:
+        1px solid var(--border);
+    border-radius:
+        23px;
+    background:
+        var(--card);
+    box-shadow:
+        var(--shadow);
 }
-/* =========================================================
-   SCHEDULE HEADER
-========================================================= */
 .schedule-header {
-    padding: 23px 25px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    border-bottom: 1px solid var(--border);
+    padding:
+        23px 25px;
+    display:
+        flex;
+    align-items:
+        center;
+    justify-content:
+        space-between;
+    gap:
+        20px;
+    border-bottom:
+        1px solid var(--border);
 }
 .schedule-day-name {
-    font-size: 26px;
-    font-weight: 800;
+    font-size:
+        26px;
+    font-weight:
+        800;
 }
 .schedule-date {
-    margin-top: 4px;
-    color: var(--text-secondary);
-    font-size: 13px;
+    margin-top:
+        4px;
+    color:
+        var(--text-secondary);
+    font-size:
+        13px;
 }
 .lesson-count {
-    padding: 8px 11px;
-    border-radius: 10px;
-    background: var(--card-hover);
-    color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 700;
-    white-space: nowrap;
+    padding:
+        8px 11px;
+    border-radius:
+        10px;
+    background:
+        var(--card-hover);
+    color:
+        var(--text-secondary);
+    font-size:
+        13px;
+    font-weight:
+        700;
+    white-space:
+        nowrap;
 }
 /* =========================================================
    LESSONS
 ========================================================= */
 .lessons {
-    padding: 8px 15px 15px;
+    padding:
+        8px 15px 15px;
 }
 .lesson {
-    display: grid;
-    grid-template-columns: 52px 1fr auto;
-    align-items: center;
-    gap: 15px;
-    min-height: 70px;
-    padding: 10px;
-    border-bottom: 1px solid var(--border);
-    border-radius: 13px;
+    display:
+        grid;
+    grid-template-columns:
+        52px 1fr auto;
+    align-items:
+        center;
+    gap:
+        15px;
+    min-height:
+        78px;
+    padding:
+        10px;
+    border-bottom:
+        1px solid var(--border);
+    border-radius:
+        13px;
     transition:
-        background 0.2s,
-        transform 0.2s;
+        0.2s;
 }
 .lesson:last-child {
-    border-bottom: none;
+    border-bottom:
+        none;
 }
 .lesson:hover {
-    background: var(--card-hover);
+    background:
+        var(--card-hover);
 }
 .lesson-number {
-    width: 43px;
-    height: 43px;
-    border-radius: 12px;
-    background: var(--card-hover);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 15px;
+    width:
+        43px;
+    height:
+        43px;
+    border-radius:
+        12px;
+    background:
+        var(--card-hover);
+    display:
+        flex;
+    align-items:
+        center;
+    justify-content:
+        center;
+    font-weight:
+        800;
+    font-size:
+        15px;
 }
 .lesson-info {
-    min-width: 0;
+    min-width:
+        0;
 }
 .lesson-name {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.35;
+    font-size:
+        16px;
+    font-weight:
+        700;
+    line-height:
+        1.35;
 }
-.lesson-type {
-    margin-top: 4px;
-    color: var(--text-secondary);
-    font-size: 12px;
+.lesson-time {
+    display:
+        inline-block;
+    margin-top:
+        5px;
+    color:
+        var(--text-secondary);
+    font-size:
+        12px;
+    font-weight:
+        650;
 }
 .lesson-arrow {
-    color: var(--text-secondary);
-    font-size: 18px;
+    color:
+        var(--text-secondary);
+    font-size:
+        19px;
 }
 /* =========================================================
-   TODAY
+   ТЕКУЩИЙ УРОК
 ========================================================= */
-.lesson.today-lesson {
-    background: var(--success-bg);
-    border-color: transparent;
+.lesson.current {
+    background:
+        var(--green-light);
+    border-color:
+        transparent;
 }
-.today-badge {
-    display: inline-flex;
-    align-items: center;
-    margin-left: 7px;
-    padding: 3px 7px;
-    border-radius: 6px;
-    background: var(--success);
-    color: white;
-    font-size: 10px;
-    vertical-align: middle;
-    font-weight: 800;
+.lesson.current .lesson-number {
+    background:
+        var(--green);
+    color:
+        white;
+}
+.lesson.current .lesson-name {
+    font-weight:
+        850;
+}
+.current-badge {
+    display:
+        inline-flex;
+    align-items:
+        center;
+    margin-left:
+        7px;
+    padding:
+        3px 7px;
+    border-radius:
+        6px;
+    background:
+        var(--green);
+    color:
+        white;
+    font-size:
+        10px;
+    font-weight:
+        800;
+    vertical-align:
+        middle;
 }
 /* =========================================================
-   EMPTY STATE
+   ПЕРЕМЕНА
+========================================================= */
+.break-message {
+    margin:
+        10px 0;
+    padding:
+        17px;
+    border-radius:
+        14px;
+    background:
+        var(--orange-light);
+    color:
+        var(--orange);
+    text-align:
+        center;
+    font-size:
+        14px;
+    font-weight:
+        750;
+}
+/* =========================================================
+   ВЫХОДНЫЕ
+========================================================= */
+.weekend-message {
+    padding:
+        60px 20px;
+    text-align:
+        center;
+    color:
+        var(--text-secondary);
+}
+.weekend-icon {
+    font-size:
+        42px;
+    margin-bottom:
+        13px;
+}
+.weekend-title {
+    color:
+        var(--text);
+    font-size:
+        21px;
+    font-weight:
+        800;
+    margin-bottom:
+        6px;
+}
+/* =========================================================
+   EMPTY
 ========================================================= */
 .empty {
-    padding: 55px 20px;
-    text-align: center;
-    color: var(--text-secondary);
+    padding:
+        55px 20px;
+    text-align:
+        center;
+    color:
+        var(--text-secondary);
 }
 .empty-icon {
-    font-size: 38px;
-    margin-bottom: 12px;
+    font-size:
+        38px;
+    margin-bottom:
+        12px;
 }
 .empty-title {
-    color: var(--text);
-    font-size: 18px;
-    font-weight: 750;
-    margin-bottom: 5px;
+    color:
+        var(--text);
+    font-size:
+        18px;
+    font-weight:
+        750;
+    margin-bottom:
+        5px;
 }
 /* =========================================================
    FOOTER
 ========================================================= */
 .footer {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px 35px;
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 13px;
+    max-width:
+        1200px;
+    margin:
+        auto;
+    padding:
+        0 20px 35px;
+    text-align:
+        center;
+    color:
+        var(--text-secondary);
+    font-size:
+        13px;
 }
 .footer-line {
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 20px;
-}
-/* =========================================================
-   MOBILE
-========================================================= */
-@media (max-width: 700px) {
-    .header-container {
-        min-height: 68px;
-        padding: 10px 14px;
-    }
-    .logo-subtitle {
-        display: none;
-    }
-    .logo-title {
-        font-size: 15px;
-    }
-    .logo-icon {
-        width: 41px;
-        height: 41px;
-        border-radius: 12px;
-        font-size: 19px;
-    }
-    .language-select {
-        max-width: 112px;
-        font-size: 12px;
-    }
-    .theme-button {
-        width: 41px;
-    }
-    .main {
-        padding: 25px 14px 55px;
-    }
-    .hero {
-        padding: 26px 21px;
-        border-radius: 20px;
-    }
-    .hero h1 {
-        font-size: 35px;
-        letter-spacing: -1.3px;
-    }
-    .hero p {
-        font-size: 14px;
-    }
-    .day-button {
-        min-width: 112px;
-        padding: 11px 13px;
-        font-size: 13px;
-    }
-    .schedule-card {
-        border-radius: 18px;
-    }
-    .schedule-header {
-        padding: 19px 17px;
-    }
-    .schedule-day-name {
-        font-size: 22px;
-    }
-    .lesson {
-        grid-template-columns: 43px 1fr;
-        gap: 12px;
-        padding: 12px 5px;
-    }
-    .lesson-arrow {
-        display: none;
-    }
-    .lesson-number {
-        width: 39px;
-        height: 39px;
-        border-radius: 10px;
-    }
-    .lesson-name {
-        font-size: 14px;
-    }
-    .lesson-type {
-        font-size: 11px;
-    }
-    .lessons {
-        padding: 6px 11px 11px;
-    }
-}
-@media (max-width: 430px) {
-    .header-controls {
-        gap: 5px;
-    }
-    .language-select {
-        width: 100px;
-        padding: 0 7px;
-    }
-    .hero h1 {
-        font-size: 31px;
-    }
-    .schedule-day-name {
-        font-size: 20px;
-    }
-    .lesson-name {
-        font-size: 13.5px;
-    }
+    height:
+        1px;
+    background:
+        var(--border);
+    margin-bottom:
+        20px;
 }
 /* =========================================================
    АНИМАЦИИ
 ========================================================= */
 .fade-in {
-    animation: fadeIn 0.3s ease;
+    animation:
+        fadeIn 0.3s ease;
 }
 @keyframes fadeIn {
     from {
-        opacity: 0;
-        transform: translateY(7px);
+        opacity:
+            0;
+        transform:
+            translateY(7px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+        opacity:
+            1;
+        transform:
+            translateY(0);
+    }
+}
+/* =========================================================
+   MOBILE
+========================================================= */
+@media (max-width: 850px) {
+    .live-panel {
+        grid-template-columns:
+            1fr 1fr;
+    }
+}
+@media (max-width: 650px) {
+    .header-container {
+        min-height:
+            68px;
+        padding:
+            10px 14px;
+    }
+    .logo-subtitle {
+        display:
+            none;
+    }
+    .logo-title {
+        font-size:
+            15px;
+    }
+    .logo-icon {
+        width:
+            41px;
+        height:
+            41px;
+        border-radius:
+            12px;
+        font-size:
+            19px;
+    }
+    .header-controls {
+        gap:
+            5px;
+    }
+    .language-select {
+        max-width:
+            110px;
+        height:
+            40px;
+        padding:
+            0 7px;
+        font-size:
+            12px;
+    }
+    .theme-button {
+        width:
+            40px;
+        height:
+            40px;
+    }
+    .main {
+        padding:
+            25px 14px 55px;
+    }
+    .hero {
+        padding:
+            26px 21px;
+        border-radius:
+            20px;
+    }
+    .hero h1 {
+        font-size:
+            35px;
+        letter-spacing:
+            -1.3px;
+    }
+    .hero p {
+        font-size:
+            14px;
+    }
+    .live-panel {
+        grid-template-columns:
+            1fr 1fr;
+        gap:
+            9px;
+    }
+    .live-card {
+        min-height:
+            105px;
+        padding:
+            15px;
+    }
+    .live-value {
+        font-size:
+            20px;
+    }
+    .current-lesson-card {
+        padding:
+            18px;
+    }
+    .current-name {
+        font-size:
+            22px;
+    }
+    .day-button {
+        min-width:
+            112px;
+        padding:
+            11px 13px;
+        font-size:
+            13px;
+    }
+    .schedule-card {
+        border-radius:
+            18px;
+    }
+    .schedule-header {
+        padding:
+            19px 17px;
+    }
+    .schedule-day-name {
+        font-size:
+            22px;
+    }
+    .lesson {
+        grid-template-columns:
+            43px 1fr;
+        gap:
+            12px;
+        padding:
+            12px 5px;
+    }
+    .lesson-arrow {
+        display:
+            none;
+    }
+    .lesson-number {
+        width:
+            39px;
+        height:
+            39px;
+        border-radius:
+            10px;
+    }
+    .lesson-name {
+        font-size:
+            14px;
+    }
+    .lesson-time {
+        font-size:
+            11px;
+    }
+    .lessons {
+        padding:
+            6px 11px 11px;
+    }
+}
+@media (max-width: 430px) {
+    .logo-title {
+        font-size:
+            14px;
+    }
+    .language-select {
+        width:
+            98px;
+    }
+    .hero h1 {
+        font-size:
+            31px;
+    }
+    .live-panel {
+        grid-template-columns:
+            1fr;
+    }
+    .schedule-day-name {
+        font-size:
+            20px;
+    }
+    .lesson-name {
+        font-size:
+            13.5px;
     }
 }
 </style>
@@ -592,10 +1107,14 @@ body.dark .header {
                 📚
             </div>
             <div class="logo-content">
-                <div class="logo-title" id="logoTitle">
+                <div
+                    class="logo-title"
+                    id="logoTitle">
                     Моё расписание
                 </div>
-                <div class="logo-subtitle" id="logoSubtitle">
+                <div
+                    class="logo-subtitle"
+                    id="logoSubtitle">
                     Школьный портал
                 </div>
             </div>
@@ -603,8 +1122,7 @@ body.dark .header {
         <div class="header-controls">
             <select
                 class="language-select"
-                id="languageSelect"
-                aria-label="Язык">
+                id="languageSelect">
                 <option value="ru">
                     🇷🇺 Русский
                 </option>
@@ -613,9 +1131,8 @@ body.dark .header {
                 </option>
             </select>
             <button
-                class="control-button theme-button"
-                id="themeButton"
-                aria-label="Изменить тему">
+                class="theme-button"
+                id="themeButton">
                 🌙
             </button>
         </div>
@@ -629,18 +1146,150 @@ body.dark .header {
     <section class="hero">
         <div class="hero-content">
             <div class="hero-label">
-                🗓️ <span id="heroLabel">Школьное расписание</span>
+                🗓️
+                <span id="heroLabel">
+                    Школьное расписание
+                </span>
             </div>
             <h1 id="heroTitle">
                 Расписание уроков
             </h1>
             <p id="heroDescription">
                 Все уроки на одной странице.
-                Выбирай нужный день и быстро находи нужный предмет.
+                Выбирай нужный день и быстро
+                находи нужный предмет.
             </p>
         </div>
     </section>
-    <!-- SEARCH -->
+    <!-- ===================================================
+         LIVE INFORMATION
+    ==================================================== -->
+    <section class="live-panel">
+        <!-- TIME -->
+        <div class="live-card main-time">
+            <div
+                class="live-label"
+                id="timeLabel">
+                Текущее время
+            </div>
+            <div
+                class="live-value"
+                id="liveTime">
+                00:00:00
+            </div>
+            <div
+                class="live-small"
+                id="liveDate">
+                3 сентября 2026
+            </div>
+        </div>
+        <!-- TODAY -->
+        <div class="live-card">
+            <div
+                class="live-label"
+                id="todayLabel">
+                Сегодня
+            </div>
+            <div
+                class="live-value"
+                id="todayDay">
+                Четверг
+            </div>
+            <div
+                class="live-small"
+                id="todayDate">
+                --
+            </div>
+        </div>
+        <!-- CURRENT -->
+        <div class="live-card">
+            <div
+                class="live-label"
+                id="currentLabel">
+                Сейчас
+            </div>
+            <div
+                class="live-value"
+                id="currentLessonSmall">
+                --
+            </div>
+            <div
+                class="live-small"
+                id="currentLessonTimeSmall">
+                --
+            </div>
+        </div>
+        <!-- NEXT -->
+        <div class="live-card">
+            <div
+                class="live-label"
+                id="nextLabel">
+                Следующий урок
+            </div>
+            <div
+                class="live-value"
+                id="nextLessonSmall">
+                --
+            </div>
+            <div
+                class="live-small"
+                id="nextLessonTimeSmall">
+                --
+            </div>
+        </div>
+    </section>
+    <!-- ===================================================
+         CURRENT LESSON
+    ==================================================== -->
+    <section
+        class="current-lesson-card"
+        id="currentLessonCard">
+        <div class="current-top">
+            <div class="current-status">
+                <span
+                    class="status-dot"
+                    id="statusDot">
+                </span>
+                <span id="currentStatusText">
+                    Сейчас идёт урок
+                </span>
+            </div>
+            <div
+                class="current-time"
+                id="currentLessonTime">
+                --
+            </div>
+        </div>
+        <div
+            class="current-name"
+            id="currentLessonName">
+            Загрузка...
+        </div>
+        <div
+            class="progress-container"
+            id="progressContainer">
+            <div class="progress-bar">
+                <div
+                    class="progress"
+                    id="progressBar">
+                </div>
+            </div>
+            <div class="progress-info">
+                <span id="progressStart">
+                    08:00
+                </span>
+                <span id="timeLeft">
+                    --
+                </span>
+                <span id="progressEnd">
+                    08:40
+                </span>
+            </div>
+        </div>
+    </section>
+    <!-- ===================================================
+         SEARCH
+    ==================================================== -->
     <div class="search-wrapper">
         <div class="search-box">
             <span class="search-icon">
@@ -654,12 +1303,16 @@ body.dark .header {
                 autocomplete="off">
         </div>
     </div>
-    <!-- DAYS -->
+    <!-- ===================================================
+         DAYS
+    ==================================================== -->
     <nav
         class="days-navigation"
         id="daysNavigation">
     </nav>
-    <!-- SCHEDULE -->
+    <!-- ===================================================
+         SCHEDULE
+    ==================================================== -->
     <section class="schedule-card">
         <div class="schedule-header">
             <div>
@@ -747,66 +1400,197 @@ const schedule = {
     ]
 };
 /* =========================================================
+   ВРЕМЯ УРОКОВ
+========================================================= */
+const lessonTimes = [
+    {
+        start: "08:00",
+        end: "08:40"
+    },
+    {
+        start: "08:45",
+        end: "09:25"
+    },
+    {
+        start: "09:30",
+        end: "10:10"
+    },
+    {
+        start: "10:20",
+        end: "11:00"
+    },
+    {
+        start: "11:05",
+        end: "11:45"
+    },
+    {
+        start: "11:50",
+        end: "12:30"
+    },
+    {
+        start: "12:35",
+        end: "13:15"
+    },
+    {
+        start: "13:20",
+        end: "14:00"
+    }
+];
+/* =========================================================
    ПЕРЕВОДЫ
 ========================================================= */
 const translations = {
     ru: {
-        logoTitle: "Моё расписание",
-        logoSubtitle: "Школьный портал",
-        heroLabel: "Школьное расписание",
-        heroTitle: "Расписание уроков",
+        logoTitle:
+            "Моё расписание",
+        logoSubtitle:
+            "Школьный портал",
+        heroLabel:
+            "Школьное расписание",
+        heroTitle:
+            "Расписание уроков",
         heroDescription:
             "Все уроки на одной странице. Выбирай нужный день и быстро находи нужный предмет.",
-        search:
-            "Поиск по предметам...",
-        lessonWord:
+        timeLabel:
+            "Текущее время",
+        todayLabel:
+            "Сегодня",
+        currentLabel:
+            "Сейчас",
+        nextLabel:
+            "Следующий урок",
+        currentStatus:
+            "Сейчас идёт урок",
+        breakStatus:
+            "Сейчас перемена",
+        beforeStatus:
+            "Уроки ещё не начались",
+        afterStatus:
+            "Уроки закончились",
+        breakText:
+            "☕ Перемена",
+        nextLesson:
+            "Следующий",
+        noNext:
+            "Больше нет",
+        lesson:
             "уроков",
+        lessonOne:
+            "урок",
         today:
             "Сегодня",
-        footer:
-            "Моё расписание • GitHub Pages",
+        minutes:
+            "мин",
+        left:
+            "осталось",
+        ended:
+            "Урок закончился",
+        starts:
+            "Начало",
+        ends:
+            "Конец",
+        search:
+            "Поиск по предметам...",
         emptyTitle:
             "Ничего не найдено",
         emptyText:
             "Попробуй изменить запрос поиска.",
+        weekendTitle:
+            "Сегодня выходной",
+        weekendText:
+            "Уроков по расписанию нет.",
+        footer:
+            "Моё расписание • GitHub Pages",
         days: {
-            monday: "Понедельник",
-            tuesday: "Вторник",
-            wednesday: "Среда",
-            thursday: "Четверг",
-            friday: "Пятница"
+            monday:
+                "Понедельник",
+            tuesday:
+                "Вторник",
+            wednesday:
+                "Среда",
+            thursday:
+                "Четверг",
+            friday:
+                "Пятница"
         }
     },
     kk: {
-        logoTitle: "Менің сабақ кестем",
-        logoSubtitle: "Мектеп порталы",
-        heroLabel: "Сабақ кестесі",
-        heroTitle: "Сабақ кестесі",
+        logoTitle:
+            "Менің сабақ кестем",
+        logoSubtitle:
+            "Мектеп порталы",
+        heroLabel:
+            "Сабақ кестесі",
+        heroTitle:
+            "Сабақ кестесі",
         heroDescription:
             "Барлық сабақ бір жерде. Қажетті күнді таңдап, керек пәнді оңай тап.",
-        search:
-            "Пән бойынша іздеу...",
-        lessonWord:
+        timeLabel:
+            "Қазіргі уақыт",
+        todayLabel:
+            "Бүгін",
+        currentLabel:
+            "Қазір",
+        nextLabel:
+            "Келесі сабақ",
+        currentStatus:
+            "Қазір сабақ өтіп жатыр",
+        breakStatus:
+            "Қазір үзіліс",
+        beforeStatus:
+            "Сабақ әлі басталған жоқ",
+        afterStatus:
+            "Сабақтар аяқталды",
+        breakText:
+            "☕ Үзіліс",
+        nextLesson:
+            "Келесі",
+        noNext:
+            "Басқа сабақ жоқ",
+        lesson:
+            "сабақ",
+        lessonOne:
             "сабақ",
         today:
             "Бүгін",
-        footer:
-            "Менің сабақ кестем • GitHub Pages",
+        minutes:
+            "мин",
+        left:
+            "қалды",
+        ended:
+            "Сабақ аяқталды",
+        starts:
+            "Басталуы",
+        ends:
+            "Аяқталуы",
+        search:
+            "Пән бойынша іздеу...",
         emptyTitle:
             "Ештеңе табылмады",
         emptyText:
             "Іздеу сұранысын өзгертіп көр.",
+        weekendTitle:
+            "Бүгін демалыс",
+        weekendText:
+            "Бүгін сабақ жоқ.",
+        footer:
+            "Менің сабақ кестем • GitHub Pages",
         days: {
-            monday: "Дүйсенбі",
-            tuesday: "Сейсенбі",
-            wednesday: "Сәрсенбі",
-            thursday: "Бейсенбі",
-            friday: "Жұма"
+            monday:
+                "Дүйсенбі",
+            tuesday:
+                "Сейсенбі",
+            wednesday:
+                "Сәрсенбі",
+            thursday:
+                "Бейсенбі",
+            friday:
+                "Жұма"
         }
     }
 };
 /* =========================================================
-   ПЕРЕМЕННЫЕ
+   ДНИ НЕДЕЛИ
 ========================================================= */
 const dayKeys = [
     "monday",
@@ -815,35 +1599,123 @@ const dayKeys = [
     "thursday",
     "friday"
 ];
-let currentLanguage =
-    localStorage.getItem("scheduleLanguage") || "ru";
-let currentDay =
-    localStorage.getItem("scheduleDay") || getCurrentDay();
-let searchQuery = "";
 /* =========================================================
    DOM
 ========================================================= */
 const languageSelect =
-    document.getElementById("languageSelect");
+    document.getElementById(
+        "languageSelect"
+    );
 const themeButton =
-    document.getElementById("themeButton");
+    document.getElementById(
+        "themeButton"
+    );
 const daysNavigation =
-    document.getElementById("daysNavigation");
+    document.getElementById(
+        "daysNavigation"
+    );
 const lessonsContainer =
-    document.getElementById("lessonsContainer");
+    document.getElementById(
+        "lessonsContainer"
+    );
 const scheduleDayName =
-    document.getElementById("scheduleDayName");
+    document.getElementById(
+        "scheduleDayName"
+    );
 const scheduleDate =
-    document.getElementById("scheduleDate");
+    document.getElementById(
+        "scheduleDate"
+    );
 const lessonCount =
-    document.getElementById("lessonCount");
+    document.getElementById(
+        "lessonCount"
+    );
 const searchInput =
-    document.getElementById("searchInput");
+    document.getElementById(
+        "searchInput"
+    );
+const liveTime =
+    document.getElementById(
+        "liveTime"
+    );
+const liveDate =
+    document.getElementById(
+        "liveDate"
+    );
+const todayDay =
+    document.getElementById(
+        "todayDay"
+    );
+const todayDate =
+    document.getElementById(
+        "todayDate"
+    );
+const currentLessonSmall =
+    document.getElementById(
+        "currentLessonSmall"
+    );
+const currentLessonTimeSmall =
+    document.getElementById(
+        "currentLessonTimeSmall"
+    );
+const nextLessonSmall =
+    document.getElementById(
+        "nextLessonSmall"
+    );
+const nextLessonTimeSmall =
+    document.getElementById(
+        "nextLessonTimeSmall"
+    );
+const currentStatusText =
+    document.getElementById(
+        "currentStatusText"
+    );
+const currentLessonTime =
+    document.getElementById(
+        "currentLessonTime"
+    );
+const currentLessonName =
+    document.getElementById(
+        "currentLessonName"
+    );
+const progressBar =
+    document.getElementById(
+        "progressBar"
+    );
+const progressStart =
+    document.getElementById(
+        "progressStart"
+    );
+const progressEnd =
+    document.getElementById(
+        "progressEnd"
+    );
+const timeLeft =
+    document.getElementById(
+        "timeLeft"
+    );
+const progressContainer =
+    document.getElementById(
+        "progressContainer"
+    );
 /* =========================================================
-   ОПРЕДЕЛЕНИЕ ТЕКУЩЕГО ДНЯ
+   СОСТОЯНИЕ
+========================================================= */
+let currentLanguage =
+    localStorage.getItem(
+        "scheduleLanguage"
+    ) || "ru";
+let currentDay =
+    localStorage.getItem(
+        "scheduleDay"
+    ) || getCurrentDay();
+let searchQuery = "";
+/* =========================================================
+   ТЕКУЩИЙ ДЕНЬ
 ========================================================= */
 function getCurrentDay() {
-    const day = new Date().getDay();
+    const day =
+        new Date().getDay();
     const map = {
         1: "monday",
         2: "tuesday",
@@ -851,25 +1723,45 @@ function getCurrentDay() {
         4: "thursday",
         5: "friday"
     };
-    return map[day] || "monday";
+    return map[day] || null;
+}
+/* =========================================================
+   ПОЛУЧЕНИЕ ВРЕМЕНИ В МИНУТАХ
+========================================================= */
+function timeToMinutes(time) {
+    const parts =
+        time.split(":");
+    const hours =
+        Number(parts[0]);
+    const minutes =
+        Number(parts[1]);
+    return (
+        hours * 60 +
+        minutes
+    );
+}
+/* =========================================================
+   ТЕКУЩЕЕ ВРЕМЯ В МИНУТАХ
+========================================================= */
+function getCurrentMinutes() {
+    const now =
+        new Date();
+    return (
+        now.getHours() * 60 +
+        now.getMinutes() +
+        now.getSeconds() / 60
+    );
 }
 /* =========================================================
    ФОРМАТ ДАТЫ
 ========================================================= */
-function getFormattedDate() {
-    const now = new Date();
-    if (currentLanguage === "kk") {
-        return now.toLocaleDateString(
-            "kk-KZ",
-            {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            }
-        );
-    }
-    return now.toLocaleDateString(
-        "ru-RU",
+function formatDate(date) {
+    const locale =
+        currentLanguage === "kk"
+            ? "kk-KZ"
+            : "ru-RU";
+    return date.toLocaleDateString(
+        locale,
         {
             day: "numeric",
             month: "long",
@@ -878,93 +1770,452 @@ function getFormattedDate() {
     );
 }
 /* =========================================================
+   ФОРМАТ ДНЯ
+========================================================= */
+function getDayName(dayKey) {
+    if (!dayKey) {
+        return "—";
+    }
+    return translations[
+        currentLanguage
+    ].days[dayKey];
+}
+/* =========================================================
+   ЖИВОЕ ВРЕМЯ
+========================================================= */
+function updateClock() {
+    const now =
+        new Date();
+    const hours =
+        String(
+            now.getHours()
+        ).padStart(2, "0");
+    const minutes =
+        String(
+            now.getMinutes()
+        ).padStart(2, "0");
+    const seconds =
+        String(
+            now.getSeconds()
+        ).padStart(2, "0");
+    liveTime.textContent =
+        `${hours}:${minutes}:${seconds}`;
+    liveDate.textContent =
+        formatDate(now);
+    todayDate.textContent =
+        formatDate(now);
+    const today =
+        getCurrentDay();
+    todayDay.textContent =
+        getDayName(today);
+    updateCurrentLesson();
+}
+/* =========================================================
+   ОПРЕДЕЛЕНИЕ ТЕКУЩЕГО УРОКА
+========================================================= */
+function getLessonState() {
+    const today =
+        getCurrentDay();
+    if (!today) {
+        return {
+            type: "weekend"
+        };
+    }
+    const currentMinutes =
+        getCurrentMinutes();
+    for (
+        let i = 0;
+        i < lessonTimes.length;
+        i++
+    ) {
+        const lesson =
+            lessonTimes[i];
+        const start =
+            timeToMinutes(
+                lesson.start
+            );
+        const end =
+            timeToMinutes(
+                lesson.end
+            );
+        if (
+            currentMinutes >= start &&
+            currentMinutes <= end
+        ) {
+            return {
+                type: "lesson",
+                index: i,
+                start,
+                end,
+                remaining:
+                    Math.ceil(
+                        end -
+                        currentMinutes
+                    )
+            };
+        }
+    }
+    for (
+        let i = 0;
+        i < lessonTimes.length;
+        i++
+    ) {
+        const start =
+            timeToMinutes(
+                lessonTimes[i].start
+            );
+        if (
+            currentMinutes <
+            start
+        ) {
+            return {
+                type: "before",
+                nextIndex: i,
+                remaining:
+                    Math.ceil(
+                        start -
+                        currentMinutes
+                    )
+            };
+        }
+    }
+    return {
+        type: "after"
+    };
+}
+/* =========================================================
+   СЛЕДУЮЩИЙ УРОК
+========================================================= */
+function getNextLessonIndex() {
+    const today =
+        getCurrentDay();
+    if (!today) {
+        return null;
+    }
+    const currentMinutes =
+        getCurrentMinutes();
+    for (
+        let i = 0;
+        i < lessonTimes.length;
+        i++
+    ) {
+        const start =
+            timeToMinutes(
+                lessonTimes[i].start
+            );
+        if (
+            currentMinutes <
+            start
+        ) {
+            return i;
+        }
+    }
+    return null;
+}
+/* =========================================================
+   ОБНОВЛЕНИЕ ТЕКУЩЕГО УРОКА
+========================================================= */
+function updateCurrentLesson() {
+    const t =
+        translations[
+            currentLanguage
+        ];
+    const today =
+        getCurrentDay();
+    const state =
+        getLessonState();
+    /* ВЫХОДНОЙ */
+    if (
+        state.type ===
+        "weekend"
+    ) {
+        currentStatusText.textContent =
+            t.weekendTitle;
+        currentLessonName.textContent =
+            t.weekendText;
+        currentLessonTime.textContent =
+            "";
+        currentLessonSmall.textContent =
+            "—";
+        currentLessonTimeSmall.textContent =
+            "—";
+        nextLessonSmall.textContent =
+            "—";
+        nextLessonTimeSmall.textContent =
+            "—";
+        progressContainer.style.display =
+            "none";
+        return;
+    }
+    progressContainer.style.display =
+        "block";
+    /* ИДЁТ УРОК */
+    if (
+        state.type ===
+        "lesson"
+    ) {
+        const index =
+            state.index;
+        const subject =
+            schedule[today][index];
+        const time =
+            lessonTimes[index];
+        currentStatusText.textContent =
+            t.currentStatus;
+        currentLessonTime.textContent =
+            `${time.start} – ${time.end}`;
+        currentLessonName.textContent =
+            subject;
+        currentLessonSmall.textContent =
+            `${index + 1}. ${subject}`;
+        currentLessonTimeSmall.textContent =
+            `${time.start} – ${time.end}`;
+        progressStart.textContent =
+            time.start;
+        progressEnd.textContent =
+            time.end;
+        const duration =
+            state.end -
+            state.start;
+        const elapsed =
+            getCurrentMinutes() -
+            state.start;
+        let percent =
+            (
+                elapsed /
+                duration
+            ) * 100;
+        percent =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    percent
+                )
+            );
+        progressBar.style.width =
+            percent + "%";
+        timeLeft.textContent =
+            `${t.left}: ${state.remaining} ${t.minutes}`;
+        const nextIndex =
+            index + 1;
+        if (
+            nextIndex <
+            schedule[today].length
+        ) {
+            nextLessonSmall.textContent =
+                `${nextIndex + 1}. ${schedule[today][nextIndex]}`;
+            nextLessonTimeSmall.textContent =
+                `${lessonTimes[nextIndex].start} – ${lessonTimes[nextIndex].end}`;
+        } else {
+            nextLessonSmall.textContent =
+                t.noNext;
+            nextLessonTimeSmall.textContent =
+                "";
+        }
+        return;
+    }
+    /* ПЕРЕД УРОКАМИ */
+    if (
+        state.type ===
+        "before"
+    ) {
+        const nextIndex =
+            state.nextIndex;
+        const time =
+            lessonTimes[nextIndex];
+        currentStatusText.textContent =
+            t.beforeStatus;
+        currentLessonName.textContent =
+            `${t.nextLesson}: ${schedule[today][nextIndex]}`;
+        currentLessonTime.textContent =
+            `${time.start} – ${time.end}`;
+        currentLessonSmall.textContent =
+            `${nextIndex + 1}. ${schedule[today][nextIndex]}`;
+        currentLessonTimeSmall.textContent =
+            `${time.start} – ${time.end}`;
+        progressContainer.style.display =
+            "none";
+        nextLessonSmall.textContent =
+            `${nextIndex + 1}. ${schedule[today][nextIndex]}`;
+        nextLessonTimeSmall.textContent =
+            `${time.start} – ${time.end}`;
+        return;
+    }
+    /* ПОСЛЕ УРОКОВ */
+    if (
+        state.type ===
+        "after"
+    ) {
+        currentStatusText.textContent =
+            t.afterStatus;
+        currentLessonName.textContent =
+            t.ended;
+        currentLessonTime.textContent =
+            "14:00";
+        currentLessonSmall.textContent =
+            "—";
+        currentLessonTimeSmall.textContent =
+            t.ended;
+        progressContainer.style.display =
+            "none";
+        nextLessonSmall.textContent =
+            "—";
+        nextLessonTimeSmall.textContent =
+            t.noNext;
+    }
+}
+/* =========================================================
    РЕНДЕР ЯЗЫКА
 ========================================================= */
 function renderLanguage() {
-    const t = translations[currentLanguage];
+    const t =
+        translations[
+            currentLanguage
+        ];
     document.documentElement.lang =
         currentLanguage === "kk"
             ? "kk"
             : "ru";
-    document.getElementById("logoTitle")
-        .textContent = t.logoTitle;
-    document.getElementById("logoSubtitle")
-        .textContent = t.logoSubtitle;
-    document.getElementById("heroLabel")
-        .textContent = t.heroLabel;
-    document.getElementById("heroTitle")
-        .textContent = t.heroTitle;
-    document.getElementById("heroDescription")
-        .textContent = t.heroDescription;
-    document.getElementById("footerText")
-        .textContent = t.footer;
+    document.getElementById(
+        "logoTitle"
+    ).textContent =
+        t.logoTitle;
+    document.getElementById(
+        "logoSubtitle"
+    ).textContent =
+        t.logoSubtitle;
+    document.getElementById(
+        "heroLabel"
+    ).textContent =
+        t.heroLabel;
+    document.getElementById(
+        "heroTitle"
+    ).textContent =
+        t.heroTitle;
+    document.getElementById(
+        "heroDescription"
+    ).textContent =
+        t.heroDescription;
+    document.getElementById(
+        "timeLabel"
+    ).textContent =
+        t.timeLabel;
+    document.getElementById(
+        "todayLabel"
+    ).textContent =
+        t.todayLabel;
+    document.getElementById(
+        "currentLabel"
+    ).textContent =
+        t.currentLabel;
+    document.getElementById(
+        "nextLabel"
+    ).textContent =
+        t.nextLabel;
+    document.getElementById(
+        "footerText"
+    ).textContent =
+        t.footer;
     searchInput.placeholder =
         t.search;
     renderDays();
     renderSchedule();
+    updateClock();
 }
 /* =========================================================
    РЕНДЕР ДНЕЙ
 ========================================================= */
 function renderDays() {
-    const t = translations[currentLanguage];
-    daysNavigation.innerHTML = "";
+    const t =
+        translations[
+            currentLanguage
+        ];
+    daysNavigation.innerHTML =
+        "";
     const today =
         getCurrentDay();
-    dayKeys.forEach(day => {
-        const button =
-            document.createElement("button");
-        button.className =
-            "day-button";
-        if (day === currentDay) {
-            button.classList.add("active");
-        }
-        if (day === today) {
-            button.classList.add("today-day");
-        }
-        button.textContent =
-            t.days[day];
-        button.addEventListener(
-            "click",
-            () => {
-                currentDay = day;
-                localStorage.setItem(
-                    "scheduleDay",
-                    currentDay
+    dayKeys.forEach(
+        day => {
+            const button =
+                document.createElement(
+                    "button"
                 );
-                searchInput.value = "";
-                searchQuery = "";
-                renderDays();
-                renderSchedule();
+            button.className =
+                "day-button";
+            if (
+                day ===
+                currentDay
+            ) {
+                button.classList.add(
+                    "active"
+                );
             }
-        );
-        daysNavigation.appendChild(button);
-    });
+            if (
+                day ===
+                today
+            ) {
+                button.classList.add(
+                    "today-day"
+                );
+            }
+            button.textContent =
+                t.days[day];
+            button.addEventListener(
+                "click",
+                () => {
+                    currentDay =
+                        day;
+                    localStorage.setItem(
+                        "scheduleDay",
+                        currentDay
+                    );
+                    searchInput.value =
+                        "";
+                    searchQuery =
+                        "";
+                    renderDays();
+                    renderSchedule();
+                }
+            );
+            daysNavigation.appendChild(
+                button
+            );
+        }
+    );
 }
 /* =========================================================
    РЕНДЕР РАСПИСАНИЯ
 ========================================================= */
 function renderSchedule() {
-    const t = translations[currentLanguage];
+    const t =
+        translations[
+            currentLanguage
+        ];
     const subjects =
-        schedule[currentDay];
+        schedule[
+            currentDay
+        ];
     scheduleDayName.textContent =
         t.days[currentDay];
     scheduleDate.textContent =
-        getFormattedDate();
-    let filteredSubjects =
-        subjects.filter(subject => {
-            return subject
-                .toLowerCase()
-                .includes(
-                    searchQuery.toLowerCase()
-                );
-        });
+        formatDate(
+            new Date()
+        );
+    const filtered =
+        subjects.filter(
+            subject =>
+                subject
+                    .toLowerCase()
+                    .includes(
+                        searchQuery
+                            .toLowerCase()
+                    )
+        );
     lessonCount.textContent =
-        filteredSubjects.length +
-        " " +
-        t.lessonWord;
-    lessonsContainer.innerHTML = "";
+        `${filtered.length} ${t.lesson}`;
+    lessonsContainer.innerHTML =
+        "";
     lessonsContainer.classList.remove(
         "fade-in"
     );
@@ -972,7 +2223,9 @@ function renderSchedule() {
     lessonsContainer.classList.add(
         "fade-in"
     );
-    if (filteredSubjects.length === 0) {
+    if (
+        filtered.length === 0
+    ) {
         lessonsContainer.innerHTML = `
             <div class="empty">
                 <div class="empty-icon">
@@ -988,69 +2241,111 @@ function renderSchedule() {
         `;
         return;
     }
-    filteredSubjects.forEach(
-        (subject, index) => {
+    const today =
+        getCurrentDay();
+    const state =
+        getLessonState();
+    filtered.forEach(
+        subject => {
             const originalIndex =
-                subjects.indexOf(subject);
+                subjects.indexOf(
+                    subject
+                );
+            const time =
+                lessonTimes[
+                    originalIndex
+                ];
             const lesson =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
             lesson.className =
                 "lesson";
             if (
-                currentDay === getCurrentDay()
+                currentDay ===
+                today &&
+                state.type ===
+                "lesson" &&
+                state.index ===
+                originalIndex
             ) {
                 lesson.classList.add(
-                    "today-lesson"
+                    "current"
                 );
             }
             const number =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
             number.className =
                 "lesson-number";
             number.textContent =
                 originalIndex + 1;
             const info =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
             info.className =
                 "lesson-info";
             const name =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
             name.className =
                 "lesson-name";
             name.textContent =
                 subject;
             if (
-                currentDay === getCurrentDay()
+                currentDay ===
+                today &&
+                state.type ===
+                "lesson" &&
+                state.index ===
+                originalIndex
             ) {
                 const badge =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
                 badge.className =
-                    "today-badge";
+                    "current-badge";
                 badge.textContent =
                     t.today;
                 name.appendChild(
                     badge
                 );
             }
-            const type =
-                document.createElement("div");
-            type.className =
-                "lesson-type";
-            type.textContent =
-                currentLanguage === "kk"
-                    ? "Сабақ"
-                    : "Урок";
-            info.appendChild(name);
-            info.appendChild(type);
+            const timeElement =
+                document.createElement(
+                    "div"
+                );
+            timeElement.className =
+                "lesson-time";
+            timeElement.textContent =
+                `🕐 ${time.start} – ${time.end}`;
+            info.appendChild(
+                name
+            );
+            info.appendChild(
+                timeElement
+            );
             const arrow =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
             arrow.className =
                 "lesson-arrow";
             arrow.textContent =
                 "›";
-            lesson.appendChild(number);
-            lesson.appendChild(info);
-            lesson.appendChild(arrow);
+            lesson.appendChild(
+                number
+            );
+            lesson.appendChild(
+                info
+            );
+            lesson.appendChild(
+                arrow
+            );
             lessonsContainer.appendChild(
                 lesson
             );
@@ -1069,7 +2364,7 @@ searchInput.addEventListener(
     }
 );
 /* =========================================================
-   ЯЗЫК
+   СМЕНА ЯЗЫКА
 ========================================================= */
 languageSelect.value =
     currentLanguage;
@@ -1089,25 +2384,25 @@ languageSelect.addEventListener(
    ТЕМА
 ========================================================= */
 function updateThemeIcon() {
-    const isDark =
+    const dark =
         document.body.classList.contains(
             "dark"
         );
     themeButton.textContent =
-        isDark
+        dark
             ? "☀️"
             : "🌙";
 }
 themeButton.addEventListener(
     "click",
     function () {
-        const isDark =
+        const dark =
             document.body.classList.toggle(
                 "dark"
             );
         localStorage.setItem(
             "scheduleTheme",
-            isDark
+            dark
                 ? "dark"
                 : "light"
         );
@@ -1115,35 +2410,76 @@ themeButton.addEventListener(
     }
 );
 /* =========================================================
-   ЗАГРУЗКА СОХРАНЁННОЙ ТЕМЫ
+   ЗАГРУЗКА ТЕМЫ
 ========================================================= */
 const savedTheme =
     localStorage.getItem(
         "scheduleTheme"
     );
-if (savedTheme === "dark") {
+if (
+    savedTheme ===
+    "dark"
+) {
     document.body.classList.add(
         "dark"
     );
 }
 updateThemeIcon();
 /* =========================================================
-   ЗАПУСК
+   АВТОМАТИЧЕСКИЙ ВЫБОР СЕГОДНЯ
+========================================================= */
+const actualToday =
+    getCurrentDay();
+if (
+    actualToday &&
+    !localStorage.getItem(
+        "scheduleDay"
+    )
+) {
+    currentDay =
+        actualToday;
+}
+/* =========================================================
+   ПЕРВИЧНЫЙ ЗАПУСК
 ========================================================= */
 renderLanguage();
 /* =========================================================
-   ЕСЛИ СОХРАНЁННЫЙ ДЕНЬ НЕСУЩЕСТВУЕТ
+   ЖИВЫЕ ЧАСЫ
 ========================================================= */
-if (!dayKeys.includes(currentDay)) {
-    currentDay =
-        getCurrentDay();
-    localStorage.setItem(
-        "scheduleDay",
-        currentDay
-    );
-    renderDays();
-    renderSchedule();
-}
+setInterval(
+    updateClock,
+    1000
+);
+/* =========================================================
+   ОБНОВЛЕНИЕ РАСПИСАНИЯ КАЖДУЮ МИНУТУ
+========================================================= */
+setInterval(
+    () => {
+        const today =
+            getCurrentDay();
+        if (
+            today &&
+            currentDay === today
+        ) {
+            renderSchedule();
+        }
+    },
+    30000
+);
+/* =========================================================
+   ПРИ ВОЗВРАТЕ НА ВКЛАДКУ
+========================================================= */
+document.addEventListener(
+    "visibilitychange",
+    () => {
+        if (
+            !document.hidden
+        ) {
+            updateClock();
+            renderSchedule();
+        }
+    }
+);
 </script>
 </body>
 </html>
