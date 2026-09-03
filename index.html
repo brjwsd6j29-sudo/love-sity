@@ -2,187 +2,1148 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>🎰 Lira Slots</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0d">
+<meta name="description" content="Моё расписание уроков">
+<title>Моё расписание</title>
 <style>
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* =========================================================
+   ОСНОВНЫЕ НАСТРОЙКИ
+========================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+}
+:root {
+    --bg: #f4f5f7;
+    --bg-secondary: #ffffff;
+    --card: #ffffff;
+    --card-hover: #f0f1f3;
+    --text: #111216;
+    --text-secondary: #6d717a;
+    --border: #e1e3e7;
+    --accent: #111111;
+    --accent-text: #ffffff;
+    --success: #16834b;
+    --success-bg: #e5f6ed;
+    --shadow: 0 15px 40px rgba(0,0,0,0.08);
+    --shadow-small: 0 5px 20px rgba(0,0,0,0.06);
+    --radius: 20px;
+}
+body.dark {
+    --bg: #08090b;
+    --bg-secondary: #0e1013;
+    --card: #14171c;
+    --card-hover: #1d2128;
+    --text: #f4f4f5;
+    --text-secondary: #a1a6af;
+    --border: #282d35;
+    --accent: #ffffff;
+    --accent-text: #111111;
+    --success: #42d58c;
+    --success-bg: #123526;
+    --shadow: 0 15px 40px rgba(0,0,0,0.35);
+    --shadow-small: 0 5px 20px rgba(0,0,0,0.25);
+}
 body {
-    margin: 0; padding: 20px; color: white;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: radial-gradient(circle at 50% 0%, #35305c, #141321 45%, #07070d);
-    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease;
 }
-.app { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 15px; }
-
-.top-bar {
-    background: rgba(255, 255, 255, .08);
-    border: 1px solid rgba(255, 255, 255, .12);
-    backdrop-filter: blur(15px); border-radius: 20px; padding: 14px 20px;
-    display: flex; justify-content: space-between; align-items: center;
+/* =========================================================
+   HEADER
+========================================================= */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background: rgba(244,245,247,0.86);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    transition: 0.25s;
 }
-.user-info { display: flex; flex-direction: column; text-align: left; }
-.user-name { font-size: 16px; font-weight: 700; }
-.user-id { font-size: 11px; color: rgba(255,255,255,.4); }
-.balance-box { text-align: right; }
-.balance-label { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,.5); }
-.balance-val { font-size: 18px; font-weight: 800; color: #b44dff; }
-
-.card {
-    background: rgba(255, 255, 255, .07);
-    border: 1px solid rgba(255, 255, 255, .1);
-    backdrop-filter: blur(15px); border-radius: 24px; padding: 25px; text-align: center;
+body.dark .header {
+    background: rgba(8,9,11,0.86);
 }
-.reels {
-    display: flex; gap: 12px; font-size: 55px; background: rgba(0,0,0,.4);
-    padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,.1);
-    margin: 20px 0; justify-content: center; min-height: 95px; align-items: center;
+.header-container {
+    max-width: 1200px;
+    margin: auto;
+    min-height: 76px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
-.spinning { filter: blur(3px); transform: scale(0.95); }
-
-input {
-    width: 100%; padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,.2);
-    background: rgba(0,0,0,.3); color: white; text-align: center; font-size: 18px;
-    font-weight: 700; margin-bottom: 15px; outline: none;
+/* =========================================================
+   LOGO
+========================================================= */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
 }
-button {
-    width: 100%; padding: 16px; border: none; border-radius: 16px;
-    background: linear-gradient(135deg, #765cff, #b44dff); color: white;
-    font-size: 18px; font-weight: 700; cursor: pointer; transition: transform .1s, opacity .2s;
+.logo-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: var(--accent);
+    color: var(--accent-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    box-shadow: var(--shadow-small);
 }
-button:active { transform: scale(.97); }
-button:disabled { opacity: 0.5; cursor: not-allowed; }
-.msg { margin-top: 15px; font-weight: 700; min-height: 24px; font-size: 15px; }
+.logo-content {
+    display: flex;
+    flex-direction: column;
+}
+.logo-title {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+.logo-subtitle {
+    margin-top: 2px;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+/* =========================================================
+   HEADER CONTROLS
+========================================================= */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.control-button {
+    height: 42px;
+    padding: 0 13px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border 0.2s ease;
+}
+.control-button:hover {
+    background: var(--card-hover);
+    transform: translateY(-1px);
+}
+.control-button:active {
+    transform: scale(0.97);
+}
+.theme-button {
+    width: 44px;
+    padding: 0;
+    font-size: 18px;
+}
+.language-select {
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+}
+/* =========================================================
+   MAIN
+========================================================= */
+.main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 45px 20px 70px;
+}
+/* =========================================================
+   HERO
+========================================================= */
+.hero {
+    position: relative;
+    padding: 35px;
+    margin-bottom: 28px;
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    right: -90px;
+    top: -100px;
+    border-radius: 50%;
+    background: var(--card-hover);
+    opacity: 0.7;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+.hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 11px;
+    border-radius: 9px;
+    background: var(--card-hover);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+.hero h1 {
+    font-size: clamp(32px, 6vw, 54px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+    font-weight: 850;
+}
+.hero p {
+    max-width: 650px;
+    margin-top: 12px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.6;
+}
+/* =========================================================
+   SEARCH
+========================================================= */
+.search-wrapper {
+    margin-bottom: 22px;
+}
+.search-box {
+    position: relative;
+}
+.search-icon {
+    position: absolute;
+    left: 17px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 17px;
+    opacity: 0.65;
+}
+.search-input {
+    width: 100%;
+    height: 52px;
+    padding: 0 18px 0 48px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: var(--card);
+    color: var(--text);
+    outline: none;
+    font-size: 15px;
+    box-shadow: var(--shadow-small);
+    transition: 0.2s;
+}
+.search-input:focus {
+    border-color: var(--text-secondary);
+}
+.search-input::placeholder {
+    color: var(--text-secondary);
+}
+/* =========================================================
+   DAY NAVIGATION
+========================================================= */
+.days-navigation {
+    display: flex;
+    gap: 9px;
+    overflow-x: auto;
+    padding: 2px 2px 16px;
+    scrollbar-width: thin;
+}
+.days-navigation::-webkit-scrollbar {
+    height: 4px;
+}
+.days-navigation::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 20px;
+}
+.day-button {
+    flex: 0 0 auto;
+    min-width: 125px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+.day-button:hover {
+    background: var(--card-hover);
+}
+.day-button.active {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-small);
+}
+.day-button.today-day {
+    position: relative;
+}
+.day-button.today-day::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    top: 7px;
+    right: 7px;
+    border-radius: 50%;
+    background: #42c984;
+}
+/* =========================================================
+   SCHEDULE CARD
+========================================================= */
+.schedule-card {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 23px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+}
+/* =========================================================
+   SCHEDULE HEADER
+========================================================= */
+.schedule-header {
+    padding: 23px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid var(--border);
+}
+.schedule-day-name {
+    font-size: 26px;
+    font-weight: 800;
+}
+.schedule-date {
+    margin-top: 4px;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+.lesson-count {
+    padding: 8px 11px;
+    border-radius: 10px;
+    background: var(--card-hover);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+/* =========================================================
+   LESSONS
+========================================================= */
+.lessons {
+    padding: 8px 15px 15px;
+}
+.lesson {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    align-items: center;
+    gap: 15px;
+    min-height: 70px;
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    border-radius: 13px;
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+.lesson:last-child {
+    border-bottom: none;
+}
+.lesson:hover {
+    background: var(--card-hover);
+}
+.lesson-number {
+    width: 43px;
+    height: 43px;
+    border-radius: 12px;
+    background: var(--card-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 15px;
+}
+.lesson-info {
+    min-width: 0;
+}
+.lesson-name {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+.lesson-type {
+    margin-top: 4px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+.lesson-arrow {
+    color: var(--text-secondary);
+    font-size: 18px;
+}
+/* =========================================================
+   TODAY
+========================================================= */
+.lesson.today-lesson {
+    background: var(--success-bg);
+    border-color: transparent;
+}
+.today-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 7px;
+    padding: 3px 7px;
+    border-radius: 6px;
+    background: var(--success);
+    color: white;
+    font-size: 10px;
+    vertical-align: middle;
+    font-weight: 800;
+}
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+.empty {
+    padding: 55px 20px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+.empty-icon {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+.empty-title {
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 750;
+    margin-bottom: 5px;
+}
+/* =========================================================
+   FOOTER
+========================================================= */
+.footer {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px 35px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+.footer-line {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 20px;
+}
+/* =========================================================
+   MOBILE
+========================================================= */
+@media (max-width: 700px) {
+    .header-container {
+        min-height: 68px;
+        padding: 10px 14px;
+    }
+    .logo-subtitle {
+        display: none;
+    }
+    .logo-title {
+        font-size: 15px;
+    }
+    .logo-icon {
+        width: 41px;
+        height: 41px;
+        border-radius: 12px;
+        font-size: 19px;
+    }
+    .language-select {
+        max-width: 112px;
+        font-size: 12px;
+    }
+    .theme-button {
+        width: 41px;
+    }
+    .main {
+        padding: 25px 14px 55px;
+    }
+    .hero {
+        padding: 26px 21px;
+        border-radius: 20px;
+    }
+    .hero h1 {
+        font-size: 35px;
+        letter-spacing: -1.3px;
+    }
+    .hero p {
+        font-size: 14px;
+    }
+    .day-button {
+        min-width: 112px;
+        padding: 11px 13px;
+        font-size: 13px;
+    }
+    .schedule-card {
+        border-radius: 18px;
+    }
+    .schedule-header {
+        padding: 19px 17px;
+    }
+    .schedule-day-name {
+        font-size: 22px;
+    }
+    .lesson {
+        grid-template-columns: 43px 1fr;
+        gap: 12px;
+        padding: 12px 5px;
+    }
+    .lesson-arrow {
+        display: none;
+    }
+    .lesson-number {
+        width: 39px;
+        height: 39px;
+        border-radius: 10px;
+    }
+    .lesson-name {
+        font-size: 14px;
+    }
+    .lesson-type {
+        font-size: 11px;
+    }
+    .lessons {
+        padding: 6px 11px 11px;
+    }
+}
+@media (max-width: 430px) {
+    .header-controls {
+        gap: 5px;
+    }
+    .language-select {
+        width: 100px;
+        padding: 0 7px;
+    }
+    .hero h1 {
+        font-size: 31px;
+    }
+    .schedule-day-name {
+        font-size: 20px;
+    }
+    .lesson-name {
+        font-size: 13.5px;
+    }
+}
+/* =========================================================
+   АНИМАЦИИ
+========================================================= */
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 </style>
 </head>
 <body>
-
-<div class="app">
-    <div class="top-bar">
-        <div class="user-info">
-            <span class="user-name" id="userName">Игрок</span>
-            <span class="user-id" id="userId">ID: 0</span>
+<!-- =======================================================
+     HEADER
+======================================================= -->
+<header class="header">
+    <div class="header-container">
+        <div class="logo">
+            <div class="logo-icon">
+                📚
+            </div>
+            <div class="logo-content">
+                <div class="logo-title" id="logoTitle">
+                    Моё расписание
+                </div>
+                <div class="logo-subtitle" id="logoSubtitle">
+                    Школьный портал
+                </div>
+            </div>
         </div>
-        <div class="balance-box">
-            <div class="balance-label">Баланс Lira</div>
-            <div class="balance-val" id="userBalance">0</div>
+        <div class="header-controls">
+            <select
+                class="language-select"
+                id="languageSelect"
+                aria-label="Язык">
+                <option value="ru">
+                    🇷🇺 Русский
+                </option>
+                <option value="kk">
+                    🇰🇿 Қазақ тілі
+                </option>
+            </select>
+            <button
+                class="control-button theme-button"
+                id="themeButton"
+                aria-label="Изменить тему">
+                🌙
+            </button>
         </div>
     </div>
-
-    <div class="card">
-        <h2 style="margin:0;">🎰 Lira Slots</h2>
-        <div class="reels">
-            <span id="r1">🎰</span>
-            <span id="r2">🎰</span>
-            <span id="r3">🎰</span>
+</header>
+<!-- =======================================================
+     MAIN
+======================================================= -->
+<main class="main">
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">
+                🗓️ <span id="heroLabel">Школьное расписание</span>
+            </div>
+            <h1 id="heroTitle">
+                Расписание уроков
+            </h1>
+            <p id="heroDescription">
+                Все уроки на одной странице.
+                Выбирай нужный день и быстро находи нужный предмет.
+            </p>
         </div>
-        <input type="number" id="bet" placeholder="Ставка..." value="100">
-        <button id="spinBtn" onclick="play()">Крутить 🚀</button>
-        <div class="msg" id="msg"></div>
+    </section>
+    <!-- SEARCH -->
+    <div class="search-wrapper">
+        <div class="search-box">
+            <span class="search-icon">
+                🔎
+            </span>
+            <input
+                type="text"
+                class="search-input"
+                id="searchInput"
+                placeholder="Поиск по предметам..."
+                autocomplete="off">
+        </div>
     </div>
-</div>
-
+    <!-- DAYS -->
+    <nav
+        class="days-navigation"
+        id="daysNavigation">
+    </nav>
+    <!-- SCHEDULE -->
+    <section class="schedule-card">
+        <div class="schedule-header">
+            <div>
+                <div
+                    class="schedule-day-name"
+                    id="scheduleDayName">
+                </div>
+                <div
+                    class="schedule-date"
+                    id="scheduleDate">
+                </div>
+            </div>
+            <div
+                class="lesson-count"
+                id="lessonCount">
+            </div>
+        </div>
+        <div
+            class="lessons"
+            id="lessonsContainer">
+        </div>
+    </section>
+</main>
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+<footer class="footer">
+    <div class="footer-line"></div>
+    <div id="footerText">
+        Моё расписание • GitHub Pages
+    </div>
+</footer>
 <script>
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
-
-// Данные профиля
-if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-    const user = tg.initDataUnsafe.user;
-    document.getElementById("userName").textContent = user.first_name;
-    document.getElementById("userId").textContent = "ID: " + user.id;
+/* =========================================================
+   РАСПИСАНИЕ
+========================================================= */
+const schedule = {
+    monday: [
+        "Алгебра",
+        "Геометрия",
+        "Дүние жүзі тарихы",
+        "География",
+        "Шет тілі",
+        "Қазақ әдебиеті",
+        "Қазақ тілі"
+    ],
+    tuesday: [
+        "Алгебра",
+        "Әдебиет",
+        "Қазақстан тарихы",
+        "Физика",
+        "Қазақ тілі",
+        "Химия",
+        "Бастапқы әскери даярлық"
+    ],
+    wednesday: [
+        "Дүниежүзі тарихы",
+        "Биология",
+        "Қазақ тілі",
+        "Химия",
+        "Дене шынықтыру",
+        "Шет тілі",
+        "Физика",
+        "Эссе жазудың тиімді жолдары"
+    ],
+    thursday: [
+        "Биология",
+        "Дене шынықтыру",
+        "Құқық негіздері",
+        "Қазақстан тарихы",
+        "Орыс тілі",
+        "Қазақ әдебиеті",
+        "Қазақ тілі",
+        "Ақылды технологиялар әлемі"
+    ],
+    friday: [
+        "Қазақ әдебиеті",
+        "Информатика / ЖИ",
+        "Дене шынықтыру",
+        "Орыс тілі",
+        "Алгебра",
+        "Шет тілі",
+        "Қазақстан тарихы",
+        "Жеке қауіпсіздік / Заң және тәртіп"
+    ]
+};
+/* =========================================================
+   ПЕРЕВОДЫ
+========================================================= */
+const translations = {
+    ru: {
+        logoTitle: "Моё расписание",
+        logoSubtitle: "Школьный портал",
+        heroLabel: "Школьное расписание",
+        heroTitle: "Расписание уроков",
+        heroDescription:
+            "Все уроки на одной странице. Выбирай нужный день и быстро находи нужный предмет.",
+        search:
+            "Поиск по предметам...",
+        lessonWord:
+            "уроков",
+        today:
+            "Сегодня",
+        footer:
+            "Моё расписание • GitHub Pages",
+        emptyTitle:
+            "Ничего не найдено",
+        emptyText:
+            "Попробуй изменить запрос поиска.",
+        days: {
+            monday: "Понедельник",
+            tuesday: "Вторник",
+            wednesday: "Среда",
+            thursday: "Четверг",
+            friday: "Пятница"
+        }
+    },
+    kk: {
+        logoTitle: "Менің сабақ кестем",
+        logoSubtitle: "Мектеп порталы",
+        heroLabel: "Сабақ кестесі",
+        heroTitle: "Сабақ кестесі",
+        heroDescription:
+            "Барлық сабақ бір жерде. Қажетті күнді таңдап, керек пәнді оңай тап.",
+        search:
+            "Пән бойынша іздеу...",
+        lessonWord:
+            "сабақ",
+        today:
+            "Бүгін",
+        footer:
+            "Менің сабақ кестем • GitHub Pages",
+        emptyTitle:
+            "Ештеңе табылмады",
+        emptyText:
+            "Іздеу сұранысын өзгертіп көр.",
+        days: {
+            monday: "Дүйсенбі",
+            tuesday: "Сейсенбі",
+            wednesday: "Сәрсенбі",
+            thursday: "Бейсенбі",
+            friday: "Жұма"
+        }
+    }
+};
+/* =========================================================
+   ПЕРЕМЕННЫЕ
+========================================================= */
+const dayKeys = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday"
+];
+let currentLanguage =
+    localStorage.getItem("scheduleLanguage") || "ru";
+let currentDay =
+    localStorage.getItem("scheduleDay") || getCurrentDay();
+let searchQuery = "";
+/* =========================================================
+   DOM
+========================================================= */
+const languageSelect =
+    document.getElementById("languageSelect");
+const themeButton =
+    document.getElementById("themeButton");
+const daysNavigation =
+    document.getElementById("daysNavigation");
+const lessonsContainer =
+    document.getElementById("lessonsContainer");
+const scheduleDayName =
+    document.getElementById("scheduleDayName");
+const scheduleDate =
+    document.getElementById("scheduleDate");
+const lessonCount =
+    document.getElementById("lessonCount");
+const searchInput =
+    document.getElementById("searchInput");
+/* =========================================================
+   ОПРЕДЕЛЕНИЕ ТЕКУЩЕГО ДНЯ
+========================================================= */
+function getCurrentDay() {
+    const day = new Date().getDay();
+    const map = {
+        1: "monday",
+        2: "tuesday",
+        3: "wednesday",
+        4: "thursday",
+        5: "friday"
+    };
+    return map[day] || "monday";
 }
-
-// Считывание баланса из URL (?bal=...)
-const urlParams = new URLSearchParams(window.location.search);
-let currentBalance = parseInt(urlParams.get('bal')) || 0;
-document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
-
-const symbols = ["🍋", "🍒", "7️⃣", "💎"];
-
-function play() {
-    const betInput = document.getElementById("bet");
-    const bet = parseInt(betInput.value);
-    const msg = document.getElementById("msg");
-    const btn = document.getElementById("spinBtn");
-    
-    const r1 = document.getElementById("r1");
-    const r2 = document.getElementById("r2");
-    const r3 = document.getElementById("r3");
-
-    if (!bet || bet <= 0) {
-        msg.textContent = "❌ Введите сумму ставки!";
-        msg.style.color = "#ff4d4d";
+/* =========================================================
+   ФОРМАТ ДАТЫ
+========================================================= */
+function getFormattedDate() {
+    const now = new Date();
+    if (currentLanguage === "kk") {
+        return now.toLocaleDateString(
+            "kk-KZ",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+    }
+    return now.toLocaleDateString(
+        "ru-RU",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
+}
+/* =========================================================
+   РЕНДЕР ЯЗЫКА
+========================================================= */
+function renderLanguage() {
+    const t = translations[currentLanguage];
+    document.documentElement.lang =
+        currentLanguage === "kk"
+            ? "kk"
+            : "ru";
+    document.getElementById("logoTitle")
+        .textContent = t.logoTitle;
+    document.getElementById("logoSubtitle")
+        .textContent = t.logoSubtitle;
+    document.getElementById("heroLabel")
+        .textContent = t.heroLabel;
+    document.getElementById("heroTitle")
+        .textContent = t.heroTitle;
+    document.getElementById("heroDescription")
+        .textContent = t.heroDescription;
+    document.getElementById("footerText")
+        .textContent = t.footer;
+    searchInput.placeholder =
+        t.search;
+    renderDays();
+    renderSchedule();
+}
+/* =========================================================
+   РЕНДЕР ДНЕЙ
+========================================================= */
+function renderDays() {
+    const t = translations[currentLanguage];
+    daysNavigation.innerHTML = "";
+    const today =
+        getCurrentDay();
+    dayKeys.forEach(day => {
+        const button =
+            document.createElement("button");
+        button.className =
+            "day-button";
+        if (day === currentDay) {
+            button.classList.add("active");
+        }
+        if (day === today) {
+            button.classList.add("today-day");
+        }
+        button.textContent =
+            t.days[day];
+        button.addEventListener(
+            "click",
+            () => {
+                currentDay = day;
+                localStorage.setItem(
+                    "scheduleDay",
+                    currentDay
+                );
+                searchInput.value = "";
+                searchQuery = "";
+                renderDays();
+                renderSchedule();
+            }
+        );
+        daysNavigation.appendChild(button);
+    });
+}
+/* =========================================================
+   РЕНДЕР РАСПИСАНИЯ
+========================================================= */
+function renderSchedule() {
+    const t = translations[currentLanguage];
+    const subjects =
+        schedule[currentDay];
+    scheduleDayName.textContent =
+        t.days[currentDay];
+    scheduleDate.textContent =
+        getFormattedDate();
+    let filteredSubjects =
+        subjects.filter(subject => {
+            return subject
+                .toLowerCase()
+                .includes(
+                    searchQuery.toLowerCase()
+                );
+        });
+    lessonCount.textContent =
+        filteredSubjects.length +
+        " " +
+        t.lessonWord;
+    lessonsContainer.innerHTML = "";
+    lessonsContainer.classList.remove(
+        "fade-in"
+    );
+    void lessonsContainer.offsetWidth;
+    lessonsContainer.classList.add(
+        "fade-in"
+    );
+    if (filteredSubjects.length === 0) {
+        lessonsContainer.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">
+                    🔎
+                </div>
+                <div class="empty-title">
+                    ${t.emptyTitle}
+                </div>
+                <div>
+                    ${t.emptyText}
+                </div>
+            </div>
+        `;
         return;
     }
-
-    if (bet > currentBalance) {
-        msg.textContent = "❌ Недостаточно Lira!";
-        msg.style.color = "#ff4d4d";
-        return;
+    filteredSubjects.forEach(
+        (subject, index) => {
+            const originalIndex =
+                subjects.indexOf(subject);
+            const lesson =
+                document.createElement("div");
+            lesson.className =
+                "lesson";
+            if (
+                currentDay === getCurrentDay()
+            ) {
+                lesson.classList.add(
+                    "today-lesson"
+                );
+            }
+            const number =
+                document.createElement("div");
+            number.className =
+                "lesson-number";
+            number.textContent =
+                originalIndex + 1;
+            const info =
+                document.createElement("div");
+            info.className =
+                "lesson-info";
+            const name =
+                document.createElement("div");
+            name.className =
+                "lesson-name";
+            name.textContent =
+                subject;
+            if (
+                currentDay === getCurrentDay()
+            ) {
+                const badge =
+                    document.createElement("span");
+                badge.className =
+                    "today-badge";
+                badge.textContent =
+                    t.today;
+                name.appendChild(
+                    badge
+                );
+            }
+            const type =
+                document.createElement("div");
+            type.className =
+                "lesson-type";
+            type.textContent =
+                currentLanguage === "kk"
+                    ? "Сабақ"
+                    : "Урок";
+            info.appendChild(name);
+            info.appendChild(type);
+            const arrow =
+                document.createElement("div");
+            arrow.className =
+                "lesson-arrow";
+            arrow.textContent =
+                "›";
+            lesson.appendChild(number);
+            lesson.appendChild(info);
+            lesson.appendChild(arrow);
+            lessonsContainer.appendChild(
+                lesson
+            );
+        }
+    );
+}
+/* =========================================================
+   ПОИСК
+========================================================= */
+searchInput.addEventListener(
+    "input",
+    function () {
+        searchQuery =
+            this.value.trim();
+        renderSchedule();
     }
-
-    btn.disabled = true;
-    msg.textContent = "Крутим...";
-    msg.style.color = "#ffffff";
-
-    r1.classList.add("spinning");
-    r2.classList.add("spinning");
-    r3.classList.add("spinning");
-
-    let interval = setInterval(() => {
-        r1.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        r2.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        r3.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-    }, 80);
-
-    setTimeout(() => {
-        clearInterval(interval);
-
-        r1.classList.remove("spinning");
-        r2.classList.remove("spinning");
-        r3.classList.remove("spinning");
-
-        const f1 = symbols[Math.floor(Math.random() * symbols.length)];
-        const f2 = symbols[Math.floor(Math.random() * symbols.length)];
-        const f3 = symbols[Math.floor(Math.random() * symbols.length)];
-
-        r1.textContent = f1;
-        r2.textContent = f2;
-        r3.textContent = f3;
-
-        let mult = 0;
-        if (f1 === f2 && f2 === f3) {
-            mult = (f1 === "💎") ? 5 : 3;
-        } else if (f1 === f2 || f2 === f3 || f1 === f3) {
-            mult = 1.5;
-        }
-
-        const win = Math.floor(bet * mult);
-
-        // Обновляем баланс на экране
-        currentBalance = currentBalance - bet + win;
-        document.getElementById("userBalance").textContent = currentBalance.toLocaleString();
-
-        if (win > 0) {
-            msg.textContent = `🎉 Выигрыш: +${win.toLocaleString()} Lira!`;
-            msg.style.color = "#4dff88";
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        } else {
-            msg.textContent = `😔 Проигрыш: -${bet.toLocaleString()} Lira`;
-            msg.style.color = "#ff4d4d";
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-        }
-
-        // Передача результата боту
-        setTimeout(() => {
-            tg.sendData(JSON.stringify({ bet: bet, win: win }));
-        }, 1000);
-
-    }, 1500);
+);
+/* =========================================================
+   ЯЗЫК
+========================================================= */
+languageSelect.value =
+    currentLanguage;
+languageSelect.addEventListener(
+    "change",
+    function () {
+        currentLanguage =
+            this.value;
+        localStorage.setItem(
+            "scheduleLanguage",
+            currentLanguage
+        );
+        renderLanguage();
+    }
+);
+/* =========================================================
+   ТЕМА
+========================================================= */
+function updateThemeIcon() {
+    const isDark =
+        document.body.classList.contains(
+            "dark"
+        );
+    themeButton.textContent =
+        isDark
+            ? "☀️"
+            : "🌙";
+}
+themeButton.addEventListener(
+    "click",
+    function () {
+        const isDark =
+            document.body.classList.toggle(
+                "dark"
+            );
+        localStorage.setItem(
+            "scheduleTheme",
+            isDark
+                ? "dark"
+                : "light"
+        );
+        updateThemeIcon();
+    }
+);
+/* =========================================================
+   ЗАГРУЗКА СОХРАНЁННОЙ ТЕМЫ
+========================================================= */
+const savedTheme =
+    localStorage.getItem(
+        "scheduleTheme"
+    );
+if (savedTheme === "dark") {
+    document.body.classList.add(
+        "dark"
+    );
+}
+updateThemeIcon();
+/* =========================================================
+   ЗАПУСК
+========================================================= */
+renderLanguage();
+/* =========================================================
+   ЕСЛИ СОХРАНЁННЫЙ ДЕНЬ НЕСУЩЕСТВУЕТ
+========================================================= */
+if (!dayKeys.includes(currentDay)) {
+    currentDay =
+        getCurrentDay();
+    localStorage.setItem(
+        "scheduleDay",
+        currentDay
+    );
+    renderDays();
+    renderSchedule();
 }
 </script>
-
 </body>
 </html>
