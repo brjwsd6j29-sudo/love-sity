@@ -1,1149 +1,517 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="kk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b0b0d">
-<meta name="description" content="Моё расписание уроков">
-<title>Моё расписание</title>
+<title>Қазақстан тарихы — 100 сұрақ</title>
+
 <style>
-/* =========================================================
-   ОСНОВНЫЕ НАСТРОЙКИ
-========================================================= */
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
-html {
-    scroll-behavior: smooth;
-}
-:root {
-    --bg: #f4f5f7;
-    --bg-secondary: #ffffff;
-    --card: #ffffff;
-    --card-hover: #f0f1f3;
-    --text: #111216;
-    --text-secondary: #6d717a;
-    --border: #e1e3e7;
-    --accent: #111111;
-    --accent-text: #ffffff;
-    --success: #16834b;
-    --success-bg: #e5f6ed;
-    --shadow: 0 15px 40px rgba(0,0,0,0.08);
-    --shadow-small: 0 5px 20px rgba(0,0,0,0.06);
-    --radius: 20px;
-}
-body.dark {
-    --bg: #08090b;
-    --bg-secondary: #0e1013;
-    --card: #14171c;
-    --card-hover: #1d2128;
-    --text: #f4f4f5;
-    --text-secondary: #a1a6af;
-    --border: #282d35;
-    --accent: #ffffff;
-    --accent-text: #111111;
-    --success: #42d58c;
-    --success-bg: #123526;
-    --shadow: 0 15px 40px rgba(0,0,0,0.35);
-    --shadow-small: 0 5px 20px rgba(0,0,0,0.25);
-}
+
 body {
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-    transition:
-        background 0.25s ease,
-        color 0.25s ease;
+    margin: 0;
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
 }
-/* =========================================================
-   HEADER
-========================================================= */
-.header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    background: rgba(244,245,247,0.86);
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    transition: 0.25s;
-}
-body.dark .header {
-    background: rgba(8,9,11,0.86);
-}
-.header-container {
-    max-width: 1200px;
+
+.container {
+    max-width: 900px;
     margin: auto;
-    min-height: 76px;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
+    padding: 20px;
 }
-/* =========================================================
-   LOGO
-========================================================= */
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    user-select: none;
+
+h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
 }
-.logo-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: var(--accent);
-    color: var(--accent-text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 23px;
-    box-shadow: var(--shadow-small);
+
+.subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 25px;
 }
-.logo-content {
-    display: flex;
-    flex-direction: column;
-}
-.logo-title {
-    font-size: 17px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-}
-.logo-subtitle {
-    margin-top: 2px;
-    font-size: 11px;
-    color: var(--text-secondary);
-}
-/* =========================================================
-   HEADER CONTROLS
-========================================================= */
-.header-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.control-button {
-    height: 42px;
-    padding: 0 13px;
-    border: 1px solid var(--border);
+
+.question {
+    background: #080808;
+    border: 1px solid #222;
     border-radius: 12px;
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        border 0.2s ease;
+    padding: 18px;
+    margin-bottom: 15px;
 }
-.control-button:hover {
-    background: var(--card-hover);
-    transform: translateY(-1px);
+
+.question h3 {
+    margin-top: 0;
+    line-height: 1.5;
 }
-.control-button:active {
-    transform: scale(0.97);
-}
-.theme-button {
-    width: 44px;
-    padding: 0;
-    font-size: 18px;
-}
-.language-select {
-    height: 42px;
-    padding: 0 12px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--card);
-    color: var(--text);
-    font-size: 14px;
-    font-weight: 600;
-    outline: none;
+
+label {
+    display: block;
+    background: #111;
+    border: 1px solid #222;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
     cursor: pointer;
 }
-/* =========================================================
-   MAIN
-========================================================= */
-.main {
-    max-width: 1200px;
-    margin: auto;
-    padding: 45px 20px 70px;
+
+label:hover {
+    background: #1b1b1b;
 }
-/* =========================================================
-   HERO
-========================================================= */
-.hero {
-    position: relative;
-    padding: 35px;
-    margin-bottom: 28px;
-    border: 1px solid var(--border);
-    border-radius: 26px;
-    background: var(--card);
-    box-shadow: var(--shadow);
-    overflow: hidden;
+
+input {
+    margin-right: 10px;
 }
-.hero::before {
-    content: "";
-    position: absolute;
-    width: 230px;
-    height: 230px;
-    right: -90px;
-    top: -100px;
-    border-radius: 50%;
-    background: var(--card-hover);
-    opacity: 0.7;
-}
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
-.hero-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 7px 11px;
-    border-radius: 9px;
-    background: var(--card-hover);
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 14px;
-}
-.hero h1 {
-    font-size: clamp(32px, 6vw, 54px);
-    line-height: 1.05;
-    letter-spacing: -2px;
-    font-weight: 850;
-}
-.hero p {
-    max-width: 650px;
-    margin-top: 12px;
-    color: var(--text-secondary);
-    font-size: 16px;
-    line-height: 1.6;
-}
-/* =========================================================
-   SEARCH
-========================================================= */
-.search-wrapper {
-    margin-bottom: 22px;
-}
-.search-box {
-    position: relative;
-}
-.search-icon {
-    position: absolute;
-    left: 17px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 17px;
-    opacity: 0.65;
-}
-.search-input {
+
+button {
     width: 100%;
-    height: 52px;
-    padding: 0 18px 0 48px;
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    background: var(--card);
-    color: var(--text);
-    outline: none;
-    font-size: 15px;
-    box-shadow: var(--shadow-small);
-    transition: 0.2s;
-}
-.search-input:focus {
-    border-color: var(--text-secondary);
-}
-.search-input::placeholder {
-    color: var(--text-secondary);
-}
-/* =========================================================
-   DAY NAVIGATION
-========================================================= */
-.days-navigation {
-    display: flex;
-    gap: 9px;
-    overflow-x: auto;
-    padding: 2px 2px 16px;
-    scrollbar-width: thin;
-}
-.days-navigation::-webkit-scrollbar {
-    height: 4px;
-}
-.days-navigation::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 20px;
-}
-.day-button {
-    flex: 0 0 auto;
-    min-width: 125px;
-    padding: 12px 16px;
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 700;
-    transition: 0.2s;
-}
-.day-button:hover {
-    background: var(--card-hover);
-}
-.day-button.active {
-    background: var(--accent);
-    color: var(--accent-text);
-    border-color: var(--accent);
-    box-shadow: var(--shadow-small);
-}
-.day-button.today-day {
-    position: relative;
-}
-.day-button.today-day::after {
-    content: "";
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    top: 7px;
-    right: 7px;
-    border-radius: 50%;
-    background: #42c984;
-}
-/* =========================================================
-   SCHEDULE CARD
-========================================================= */
-.schedule-card {
-    overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: 23px;
-    background: var(--card);
-    box-shadow: var(--shadow);
-}
-/* =========================================================
-   SCHEDULE HEADER
-========================================================= */
-.schedule-header {
-    padding: 23px 25px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    border-bottom: 1px solid var(--border);
-}
-.schedule-day-name {
-    font-size: 26px;
-    font-weight: 800;
-}
-.schedule-date {
-    margin-top: 4px;
-    color: var(--text-secondary);
-    font-size: 13px;
-}
-.lesson-count {
-    padding: 8px 11px;
+    padding: 15px;
+    border: none;
     border-radius: 10px;
-    background: var(--card-hover);
-    color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 700;
-    white-space: nowrap;
+    background: #fff;
+    color: #000;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 8px 0;
 }
-/* =========================================================
-   LESSONS
-========================================================= */
-.lessons {
-    padding: 8px 15px 15px;
+
+button:hover {
+    background: #ccc;
 }
-.lesson {
-    display: grid;
-    grid-template-columns: 52px 1fr auto;
-    align-items: center;
-    gap: 15px;
-    min-height: 70px;
-    padding: 10px;
-    border-bottom: 1px solid var(--border);
-    border-radius: 13px;
-    transition:
-        background 0.2s,
-        transform 0.2s;
+
+.answer {
+    display: none;
+    margin-top: 12px;
+    padding: 12px;
+    background: #111;
+    border-left: 4px solid #fff;
+    border-radius: 5px;
 }
-.lesson:last-child {
-    border-bottom: none;
+
+.correct {
+    border-color: #fff;
 }
-.lesson:hover {
-    background: var(--card-hover);
+
+.wrong {
+    border-color: #555;
 }
-.lesson-number {
-    width: 43px;
-    height: 43px;
-    border-radius: 12px;
-    background: var(--card-hover);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 15px;
-}
-.lesson-info {
-    min-width: 0;
-}
-.lesson-name {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.35;
-}
-.lesson-type {
-    margin-top: 4px;
-    color: var(--text-secondary);
-    font-size: 12px;
-}
-.lesson-arrow {
-    color: var(--text-secondary);
-    font-size: 18px;
-}
-/* =========================================================
-   TODAY
-========================================================= */
-.lesson.today-lesson {
-    background: var(--success-bg);
-    border-color: transparent;
-}
-.today-badge {
-    display: inline-flex;
-    align-items: center;
-    margin-left: 7px;
-    padding: 3px 7px;
-    border-radius: 6px;
-    background: var(--success);
-    color: white;
-    font-size: 10px;
-    vertical-align: middle;
-    font-weight: 800;
-}
-/* =========================================================
-   EMPTY STATE
-========================================================= */
-.empty {
-    padding: 55px 20px;
+
+#result {
     text-align: center;
-    color: var(--text-secondary);
-}
-.empty-icon {
-    font-size: 38px;
-    margin-bottom: 12px;
-}
-.empty-title {
-    color: var(--text);
-    font-size: 18px;
-    font-weight: 750;
-    margin-bottom: 5px;
-}
-/* =========================================================
-   FOOTER
-========================================================= */
-.footer {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px 35px;
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 13px;
-}
-.footer-line {
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 20px;
-}
-/* =========================================================
-   MOBILE
-========================================================= */
-@media (max-width: 700px) {
-    .header-container {
-        min-height: 68px;
-        padding: 10px 14px;
-    }
-    .logo-subtitle {
-        display: none;
-    }
-    .logo-title {
-        font-size: 15px;
-    }
-    .logo-icon {
-        width: 41px;
-        height: 41px;
-        border-radius: 12px;
-        font-size: 19px;
-    }
-    .language-select {
-        max-width: 112px;
-        font-size: 12px;
-    }
-    .theme-button {
-        width: 41px;
-    }
-    .main {
-        padding: 25px 14px 55px;
-    }
-    .hero {
-        padding: 26px 21px;
-        border-radius: 20px;
-    }
-    .hero h1 {
-        font-size: 35px;
-        letter-spacing: -1.3px;
-    }
-    .hero p {
-        font-size: 14px;
-    }
-    .day-button {
-        min-width: 112px;
-        padding: 11px 13px;
-        font-size: 13px;
-    }
-    .schedule-card {
-        border-radius: 18px;
-    }
-    .schedule-header {
-        padding: 19px 17px;
-    }
-    .schedule-day-name {
-        font-size: 22px;
-    }
-    .lesson {
-        grid-template-columns: 43px 1fr;
-        gap: 12px;
-        padding: 12px 5px;
-    }
-    .lesson-arrow {
-        display: none;
-    }
-    .lesson-number {
-        width: 39px;
-        height: 39px;
-        border-radius: 10px;
-    }
-    .lesson-name {
-        font-size: 14px;
-    }
-    .lesson-type {
-        font-size: 11px;
-    }
-    .lessons {
-        padding: 6px 11px 11px;
-    }
-}
-@media (max-width: 430px) {
-    .header-controls {
-        gap: 5px;
-    }
-    .language-select {
-        width: 100px;
-        padding: 0 7px;
-    }
-    .hero h1 {
-        font-size: 31px;
-    }
-    .schedule-day-name {
-        font-size: 20px;
-    }
-    .lesson-name {
-        font-size: 13.5px;
-    }
-}
-/* =========================================================
-   АНИМАЦИИ
-========================================================= */
-.fade-in {
-    animation: fadeIn 0.3s ease;
-}
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(7px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    font-size: 22px;
+    font-weight: bold;
+    margin: 25px 0;
 }
 </style>
 </head>
+
 <body>
-<!-- =======================================================
-     HEADER
-======================================================= -->
-<header class="header">
-    <div class="header-container">
-        <div class="logo">
-            <div class="logo-icon">
-                📚
-            </div>
-            <div class="logo-content">
-                <div class="logo-title" id="logoTitle">
-                    Моё расписание
-                </div>
-                <div class="logo-subtitle" id="logoSubtitle">
-                    Школьный портал
-                </div>
-            </div>
-        </div>
-        <div class="header-controls">
-            <select
-                class="language-select"
-                id="languageSelect"
-                aria-label="Язык">
-                <option value="ru">
-                    🇷🇺 Русский
-                </option>
-                <option value="kk">
-                    🇰🇿 Қазақ тілі
-                </option>
-            </select>
-            <button
-                class="control-button theme-button"
-                id="themeButton"
-                aria-label="Изменить тему">
-                🌙
-            </button>
-        </div>
-    </div>
-</header>
-<!-- =======================================================
-     MAIN
-======================================================= -->
-<main class="main">
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-label">
-                🗓️ <span id="heroLabel">Школьное расписание</span>
-            </div>
-            <h1 id="heroTitle">
-                Расписание уроков
-            </h1>
-            <p id="heroDescription">
-                Все уроки на одной странице.
-                Выбирай нужный день и быстро находи нужный предмет.
-            </p>
-        </div>
-    </section>
-    <!-- SEARCH -->
-    <div class="search-wrapper">
-        <div class="search-box">
-            <span class="search-icon">
-                🔎
-            </span>
-            <input
-                type="text"
-                class="search-input"
-                id="searchInput"
-                placeholder="Поиск по предметам..."
-                autocomplete="off">
-        </div>
-    </div>
-    <!-- DAYS -->
-    <nav
-        class="days-navigation"
-        id="daysNavigation">
-    </nav>
-    <!-- SCHEDULE -->
-    <section class="schedule-card">
-        <div class="schedule-header">
-            <div>
-                <div
-                    class="schedule-day-name"
-                    id="scheduleDayName">
-                </div>
-                <div
-                    class="schedule-date"
-                    id="scheduleDate">
-                </div>
-            </div>
-            <div
-                class="lesson-count"
-                id="lessonCount">
-            </div>
-        </div>
-        <div
-            class="lessons"
-            id="lessonsContainer">
-        </div>
-    </section>
-</main>
-<!-- =======================================================
-     FOOTER
-======================================================= -->
-<footer class="footer">
-    <div class="footer-line"></div>
-    <div id="footerText">
-        Моё расписание • GitHub Pages
-    </div>
-</footer>
+
+<div class="container">
+
+<h1>Қазақстан тарихы</h1>
+<div class="subtitle">100 сұрақтық тест</div>
+
+<div id="quiz"></div>
+
+<button onclick="checkAnswers()">БАРЛЫҒЫН ТЕКСЕРУ</button>
+
+<div id="result"></div>
+
+</div>
+
 <script>
-/* =========================================================
-   РАСПИСАНИЕ
-========================================================= */
-const schedule = {
-    monday: [
-        "Алгебра",
-        "Геометрия",
-        "Дүние жүзі тарихы",
-        "География",
-        "Шет тілі",
-        "Қазақ әдебиеті",
-        "Қазақ тілі"
-    ],
-    tuesday: [
-        "Алгебра",
-        "Әдебиет",
-        "Қазақстан тарихы",
-        "Физика",
-        "Қазақ тілі",
-        "Химия",
-        "Бастапқы әскери даярлық"
-    ],
-    wednesday: [
-        "Дүниежүзі тарихы",
-        "Биология",
-        "Қазақ тілі",
-        "Химия",
-        "Дене шынықтыру",
-        "Шет тілі",
-        "Физика",
-        "Эссе жазудың тиімді жолдары"
-    ],
-    thursday: [
-        "Биология",
-        "Дене шынықтыру",
-        "Құқық негіздері",
-        "Қазақстан тарихы",
-        "Орыс тілі",
-        "Қазақ әдебиеті",
-        "Қазақ тілі",
-        "Ақылды технологиялар әлемі"
-    ],
-    friday: [
-        "Қазақ әдебиеті",
-        "Информатика / ЖИ",
-        "Дене шынықтыру",
-        "Орыс тілі",
-        "Алгебра",
-        "Шет тілі",
-        "Қазақстан тарихы",
-        "Жеке қауіпсіздік / Заң және тәртіп"
-    ]
-};
-/* =========================================================
-   ПЕРЕВОДЫ
-========================================================= */
-const translations = {
-    ru: {
-        logoTitle: "Моё расписание",
-        logoSubtitle: "Школьный портал",
-        heroLabel: "Школьное расписание",
-        heroTitle: "Расписание уроков",
-        heroDescription:
-            "Все уроки на одной странице. Выбирай нужный день и быстро находи нужный предмет.",
-        search:
-            "Поиск по предметам...",
-        lessonWord:
-            "уроков",
-        today:
-            "Сегодня",
-        footer:
-            "Моё расписание • GitHub Pages",
-        emptyTitle:
-            "Ничего не найдено",
-        emptyText:
-            "Попробуй изменить запрос поиска.",
-        days: {
-            monday: "Понедельник",
-            tuesday: "Вторник",
-            wednesday: "Среда",
-            thursday: "Четверг",
-            friday: "Пятница"
-        }
-    },
-    kk: {
-        logoTitle: "Менің сабақ кестем",
-        logoSubtitle: "Мектеп порталы",
-        heroLabel: "Сабақ кестесі",
-        heroTitle: "Сабақ кестесі",
-        heroDescription:
-            "Барлық сабақ бір жерде. Қажетті күнді таңдап, керек пәнді оңай тап.",
-        search:
-            "Пән бойынша іздеу...",
-        lessonWord:
-            "сабақ",
-        today:
-            "Бүгін",
-        footer:
-            "Менің сабақ кестем • GitHub Pages",
-        emptyTitle:
-            "Ештеңе табылмады",
-        emptyText:
-            "Іздеу сұранысын өзгертіп көр.",
-        days: {
-            monday: "Дүйсенбі",
-            tuesday: "Сейсенбі",
-            wednesday: "Сәрсенбі",
-            thursday: "Бейсенбі",
-            friday: "Жұма"
-        }
-    }
-};
-/* =========================================================
-   ПЕРЕМЕННЫЕ
-========================================================= */
-const dayKeys = [
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday"
+
+const questions = [
+
+["Адамзат тарихының ең алғашқы кезеңі қалай аталады?",
+["Тас дәуірі","Қола дәуірі","Темір дәуірі","Орта ғасыр","Антикалық дәуір"],0],
+
+["Алғашқы адамдардың алғашқы қоғамдық ұйымы?",
+["Тайпа","Ру","Тобыр","Мемлекет","Халық"],2],
+
+["Тобырдан кейін қалыптасқан қоғамдық ұйым?",
+["Мемлекет","Рулық қауым","Империя","Қауымдастық","Хандық"],1],
+
+["Рулық қауымнан кейін қалыптасқан ұйым?",
+["Тайпа","Тобыр","Мемлекет","Империя","Хандық"],0],
+
+["Алғашқы ірі қоғамдық еңбек бөлінісі?",
+["Қолөнердің бөлінуі","Сауданың пайда болуы","Аңшылықтың дамуы","Балық аулау","Егіншілік пен мал шаруашылығының бөлінуі"],4],
+
+["Қазақстан аумағында өмір сүрген ең ежелгі адам?",
+["Неандерталь","Кроманьон","Синантроп","Питекантроп","Епті адам"],4],
+
+["Епті адам шамамен қашан өмір сүрді?",
+["100 мың жыл бұрын","500 мың жыл бұрын","1 млн жыл бұрын","1 млн 750 мың жыл бұрын","50 мың жыл бұрын"],3],
+
+["Ең алғашқы еңбек құралы?",
+["Қола балта","Үшкір тас","Темір пышақ","Қыш ыдыс","Орақ"],1],
+
+["Тік жүретін адамның Қазақстанға жақын өкілі?",
+["Кроманьон","Неандерталь","Синантроп","Епті адам","Homo sapiens"],2],
+
+["Б.з.б. 100–35 мың жыл аралығында өмір сүрген адам?",
+["Кроманьон","Неандертальдықтар","Синантроп","Епті адам","Питекантроп"],1],
+
+["40–35 мың жыл бұрын өмір сүрген адам?",
+["Синантроп","Питекантроп","Неандерталь","Саналы адам","Епті адам"],3],
+
+["Алғашқы адамдардың негізгі кәсібінің бірі?",
+["Терімшілік","Зауыт жұмысы","Сауда","Кен өндіру","Егіншілік"],0],
+
+["Палеолит дәуірінің мерзімі?",
+["2,5 млн – 12 мың жыл бұрын","12–5 мың жыл бұрын","5–3 мың жыл бұрын","3–1 мың жыл бұрын","1 мың жыл бұрын"],0],
+
+["Мезолит дәуірінің мерзімі?",
+["100–50 мың жыл","12–5 мың жыл бұрын","5–3 мың жыл","3–2 мың жыл","1 мың жыл"],1],
+
+["Неолит дәуірінің мерзімі?",
+["12–5 мың жыл бұрын","2,5 млн – 12 мың жыл","5–3 мың жыл","3–1 мың жыл","1 мың жыл"],0],
+
+["Қазақстандағы алғашқы адамдар алғаш қоныстанған аймақ?",
+["Солтүстік Қазақстан","Батыс Қазақстан","Оңтүстік Қазақстан","Орталық Қазақстан","Шығыс Қазақстан"],2],
+
+["Қазақстандағы алғашқы адамдардың замандасы?",
+["Питекантроп","Кроманьон","Неандерталь","Синантроп","Homo sapiens"],0],
+
+["Алғашқы адамдардың алғашқы баспаналары?",
+["Киіз үй","Үңгірлер","Ағаш үй","Кірпіш үй","Қамал"],1],
+
+["Палеолит дәуірінде адамдар аулаған жануарлар?",
+["Мамонт пен бизон","Жылқы мен түйе","Қой мен ешкі","Сиыр мен жылқы","Бұғы мен қой"],0],
+
+["Мезолит дәуіріндегі негізгі жаңалықтардың бірі?",
+["Темірдің пайда болуы","Садақ пен жебенің пайда болуы","Жазудың пайда болуы","Қалалардың пайда болуы","Қоланың пайда болуы"],1],
+
+["Жамбыл облысындағы ежелгі тас құралдары табылған өңір?",
+["Жамбыл өңірі","Алтай","Маңғыстау","Арал","Сарыарқа"],0],
+
+["Бөріқазған мен Шабақты ескерткіштері қай дәуірге жатады?",
+["Қола дәуірі","Темір дәуірі","Палеолит","Неолит","Энеолит"],2],
+
+["Тасты өңдеудің жетілдірілген әдісі кең тараған кезең?",
+["Ерте палеолит","Кейінгі палеолит","Неолит","Энеолит","Қола"],1],
+
+["Адамды жануарлардан ажырататын басты белгі?",
+["Жылдам жүруі","Құрал жасай білуі","Көп ұйықтауы","Күшті болуы","Жылдам жүгіруі"],1],
+
+["Жердің күрт суынуы шамамен қашан басталды?",
+["100 мың жыл бұрын","10 мың жыл бұрын","5 мың жыл бұрын","1 мың жыл бұрын","500 жыл бұрын"],0],
+
+["Мұздықтардың ери бастаған уақыты?",
+["13 мың жыл бұрын","2 мың жыл бұрын","50 мың жыл бұрын","1 млн жыл бұрын","500 жыл бұрын"],0],
+
+["Ежелгі ине қандай заттан жасалды?",
+["Темірден","Мыстан","Сүйектен","Ағаштан","Қоладан"],2],
+
+["Жіптің орнына не пайдаланылды?",
+["Мақта","Жүн","Малдың сіңірі","Жібек","Зығыр"],2],
+
+["Дәнүккіш қай дәуірде пайда болды?",
+["Палеолит","Мезолит","Неолит","Энеолит","Қола"],2],
+
+["Қазақстандағы ерте палеолиттің ең көне ескерткіштері?",
+["Шақпақата, Арыстанды","Ботай, Шебір","Петровка, Боголюбов","Таңбалы, Хантау","Беғазы, Дәндібай"],0],
+
+["Екі жағынан өңделген тас құрал?",
+["Микролит","Бифас","Қырғыш","Орақ","Балта"],1],
+
+["Тастың шетін ұсақ ретушь арқылы өңдеу әдісі?",
+["Қашау","Ретушь әдісі","Балқыту","Ұнтақтау","Жылтырату"],1],
+
+["Бөріқазған мен Шабақты орналасқан аймақ?",
+["Жамбыл облысы","Солтүстік Қазақстан","Батыс Қазақстан","Шығыс Қазақстан","Арал маңы"],0],
+
+["Неандерталь баласының сүйегі табылған үңгір?",
+["Шақпақата","Тесіктас","Батпақ","Бөріқазған","Ақбауыр"],1],
+
+["Алғашқы саналы адамның сүйегі табылған үңгір?",
+["Кроманьон","Тесіктас","Батпақ","Арыстанды","Шабақты"],0],
+
+["Орталық Қазақстандағы палеолит ескерткіші?",
+["Шабақты","Ботай","Пенкі","Усть-Нарым","Шебір"],0],
+
+["Кейінгі палеолитке жататын Батпақ тұрағы қайда?",
+["Орталық Қазақстан","Оңтүстік Қазақстан","Батыс Қазақстан","Маңғыстау","Солтүстік Қазақстан"],0],
+
+["Рулық қауымның маңызды мәселелері қалай шешілді?",
+["Жеке адам шешті","Жалпы жиналыста","Хан шешті","Патша шешті","Әскер шешті"],1],
+
+["Мезолиттің мерзімі?",
+["12–5 мың жыл бұрын","5–3 мың жыл бұрын","3–1 мың жыл","100–50 мың жыл","1 млн жыл"],0],
+
+["Ұсақ тас құралдар қалай аталады?",
+["Бифас","Микролит","Қырғыш","Балта","Орақ"],1],
+
+["Мезолит дәуірінің ең маңызды жаңалығы?",
+["Садақ пен жебе","Темір","Қола","Жазу","Қыш"],0],
+
+["Мезолит дәуіріндегі негізгі кәсіп?",
+["Аңшылық","Кен өндіру","Сауда","Қолөнер","Егіншілік"],0],
+
+["Қазақстандағы мезолит ескерткіштерінің саны?",
+["5-тен аз","10-нан аз","20-дан астам","100-ден астам","500-ден астам"],2],
+
+["Мезолиттік тұрақтардың бірі орналасқан өзен?",
+["Есіл","Ертіс","Сырдария","Іле","Жайық"],0],
+
+["Жасөспірімнің ересектер қатарына өту рәсімі?",
+["Инвентаризация","Инициация","Ассимиляция","Миграция","Интеграция"],1],
+
+["Егіншілік шамамен қашан пайда болды?",
+["10 мың жыл бұрын","1 мың жыл бұрын","100 мың жыл бұрын","50 мың жыл бұрын","500 жыл бұрын"],0],
+
+["Егіншіліктің пайда болуына әсер еткен кәсіп?",
+["Терімшілік","Темір өңдеу","Сауда","Кен өндіру","Аңшылық"],0],
+
+["Егін ору құралы?",
+["Тас орақ","Темір балта","Қола найза","Садақ","Қырғыш"],0],
+
+["Жер өңдеуге қолданылған қарапайым құрал?",
+["Тесе","Балға","Найза","Қылыш","Қырғыш"],0],
+
+["Жануарларды қолға үйрету қай кезеңде басталды?",
+["Мезолит","Қола","Темір","Палеолит","Орта ғасыр"],0],
+
+["Алғашқы егіншілік қай кезеңде пайда болды?",
+["Неолит","Мезолит","Қола","Темір","Палеолит"],1],
+
+["Неолит дәуірінің мерзімі?",
+["12–5 мың жыл бұрын","5–3 мың жыл бұрын","3–1 мың жыл бұрын","100–50 мың жыл","1 млн жыл"],0],
+
+["Шығыс Қазақстандағы неолиттік тұрақ?",
+["Усть-Нарым","Пенкі","Ботай","Шебір","Зеленая Балка"],0],
+
+["Солтүстік Қазақстандағы неолиттік тұрақ?",
+["Пенкі","Ботай","Шебір","Тесіктас","Шақпақата"],0],
+
+["Қазақстандағы ең көне неолиттік ескерткіштер шамамен?",
+["Б.з.б. 7 мыңжылдық","Б.з.б. 1 мыңжылдық","Б.з.б. 2 мыңжылдық","Б.з.б. 10 мыңжылдық","Б.з.б. 500 жыл"],0],
+
+["Орталық Қазақстандағы неолиттік тұрақ?",
+["Зеленая Балка","Ботай","Пенкі","Шебір","Усть-Нарым"],0],
+
+["Неолит дәуіріндегі саздан жасалған ыдыс?",
+["Көзе","Қылыш","Найза","Балта","Орақ"],0],
+
+["Неолиттік ескерткіштер көп кездесетін аймақ?",
+["Жезқазған өңірі","Алтай","Маңғыстау","Жетісу","Арал"],0],
+
+["Қазіргі климатқа ұқсас климат қалыптасқан кезең?",
+["Мезолит","Палеолит","Энеолит","Қола","Темір"],0],
+
+["Қазақстандағы неолиттік тұрақтардың жалпы саны?",
+["20-дан астам","100-ден астам","500-ден астам","10-нан аз","50-ден аз"],2],
+
+["Сексеуіл тұрағы орналасқан аймақ?",
+["Қызылорда облысы","Алматы","Жамбыл","Солтүстік Қазақстан","Батыс Қазақстан"],0],
+
+["Неолит дәуіріндегі маңызды жаңалық?",
+["Қыш ыдыстың пайда болуы","Темірдің пайда болуы","Жазудың пайда болуы","Ақшаның пайда болуы","Мемлекеттің пайда болуы"],0],
+
+["«Қыш ыдыстар дәуірі» деп қай кезең аталады?",
+["Неолит","Мезолит","Энеолит","Қола","Темір"],0],
+
+["Энеолит дәуірінің шамамен мерзімі?",
+["Б.з.б. 3000–2800 жж.","Б.з.б. 1000–500 жж.","Б.з.б. 5000–4500 жж.","Б.з.б. 500–100 жж.","Б.з. 1–500 жж."],0],
+
+["Алғашқы металл құралдар пайда болған кезең?",
+["Энеолит","Палеолит","Мезолит","Неолит","Қола"],0],
+
+["Адамзат пайдаланған алғашқы металл?",
+["Темір","Қола","Мыс","Алтын","Күміс"],2],
+
+["Тас пен мысты қатар пайдаланған кезең?",
+["Энеолит","Неолит","Мезолит","Қола","Темір"],0],
+
+["Алғашқы ірі еңбек бөлінісі?",
+["Егіншілік пен мал шаруашылығының бөлінуі","Сауданың пайда болуы","Жазудың пайда болуы","Қолөнердің жойылуы","Мемлекеттің пайда болуы"],0],
+
+["Солтүстік Қазақстандағы энеолит дәуірінің әйгілі ескерткіші?",
+["Ботай","Шебір","Пенкі","Тесіктас","Батпақ"],0],
+
+["Ботай тұрағында шамамен қанша үй болған?",
+["158","50","500","20","1000"],0],
+
+["Көп мөлшерде жылқы сүйектері табылған тұрақ?",
+["Ботай","Шебір","Пенкі","Усть-Нарым","Батпақ"],0],
+
+["Маңғыстаудағы энеолиттік тұрақ?",
+["Шебір","Ботай","Пенкі","Зеленая Балка","Тесіктас"],0],
+
+["Қоғамдық еңбек бөлінісі қалыптасқан кезең?",
+["Энеолит","Палеолит","Мезолит","Темір","Орта ғасыр"],0],
+
+["Заттарды сурет арқылы жеткізу жазуы?",
+["Пиктография","Әліпби","Иероглиф","Кириллица","Латын"],0],
+
+["Жануардан тарағанына сену?",
+["Тотемизм","Анимизм","Монотеизм","Буддизм","Магия"],0],
+
+["Табиғаттағы заттар мен құбылыстарда рух бар деп сену?",
+["Анимизм","Тотемизм","Пиктография","Инициация","Магия"],0],
+
+["Табиғаттың тылсым күштеріне әсер ету әрекеті?",
+["Магиялық әрекет","Сауда","Егіншілік","Қолөнер","Терімшілік"],0],
+
+["Тотемизм дегеніміз?",
+["Адамның шығу тегін жануарлармен байланыстыру","Табиғатты зерттеу","Жазу өнері","Егіншілік","Аңшылық"],0],
+
+["Сүйек пен мүйізден жасалған әйел бейнелері нені білдіреді?",
+["Әйел бейнесін","Жауынгерді","Аңшыны","Бақсыны","Патшаны"],0],
+
+["Алғашқы адамдардың табиғатқа тәуелділігі?",
+["Табиғат күштеріне табынуға әкелді","Мемлекет құрды","Жазуды жойды","Сауданы тоқтатты","Темірді ашты"],0],
+
+["Алғашқы шаруашылықта қолданылған металл?",
+["Мыс","Темір","Қола","Күміс","Алтын"],0],
+
+["Қола қандай металдардың қосындысынан жасалады?",
+["Мыс пен қалайы","Темір мен мыс","Алтын мен күміс","Темір мен қалайы","Мыс пен алтын"],0],
+
+["Жезқазған кен орындарын зерттеген ғалым?",
+["Қаныш Сәтбаев","Әл-Фараби","Шоқан Уәлиханов","Ыбырай Алтынсарин","Абай Құнанбайұлы"],0],
+
+["Қалайы кенінің ежелгі орындары?",
+["Нарым, Қалба","Ботай, Шебір","Тесіктас, Батпақ","Пенкі, Ботай","Шақпақата, Арыстанды"],0],
+
+["Кенді балқытуға арналған күрделі құрылыс?",
+["Домна пештері","Қыш пештері","Ағаш пештері","Тас ошақтар","Қазандықтар"],0],
+
+["Тас пен мыс құралдарды ығыстырған құралдар?",
+["Қола құралдар","Ағаш құралдар","Сүйек құралдар","Тас құралдар","Алтын құралдар"],0],
+
+["Қола дәуіріндегі кең тараған ыдыс?",
+["Көзе","Шыны бөтелке","Фарфор","Қазан","Кесе"],0],
+
+["Еуразия даласындағы қола дәуірінің мәдениеті?",
+["Андронов мәдениеті","Ботай мәдениеті","Сақ мәдениеті","Ғұн мәдениеті","Түркі мәдениеті"],0],
+
+["Андронов мәдениетінің алғашқы ескерткіштері табылған жер?",
+["Андроново","Ботай","Шебір","Пенкі","Тесіктас"],0],
+
+["Солтүстік және Батыс Қазақстандағы Андронов қоныстарының саны?",
+["100-ден астам","10-нан аз","20-дан аз","50-ден аз","500-ден аз"],0],
+
+["Солтүстік Қазақстандағы қола дәуірінің қоныстары?",
+["Петровка, Боголюбов","Ботай, Шебір","Пенкі, Батпақ","Тесіктас, Ботай","Усть-Нарым, Шебір"],0],
+
+["30 қоныс пен 150-ге жуық қорған табылған аймақ?",
+["Солтүстік Қазақстан","Оңтүстік Қазақстан","Маңғыстау","Жетісу","Арал"],0],
+
+["Андроновтардың бет әлпетін зерттеген ғалым?",
+["М.М. Герасимов","Қ.Сәтбаев","Ш.Уәлиханов","Ә.Марғұлан","Әл-Фараби"],0],
+
+["Көшпелі мал шаруашылығына көшу кең тараған кезең?",
+["Қола дәуірі","Палеолит","Мезолит","Неолит","Энеолит"],0],
+
+["Теселі егіншілік алғаш дамыған кезең?",
+["Неолит","Қола","Темір","Мезолит","Палеолит"],0],
+
+["Андроновтықтардың жерлеу кезінде басын бағыттаған жағы?",
+["Батыс және оңтүстік","Солтүстік","Шығыс","Тек батыс","Тек шығыс"],0],
+
+["Андронов дәуірінің жартас суреттері кездесетін орындар?",
+["Таңбалы, Жасыбай, Хантау","Ботай, Шебір","Пенкі, Батпақ","Тесіктас, Бөріқазған","Усть-Нарым, Сексеуіл"],0],
+
+["Алғашқы адамдардың табиғаттың дайын өнімдерін жинап пайдалануы?",
+["Терімшілік","Егіншілік","Мал шаруашылығы","Қолөнер","Сауда"],0],
+
+["Мезолит дәуірінде аң аулауда кең қолданылған қару?",
+["Садақ пен жебе","Қола балта","Темір қылыш","Найза","Орақ"],0],
+
+["Ежелгі адамдардың өлген адамды жерлеуіне байланысты түсінік?",
+["О дүние туралы түсінік","Сауда туралы түсінік","Мемлекет туралы түсінік","Егіншілік туралы түсінік","Жазу туралы түсінік"],0],
+
+["Андронов мәдениеті қай дәуірге жатады?",
+["Қола дәуірі","Темір дәуірі","Тас дәуірі","Мезолит","Неолит"],0]
+
 ];
-let currentLanguage =
-    localStorage.getItem("scheduleLanguage") || "ru";
-let currentDay =
-    localStorage.getItem("scheduleDay") || getCurrentDay();
-let searchQuery = "";
-/* =========================================================
-   DOM
-========================================================= */
-const languageSelect =
-    document.getElementById("languageSelect");
-const themeButton =
-    document.getElementById("themeButton");
-const daysNavigation =
-    document.getElementById("daysNavigation");
-const lessonsContainer =
-    document.getElementById("lessonsContainer");
-const scheduleDayName =
-    document.getElementById("scheduleDayName");
-const scheduleDate =
-    document.getElementById("scheduleDate");
-const lessonCount =
-    document.getElementById("lessonCount");
-const searchInput =
-    document.getElementById("searchInput");
-/* =========================================================
-   ОПРЕДЕЛЕНИЕ ТЕКУЩЕГО ДНЯ
-========================================================= */
-function getCurrentDay() {
-    const day = new Date().getDay();
-    const map = {
-        1: "monday",
-        2: "tuesday",
-        3: "wednesday",
-        4: "thursday",
-        5: "friday"
-    };
-    return map[day] || "monday";
-}
-/* =========================================================
-   ФОРМАТ ДАТЫ
-========================================================= */
-function getFormattedDate() {
-    const now = new Date();
-    if (currentLanguage === "kk") {
-        return now.toLocaleDateString(
-            "kk-KZ",
-            {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            }
-        );
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, i) => {
+
+    const div = document.createElement("div");
+    div.className = "question";
+    div.id = "q" + i;
+
+    let html = `<h3>${i + 1}. ${q[0]}</h3>`;
+
+    q[1].forEach((option, j) => {
+        html += `
+        <label>
+            <input type="radio" name="q${i}" value="${j}">
+            ${String.fromCharCode(65 + j)}) ${option}
+        </label>`;
+    });
+
+    html += `
+    <button onclick="showAnswer(${i})">
+        ЖАУАБЫН КӨРСЕТУ
+    </button>
+
+    <div class="answer" id="answer${i}">
+        Дұрыс жауап: <b>${String.fromCharCode(65 + q[2])}) ${q[1][q[2]]}</b>
+    </div>
+    `;
+
+    div.innerHTML = html;
+    quiz.appendChild(div);
+});
+
+function showAnswer(i) {
+    const answer = document.getElementById("answer" + i);
+
+    if (answer.style.display === "block") {
+        answer.style.display = "none";
+    } else {
+        answer.style.display = "block";
     }
-    return now.toLocaleDateString(
-        "ru-RU",
-        {
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        }
-    );
 }
-/* =========================================================
-   РЕНДЕР ЯЗЫКА
-========================================================= */
-function renderLanguage() {
-    const t = translations[currentLanguage];
-    document.documentElement.lang =
-        currentLanguage === "kk"
-            ? "kk"
-            : "ru";
-    document.getElementById("logoTitle")
-        .textContent = t.logoTitle;
-    document.getElementById("logoSubtitle")
-        .textContent = t.logoSubtitle;
-    document.getElementById("heroLabel")
-        .textContent = t.heroLabel;
-    document.getElementById("heroTitle")
-        .textContent = t.heroTitle;
-    document.getElementById("heroDescription")
-        .textContent = t.heroDescription;
-    document.getElementById("footerText")
-        .textContent = t.footer;
-    searchInput.placeholder =
-        t.search;
-    renderDays();
-    renderSchedule();
-}
-/* =========================================================
-   РЕНДЕР ДНЕЙ
-========================================================= */
-function renderDays() {
-    const t = translations[currentLanguage];
-    daysNavigation.innerHTML = "";
-    const today =
-        getCurrentDay();
-    dayKeys.forEach(day => {
-        const button =
-            document.createElement("button");
-        button.className =
-            "day-button";
-        if (day === currentDay) {
-            button.classList.add("active");
-        }
-        if (day === today) {
-            button.classList.add("today-day");
-        }
-        button.textContent =
-            t.days[day];
-        button.addEventListener(
-            "click",
-            () => {
-                currentDay = day;
-                localStorage.setItem(
-                    "scheduleDay",
-                    currentDay
-                );
-                searchInput.value = "";
-                searchQuery = "";
-                renderDays();
-                renderSchedule();
+
+function checkAnswers() {
+
+    let score = 0;
+
+    questions.forEach((q, i) => {
+
+        const selected =
+            document.querySelector(`input[name="q${i}"]:checked`);
+
+        const question =
+            document.getElementById("q" + i);
+
+        question.classList.remove("correct", "wrong");
+
+        if (selected) {
+
+            if (Number(selected.value) === q[2]) {
+                score++;
+                question.classList.add("correct");
+            } else {
+                question.classList.add("wrong");
             }
-        );
-        daysNavigation.appendChild(button);
+
+        }
+
+    });
+
+    document.getElementById("result").innerHTML =
+        `Нәтиже: ${score} / ${questions.length}`;
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
     });
 }
-/* =========================================================
-   РЕНДЕР РАСПИСАНИЯ
-========================================================= */
-function renderSchedule() {
-    const t = translations[currentLanguage];
-    const subjects =
-        schedule[currentDay];
-    scheduleDayName.textContent =
-        t.days[currentDay];
-    scheduleDate.textContent =
-        getFormattedDate();
-    let filteredSubjects =
-        subjects.filter(subject => {
-            return subject
-                .toLowerCase()
-                .includes(
-                    searchQuery.toLowerCase()
-                );
-        });
-    lessonCount.textContent =
-        filteredSubjects.length +
-        " " +
-        t.lessonWord;
-    lessonsContainer.innerHTML = "";
-    lessonsContainer.classList.remove(
-        "fade-in"
-    );
-    void lessonsContainer.offsetWidth;
-    lessonsContainer.classList.add(
-        "fade-in"
-    );
-    if (filteredSubjects.length === 0) {
-        lessonsContainer.innerHTML = `
-            <div class="empty">
-                <div class="empty-icon">
-                    🔎
-                </div>
-                <div class="empty-title">
-                    ${t.emptyTitle}
-                </div>
-                <div>
-                    ${t.emptyText}
-                </div>
-            </div>
-        `;
-        return;
-    }
-    filteredSubjects.forEach(
-        (subject, index) => {
-            const originalIndex =
-                subjects.indexOf(subject);
-            const lesson =
-                document.createElement("div");
-            lesson.className =
-                "lesson";
-            if (
-                currentDay === getCurrentDay()
-            ) {
-                lesson.classList.add(
-                    "today-lesson"
-                );
-            }
-            const number =
-                document.createElement("div");
-            number.className =
-                "lesson-number";
-            number.textContent =
-                originalIndex + 1;
-            const info =
-                document.createElement("div");
-            info.className =
-                "lesson-info";
-            const name =
-                document.createElement("div");
-            name.className =
-                "lesson-name";
-            name.textContent =
-                subject;
-            if (
-                currentDay === getCurrentDay()
-            ) {
-                const badge =
-                    document.createElement("span");
-                badge.className =
-                    "today-badge";
-                badge.textContent =
-                    t.today;
-                name.appendChild(
-                    badge
-                );
-            }
-            const type =
-                document.createElement("div");
-            type.className =
-                "lesson-type";
-            type.textContent =
-                currentLanguage === "kk"
-                    ? "Сабақ"
-                    : "Урок";
-            info.appendChild(name);
-            info.appendChild(type);
-            const arrow =
-                document.createElement("div");
-            arrow.className =
-                "lesson-arrow";
-            arrow.textContent =
-                "›";
-            lesson.appendChild(number);
-            lesson.appendChild(info);
-            lesson.appendChild(arrow);
-            lessonsContainer.appendChild(
-                lesson
-            );
-        }
-    );
-}
-/* =========================================================
-   ПОИСК
-========================================================= */
-searchInput.addEventListener(
-    "input",
-    function () {
-        searchQuery =
-            this.value.trim();
-        renderSchedule();
-    }
-);
-/* =========================================================
-   ЯЗЫК
-========================================================= */
-languageSelect.value =
-    currentLanguage;
-languageSelect.addEventListener(
-    "change",
-    function () {
-        currentLanguage =
-            this.value;
-        localStorage.setItem(
-            "scheduleLanguage",
-            currentLanguage
-        );
-        renderLanguage();
-    }
-);
-/* =========================================================
-   ТЕМА
-========================================================= */
-function updateThemeIcon() {
-    const isDark =
-        document.body.classList.contains(
-            "dark"
-        );
-    themeButton.textContent =
-        isDark
-            ? "☀️"
-            : "🌙";
-}
-themeButton.addEventListener(
-    "click",
-    function () {
-        const isDark =
-            document.body.classList.toggle(
-                "dark"
-            );
-        localStorage.setItem(
-            "scheduleTheme",
-            isDark
-                ? "dark"
-                : "light"
-        );
-        updateThemeIcon();
-    }
-);
-/* =========================================================
-   ЗАГРУЗКА СОХРАНЁННОЙ ТЕМЫ
-========================================================= */
-const savedTheme =
-    localStorage.getItem(
-        "scheduleTheme"
-    );
-if (savedTheme === "dark") {
-    document.body.classList.add(
-        "dark"
-    );
-}
-updateThemeIcon();
-/* =========================================================
-   ЗАПУСК
-========================================================= */
-renderLanguage();
-/* =========================================================
-   ЕСЛИ СОХРАНЁННЫЙ ДЕНЬ НЕСУЩЕСТВУЕТ
-========================================================= */
-if (!dayKeys.includes(currentDay)) {
-    currentDay =
-        getCurrentDay();
-    localStorage.setItem(
-        "scheduleDay",
-        currentDay
-    );
-    renderDays();
-    renderSchedule();
-}
+
 </script>
+
 </body>
 </html>
