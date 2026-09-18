@@ -2,1271 +2,830 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 
-<meta
-    name="viewport"
-    content="width=device-width,
-    initial-scale=1.0,
-    maximum-scale=1.0,
-    minimum-scale=1.0,
-    user-scalable=no,
-    viewport-fit=cover"
->
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#050509">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-<title>JACOOBC PANEL</title>
+<title>Device Settings</title>
 
 <style>
-
 /* =========================================================
    RESET
 ========================================================= */
 
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-html{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    touch-action:pan-y;
-}
-
-body{
-    width:100%;
-    min-height:100%;
-    margin:0;
-    padding:0;
-    background:
-        radial-gradient(circle at 20% 0%,rgba(121,38,255,.18),transparent 30%),
-        radial-gradient(circle at 90% 20%,rgba(0,221,255,.12),transparent 28%),
-        #050509;
-    color:#fff;
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    background: #030305;
+    color: #fff;
     font-family:
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
+        Roboto,
         Arial,
         sans-serif;
-    overflow:hidden;
-    user-select:none;
-    -webkit-user-select:none;
+    overflow-x: hidden;
+}
+
+body {
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    border: 0;
+    outline: none;
 }
 
 /* =========================================================
-   SCROLLBAR
+   BACKGROUND
 ========================================================= */
 
-::-webkit-scrollbar{
-    width:4px;
+body::before {
+    content: "";
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    left: -180px;
+    top: 100px;
+    background: rgba(123, 47, 255, .15);
+    filter: blur(100px);
+    pointer-events: none;
 }
 
-::-webkit-scrollbar-track{
-    background:transparent;
-}
-
-::-webkit-scrollbar-thumb{
-    background:#6128ff;
-    border-radius:20px;
+body::after {
+    content: "";
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    right: -180px;
+    top: 420px;
+    background: rgba(0, 220, 255, .10);
+    filter: blur(100px);
+    pointer-events: none;
 }
 
 /* =========================================================
    LOGIN
 ========================================================= */
 
-#loginScreen{
-    position:fixed;
-    inset:0;
-    z-index:9999;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
+.login-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 22px;
     background:
-        radial-gradient(circle at 50% 15%,rgba(112,42,255,.25),transparent 30%),
-        #040407;
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(130, 40, 255, .25),
+            transparent 40%
+        ),
+        #030305;
 }
 
-.login-box{
-    width:100%;
-    max-width:420px;
-    padding:30px 24px;
-    border:1px solid rgba(148,76,255,.4);
-    border-radius:28px;
-    background:
-        linear-gradient(145deg,rgba(20,18,32,.96),rgba(7,7,13,.98));
+.login-box {
+    width: 100%;
+    max-width: 390px;
+    padding: 30px 22px 24px;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 28px;
+    background: rgba(15,15,22,.88);
     box-shadow:
-        0 0 50px rgba(112,35,255,.25),
-        inset 0 0 30px rgba(255,255,255,.02);
+        0 0 60px rgba(124,42,255,.20),
+        inset 0 1px 0 rgba(255,255,255,.06);
+    backdrop-filter: blur(25px);
 }
 
-.logo{
-    width:74px;
-    height:74px;
-    margin:0 auto 18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:22px;
-    background:linear-gradient(135deg,#7b2cff,#b000ff);
-    box-shadow:0 0 35px rgba(127,44,255,.55);
-    font-size:30px;
-    font-weight:900;
+.login-logo {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 18px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    background:
+        linear-gradient(
+            135deg,
+            #8b2cff,
+            #5310d8
+        );
+    box-shadow:
+        0 0 35px rgba(137,44,255,.45);
 }
 
-.login-title{
-    text-align:center;
-    font-size:26px;
-    font-weight:900;
-    letter-spacing:1px;
+.login-title {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 800;
 }
 
-.login-sub{
-    margin-top:8px;
-    text-align:center;
-    color:#92929d;
-    font-size:13px;
+.login-subtitle {
+    text-align: center;
+    color: #858594;
+    font-size: 13px;
+    margin-top: 7px;
+    margin-bottom: 25px;
 }
 
-.input{
-    width:100%;
-    height:54px;
-    margin-top:13px;
-    padding:0 16px;
-    border:1px solid #272532;
-    outline:none;
-    border-radius:16px;
-    color:#fff;
-    background:#0e0d15;
-    font-size:15px;
+.login-input {
+    width: 100%;
+    height: 54px;
+    border-radius: 16px;
+    padding: 0 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,.08);
+    outline: none;
+    background: #0c0c12;
+    color: white;
+    font-size: 15px;
+    transition: .2s;
 }
 
-.input:focus{
-    border-color:#7e39ff;
-    box-shadow:0 0 0 3px rgba(126,57,255,.12);
+.login-input:focus {
+    border-color: #9a3cff;
+    box-shadow: 0 0 20px rgba(154,60,255,.18);
 }
 
-.primary{
-    width:100%;
-    height:54px;
-    margin-top:15px;
-    border:0;
-    border-radius:16px;
-    background:linear-gradient(100deg,#6928ff,#a700ff);
-    color:white;
-    font-size:16px;
-    font-weight:800;
-    cursor:pointer;
-    box-shadow:0 10px 30px rgba(105,40,255,.25);
+.login-button {
+    width: 100%;
+    height: 54px;
+    border-radius: 16px;
+    margin-top: 7px;
+    color: white;
+    font-weight: 800;
+    font-size: 15px;
+    background:
+        linear-gradient(
+            135deg,
+            #9b3cff,
+            #6419df
+        );
+    box-shadow:
+        0 10px 30px rgba(120,30,255,.25);
+    cursor: pointer;
 }
 
-.primary:active{
-    transform:scale(.98);
-}
-
-.login-error{
-    min-height:20px;
-    margin-top:10px;
-    text-align:center;
-    color:#ff526f;
-    font-size:13px;
+.login-error {
+    min-height: 20px;
+    text-align: center;
+    color: #ff4d72;
+    font-size: 13px;
+    margin-top: 13px;
 }
 
 /* =========================================================
    APP
 ========================================================= */
 
-#app{
-    display:none;
-    width:100%;
-    height:100dvh;
-}
-
-.app-shell{
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:column;
+.app {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 40px;
 }
 
 /* =========================================================
    HEADER
 ========================================================= */
 
-.header{
-    flex:none;
-    height:74px;
-    padding:
-        max(10px,env(safe-area-inset-top))
-        15px
-        8px;
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    background:rgba(5,5,9,.82);
-    backdrop-filter:blur(18px);
-    border-bottom:1px solid rgba(255,255,255,.05);
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 16px 15px 12px;
+    background: rgba(3,3,5,.88);
+    backdrop-filter: blur(25px);
+    border-bottom: 1px solid rgba(255,255,255,.05);
 }
 
-.brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.brand-icon{
-    width:40px;
-    height:40px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:13px;
-    background:linear-gradient(135deg,#712aff,#c000ff);
-    box-shadow:0 0 20px rgba(115,42,255,.3);
+.logo {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -.5px;
 }
 
-.brand-name{
-    font-size:16px;
-    font-weight:900;
+.logo span {
+    color: #a63cff;
 }
 
-.brand-status{
-    margin-top:2px;
-    color:#777683;
-    font-size:10px;
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.05);
+    color: #a8a8b6;
+    font-size: 11px;
 }
 
-.balance{
-    padding:10px 13px;
-    border:1px solid rgba(155,83,255,.35);
-    border-radius:14px;
-    background:rgba(111,42,255,.1);
-    text-align:right;
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #30f79a;
+    box-shadow: 0 0 12px #30f79a;
 }
 
-.balance-label{
-    color:#858390;
-    font-size:9px;
+/* =========================================================
+   MOVING TOP CARDS
+========================================================= */
+
+.ticker-window {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 13px;
+    border-radius: 15px;
 }
 
-.balance-value{
-    color:#d7b9ff;
-    font-size:14px;
-    font-weight:900;
+.ticker {
+    display: flex;
+    width: max-content;
+    gap: 9px;
+    animation: tickerMove 22s linear infinite;
+}
+
+.ticker:hover {
+    animation-play-state: paused;
+}
+
+.ticker-card {
+    height: 40px;
+    min-width: 170px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 13px;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+    border: 1px solid rgba(255,255,255,.08);
+    background: linear-gradient(
+        135deg,
+        rgba(134,40,255,.24),
+        rgba(25,25,34,.9)
+    );
+}
+
+.ticker-card.purple {
+    box-shadow: inset 0 0 25px rgba(148,42,255,.15);
+}
+
+.ticker-card.gold {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,170,0,.24),
+            rgba(25,25,34,.9)
+        );
+}
+
+.ticker-card.blue {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,180,255,.20),
+            rgba(25,25,34,.9)
+        );
+}
+
+.ticker-card.green {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,255,150,.18),
+            rgba(25,25,34,.9)
+        );
+}
+
+@keyframes tickerMove {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
 }
 
 /* =========================================================
    CONTENT
 ========================================================= */
 
-.content{
-    flex:1;
-    overflow-y:auto;
-    overflow-x:hidden;
-    padding:14px 14px 105px;
-    overscroll-behavior:contain;
+.content {
+    padding: 18px 15px 30px;
+}
+
+.section-title {
+    font-size: 19px;
+    font-weight: 850;
+    margin-bottom: 5px;
+}
+
+.section-subtitle {
+    color: #737382;
+    font-size: 12px;
+    margin-bottom: 15px;
 }
 
 /* =========================================================
-   SECTIONS
+   SEARCH
 ========================================================= */
 
-.page{
-    display:none;
+.search-box {
+    position: relative;
+    margin-bottom: 22px;
 }
 
-.page.active{
-    display:block;
-    animation:pageIn .22s ease;
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 17px;
+    opacity: .65;
 }
 
-@keyframes pageIn{
-    from{
-        opacity:0;
-        transform:translateY(6px);
-    }
-    to{
-        opacity:1;
-        transform:none;
-    }
+.search-input {
+    width: 100%;
+    height: 52px;
+    padding: 0 44px;
+    border-radius: 17px;
+    border: 1px solid rgba(255,255,255,.07);
+    outline: none;
+    background: #0b0b11;
+    color: white;
+    font-size: 14px;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.03);
 }
 
-.page-title{
-    margin:7px 0 4px;
-    font-size:25px;
-    font-weight:950;
+.search-input::placeholder {
+    color: #5e5e6a;
 }
 
-.page-subtitle{
-    margin-bottom:18px;
-    color:#777681;
-    font-size:12px;
+.search-input:focus {
+    border-color: rgba(150,55,255,.7);
+    box-shadow:
+        0 0 25px rgba(130,40,255,.13);
+}
+
+.clear-search {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.07);
+    color: #aaa;
+    display: none;
 }
 
 /* =========================================================
-   HOME
+   POPULAR
 ========================================================= */
 
-.hero{
-    position:relative;
-    overflow:hidden;
-    padding:20px;
-    border:1px solid rgba(143,72,255,.25);
-    border-radius:25px;
+.popular-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+}
+
+.popular-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.popular-card {
+    min-width: 132px;
+    padding: 13px;
+    border-radius: 18px;
     background:
-        radial-gradient(circle at 100% 0%,rgba(134,40,255,.32),transparent 40%),
-        linear-gradient(135deg,#12101c,#09090e);
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
+        linear-gradient(
+            145deg,
+            #15151e,
+            #0a0a0f
+        );
+    border: 1px solid rgba(255,255,255,.06);
+    cursor: pointer;
+    transition: transform .18s, border .18s;
 }
 
-.hero:after{
-    content:"";
-    position:absolute;
-    width:170px;
-    height:170px;
-    right:-70px;
-    top:-70px;
-    border-radius:50%;
-    background:#7429ff;
-    filter:blur(70px);
-    opacity:.2;
+.popular-card:active {
+    transform: scale(.96);
 }
 
-.hero-label{
-    color:#9d80ff;
-    font-size:11px;
-    font-weight:800;
+.device-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: rgba(142,50,255,.12);
+    margin-bottom: 10px;
 }
 
-.hero-title{
-    position:relative;
-    z-index:1;
-    margin-top:7px;
-    font-size:29px;
-    font-weight:950;
+.device-name {
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.25;
 }
 
-.hero-text{
-    position:relative;
-    z-index:1;
-    margin-top:7px;
-    color:#888692;
-    font-size:12px;
-    line-height:1.5;
-}
-
-.hero-buttons{
-    position:relative;
-    z-index:2;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-    margin-top:18px;
-}
-
-.hero-btn{
-    height:47px;
-    border:0;
-    border-radius:14px;
-    color:white;
-    background:#171521;
-    font-weight:800;
-}
-
-.hero-btn.accent{
-    background:linear-gradient(100deg,#6828ff,#a300ff);
+.device-type {
+    color: #666675;
+    font-size: 10px;
+    margin-top: 4px;
 }
 
 /* =========================================================
-   QUICK CARDS
+   CATALOG
 ========================================================= */
 
-.quick-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-    margin-top:12px;
+.catalog {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
 }
 
-.quick-card{
-    min-height:105px;
-    padding:15px;
-    border:1px solid #1d1b26;
-    border-radius:19px;
-    background:#0d0c13;
-}
-
-.quick-icon{
-    font-size:23px;
-}
-
-.quick-title{
-    margin-top:10px;
-    font-size:13px;
-    font-weight:800;
-}
-
-.quick-info{
-    margin-top:4px;
-    color:#777582;
-    font-size:10px;
-}
-
-/* =========================================================
-   CRASH
-========================================================= */
-
-.crash-panel{
-    overflow:hidden;
-    border:1px solid rgba(133,54,255,.3);
-    border-radius:24px;
-    background:#09080e;
-    box-shadow:0 0 40px rgba(91,32,255,.12);
-}
-
-.crash-head{
-    padding:17px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid #1c1a24;
-}
-
-.crash-name{
-    font-weight:900;
-}
-
-.crash-status{
-    color:#777481;
-    font-size:11px;
-}
-
-.multiplier{
-    position:relative;
-    height:270px;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.device-card {
+    position: relative;
+    min-height: 126px;
+    padding: 15px;
+    border-radius: 19px;
     background:
-        radial-gradient(circle,#25134b 0%,#0a0910 55%);
+        linear-gradient(
+            145deg,
+            rgba(22,22,31,.98),
+            rgba(8,8,13,.98)
+        );
+    border: 1px solid rgba(255,255,255,.06);
+    overflow: hidden;
+    cursor: pointer;
+    transition:
+        transform .18s,
+        border-color .18s,
+        box-shadow .18s;
 }
 
-.multiplier:before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-    background-size:35px 35px;
+.device-card::before {
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    right: -45px;
+    top: -45px;
+    border-radius: 50%;
+    background: rgba(139,42,255,.12);
+    filter: blur(20px);
 }
 
-.multiplier-value{
-    position:relative;
-    z-index:3;
-    font-size:58px;
-    font-weight:950;
-    color:#e7d5ff;
-    text-shadow:
-        0 0 15px #7b2cff,
-        0 0 45px rgba(123,44,255,.6);
+.device-card:active {
+    transform: scale(.97);
 }
 
-.rocket{
-    position:absolute;
-    left:15%;
-    bottom:25px;
-    font-size:35px;
-    opacity:.2;
-    transform:rotate(-35deg);
+.device-card:hover {
+    border-color: rgba(151,60,255,.35);
 }
 
-.crash-controls{
-    padding:14px;
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.bet-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
+.card-phone {
+    font-size: 24px;
 }
 
-.bet-input{
-    width:100%;
-    height:48px;
-    border:1px solid #292631;
-    border-radius:13px;
-    background:#111019;
-    color:white;
-    padding:0 13px;
-    outline:none;
+.card-arrow {
+    color: #777786;
+    font-size: 16px;
 }
 
-.cashout-input{
-    width:100%;
-    height:48px;
-    border:1px solid #292631;
-    border-radius:13px;
-    background:#111019;
-    color:white;
-    padding:0 13px;
-    outline:none;
+.card-name {
+    position: relative;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 850;
 }
 
-.crash-action{
-    width:100%;
-    height:53px;
-    margin-top:10px;
-    border:0;
-    border-radius:15px;
-    color:white;
-    background:linear-gradient(100deg,#752aff,#b000ff);
-    font-size:16px;
-    font-weight:900;
+.card-company {
+    margin-top: 4px;
+    color: #686876;
+    font-size: 10px;
 }
 
-.crash-action.red{
-    background:linear-gradient(100deg,#ff315a,#ff0055);
-}
-
-.crash-action.green{
-    background:linear-gradient(100deg,#00a86b,#00d98b);
-}
-
-.last-title{
-    margin-top:16px;
-    font-size:12px;
-    font-weight:800;
-}
-
-.last-results{
-    display:flex;
-    gap:7px;
-    overflow-x:auto;
-    padding:9px 0 2px;
-}
-
-.result{
-    flex:none;
-    padding:7px 10px;
-    border-radius:10px;
-    background:#15131c;
-    color:#b4a6c8;
-    font-size:10px;
-    font-weight:800;
+.card-badge {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 7px;
+    border-radius: 8px;
+    background: rgba(139,45,255,.12);
+    color: #ad62ff;
+    font-size: 9px;
+    font-weight: 800;
 }
 
 /* =========================================================
-   PLAYERS
+   EMPTY
 ========================================================= */
 
-.players{
-    margin-top:14px;
-    border:1px solid #1b1923;
-    border-radius:19px;
-    overflow:hidden;
+.empty {
+    display: none;
+    padding: 50px 20px;
+    text-align: center;
+    color: #696977;
 }
 
-.players-title{
-    padding:13px 15px;
-    font-size:12px;
-    font-weight:900;
-    background:#0e0d14;
+.empty-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
 }
 
-.player{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:11px 13px;
-    border-top:1px solid #17151d;
-}
-
-.avatar{
-    width:34px;
-    height:34px;
-    flex:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    background:linear-gradient(135deg,#6828ff,#bd00ff);
-    font-size:13px;
-    font-weight:900;
-}
-
-.player-info{
-    min-width:0;
-    flex:1;
-}
-
-.player-name{
-    font-size:11px;
-    font-weight:800;
-}
-
-.player-bet{
-    margin-top:2px;
-    color:#777481;
-    font-size:9px;
-}
-
-.player-win{
-    font-size:11px;
-    font-weight:900;
-    color:#9b7aff;
+.empty-title {
+    color: #aaa;
+    font-weight: 800;
 }
 
 /* =========================================================
-   DEVICES
+   MODAL
 ========================================================= */
 
-.search-box{
-    position:relative;
-    margin-bottom:13px;
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: none;
+    align-items: flex-end;
+    background: rgba(0,0,0,.68);
+    backdrop-filter: blur(12px);
 }
 
-.search-box input{
-    width:100%;
-    height:49px;
-    padding:0 15px 0 43px;
-    border:1px solid #24212e;
-    border-radius:15px;
-    background:#0e0d14;
-    color:white;
-    outline:none;
+.modal.show {
+    display: flex;
 }
 
-.search-icon{
-    position:absolute;
-    left:15px;
-    top:15px;
-    color:#696674;
+.modal-box {
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 9px 17px 28px;
+    border-radius: 28px 28px 0 0;
+    background:
+        linear-gradient(
+            180deg,
+            #14141d,
+            #08080d
+        );
+    border-top: 1px solid rgba(255,255,255,.09);
+    animation: modalUp .25s ease;
 }
 
-.section-label{
-    margin:16px 0 9px;
-    color:#8a8794;
-    font-size:10px;
-    font-weight:900;
-    text-transform:uppercase;
-    letter-spacing:1px;
-}
-
-.device-list{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-}
-
-.device-card{
-    min-height:83px;
-    padding:12px;
-    border:1px solid #1d1b25;
-    border-radius:17px;
-    background:#0d0c13;
-    cursor:pointer;
-    transition:.18s;
-}
-
-.device-card:active{
-    transform:scale(.97);
-    border-color:#7830ff;
-}
-
-.device-icon{
-    width:29px;
-    height:29px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:9px;
-    background:#181522;
-    font-size:14px;
-}
-
-.device-name{
-    margin-top:8px;
-    font-size:11px;
-    font-weight:850;
-    line-height:1.2;
-}
-
-.device-tag{
-    margin-top:3px;
-    color:#686571;
-    font-size:8px;
-}
-
-/* =========================================================
-   DEVICE MODAL
-========================================================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:5000;
-    display:none;
-    align-items:flex-end;
-    justify-content:center;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(10px);
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:520px;
-    max-height:90dvh;
-    overflow-y:auto;
-    padding:18px;
-    border-radius:27px 27px 0 0;
-    background:#0b0a11;
-    border:1px solid #2b2637;
-    animation:sheet .2s ease;
-}
-
-@keyframes sheet{
-    from{
-        transform:translateY(100%);
+@keyframes modalUp {
+    from {
+        transform: translateY(100%);
     }
-    to{
-        transform:none;
+
+    to {
+        transform: translateY(0);
     }
 }
 
-.modal-handle{
-    width:42px;
-    height:4px;
-    margin:0 auto 18px;
-    border-radius:20px;
-    background:#383340;
+.modal-handle {
+    width: 43px;
+    height: 5px;
+    margin: 0 auto 18px;
+    border-radius: 10px;
+    background: #3a3a44;
 }
 
-.modal-title{
-    font-size:21px;
-    font-weight:950;
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
 }
 
-.modal-subtitle{
-    margin-top:4px;
-    color:#777481;
-    font-size:11px;
-}
-
-.stats{
-    margin-top:17px;
-}
-
-.stat{
-    margin-top:13px;
-}
-
-.stat-head{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:6px;
-    font-size:11px;
-}
-
-.stat-name{
-    color:#b3b0bb;
-}
-
-.stat-value{
-    color:#ad83ff;
-    font-weight:900;
-}
-
-.stat-bar{
-    width:100%;
-    height:9px;
-    overflow:hidden;
-    border-radius:10px;
-    background:#1a1721;
-}
-
-.stat-fill{
-    height:100%;
-    border-radius:10px;
-    background:linear-gradient(90deg,#6626ff,#c000ff);
-    box-shadow:0 0 12px rgba(129,40,255,.55);
-}
-
-.modal-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-    margin-top:20px;
-}
-
-.modal-btn{
-    height:48px;
-    border:0;
-    border-radius:14px;
-    background:#18151f;
-    color:white;
-    font-weight:800;
-}
-
-.modal-btn.primary-btn{
-    background:linear-gradient(100deg,#6b28ff,#ad00ff);
-}
-
-/* =========================================================
-   BOOSTER
-========================================================= */
-
-.booster-card{
-    padding:20px;
-    border:1px solid rgba(127,48,255,.3);
-    border-radius:22px;
+.modal-device-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 27px;
     background:
-        radial-gradient(circle at 100% 0%,rgba(125,38,255,.22),transparent 45%),
-        #0d0c13;
+        linear-gradient(
+            135deg,
+            rgba(145,45,255,.35),
+            rgba(40,40,55,.8)
+        );
 }
 
-.booster-icon{
-    font-size:38px;
+.modal-title {
+    font-size: 20px;
+    font-weight: 900;
 }
 
-.booster-title{
-    margin-top:9px;
-    font-size:21px;
-    font-weight:950;
-}
-
-.booster-text{
-    margin-top:6px;
-    color:#777481;
-    font-size:11px;
-    line-height:1.5;
-}
-
-.file-input{
-    width:100%;
-    margin-top:17px;
-    padding:12px;
-    border:1px dashed #4d3b6e;
-    border-radius:14px;
-    color:#aaa5b6;
-    background:#0a0910;
-}
-
-.install-btn{
-    width:100%;
-    height:51px;
-    margin-top:10px;
-    border:0;
-    border-radius:14px;
-    background:linear-gradient(100deg,#702aff,#b000ff);
-    color:white;
-    font-weight:900;
-}
-
-.progress-box{
-    display:none;
-    margin-top:18px;
-}
-
-.progress-top{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:8px;
-    font-size:11px;
-}
-
-.progress-track{
-    width:100%;
-    height:12px;
-    overflow:hidden;
-    border-radius:20px;
-    background:#1b1823;
-}
-
-.progress-fill{
-    width:0%;
-    height:100%;
-    border-radius:20px;
-    background:linear-gradient(90deg,#6726ff,#d000ff);
-    box-shadow:0 0 18px #8d2cff;
-    transition:width .08s linear;
-}
-
-.success{
-    display:none;
-    margin-top:16px;
-    padding:16px;
-    border:1px solid rgba(0,220,150,.25);
-    border-radius:17px;
-    background:rgba(0,190,120,.07);
-}
-
-.success-title{
-    color:#00db91;
-    font-weight:900;
-}
-
-.success-text{
-    margin-top:5px;
-    color:#7b827f;
-    font-size:10px;
-}
-
-/* =========================================================
-   PROFILE
-========================================================= */
-
-.profile-card{
-    padding:20px;
-    border:1px solid #211e29;
-    border-radius:22px;
-    background:#0d0c13;
-    text-align:center;
-}
-
-.profile-avatar{
-    width:76px;
-    height:76px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:25px;
-    background:linear-gradient(135deg,#6c29ff,#bf00ff);
-    box-shadow:0 0 30px rgba(113,40,255,.3);
-    font-size:28px;
-    font-weight:950;
-}
-
-.profile-name{
-    margin-top:12px;
-    font-size:20px;
-    font-weight:950;
-}
-
-.profile-id{
-    margin-top:4px;
-    color:#74717e;
-    font-size:10px;
-}
-
-.profile-balance{
-    margin-top:18px;
-    padding:15px;
-    border-radius:15px;
-    background:#14121b;
-}
-
-.profile-balance-label{
-    color:#777481;
-    font-size:10px;
-}
-
-.profile-balance-value{
-    margin-top:4px;
-    font-size:23px;
-    font-weight:950;
-    color:#c9a7ff;
-}
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-.history{
-    margin-top:14px;
-    border:1px solid #1e1b27;
-    border-radius:19px;
-    overflow:hidden;
-}
-
-.history-title{
-    padding:13px 15px;
-    background:#0e0d14;
-    font-size:12px;
-    font-weight:900;
-}
-
-.history-row{
-    display:flex;
-    justify-content:space-between;
-    padding:12px 14px;
-    border-top:1px solid #18151f;
-    font-size:10px;
-}
-
-.history-win{
-    color:#00d98b;
-}
-
-.history-loss{
-    color:#ff526d;
+.modal-subtitle {
+    margin-top: 4px;
+    color: #747483;
+    font-size: 11px;
 }
 
 /* =========================================================
    SETTINGS
 ========================================================= */
 
-.settings-list{
-    overflow:hidden;
-    border:1px solid #1d1a25;
-    border-radius:20px;
-    background:#0d0c13;
+.setting-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.setting{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    min-height:58px;
-    padding:11px 14px;
-    border-bottom:1px solid #191620;
+.setting {
+    padding: 14px;
+    border-radius: 16px;
+    background: #0d0d14;
+    border: 1px solid rgba(255,255,255,.055);
 }
 
-.setting:last-child{
-    border-bottom:0;
+.setting-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-.setting-left{
-    display:flex;
-    align-items:center;
-    gap:11px;
+.setting-name {
+    font-size: 13px;
+    font-weight: 750;
 }
 
-.setting-icon{
-    width:34px;
-    height:34px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:10px;
-    background:#17141f;
+.setting-value {
+    color: #a958ff;
+    font-size: 13px;
+    font-weight: 900;
 }
 
-.setting-name{
-    font-size:12px;
-    font-weight:800;
+.progress {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #24242d;
 }
 
-.setting-desc{
-    margin-top:3px;
-    color:#696673;
-    font-size:9px;
+.progress-fill {
+    height: 100%;
+    border-radius: inherit;
+    background:
+        linear-gradient(
+            90deg,
+            #6c16e9,
+            #b34cff
+        );
+    box-shadow:
+        0 0 12px rgba(163,50,255,.45);
 }
 
-/* =========================================================
-   SWITCH
-========================================================= */
-
-.switch{
-    position:relative;
-    width:44px;
-    height:25px;
-    flex:none;
+.setting-note {
+    margin-top: 7px;
+    color: #555562;
+    font-size: 9px;
 }
 
-.switch input{
-    display:none;
+.modal-buttons {
+    display: flex;
+    gap: 9px;
+    margin-top: 18px;
 }
 
-.slider{
-    position:absolute;
-    inset:0;
-    border-radius:20px;
-    background:#292632;
-    transition:.2s;
+.modal-btn {
+    flex: 1;
+    height: 50px;
+    border-radius: 15px;
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
 }
 
-.slider:before{
-    content:"";
-    position:absolute;
-    width:19px;
-    height:19px;
-    left:3px;
-    top:3px;
-    border-radius:50%;
-    background:#aaa5b1;
-    transition:.2s;
+.btn-save {
+    background:
+        linear-gradient(
+            135deg,
+            #9638ff,
+            #6119d8
+        );
 }
 
-.switch input:checked + .slider{
-    background:#6e2aff;
-}
-
-.switch input:checked + .slider:before{
-    transform:translateX(19px);
-    background:white;
-}
-
-/* =========================================================
-   BOTTOM NAV
-========================================================= */
-
-.bottom-nav{
-    position:fixed;
-    z-index:1000;
-    left:0;
-    right:0;
-    bottom:0;
-    height:77px;
-    padding:
-        7px 8px
-        max(8px,env(safe-area-inset-bottom));
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    border-top:1px solid rgba(255,255,255,.05);
-    background:rgba(7,7,11,.92);
-    backdrop-filter:blur(22px);
-}
-
-.nav-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:5px;
-    color:#65636d;
-    font-size:9px;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.nav-icon{
-    width:30px;
-    height:30px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:11px;
-    font-size:17px;
-}
-
-.nav-item.active{
-    color:#b888ff;
-}
-
-.nav-item.active .nav-icon{
-    background:rgba(119,43,255,.15);
+.btn-close {
+    background: #191921;
+    border: 1px solid rgba(255,255,255,.06);
 }
 
 /* =========================================================
    TOAST
 ========================================================= */
 
-#toast{
-    position:fixed;
-    z-index:10000;
-    left:50%;
-    bottom:92px;
-    transform:translateX(-50%) translateY(20px);
-    width:max-content;
-    max-width:88%;
-    padding:11px 15px;
-    border:1px solid #30283f;
-    border-radius:13px;
-    background:#14111b;
-    color:#fff;
-    font-size:11px;
-    opacity:0;
-    pointer-events:none;
-    transition:.25s;
-    box-shadow:0 12px 35px rgba(0,0,0,.4);
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 25px;
+    z-index: 1000;
+    transform: translate(-50%, 120px);
+    width: calc(100% - 30px);
+    max-width: 390px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(27,27,36,.96);
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 15px 40px rgba(0,0,0,.4);
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    transition: transform .3s ease;
+    backdrop-filter: blur(15px);
 }
 
-#toast.show{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
+.toast.show {
+    transform: translate(-50%, 0);
 }
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(min-width:700px){
-
-    .content{
-        width:700px;
-        margin:auto;
+@media (min-width: 700px) {
+    .content {
+        max-width: 900px;
+        margin: auto;
     }
 
-    .header{
-        padding-left:calc((100% - 700px)/2 + 15px);
-        padding-right:calc((100% - 700px)/2 + 15px);
+    .catalog {
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
     }
 
-    .bottom-nav{
-        left:50%;
-        right:auto;
-        width:700px;
-        transform:translateX(-50%);
-        border-radius:20px 20px 0 0;
+    .modal {
+        align-items: center;
+        justify-content: center;
     }
 
-    .modal-box{
-        border-radius:27px;
-        margin-bottom:15px;
+    .modal-box {
+        max-width: 520px;
+        border-radius: 25px;
+    }
+}
+
+@media (max-width: 360px) {
+    .catalog {
+        gap: 8px;
     }
 
-}
-
-@media(max-width:360px){
-
-    .device-list{
-        grid-template-columns:1fr;
+    .device-card {
+        padding: 12px;
     }
 
-    .hero-title{
-        font-size:24px;
+    .card-name {
+        font-size: 12px;
     }
-
-    .multiplier{
-        height:235px;
-    }
-
-    .multiplier-value{
-        font-size:49px;
-    }
-
 }
-
-/* =========================================================
-   EXTRA EFFECTS
-========================================================= */
-
-.glow{
-    text-shadow:0 0 15px rgba(155,92,255,.8);
-}
-
-.hidden{
-    display:none !important;
-}
-
-.muted{
-    color:#72707b;
-}
-
-.green{
-    color:#00dc91;
-}
-
-.red{
-    color:#ff536d;
-}
-
-.purple{
-    color:#ad82ff;
-}
-
 </style>
 </head>
 
@@ -1276,47 +835,48 @@ body{
      LOGIN
 ======================================================= -->
 
-<section id="loginScreen">
+<section class="login-screen" id="loginScreen">
 
     <div class="login-box">
 
-        <div class="logo">
-            JC
+        <div class="login-logo">
+            ⚙️
         </div>
 
         <div class="login-title">
-            JACOOBC PANEL
+            Device Settings
         </div>
 
-        <div class="login-sub">
-            Защищённая панель управления
+        <div class="login-subtitle">
+            Войдите для доступа к настройкам
         </div>
 
         <input
-            id="login"
-            class="input"
+            id="loginInput"
+            class="login-input"
             type="text"
-            autocomplete="off"
             placeholder="Логин"
+            autocomplete="username"
         >
 
         <input
-            id="password"
-            class="input"
+            id="passwordInput"
+            class="login-input"
             type="password"
             placeholder="Пароль"
+            autocomplete="current-password"
         >
 
         <button
-            class="primary"
-            onclick="loginUser()"
+            class="login-button"
+            id="loginButton"
         >
             Войти
         </button>
 
         <div
-            id="loginError"
             class="login-error"
+            id="loginError"
         ></div>
 
     </div>
@@ -1328,820 +888,184 @@ body{
      APP
 ======================================================= -->
 
-<div id="app">
+<main class="app" id="app">
 
-    <div class="app-shell">
+    <!-- HEADER -->
 
-        <!-- HEADER -->
+    <header class="header">
 
-        <header class="header">
+        <div class="header-top">
 
-            <div class="brand">
+            <div class="logo">
+                DEVICE<span>SETTINGS</span>
+            </div>
 
-                <div class="brand-icon">
-                    ⚡
+            <div class="header-status">
+                <span class="status-dot"></span>
+                Система активна
+            </div>
+
+        </div>
+
+
+        <!-- MOVING BAR -->
+
+        <div class="ticker-window">
+
+            <div class="ticker">
+
+                <div class="ticker-card purple">
+                    ⚡ Чит настройка на iPhone
                 </div>
 
-                <div>
+                <div class="ticker-card gold">
+                    ⚡ Элитный
+                </div>
 
-                    <div class="brand-name">
-                        JACOOBC
-                    </div>
+                <div class="ticker-card gold">
+                    👑 VIP
+                </div>
 
-                    <div class="brand-status">
-                        SYSTEM ONLINE
-                    </div>
+                <div class="ticker-card blue">
+                    🔄 Обнова
+                </div>
 
+                <div class="ticker-card green">
+                    📱 50+ устройств
+                </div>
+
+                <div class="ticker-card purple">
+                    ⚙️ Настройки устройств
+                </div>
+
+
+                <!-- DUPLICATE FOR SMOOTH LOOP -->
+
+                <div class="ticker-card purple">
+                    ⚡ Чит настройка на iPhone
+                </div>
+
+                <div class="ticker-card gold">
+                    ⚡ Элитный
+                </div>
+
+                <div class="ticker-card gold">
+                    👑 VIP
+                </div>
+
+                <div class="ticker-card blue">
+                    🔄 Обнова
+                </div>
+
+                <div class="ticker-card green">
+                    📱 50+ устройств
+                </div>
+
+                <div class="ticker-card purple">
+                    ⚙️ Настройки устройств
                 </div>
 
             </div>
 
-            <div class="balance">
+        </div>
 
-                <div class="balance-label">
-                    BALANCE
-                </div>
+    </header>
 
-                <div
-                    id="headerBalance"
-                    class="balance-value"
-                >
-                    10 000 COIN
-                </div>
 
+    <!-- CONTENT -->
+
+    <section class="content">
+
+        <div class="section-title">
+            Настройки устройств
+        </div>
+
+        <div class="section-subtitle">
+            Выберите модель смартфона
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+            <input
+                id="searchInput"
+                class="search-input"
+                type="search"
+                placeholder="Поиск устройства..."
+                autocomplete="off"
+                spellcheck="false"
+            >
+
+            <button
+                id="clearSearch"
+                class="clear-search"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- POPULAR -->
+
+        <div class="section-title">
+            Популярные
+        </div>
+
+        <div class="section-subtitle">
+            10 популярных моделей
+        </div>
+
+        <div
+            class="popular-scroll"
+            id="popularList"
+        ></div>
+
+
+        <!-- ALL -->
+
+        <div
+            class="section-title"
+            style="margin-top:24px;"
+        >
+            Все устройства
+        </div>
+
+        <div class="section-subtitle">
+            Доступно более 50 моделей
+        </div>
+
+        <div
+            class="catalog"
+            id="deviceCatalog"
+        ></div>
+
+        <div
+            class="empty"
+            id="emptyState"
+        >
+            <div class="empty-icon">
+                🔍
             </div>
 
-        </header>
-
-
-        <!-- CONTENT -->
-
-        <main class="content">
-
-
-            <!-- =================================================
-                 HOME
-            ================================================= -->
-
-            <section
-                id="page-home"
-                class="page active"
-            >
-
-                <div class="page-title">
-                    Панель
-                </div>
-
-                <div class="page-subtitle">
-                    Управление WebApp
-                </div>
-
-
-                <div class="hero">
-
-                    <div class="hero-label">
-                        JACOOBC WEBAPP
-                    </div>
-
-                    <div class="hero-title">
-                        Всё в одном месте
-                    </div>
-
-                    <div class="hero-text">
-                        Crash, устройства, усилитель,
-                        профиль и история операций.
-                    </div>
-
-                    <div class="hero-buttons">
-
-                        <button
-                            class="hero-btn accent"
-                            onclick="showPage('crash')"
-                        >
-                            🚀 Crash
-                        </button>
-
-                        <button
-                            class="hero-btn"
-                            onclick="showPage('devices')"
-                        >
-                            📱 Девайсы
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="quick-grid">
-
-                    <div
-                        class="quick-card"
-                        onclick="showPage('crash')"
-                    >
-                        <div class="quick-icon">
-                            🚀
-                        </div>
-
-                        <div class="quick-title">
-                            Crash
-                        </div>
-
-                        <div class="quick-info">
-                            Ставка от 100 COIN
-                        </div>
-                    </div>
-
-
-                    <div
-                        class="quick-card"
-                        onclick="showPage('devices')"
-                    >
-                        <div class="quick-icon">
-                            📱
-                        </div>
-
-                        <div class="quick-title">
-                            60+ устройств
-                        </div>
-
-                        <div class="quick-info">
-                            Настройки моделей
-                        </div>
-                    </div>
-
-
-                    <div
-                        class="quick-card"
-                        onclick="showPage('booster')"
-                    >
-                        <div class="quick-icon">
-                            ⚡
-                        </div>
-
-                        <div class="quick-title">
-                            Усилитель
-                        </div>
-
-                        <div class="quick-info">
-                            Установка файла
-                        </div>
-                    </div>
-
-
-                    <div
-                        class="quick-card"
-                        onclick="showPage('profile')"
-                    >
-                        <div class="quick-icon">
-                            👤
-                        </div>
-
-                        <div class="quick-title">
-                            Профиль
-                        </div>
-
-                        <div class="quick-info">
-                            История и баланс
-                        </div>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 CRASH
-            ================================================= -->
-
-            <section
-                id="page-crash"
-                class="page"
-            >
-
-                <div class="page-title">
-                    🚀 Crash
-                </div>
-
-                <div class="page-subtitle">
-                    Минимальная ставка — 100 COIN
-                </div>
-
-
-                <div class="crash-panel">
-
-                    <div class="crash-head">
-
-                        <div>
-                            <div class="crash-name">
-                                JACOOBC CRASH
-                            </div>
-
-                            <div
-                                id="crashStatus"
-                                class="crash-status"
-                            >
-                                Ожидание раунда
-                            </div>
-                        </div>
-
-                        <div class="glow">
-                            LIVE
-                        </div>
-
-                    </div>
-
-
-                    <div class="multiplier">
-
-                        <div
-                            id="multiplier"
-                            class="multiplier-value"
-                        >
-                            1.00x
-                        </div>
-
-                        <div class="rocket">
-                            🚀
-                        </div>
-
-                    </div>
-
-
-                    <div class="crash-controls">
-
-                        <div class="bet-row">
-
-                            <input
-                                id="betAmount"
-                                class="bet-input"
-                                type="number"
-                                min="100"
-                                value="100"
-                                placeholder="Ставка"
-                            >
-
-                            <input
-                                id="autoCashout"
-                                class="cashout-input"
-                                type="number"
-                                min="1.01"
-                                step="0.01"
-                                value="2.00"
-                                placeholder="Авто"
-                            >
-
-                        </div>
-
-
-                        <button
-                            id="crashButton"
-                            class="crash-action"
-                            onclick="crashAction()"
-                        >
-                            🚀 Сделать ставку
-                        </button>
-
-
-                        <div class="last-title">
-                            Последние 15 результатов
-                        </div>
-
-                        <div
-                            id="lastResults"
-                            class="last-results"
-                        ></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="players">
-
-                    <div class="players-title">
-                        👥 Игроки в раунде
-                    </div>
-
-                    <div id="playersList"></div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 DEVICES
-            ================================================= -->
-
-            <section
-                id="page-devices"
-                class="page"
-            >
-
-                <div class="page-title">
-                    📱 Девайсы
-                </div>
-
-                <div class="page-subtitle">
-                    60+ моделей и индивидуальные настройки
-                </div>
-
-
-                <div class="search-box">
-
-                    <span class="search-icon">
-                        🔎
-                    </span>
-
-                    <input
-                        id="deviceSearch"
-                        type="text"
-                        placeholder="Поиск устройства..."
-                        oninput="renderDevices()"
-                    >
-
-                </div>
-
-
-                <div class="section-label">
-                    Популярные 10
-                </div>
-
-                <div
-                    id="topDevices"
-                    class="device-list"
-                ></div>
-
-
-                <div class="section-label">
-                    Все устройства
-                </div>
-
-                <div
-                    id="allDevices"
-                    class="device-list"
-                ></div>
-
-            </section>
-
-
-            <!-- =================================================
-                 BOOSTER
-            ================================================= -->
-
-            <section
-                id="page-booster"
-                class="page"
-            >
-
-                <div class="page-title">
-                    ⚡ Усилитель
-                </div>
-
-                <div class="page-subtitle">
-                    Установка выбранного файла
-                </div>
-
-
-                <div class="booster-card">
-
-                    <div class="booster-icon">
-                        ⚡
-                    </div>
-
-                    <div class="booster-title">
-                        Device Booster PRO
-                    </div>
-
-                    <div class="booster-text">
-                        Выбери файл с устройства.
-                        После выбора нажми установить.
-                        Интерфейс покажет прогресс от 1% до 100%.
-                    </div>
-
-
-                    <input
-                        id="boosterFile"
-                        class="file-input"
-                        type="file"
-                    >
-
-
-                    <button
-                        class="install-btn"
-                        onclick="installBooster()"
-                    >
-                        ⚡ Установить
-                    </button>
-
-
-                    <div
-                        id="progressBox"
-                        class="progress-box"
-                    >
-
-                        <div class="progress-top">
-
-                            <span>
-                                Установка
-                            </span>
-
-                            <span id="progressText">
-                                0%
-                            </span>
-
-                        </div>
-
-                        <div class="progress-track">
-
-                            <div
-                                id="progressFill"
-                                class="progress-fill"
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        id="successBox"
-                        class="success"
-                    >
-
-                        <div class="success-title">
-                            ✓ Установка завершена
-                        </div>
-
-                        <div class="success-text">
-                            Файл обработан интерфейсом.
-                        </div>
-
-                        <button
-                            class="install-btn"
-                            onclick="openFreeFire()"
-                        >
-                            🎮 Открыть Free Fire
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 PROFILE
-            ================================================= -->
-
-            <section
-                id="page-profile"
-                class="page"
-            >
-
-                <div class="page-title">
-                    👤 Профиль
-                </div>
-
-                <div class="page-subtitle">
-                    Информация аккаунта
-                </div>
-
-
-                <div class="profile-card">
-
-                    <div class="profile-avatar">
-                        JC
-                    </div>
-
-                    <div class="profile-name">
-                        Jacoobc
-                    </div>
-
-                    <div class="profile-id">
-                        ID: 7895911575
-                    </div>
-
-
-                    <div class="profile-balance">
-
-                        <div class="profile-balance-label">
-                            Текущий баланс
-                        </div>
-
-                        <div
-                            id="profileBalance"
-                            class="profile-balance-value"
-                        >
-                            10 000 COIN
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="history">
-
-                    <div class="history-title">
-                        📜 История Crash
-                    </div>
-
-                    <div id="historyList"></div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 SETTINGS
-            ================================================= -->
-
-            <section
-                id="page-settings"
-                class="page"
-            >
-
-                <div class="page-title">
-                    ⚙️ Настройки
-                </div>
-
-                <div class="page-subtitle">
-                    Настройки интерфейса
-                </div>
-
-
-                <div class="settings-list">
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                🔔
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Уведомления
-                                </div>
-
-                                <div class="setting-desc">
-                                    Системные уведомления
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                id="notifications"
-                                type="checkbox"
-                                checked
-                                onchange="saveSetting('notifications',this.checked)"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                📳
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Вибрация
-                                </div>
-
-                                <div class="setting-desc">
-                                    Вибрация при действиях
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                id="vibration"
-                                type="checkbox"
-                                checked
-                                onchange="saveSetting('vibration',this.checked)"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                ✨
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Эффекты
-                                </div>
-
-                                <div class="setting-desc">
-                                    Анимации интерфейса
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                id="effects"
-                                type="checkbox"
-                                checked
-                                onchange="saveSetting('effects',this.checked)"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                🚀
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Авто-кэшаут
-                                </div>
-
-                                <div class="setting-desc">
-                                    Использовать значение 2.00x
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                id="autoSetting"
-                                type="checkbox"
-                                checked
-                                onchange="saveSetting('autoSetting',this.checked)"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                🔒
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Защита масштаба
-                                </div>
-
-                                <div class="setting-desc">
-                                    Два пальца не изменяют масштаб
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="green">
-                            ON
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="primary"
-                    onclick="logout()"
-                >
-                    Выйти из аккаунта
-                </button>
-
-            </section>
-
-        </main>
-
-
-        <!-- =================================================
-             NAV
-        ================================================= -->
-
-        <nav class="bottom-nav">
-
-            <div
-                class="nav-item active"
-                data-page="home"
-                onclick="showPage('home')"
-            >
-                <div class="nav-icon">
-                    🏠
-                </div>
-                Главная
+            <div class="empty-title">
+                Ничего не найдено
             </div>
 
-
-            <div
-                class="nav-item"
-                data-page="crash"
-                onclick="showPage('crash')"
-            >
-                <div class="nav-icon">
-                    🚀
-                </div>
-                Crash
+            <div style="margin-top:5px;">
+                Попробуйте другое название
             </div>
+        </div>
 
+    </section>
 
-            <div
-                class="nav-item"
-                data-page="devices"
-                onclick="showPage('devices')"
-            >
-                <div class="nav-icon">
-                    📱
-                </div>
-                Девайсы
-            </div>
-
-
-            <div
-                class="nav-item"
-                data-page="booster"
-                onclick="showPage('booster')"
-            >
-                <div class="nav-icon">
-                    ⚡
-                </div>
-                Усилитель
-            </div>
-
-
-            <div
-                class="nav-item"
-                data-page="profile"
-                onclick="showPage('profile')"
-            >
-                <div class="nav-icon">
-                    👤
-                </div>
-                Профиль
-            </div>
-
-        </nav>
-
-    </div>
-
-</div>
+</main>
 
 
 <!-- =======================================================
@@ -2149,50 +1073,64 @@ body{
 ======================================================= -->
 
 <div
-    id="deviceModal"
     class="modal"
-    onclick="closeDeviceModal(event)"
+    id="deviceModal"
 >
 
-    <div
-        class="modal-box"
-        onclick="event.stopPropagation()"
-    >
+    <div class="modal-box">
 
         <div class="modal-handle"></div>
 
-        <div
-            id="modalDeviceTitle"
-            class="modal-title"
-        >
-            iPhone 14
+        <div class="modal-header">
+
+            <div
+                class="modal-device-icon"
+                id="modalIcon"
+            >
+                📱
+            </div>
+
+            <div>
+
+                <div
+                    class="modal-title"
+                    id="modalTitle"
+                >
+                    iPhone 14
+                </div>
+
+                <div
+                    class="modal-subtitle"
+                    id="modalSubtitle"
+                >
+                    Настройки устройства
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="modal-subtitle">
-            Настройки устройства
-        </div>
-
 
         <div
-            id="deviceStats"
-            class="stats"
+            class="setting-list"
+            id="settingList"
         ></div>
 
 
-        <div class="modal-actions">
+        <div class="modal-buttons">
 
             <button
-                class="modal-btn"
-                onclick="closeDeviceModal()"
+                class="modal-btn btn-close"
+                id="closeModal"
             >
                 Закрыть
             </button>
 
             <button
-                class="modal-btn primary-btn"
-                onclick="goBoosterFromDevice()"
+                class="modal-btn btn-save"
+                id="saveSettings"
             >
-                ⚡ Усилитель
+                Сохранить
             </button>
 
         </div>
@@ -2202,1488 +1140,1011 @@ body{
 </div>
 
 
-<!-- =======================================================
-     TOAST
-======================================================= -->
+<!-- TOAST -->
 
-<div id="toast"></div>
+<div
+    class="toast"
+    id="toast"
+></div>
 
 
 <script>
-
-/* =========================================================
-   GLOBAL STATE
-========================================================= */
-
-const AUTH_LOGIN = "Jacoobc";
-const AUTH_PASSWORD = "Jacoobc88990";
-
-const START_BALANCE = 10000;
-
-let balance = Number(
-    localStorage.getItem("jacoobc_balance")
-) || START_BALANCE;
-
-let crashRunning = false;
-let crashBet = 0;
-let crashMultiplier = 1;
-let crashTimer = null;
-let crashTarget = 0;
-let hasCashedOut = false;
-
-let lastResults =
-    JSON.parse(
-        localStorage.getItem("jacoobc_results") || "[]"
-    );
-
-let history =
-    JSON.parse(
-        localStorage.getItem("jacoobc_history") || "[]"
-    );
-
-
-/* =========================================================
-   DEVICE DATA
-========================================================= */
-
-const popularDevices = [
-
-    "iPhone 11",
-    "iPhone 13",
-    "iPhone 14",
-    "iPhone 15",
-    "iPhone 15 Pro",
-    "Poco X6",
-    "Samsung Galaxy A57",
-    "Samsung Galaxy A26",
-    "Samsung S24 Ultra",
-    "Vivo X200"
-
-];
-
-
-const additionalDevices = [
-
-    "iPhone 12",
-    "iPhone 12 Pro",
-    "iPhone 13 Pro",
-    "iPhone 13 Pro Max",
-    "iPhone 14 Plus",
-    "iPhone 14 Pro",
-    "iPhone 14 Pro Max",
-    "iPhone 15 Plus",
-    "iPhone 15 Pro Max",
-    "iPhone 16",
-    "iPhone 16 Plus",
-    "iPhone 16 Pro",
-    "iPhone 16 Pro Max",
-
-    "Samsung Galaxy A15",
-    "Samsung Galaxy A25",
-    "Samsung Galaxy A35",
-    "Samsung Galaxy A55",
-    "Samsung Galaxy A56",
-    "Samsung Galaxy S21",
-    "Samsung Galaxy S22",
-    "Samsung Galaxy S23",
-    "Samsung Galaxy S23 Ultra",
-    "Samsung Galaxy S24",
-    "Samsung Galaxy S24+",
-    "Samsung Galaxy S25",
-    "Samsung Galaxy S25 Ultra",
-
-    "Poco X3",
-    "Poco X4 Pro",
-    "Poco X5",
-    "Poco X5 Pro",
-    "Poco X6 Pro",
-    "Poco X7",
-    "Poco F5",
-    "Poco F6",
-
-    "Xiaomi Redmi Note 10",
-    "Xiaomi Redmi Note 11",
-    "Xiaomi Redmi Note 12",
-    "Xiaomi Redmi Note 13",
-    "Xiaomi Redmi Note 14",
-    "Xiaomi 12",
-    "Xiaomi 13",
-    "Xiaomi 14",
-    "Xiaomi 14 Ultra",
-
-    "Vivo X90",
-    "Vivo X100",
-    "Vivo X100 Pro",
-    "Vivo X200",
-    "Vivo X200 Pro",
-
-    "OnePlus 10 Pro",
-    "OnePlus 11",
-    "OnePlus 12",
-    "OnePlus 13",
-
-    "Realme GT Neo 3",
-    "Realme GT Neo 5",
-    "Realme GT 5",
-    "Realme GT 6",
-
-    "Google Pixel 7",
-    "Google Pixel 8",
-    "Google Pixel 8 Pro",
-    "Google Pixel 9",
-    "Google Pixel 9 Pro"
-
-];
-
-
-const allDevices = [
-    ...popularDevices,
-    ...additionalDevices.filter(
-        x => !popularDevices.includes(x)
-    )
-];
-
-
-/* =========================================================
-   RANDOM DEVICE SETTINGS
-========================================================= */
-
-function generateDeviceStats(device){
-
-    const key =
-        "device_stats_" +
-        device.replace(/\W/g,"_");
-
-    const saved =
-        localStorage.getItem(key);
-
-    if(saved){
-
-        return JSON.parse(saved);
-
-    }
-
-    const stats = {
-
-        headshot:
-            randomNumber(65,98),
-
-        overview:
-            randomNumber(55,95),
-
-        collimator:
-            randomNumber(40,90),
-
-        scope2x:
-            randomNumber(35,90),
-
-        scope4x:
-            randomNumber(40,95),
-
-        sniper:
-            randomNumber(35,85),
-
-        button:
-            randomNumber(45,90)
-
-    };
-
-    localStorage.setItem(
-        key,
-        JSON.stringify(stats)
-    );
-
-    return stats;
-}
-
-
-/* =========================================================
-   UTILITY
-========================================================= */
-
-function randomNumber(min,max){
-
-    return Math.floor(
-        Math.random() *
-        (max - min + 1)
-    ) + min;
-
-}
-
-
-function formatCoins(value){
-
-    return Number(value)
-        .toLocaleString("ru-RU") +
-        " COIN";
-
-}
-
-
 /* =========================================================
    LOGIN
 ========================================================= */
 
-function loginUser(){
+/*
+   Это локальная авторизация интерфейса.
 
-    const login =
-        document.getElementById("login").value.trim();
+   Для настоящего сайта логин/пароль нельзя хранить
+   непосредственно в HTML/JS — их нужно проверять
+   на сервере.
+*/
+
+const LOGIN = "Jacoobc";
+const PASSWORD = "Jacoobc88990";
+
+const loginScreen =
+    document.getElementById("loginScreen");
+
+const app =
+    document.getElementById("app");
+
+const loginInput =
+    document.getElementById("loginInput");
+
+const passwordInput =
+    document.getElementById("passwordInput");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginError =
+    document.getElementById("loginError");
+
+
+function login() {
+
+    const username =
+        loginInput.value.trim();
 
     const password =
-        document.getElementById("password").value;
+        passwordInput.value;
 
-    const error =
-        document.getElementById("loginError");
+    if (
+        username === LOGIN &&
+        password === PASSWORD
+    ) {
 
+        loginError.textContent = "";
 
-    if(
-        login === AUTH_LOGIN &&
-        password === AUTH_PASSWORD
-    ){
+        loginScreen.style.display = "none";
+
+        app.style.display = "block";
 
         localStorage.setItem(
-            "jacoobc_logged",
-            "1"
+            "device_settings_auth",
+            "true"
         );
 
-        document.getElementById(
-            "loginScreen"
-        ).style.display = "none";
+        showToast(
+            "Добро пожаловать 👋"
+        );
 
-        document.getElementById(
-            "app"
-        ).style.display = "block";
+    } else {
 
-        updateBalance();
-
-        showToast("Добро пожаловать, Jacoobc");
-
-    }else{
-
-        error.textContent =
+        loginError.textContent =
             "Неверный логин или пароль";
 
-    }
+        passwordInput.value = "";
 
+    }
 }
 
 
-document
-    .getElementById("password")
-    .addEventListener(
-        "keydown",
-        e => {
+loginButton.addEventListener(
+    "click",
+    login
+);
 
-            if(e.key === "Enter"){
 
-                loginUser();
+passwordInput.addEventListener(
+    "keydown",
+    event => {
 
-            }
-
+        if (event.key === "Enter") {
+            login();
         }
-    );
+
+    }
+);
 
 
 /* =========================================================
-   AUTO LOGIN
+   DEVICES
 ========================================================= */
 
-if(
-    localStorage.getItem(
-        "jacoobc_logged"
-    ) === "1"
-){
+const devices = [
 
-    document.getElementById(
-        "loginScreen"
-    ).style.display = "none";
+    /* POPULAR 10 */
 
-    document.getElementById(
-        "app"
-    ).style.display = "block";
+    {
+        name: "iPhone 11",
+        company: "Apple",
+        icon: "📱",
+        popular: true
+    },
 
-}
+    {
+        name: "iPhone 13",
+        company: "Apple",
+        icon: "📱",
+        popular: true
+    },
+
+    {
+        name: "iPhone 14",
+        company: "Apple",
+        icon: "📱",
+        popular: true
+    },
+
+    {
+        name: "iPhone 15",
+        company: "Apple",
+        icon: "📱",
+        popular: true
+    },
+
+    {
+        name: "iPhone 15 Pro",
+        company: "Apple",
+        icon: "📱",
+        popular: true
+    },
+
+    {
+        name: "Poco X6",
+        company: "POCO",
+        icon: "📱",
+        popular: true
+    },
+
+    {
+        name: "Samsung Galaxy A57",
+        company: "Samsung",
+        icon: "📱",
+        popular: true
+    },
+
+    {
+        name: "Samsung Galaxy A26",
+        company: "Samsung",
+        icon: "📱",
+        popular: true
+    },
+
+    {
+        name: "Samsung S24 Ultra",
+        company: "Samsung",
+        icon: "📱",
+        popular: true
+    },
+
+    {
+        name: "Vivo X200",
+        company: "Vivo",
+        icon: "📱",
+        popular: true
+    },
 
 
-/* =========================================================
-   LOGOUT
-========================================================= */
+    /* APPLE */
 
-function logout(){
+    {
+        name: "iPhone 11 Pro",
+        company: "Apple",
+        icon: "📱"
+    },
 
-    localStorage.removeItem(
-        "jacoobc_logged"
-    );
+    {
+        name: "iPhone 11 Pro Max",
+        company: "Apple",
+        icon: "📱"
+    },
 
-    location.reload();
+    {
+        name: "iPhone 12",
+        company: "Apple",
+        icon: "📱"
+    },
 
-}
+    {
+        name: "iPhone 12 Pro",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 12 Pro Max",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 13 Mini",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 13 Pro",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 13 Pro Max",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 14 Plus",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 14 Pro",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 14 Pro Max",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 15 Plus",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 15 Pro Max",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 16",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 16 Pro",
+        company: "Apple",
+        icon: "📱"
+    },
+
+    {
+        name: "iPhone 16 Pro Max",
+        company: "Apple",
+        icon: "📱"
+    },
 
 
-/* =========================================================
-   PAGE NAVIGATION
-========================================================= */
+    /* SAMSUNG */
 
-function showPage(page){
+    {
+        name: "Galaxy A15",
+        company: "Samsung",
+        icon: "📱"
+    },
 
-    document
-        .querySelectorAll(".page")
-        .forEach(
-            p => p.classList.remove("active")
-        );
+    {
+        name: "Galaxy A25",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy A35",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy A55",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy A56",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy A57",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S21",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S21 Ultra",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S22",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S22 Ultra",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S23",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S23 Ultra",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S24",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S24 Ultra",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S25",
+        company: "Samsung",
+        icon: "📱"
+    },
+
+    {
+        name: "Galaxy S25 Ultra",
+        company: "Samsung",
+        icon: "📱"
+    },
 
 
-    const target =
-        document.getElementById(
-            "page-" + page
-        );
+    /* XIAOMI / POCO */
 
-    if(target){
+    {
+        name: "Poco X3",
+        company: "POCO",
+        icon: "📱"
+    },
 
-        target.classList.add("active");
+    {
+        name: "Poco X3 Pro",
+        company: "POCO",
+        icon: "📱"
+    },
 
+    {
+        name: "Poco X4 Pro",
+        company: "POCO",
+        icon: "📱"
+    },
+
+    {
+        name: "Poco X5",
+        company: "POCO",
+        icon: "📱"
+    },
+
+    {
+        name: "Poco X5 Pro",
+        company: "POCO",
+        icon: "📱"
+    },
+
+    {
+        name: "Poco X6",
+        company: "POCO",
+        icon: "📱"
+    },
+
+    {
+        name: "Poco X6 Pro",
+        company: "POCO",
+        icon: "📱"
+    },
+
+    {
+        name: "Redmi Note 12",
+        company: "Xiaomi",
+        icon: "📱"
+    },
+
+    {
+        name: "Redmi Note 13",
+        company: "Xiaomi",
+        icon: "📱"
+    },
+
+    {
+        name: "Redmi Note 14",
+        company: "Xiaomi",
+        icon: "📱"
+    },
+
+
+    /* VIVO */
+
+    {
+        name: "Vivo X90",
+        company: "Vivo",
+        icon: "📱"
+    },
+
+    {
+        name: "Vivo X100",
+        company: "Vivo",
+        icon: "📱"
+    },
+
+    {
+        name: "Vivo X100 Pro",
+        company: "Vivo",
+        icon: "📱"
+    },
+
+    {
+        name: "Vivo X200",
+        company: "Vivo",
+        icon: "📱"
+    },
+
+    {
+        name: "Vivo V30",
+        company: "Vivo",
+        icon: "📱"
+    },
+
+    {
+        name: "Vivo V40",
+        company: "Vivo",
+        icon: "📱"
+    },
+
+
+    /* OTHER */
+
+    {
+        name: "OnePlus 11",
+        company: "OnePlus",
+        icon: "📱"
+    },
+
+    {
+        name: "OnePlus 12",
+        company: "OnePlus",
+        icon: "📱"
+    },
+
+    {
+        name: "OnePlus 13",
+        company: "OnePlus",
+        icon: "📱"
+    },
+
+    {
+        name: "Google Pixel 7",
+        company: "Google",
+        icon: "📱"
+    },
+
+    {
+        name: "Google Pixel 8",
+        company: "Google",
+        icon: "📱"
+    },
+
+    {
+        name: "Google Pixel 9",
+        company: "Google",
+        icon: "📱"
     }
-
-
-    document
-        .querySelectorAll(".nav-item")
-        .forEach(
-            item => {
-
-                item.classList.toggle(
-                    "active",
-                    item.dataset.page === page
-                );
-
-            }
-        );
-
-
-    const content =
-        document.querySelector(".content");
-
-    if(content){
-
-        content.scrollTop = 0;
-
-    }
-
-}
-
-
-/* =========================================================
-   BALANCE
-========================================================= */
-
-function updateBalance(){
-
-    balance =
-        Math.max(
-            0,
-            Number(balance)
-        );
-
-    localStorage.setItem(
-        "jacoobc_balance",
-        balance
-    );
-
-
-    document.getElementById(
-        "headerBalance"
-    ).textContent =
-        formatCoins(balance);
-
-
-    document.getElementById(
-        "profileBalance"
-    ).textContent =
-        formatCoins(balance);
-
-}
-
-
-/* =========================================================
-   DEVICE RENDER
-========================================================= */
-
-function deviceHTML(name){
-
-    return `
-
-        <div
-            class="device-card"
-            onclick="openDevice('${escapeHTML(name)}')"
-        >
-
-            <div class="device-icon">
-                📱
-            </div>
-
-            <div class="device-name">
-                ${escapeHTML(name)}
-            </div>
-
-            <div class="device-tag">
-                НАСТРОЙКИ
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-function renderDevices(){
-
-    const query =
-        document
-            .getElementById("deviceSearch")
-            .value
-            .toLowerCase()
-            .trim();
-
-
-    const filtered =
-        allDevices.filter(
-            device =>
-                device
-                    .toLowerCase()
-                    .includes(query)
-        );
-
-
-    const top =
-        document.getElementById(
-            "topDevices"
-        );
-
-    const all =
-        document.getElementById(
-            "allDevices"
-        );
-
-
-    if(query){
-
-        top.innerHTML = "";
-
-        all.innerHTML =
-            filtered
-                .map(deviceHTML)
-                .join("");
-
-        return;
-
-    }
-
-
-    top.innerHTML =
-        popularDevices
-            .map(deviceHTML)
-            .join("");
-
-
-    all.innerHTML =
-        allDevices
-            .filter(
-                x =>
-                    !popularDevices.includes(x)
-            )
-            .map(deviceHTML)
-            .join("");
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHTML(value){
-
-    return value
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================================================
-   DEVICE MODAL
-========================================================= */
-
-let selectedDevice = "";
-
-
-function openDevice(name){
-
-    selectedDevice = name;
-
-    const stats =
-        generateDeviceStats(name);
-
-
-    document.getElementById(
-        "modalDeviceTitle"
-    ).textContent = name;
-
-
-    const data = [
-
-        ["Хедшот",stats.headshot],
-        ["Обзор",stats.overview],
-        ["Колиматор",stats.collimator],
-        ["2x",stats.scope2x],
-        ["4x",stats.scope4x],
-        ["Снайпер",stats.sniper],
-        ["Размер кнопки",stats.button]
-
-    ];
-
-
-    document.getElementById(
-        "deviceStats"
-    ).innerHTML =
-
-        data.map(
-            item => `
-
-                <div class="stat">
-
-                    <div class="stat-head">
-
-                        <span class="stat-name">
-                            ${item[0]}
-                        </span>
-
-                        <span class="stat-value">
-                            ${item[1]}%
-                        </span>
-
-                    </div>
-
-                    <div class="stat-bar">
-
-                        <div
-                            class="stat-fill"
-                            style="width:${item[1]}%"
-                        ></div>
-
-                    </div>
-
-                </div>
-
-            `
-        ).join("");
-
-
-    document
-        .getElementById("deviceModal")
-        .classList.add("show");
-
-}
-
-
-function closeDeviceModal(){
-
-    document
-        .getElementById("deviceModal")
-        .classList.remove("show");
-
-}
-
-
-function goBoosterFromDevice(){
-
-    closeDeviceModal();
-
-    showPage("booster");
-
-    showToast(
-        selectedDevice +
-        " выбран"
-    );
-
-}
-
-
-/* =========================================================
-   BOOSTER INSTALLATION
-========================================================= */
-
-function installBooster(){
-
-    const input =
-        document.getElementById(
-            "boosterFile"
-        );
-
-
-    if(!input.files.length){
-
-        showToast(
-            "Сначала выбери файл"
-        );
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "progressBox"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "successBox"
-    ).style.display = "none";
-
-
-    let progress = 0;
-
-
-    document.getElementById(
-        "progressFill"
-    ).style.width = "0%";
-
-
-    document.getElementById(
-        "progressText"
-    ).textContent = "0%";
-
-
-    const interval =
-        setInterval(
-            () => {
-
-                progress +=
-                    randomNumber(1,4);
-
-                if(progress > 100){
-
-                    progress = 100;
-
-                }
-
-
-                document.getElementById(
-                    "progressFill"
-                ).style.width =
-                    progress + "%";
-
-
-                document.getElementById(
-                    "progressText"
-                ).textContent =
-                    progress + "%";
-
-
-                if(progress >= 100){
-
-                    clearInterval(interval);
-
-                    setTimeout(
-                        () => {
-
-                            document.getElementById(
-                                "successBox"
-                            ).style.display =
-                                "block";
-
-                            showToast(
-                                "Установка завершена"
-                            );
-
-                        },
-                        400
-                    );
-
-                }
-
-            },
-            100
-        );
-
-}
-
-
-/* =========================================================
-   FREE FIRE
-========================================================= */
-
-function openFreeFire(){
-
-    /*
-       Браузер не может гарантированно открыть
-       приложение на каждом устройстве.
-
-       Используется стандартная попытка
-       через deep-link.
-    */
-
-    const links = [
-
-        "freefire://",
-
-        "intent://#Intent;" +
-        "scheme=freefire;" +
-        "package=com.dts.freefireth;" +
-        "end"
-
-    ];
-
-
-    window.location.href =
-        links[0];
-
-
-    setTimeout(
-        () => {
-
-            showToast(
-                "Если игра не открылась, запусти Free Fire вручную"
-            );
-
-        },
-        1500
-    );
-
-}
-
-
-/* =========================================================
-   CRASH RANDOM TARGET
-========================================================= */
-
-function generateCrashTarget(){
-
-    const r =
-        Math.random();
-
-    if(r < .08){
-
-        return randomNumber(100,115) / 100;
-
-    }
-
-    if(r < .30){
-
-        return randomNumber(115,180) / 100;
-
-    }
-
-    if(r < .70){
-
-        return randomNumber(180,350) / 100;
-
-    }
-
-    if(r < .92){
-
-        return randomNumber(350,800) / 100;
-
-    }
-
-    return randomNumber(800,3000) / 100;
-
-}
-
-
-/* =========================================================
-   CRASH ACTION
-========================================================= */
-
-function crashAction(){
-
-    if(crashRunning){
-
-        cashOut();
-
-        return;
-
-    }
-
-
-    const amount =
-        Number(
-            document.getElementById(
-                "betAmount"
-            ).value
-        );
-
-
-    if(!Number.isFinite(amount)){
-
-        showToast("Неверная ставка");
-
-        return;
-
-    }
-
-
-    if(amount < 100){
-
-        showToast(
-            "Минимальная ставка — 100 COIN"
-        );
-
-        return;
-
-    }
-
-
-    if(amount > balance){
-
-        showToast(
-            "Недостаточно COIN"
-        );
-
-        return;
-
-    }
-
-
-    balance -= amount;
-
-    updateBalance();
-
-
-    crashBet = amount;
-
-    crashMultiplier = 1;
-
-    crashTarget =
-        generateCrashTarget();
-
-    crashRunning = true;
-
-    hasCashedOut = false;
-
-
-    document.getElementById(
-        "crashButton"
-    ).textContent =
-        "💰 Забрать выигрыш";
-
-
-    document.getElementById(
-        "crashButton"
-    ).className =
-        "crash-action green";
-
-
-    document.getElementById(
-        "crashStatus"
-    ).textContent =
-        "Раунд идёт";
-
-
-    runCrash();
-
-}
-
-
-/* =========================================================
-   CRASH LOOP
-========================================================= */
-
-function runCrash(){
-
-    clearInterval(crashTimer);
-
-
-    crashTimer =
-        setInterval(
-            () => {
-
-                crashMultiplier +=
-                    0.01 +
-                    crashMultiplier * 0.002;
-
-
-                crashMultiplier =
-                    Math.round(
-                        crashMultiplier * 100
-                    ) / 100;
-
-
-                document.getElementById(
-                    "multiplier"
-                ).textContent =
-                    crashMultiplier.toFixed(2) +
-                    "x";
-
-
-                const auto =
-                    Number(
-                        document.getElementById(
-                            "autoCashout"
-                        ).value
-                    );
-
-
-                const autoEnabled =
-                    document.getElementById(
-                        "autoSetting"
-                    ).checked;
-
-
-                if(
-                    autoEnabled &&
-                    Number.isFinite(auto) &&
-                    auto > 1 &&
-                    crashMultiplier >= auto &&
-                    !hasCashedOut
-                ){
-
-                    cashOut();
-
-                    return;
-
-                }
-
-
-                if(
-                    crashMultiplier >=
-                    crashTarget
-                ){
-
-                    crashEnd();
-
-                }
-
-            },
-            70
-        );
-
-}
-
-
-/* =========================================================
-   CASH OUT
-========================================================= */
-
-function cashOut(){
-
-    if(!crashRunning){
-
-        return;
-
-    }
-
-
-    if(hasCashedOut){
-
-        return;
-
-    }
-
-
-    hasCashedOut = true;
-
-
-    const win =
-        Math.floor(
-            crashBet *
-            crashMultiplier
-        );
-
-
-    balance += win;
-
-    updateBalance();
-
-
-    addHistory(
-        "win",
-        crashBet,
-        crashMultiplier,
-        win
-    );
-
-
-    showToast(
-        "Выигрыш +" +
-        formatCoins(win)
-    );
-
-
-    document.getElementById(
-        "crashStatus"
-    ).textContent =
-        "Вы забрали " +
-        crashMultiplier.toFixed(2) +
-        "x";
-
-
-    clearInterval(crashTimer);
-
-    crashRunning = false;
-
-
-    document.getElementById(
-        "crashButton"
-    ).textContent =
-        "🚀 Следующая ставка";
-
-
-    document.getElementById(
-        "crashButton"
-    ).className =
-        "crash-action";
-
-
-    setTimeout(
-        resetCrash,
-        1200
-    );
-
-}
-
-
-/* =========================================================
-   CRASH END
-========================================================= */
-
-function crashEnd(){
-
-    clearInterval(crashTimer);
-
-    crashRunning = false;
-
-
-    const final =
-        crashTarget;
-
-
-    document.getElementById(
-        "multiplier"
-    ).textContent =
-        final.toFixed(2) +
-        "x";
-
-
-    document.getElementById(
-        "crashStatus"
-    ).textContent =
-        "💥 CRASH";
-
-
-    addResult(final);
-
-
-    if(!hasCashedOut){
-
-        addHistory(
-            "loss",
-            crashBet,
-            final,
-            0
-        );
-
-        showToast(
-            "Ставка проиграла"
-        );
-
-    }
-
-
-    document.getElementById(
-        "crashButton"
-    ).textContent =
-        "🚀 Следующая ставка";
-
-
-    document.getElementById(
-        "crashButton"
-    ).className =
-        "crash-action";
-
-
-    setTimeout(
-        resetCrash,
-        1700
-    );
-
-}
-
-
-/* =========================================================
-   RESET CRASH
-========================================================= */
-
-function resetCrash(){
-
-    if(crashRunning){
-
-        return;
-
-    }
-
-
-    crashMultiplier = 1;
-
-    hasCashedOut = false;
-
-
-    document.getElementById(
-        "multiplier"
-    ).textContent =
-        "1.00x";
-
-
-    document.getElementById(
-        "crashStatus"
-    ).textContent =
-        "Ожидание раунда";
-
-
-    document.getElementById(
-        "crashButton"
-    ).textContent =
-        "🚀 Сделать ставку";
-
-
-    document.getElementById(
-        "crashButton"
-    ).className =
-        "crash-action";
-
-}
-
-
-/* =========================================================
-   LAST RESULTS
-========================================================= */
-
-function addResult(value){
-
-    lastResults.unshift(
-        Number(value.toFixed(2))
-    );
-
-
-    lastResults =
-        lastResults.slice(0,15);
-
-
-    localStorage.setItem(
-        "jacoobc_results",
-        JSON.stringify(lastResults)
-    );
-
-
-    renderResults();
-
-}
-
-
-function renderResults(){
-
-    const container =
-        document.getElementById(
-            "lastResults"
-        );
-
-
-    if(!lastResults.length){
-
-        container.innerHTML =
-            `<span class="result">Нет результатов</span>`;
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        lastResults
-            .map(
-                value => `
-
-                    <span
-                        class="result"
-                    >
-                        ${Number(value).toFixed(2)}x
-                    </span>
-
-                `
-            )
-            .join("");
-
-}
-
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-function addHistory(
-    type,
-    bet,
-    multiplier,
-    win
-){
-
-    history.unshift({
-
-        type,
-
-        bet,
-
-        multiplier,
-
-        win,
-
-        time:
-            new Date()
-                .toLocaleTimeString(
-                    "ru-RU",
-                    {
-                        hour:"2-digit",
-                        minute:"2-digit"
-                    }
-                )
-
-    });
-
-
-    history =
-        history.slice(0,30);
-
-
-    localStorage.setItem(
-        "jacoobc_history",
-        JSON.stringify(history)
-    );
-
-
-    renderHistory();
-
-}
-
-
-function renderHistory(){
-
-    const list =
-        document.getElementById(
-            "historyList"
-        );
-
-
-    if(!history.length){
-
-        list.innerHTML = `
-
-            <div class="history-row">
-
-                <span class="muted">
-                    История пуста
-                </span>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        history
-            .map(
-                item => {
-
-                    const isWin =
-                        item.type === "win";
-
-
-                    return `
-
-                        <div
-                            class="history-row"
-                        >
-
-                            <span>
-                                ${item.time}
-                                ·
-                                ${item.multiplier.toFixed(2)}x
-                            </span>
-
-                            <span
-                                class="${
-                                    isWin
-                                    ? "history-win"
-                                    : "history-loss"
-                                }"
-                            >
-
-                                ${
-                                    isWin
-                                    ? "+" + formatCoins(item.win)
-                                    : "-" + formatCoins(item.bet)
-                                }
-
-                            </span>
-
-                        </div>
-
-                    `;
-
-                }
-            )
-            .join("");
-
-}
-
-
-/* =========================================================
-   PLAYERS
-========================================================= */
-
-const fakePlayers = [
-
-    ["Daulet","2 500"],
-    ["Madi","1 200"],
-    ["Arsen","700"],
-    ["Nurik","5 000"],
-    ["Ayan","350"],
-    ["RedmiUser","900"],
-    ["K5","3 000"],
-    ["Jacoob","650"]
 
 ];
 
 
-function renderPlayers(){
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-    const list =
-        document.getElementById(
-            "playersList"
-        );
+const popularList =
+    document.getElementById("popularList");
+
+const deviceCatalog =
+    document.getElementById("deviceCatalog");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const clearSearch =
+    document.getElementById("clearSearch");
 
 
-    list.innerHTML =
-        fakePlayers
-            .map(
-                player => `
+/* =========================================================
+   RANDOM SETTINGS
+========================================================= */
 
-                    <div class="player">
+function randomSettings() {
 
-                        <div class="avatar">
-                            ${player[0][0]}
-                        </div>
+    return {
 
-                        <div class="player-info">
+        headshot:
+            Math.floor(
+                Math.random() * 9
+            ) + 91,
 
-                            <div class="player-name">
-                                ${player[0]}
-                            </div>
+        overview:
+            Math.floor(
+                Math.random() * 15
+            ) + 84,
 
-                            <div class="player-bet">
-                                Ставка ${player[1]} COIN
-                            </div>
+        collimator:
+            Math.floor(
+                Math.random() * 45
+            ) + 45,
 
-                        </div>
+        x2:
+            Math.floor(
+                Math.random() * 55
+            ) + 40,
 
-                        <div class="player-win">
-                            LIVE
-                        </div>
+        x4:
+            Math.floor(
+                Math.random() * 28
+            ) + 65,
 
-                    </div>
+        sniper:
+            Math.floor(
+                Math.random() * 45
+            ) + 40,
 
-                `
-            )
-            .join("");
+        button:
+            Math.floor(
+                Math.random() * 40
+            ) + 55
+
+    };
 
 }
 
 
 /* =========================================================
-   SETTINGS
+   SETTINGS NAMES
 ========================================================= */
 
-function saveSetting(
-    key,
-    value
-){
+const settingNames = [
 
-    localStorage.setItem(
-        "setting_" + key,
-        value ? "1" : "0"
-    );
+    "Хедшот",
+    "Обзор",
+    "Колиматор",
+    "2x",
+    "4x",
+    "Снайпер",
+    "Размер кнопки"
+
+];
+
+
+/* =========================================================
+   RENDER POPULAR
+========================================================= */
+
+function renderPopular() {
+
+    popularList.innerHTML = "";
+
+    devices
+        .filter(device => device.popular)
+        .forEach(device => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "popular-card";
+
+            card.innerHTML = `
+
+                <div class="device-icon">
+                    ${device.icon}
+                </div>
+
+                <div class="device-name">
+                    ${device.name}
+                </div>
+
+                <div class="device-type">
+                    ${device.company}
+                </div>
+
+            `;
+
+            card.addEventListener(
+                "click",
+                () => openDevice(device)
+            );
+
+            popularList.appendChild(card);
+
+        });
 
 }
 
 
-function loadSettings(){
+/* =========================================================
+   RENDER CATALOG
+========================================================= */
 
-    const keys = [
+function renderDevices(list = devices) {
 
-        "notifications",
-        "vibration",
-        "effects",
-        "autoSetting"
+    deviceCatalog.innerHTML = "";
+
+    if (!list.length) {
+
+        emptyState.style.display =
+            "block";
+
+        return;
+
+    }
+
+    emptyState.style.display =
+        "none";
+
+
+    list.forEach(device => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "device-card";
+
+        card.innerHTML = `
+
+            <div class="card-top">
+
+                <div class="card-phone">
+                    ${device.icon}
+                </div>
+
+                <div class="card-arrow">
+                    ›
+                </div>
+
+            </div>
+
+            <div class="card-name">
+                ${device.name}
+            </div>
+
+            <div class="card-company">
+                ${device.company}
+            </div>
+
+            <div class="card-badge">
+                НАСТРОЙКИ
+            </div>
+
+        `;
+
+        card.addEventListener(
+            "click",
+            () => openDevice(device)
+        );
+
+        deviceCatalog.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+searchInput.addEventListener(
+    "input",
+    () => {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        clearSearch.style.display =
+            query ? "block" : "none";
+
+
+        if (!query) {
+
+            renderDevices(devices);
+
+            return;
+
+        }
+
+
+        const filtered =
+            devices.filter(device => {
+
+                return (
+                    device.name
+                        .toLowerCase()
+                        .includes(query)
+                    ||
+                    device.company
+                        .toLowerCase()
+                        .includes(query)
+                );
+
+            });
+
+
+        renderDevices(filtered);
+
+    }
+);
+
+
+clearSearch.addEventListener(
+    "click",
+    () => {
+
+        searchInput.value = "";
+
+        clearSearch.style.display =
+            "none";
+
+        renderDevices(devices);
+
+        searchInput.focus();
+
+    }
+);
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+const modal =
+    document.getElementById("deviceModal");
+
+const modalIcon =
+    document.getElementById("modalIcon");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalSubtitle =
+    document.getElementById("modalSubtitle");
+
+const settingList =
+    document.getElementById("settingList");
+
+const closeModal =
+    document.getElementById("closeModal");
+
+const saveSettings =
+    document.getElementById("saveSettings");
+
+
+let selectedDevice = null;
+let selectedSettings = null;
+
+
+function openDevice(device) {
+
+    selectedDevice =
+        device;
+
+    selectedSettings =
+        randomSettings();
+
+
+    modalIcon.textContent =
+        device.icon;
+
+    modalTitle.textContent =
+        device.name;
+
+    modalSubtitle.textContent =
+        device.company +
+        " • настройки устройства";
+
+
+    settingList.innerHTML = "";
+
+
+    const values = [
+
+        selectedSettings.headshot,
+        selectedSettings.overview,
+        selectedSettings.collimator,
+        selectedSettings.x2,
+        selectedSettings.x4,
+        selectedSettings.sniper,
+        selectedSettings.button
 
     ];
 
 
-    keys.forEach(
-        key => {
+    settingNames.forEach(
+        (name, index) => {
 
-            const saved =
-                localStorage.getItem(
-                    "setting_" + key
-                );
+            const value =
+                values[index];
 
+            const row =
+                document.createElement("div");
 
-            if(saved !== null){
+            row.className =
+                "setting";
 
-                document.getElementById(
-                    key
-                ).checked =
-                    saved === "1";
+            row.innerHTML = `
 
-            }
+                <div class="setting-head">
+
+                    <div class="setting-name">
+                        ${name}
+                    </div>
+
+                    <div
+                        class="setting-value"
+                        id="value-${index}"
+                    >
+                        ${value}%
+                    </div>
+
+                </div>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-fill"
+                        style="width:${value}%"
+                    ></div>
+
+                </div>
+
+                <div class="setting-note">
+                    Индивидуальное значение устройства
+                </div>
+
+            `;
+
+            settingList.appendChild(row);
 
         }
     );
 
+
+    modal.classList.add("show");
+
+    document.body.style.overflow =
+        "hidden";
+
 }
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+function closeDeviceModal() {
+
+    modal.classList.remove("show");
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+closeModal.addEventListener(
+    "click",
+    closeDeviceModal
+);
+
+
+modal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target === modal
+        ) {
+
+            closeDeviceModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+saveSettings.addEventListener(
+    "click",
+    () => {
+
+        if (!selectedDevice) {
+            return;
+        }
+
+
+        localStorage.setItem(
+
+            "settings_" +
+            selectedDevice.name,
+
+            JSON.stringify(
+                selectedSettings
+            )
+
+        );
+
+
+        closeDeviceModal();
+
+        showToast(
+            "Настройки " +
+            selectedDevice.name +
+            " сохранены ✓"
+        );
+
+    }
+);
 
 
 /* =========================================================
    TOAST
 ========================================================= */
 
-let toastTimer;
+const toast =
+    document.getElementById("toast");
+
+let toastTimer = null;
 
 
-function showToast(message){
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
+function showToast(message) {
 
     toast.textContent =
         message;
-
 
     toast.classList.add(
         "show"
     );
 
 
-    clearTimeout(toastTimer);
+    clearTimeout(
+        toastTimer
+    );
 
 
     toastTimer =
@@ -3695,164 +2156,27 @@ function showToast(message){
                 );
 
             },
-            2200
+            2300
         );
 
 }
 
 
 /* =========================================================
-   VIBRATION
-========================================================= */
-
-function vibrate(){
-
-    const enabled =
-        document.getElementById(
-            "vibration"
-        );
-
-
-    if(
-        enabled &&
-        enabled.checked &&
-        navigator.vibrate
-    ){
-
-        navigator.vibrate(12);
-
-    }
-
-}
-
-
-/* =========================================================
-   BUTTON VIBRATION
-========================================================= */
-
-document.addEventListener(
-    "click",
-    e => {
-
-        if(
-            e.target.closest("button") ||
-            e.target.closest(".device-card") ||
-            e.target.closest(".nav-item")
-        ){
-
-            vibrate();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   PREVENT MOBILE ZOOM
-========================================================= */
-
-document.addEventListener(
-    "gesturestart",
-    e => {
-
-        e.preventDefault();
-
-    },
-    {
-        passive:false
-    }
-);
-
-
-document.addEventListener(
-    "gesturechange",
-    e => {
-
-        e.preventDefault();
-
-    },
-    {
-        passive:false
-    }
-);
-
-
-document.addEventListener(
-    "gestureend",
-    e => {
-
-        e.preventDefault();
-
-    },
-    {
-        passive:false
-    }
-);
-
-
-let lastTouchEnd = 0;
-
-
-document.addEventListener(
-    "touchend",
-    e => {
-
-        const now =
-            Date.now();
-
-
-        if(
-            now - lastTouchEnd <= 300
-        ){
-
-            e.preventDefault();
-
-        }
-
-
-        lastTouchEnd = now;
-
-    },
-    {
-        passive:false
-    }
-);
-
-
-/* =========================================================
-   INIT
-========================================================= */
-
-function init(){
-
-    updateBalance();
-
-    renderDevices();
-
-    renderResults();
-
-    renderHistory();
-
-    renderPlayers();
-
-    loadSettings();
-
-}
-
-
-init();
-
-
-/* =========================================================
-   KEYBOARD SHORTCUTS
+   ESCAPE
 ========================================================= */
 
 document.addEventListener(
     "keydown",
-    e => {
+    event => {
 
-        if(e.key === "Escape"){
+        if (
+            event.key === "Escape"
+            &&
+            modal.classList.contains(
+                "show"
+            )
+        ) {
 
             closeDeviceModal();
 
@@ -3863,84 +2187,82 @@ document.addEventListener(
 
 
 /* =========================================================
-   PREVENT CONTEXT MENU
+   PREVENT DOUBLE TOUCH ZOOM
 ========================================================= */
 
 document.addEventListener(
-    "contextmenu",
-    e => {
+    "touchstart",
+    event => {
 
-        e.preventDefault();
+        if (event.touches.length > 1) {
 
+            event.preventDefault();
+
+        }
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+document.addEventListener(
+    "gesturestart",
+    event => {
+
+        event.preventDefault();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+document.addEventListener(
+    "gesturechange",
+    event => {
+
+        event.preventDefault();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+document.addEventListener(
+    "gestureend",
+    event => {
+
+        event.preventDefault();
+
+    },
+    {
+        passive: false
     }
 );
 
 
 /* =========================================================
-   DEVICE RANDOMIZATION
+   START
 ========================================================= */
 
-function regenerateSelectedDevice(){
+renderPopular();
 
-    if(!selectedDevice){
-
-        return;
-
-    }
+renderDevices(devices);
 
 
-    const key =
-        "device_stats_" +
-        selectedDevice.replace(
-            /\W/g,
-            "_"
-        );
+/*
+   Для безопасности авторизация не пропускается
+   автоматически после перезагрузки.
+*/
 
-
-    localStorage.removeItem(key);
-
-    openDevice(
-        selectedDevice
-    );
-
-}
-
-
-/* =========================================================
-   BALANCE DEBUG DISPLAY
-========================================================= */
-
-window.getBalance =
-    function(){
-
-        return balance;
-
-    };
-
-
-/* =========================================================
-   RESET LOCAL DATA
-========================================================= */
-
-window.resetLocalData =
-    function(){
-
-        localStorage.removeItem(
-            "jacoobc_balance"
-        );
-
-        localStorage.removeItem(
-            "jacoobc_results"
-        );
-
-        localStorage.removeItem(
-            "jacoobc_history"
-        );
-
-        location.reload();
-
-    };
-
+localStorage.removeItem(
+    "device_settings_auth"
+);
 
 </script>
 
