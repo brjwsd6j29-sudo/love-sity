@@ -1,80 +1,1270 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-
 <meta charset="UTF-8">
 
-<!-- ❌ ОТКЛЮЧАЕМ ZOOM -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta
+    name="viewport"
+    content="width=device-width,
+    initial-scale=1.0,
+    maximum-scale=1.0,
+    minimum-scale=1.0,
+    user-scalable=no,
+    viewport-fit=cover"
+>
 
-<title>Device Control PRO</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#050509">
+
+<title>JACOOBC PANEL</title>
 
 <style>
 
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    touch-action:pan-y;
+}
+
 body{
+    width:100%;
+    min-height:100%;
     margin:0;
-    font-family:sans-serif;
-    background:#06070f;
-    color:white;
+    padding:0;
+    background:
+        radial-gradient(circle at 20% 0%,rgba(121,38,255,.18),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(0,221,255,.12),transparent 28%),
+        #050509;
+    color:#fff;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    overflow:hidden;
+    user-select:none;
+    -webkit-user-select:none;
 }
 
-/* ===== DEVICE LIST ===== */
+/* =========================================================
+   SCROLLBAR
+========================================================= */
 
-.device{
-    padding:15px;
-    border-bottom:1px solid #222;
-    cursor:pointer;
+::-webkit-scrollbar{
+    width:4px;
 }
 
-.device:hover{
-    background:#111;
+::-webkit-scrollbar-track{
+    background:transparent;
 }
 
-/* ===== POPUP ===== */
+::-webkit-scrollbar-thumb{
+    background:#6128ff;
+    border-radius:20px;
+}
 
-.popup{
+/* =========================================================
+   LOGIN
+========================================================= */
+
+#loginScreen{
     position:fixed;
     inset:0;
-    background:#000a;
-    display:none;
+    z-index:9999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at 50% 15%,rgba(112,42,255,.25),transparent 30%),
+        #040407;
+}
+
+.login-box{
+    width:100%;
+    max-width:420px;
+    padding:30px 24px;
+    border:1px solid rgba(148,76,255,.4);
+    border-radius:28px;
+    background:
+        linear-gradient(145deg,rgba(20,18,32,.96),rgba(7,7,13,.98));
+    box-shadow:
+        0 0 50px rgba(112,35,255,.25),
+        inset 0 0 30px rgba(255,255,255,.02);
+}
+
+.logo{
+    width:74px;
+    height:74px;
+    margin:0 auto 18px;
+    display:flex;
     align-items:center;
     justify-content:center;
+    border-radius:22px;
+    background:linear-gradient(135deg,#7b2cff,#b000ff);
+    box-shadow:0 0 35px rgba(127,44,255,.55);
+    font-size:30px;
+    font-weight:900;
 }
 
-.popup-box{
-    background:#0f1220;
+.login-title{
+    text-align:center;
+    font-size:26px;
+    font-weight:900;
+    letter-spacing:1px;
+}
+
+.login-sub{
+    margin-top:8px;
+    text-align:center;
+    color:#92929d;
+    font-size:13px;
+}
+
+.input{
+    width:100%;
+    height:54px;
+    margin-top:13px;
+    padding:0 16px;
+    border:1px solid #272532;
+    outline:none;
+    border-radius:16px;
+    color:#fff;
+    background:#0e0d15;
+    font-size:15px;
+}
+
+.input:focus{
+    border-color:#7e39ff;
+    box-shadow:0 0 0 3px rgba(126,57,255,.12);
+}
+
+.primary{
+    width:100%;
+    height:54px;
+    margin-top:15px;
+    border:0;
+    border-radius:16px;
+    background:linear-gradient(100deg,#6928ff,#a700ff);
+    color:white;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+    box-shadow:0 10px 30px rgba(105,40,255,.25);
+}
+
+.primary:active{
+    transform:scale(.98);
+}
+
+.login-error{
+    min-height:20px;
+    margin-top:10px;
+    text-align:center;
+    color:#ff526f;
+    font-size:13px;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+#app{
+    display:none;
+    width:100%;
+    height:100dvh;
+}
+
+.app-shell{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+    flex:none;
+    height:74px;
+    padding:
+        max(10px,env(safe-area-inset-top))
+        15px
+        8px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    background:rgba(5,5,9,.82);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.brand-icon{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    background:linear-gradient(135deg,#712aff,#c000ff);
+    box-shadow:0 0 20px rgba(115,42,255,.3);
+}
+
+.brand-name{
+    font-size:16px;
+    font-weight:900;
+}
+
+.brand-status{
+    margin-top:2px;
+    color:#777683;
+    font-size:10px;
+}
+
+.balance{
+    padding:10px 13px;
+    border:1px solid rgba(155,83,255,.35);
+    border-radius:14px;
+    background:rgba(111,42,255,.1);
+    text-align:right;
+}
+
+.balance-label{
+    color:#858390;
+    font-size:9px;
+}
+
+.balance-value{
+    color:#d7b9ff;
+    font-size:14px;
+    font-weight:900;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+    flex:1;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:14px 14px 105px;
+    overscroll-behavior:contain;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+    animation:pageIn .22s ease;
+}
+
+@keyframes pageIn{
+    from{
+        opacity:0;
+        transform:translateY(6px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.page-title{
+    margin:7px 0 4px;
+    font-size:25px;
+    font-weight:950;
+}
+
+.page-subtitle{
+    margin-bottom:18px;
+    color:#777681;
+    font-size:12px;
+}
+
+/* =========================================================
+   HOME
+========================================================= */
+
+.hero{
+    position:relative;
+    overflow:hidden;
     padding:20px;
-    border-radius:15px;
-    width:90%;
-    max-width:350px;
+    border:1px solid rgba(143,72,255,.25);
+    border-radius:25px;
+    background:
+        radial-gradient(circle at 100% 0%,rgba(134,40,255,.32),transparent 40%),
+        linear-gradient(135deg,#12101c,#09090e);
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
 }
 
-/* ===== PROGRESS ===== */
+.hero:after{
+    content:"";
+    position:absolute;
+    width:170px;
+    height:170px;
+    right:-70px;
+    top:-70px;
+    border-radius:50%;
+    background:#7429ff;
+    filter:blur(70px);
+    opacity:.2;
+}
 
-.bar{
-    height:10px;
-    background:#222;
+.hero-label{
+    color:#9d80ff;
+    font-size:11px;
+    font-weight:800;
+}
+
+.hero-title{
+    position:relative;
+    z-index:1;
+    margin-top:7px;
+    font-size:29px;
+    font-weight:950;
+}
+
+.hero-text{
+    position:relative;
+    z-index:1;
+    margin-top:7px;
+    color:#888692;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.hero-buttons{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:18px;
+}
+
+.hero-btn{
+    height:47px;
+    border:0;
+    border-radius:14px;
+    color:white;
+    background:#171521;
+    font-weight:800;
+}
+
+.hero-btn.accent{
+    background:linear-gradient(100deg,#6828ff,#a300ff);
+}
+
+/* =========================================================
+   QUICK CARDS
+========================================================= */
+
+.quick-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:12px;
+}
+
+.quick-card{
+    min-height:105px;
+    padding:15px;
+    border:1px solid #1d1b26;
+    border-radius:19px;
+    background:#0d0c13;
+}
+
+.quick-icon{
+    font-size:23px;
+}
+
+.quick-title{
+    margin-top:10px;
+    font-size:13px;
+    font-weight:800;
+}
+
+.quick-info{
+    margin-top:4px;
+    color:#777582;
+    font-size:10px;
+}
+
+/* =========================================================
+   CRASH
+========================================================= */
+
+.crash-panel{
+    overflow:hidden;
+    border:1px solid rgba(133,54,255,.3);
+    border-radius:24px;
+    background:#09080e;
+    box-shadow:0 0 40px rgba(91,32,255,.12);
+}
+
+.crash-head{
+    padding:17px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #1c1a24;
+}
+
+.crash-name{
+    font-weight:900;
+}
+
+.crash-status{
+    color:#777481;
+    font-size:11px;
+}
+
+.multiplier{
+    position:relative;
+    height:270px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+        radial-gradient(circle,#25134b 0%,#0a0910 55%);
+}
+
+.multiplier:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:35px 35px;
+}
+
+.multiplier-value{
+    position:relative;
+    z-index:3;
+    font-size:58px;
+    font-weight:950;
+    color:#e7d5ff;
+    text-shadow:
+        0 0 15px #7b2cff,
+        0 0 45px rgba(123,44,255,.6);
+}
+
+.rocket{
+    position:absolute;
+    left:15%;
+    bottom:25px;
+    font-size:35px;
+    opacity:.2;
+    transform:rotate(-35deg);
+}
+
+.crash-controls{
+    padding:14px;
+}
+
+.bet-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.bet-input{
+    width:100%;
+    height:48px;
+    border:1px solid #292631;
+    border-radius:13px;
+    background:#111019;
+    color:white;
+    padding:0 13px;
+    outline:none;
+}
+
+.cashout-input{
+    width:100%;
+    height:48px;
+    border:1px solid #292631;
+    border-radius:13px;
+    background:#111019;
+    color:white;
+    padding:0 13px;
+    outline:none;
+}
+
+.crash-action{
+    width:100%;
+    height:53px;
+    margin-top:10px;
+    border:0;
+    border-radius:15px;
+    color:white;
+    background:linear-gradient(100deg,#752aff,#b000ff);
+    font-size:16px;
+    font-weight:900;
+}
+
+.crash-action.red{
+    background:linear-gradient(100deg,#ff315a,#ff0055);
+}
+
+.crash-action.green{
+    background:linear-gradient(100deg,#00a86b,#00d98b);
+}
+
+.last-title{
+    margin-top:16px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.last-results{
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    padding:9px 0 2px;
+}
+
+.result{
+    flex:none;
+    padding:7px 10px;
     border-radius:10px;
+    background:#15131c;
+    color:#b4a6c8;
+    font-size:10px;
+    font-weight:800;
+}
+
+/* =========================================================
+   PLAYERS
+========================================================= */
+
+.players{
+    margin-top:14px;
+    border:1px solid #1b1923;
+    border-radius:19px;
     overflow:hidden;
 }
 
-.bar span{
-    display:block;
-    height:100%;
-    background:linear-gradient(90deg,#7a2cff,#00cfff);
-    width:0%;
+.players-title{
+    padding:13px 15px;
+    font-size:12px;
+    font-weight:900;
+    background:#0e0d14;
 }
 
-/* ===== BUTTON ===== */
+.player{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 13px;
+    border-top:1px solid #17151d;
+}
 
-.btn{
-    background:#7a2cff;
-    border:0;
-    padding:10px;
+.avatar{
+    width:34px;
+    height:34px;
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:linear-gradient(135deg,#6828ff,#bd00ff);
+    font-size:13px;
+    font-weight:900;
+}
+
+.player-info{
+    min-width:0;
+    flex:1;
+}
+
+.player-name{
+    font-size:11px;
+    font-weight:800;
+}
+
+.player-bet{
+    margin-top:2px;
+    color:#777481;
+    font-size:9px;
+}
+
+.player-win{
+    font-size:11px;
+    font-weight:900;
+    color:#9b7aff;
+}
+
+/* =========================================================
+   DEVICES
+========================================================= */
+
+.search-box{
+    position:relative;
+    margin-bottom:13px;
+}
+
+.search-box input{
     width:100%;
-    border-radius:10px;
+    height:49px;
+    padding:0 15px 0 43px;
+    border:1px solid #24212e;
+    border-radius:15px;
+    background:#0e0d14;
     color:white;
+    outline:none;
+}
+
+.search-icon{
+    position:absolute;
+    left:15px;
+    top:15px;
+    color:#696674;
+}
+
+.section-label{
+    margin:16px 0 9px;
+    color:#8a8794;
+    font-size:10px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.device-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.device-card{
+    min-height:83px;
+    padding:12px;
+    border:1px solid #1d1b25;
+    border-radius:17px;
+    background:#0d0c13;
+    cursor:pointer;
+    transition:.18s;
+}
+
+.device-card:active{
+    transform:scale(.97);
+    border-color:#7830ff;
+}
+
+.device-icon{
+    width:29px;
+    height:29px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:9px;
+    background:#181522;
+    font-size:14px;
+}
+
+.device-name{
+    margin-top:8px;
+    font-size:11px;
+    font-weight:850;
+    line-height:1.2;
+}
+
+.device-tag{
+    margin-top:3px;
+    color:#686571;
+    font-size:8px;
+}
+
+/* =========================================================
+   DEVICE MODAL
+========================================================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(10px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:520px;
+    max-height:90dvh;
+    overflow-y:auto;
+    padding:18px;
+    border-radius:27px 27px 0 0;
+    background:#0b0a11;
+    border:1px solid #2b2637;
+    animation:sheet .2s ease;
+}
+
+@keyframes sheet{
+    from{
+        transform:translateY(100%);
+    }
+    to{
+        transform:none;
+    }
+}
+
+.modal-handle{
+    width:42px;
+    height:4px;
+    margin:0 auto 18px;
+    border-radius:20px;
+    background:#383340;
+}
+
+.modal-title{
+    font-size:21px;
+    font-weight:950;
+}
+
+.modal-subtitle{
+    margin-top:4px;
+    color:#777481;
+    font-size:11px;
+}
+
+.stats{
+    margin-top:17px;
+}
+
+.stat{
+    margin-top:13px;
+}
+
+.stat-head{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:6px;
+    font-size:11px;
+}
+
+.stat-name{
+    color:#b3b0bb;
+}
+
+.stat-value{
+    color:#ad83ff;
+    font-weight:900;
+}
+
+.stat-bar{
+    width:100%;
+    height:9px;
+    overflow:hidden;
+    border-radius:10px;
+    background:#1a1721;
+}
+
+.stat-fill{
+    height:100%;
+    border-radius:10px;
+    background:linear-gradient(90deg,#6626ff,#c000ff);
+    box-shadow:0 0 12px rgba(129,40,255,.55);
+}
+
+.modal-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:20px;
+}
+
+.modal-btn{
+    height:48px;
+    border:0;
+    border-radius:14px;
+    background:#18151f;
+    color:white;
+    font-weight:800;
+}
+
+.modal-btn.primary-btn{
+    background:linear-gradient(100deg,#6b28ff,#ad00ff);
+}
+
+/* =========================================================
+   BOOSTER
+========================================================= */
+
+.booster-card{
+    padding:20px;
+    border:1px solid rgba(127,48,255,.3);
+    border-radius:22px;
+    background:
+        radial-gradient(circle at 100% 0%,rgba(125,38,255,.22),transparent 45%),
+        #0d0c13;
+}
+
+.booster-icon{
+    font-size:38px;
+}
+
+.booster-title{
+    margin-top:9px;
+    font-size:21px;
+    font-weight:950;
+}
+
+.booster-text{
+    margin-top:6px;
+    color:#777481;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.file-input{
+    width:100%;
+    margin-top:17px;
+    padding:12px;
+    border:1px dashed #4d3b6e;
+    border-radius:14px;
+    color:#aaa5b6;
+    background:#0a0910;
+}
+
+.install-btn{
+    width:100%;
+    height:51px;
     margin-top:10px;
+    border:0;
+    border-radius:14px;
+    background:linear-gradient(100deg,#702aff,#b000ff);
+    color:white;
+    font-weight:900;
+}
+
+.progress-box{
+    display:none;
+    margin-top:18px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    font-size:11px;
+}
+
+.progress-track{
+    width:100%;
+    height:12px;
+    overflow:hidden;
+    border-radius:20px;
+    background:#1b1823;
+}
+
+.progress-fill{
+    width:0%;
+    height:100%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#6726ff,#d000ff);
+    box-shadow:0 0 18px #8d2cff;
+    transition:width .08s linear;
+}
+
+.success{
+    display:none;
+    margin-top:16px;
+    padding:16px;
+    border:1px solid rgba(0,220,150,.25);
+    border-radius:17px;
+    background:rgba(0,190,120,.07);
+}
+
+.success-title{
+    color:#00db91;
+    font-weight:900;
+}
+
+.success-text{
+    margin-top:5px;
+    color:#7b827f;
+    font-size:10px;
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-card{
+    padding:20px;
+    border:1px solid #211e29;
+    border-radius:22px;
+    background:#0d0c13;
+    text-align:center;
+}
+
+.profile-avatar{
+    width:76px;
+    height:76px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:25px;
+    background:linear-gradient(135deg,#6c29ff,#bf00ff);
+    box-shadow:0 0 30px rgba(113,40,255,.3);
+    font-size:28px;
+    font-weight:950;
+}
+
+.profile-name{
+    margin-top:12px;
+    font-size:20px;
+    font-weight:950;
+}
+
+.profile-id{
+    margin-top:4px;
+    color:#74717e;
+    font-size:10px;
+}
+
+.profile-balance{
+    margin-top:18px;
+    padding:15px;
+    border-radius:15px;
+    background:#14121b;
+}
+
+.profile-balance-label{
+    color:#777481;
+    font-size:10px;
+}
+
+.profile-balance-value{
+    margin-top:4px;
+    font-size:23px;
+    font-weight:950;
+    color:#c9a7ff;
+}
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+.history{
+    margin-top:14px;
+    border:1px solid #1e1b27;
+    border-radius:19px;
+    overflow:hidden;
+}
+
+.history-title{
+    padding:13px 15px;
+    background:#0e0d14;
+    font-size:12px;
+    font-weight:900;
+}
+
+.history-row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 14px;
+    border-top:1px solid #18151f;
+    font-size:10px;
+}
+
+.history-win{
+    color:#00d98b;
+}
+
+.history-loss{
+    color:#ff526d;
+}
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+.settings-list{
+    overflow:hidden;
+    border:1px solid #1d1a25;
+    border-radius:20px;
+    background:#0d0c13;
+}
+
+.setting{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:58px;
+    padding:11px 14px;
+    border-bottom:1px solid #191620;
+}
+
+.setting:last-child{
+    border-bottom:0;
+}
+
+.setting-left{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.setting-icon{
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:#17141f;
+}
+
+.setting-name{
+    font-size:12px;
+    font-weight:800;
+}
+
+.setting-desc{
+    margin-top:3px;
+    color:#696673;
+    font-size:9px;
+}
+
+/* =========================================================
+   SWITCH
+========================================================= */
+
+.switch{
+    position:relative;
+    width:44px;
+    height:25px;
+    flex:none;
+}
+
+.switch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    border-radius:20px;
+    background:#292632;
+    transition:.2s;
+}
+
+.slider:before{
+    content:"";
+    position:absolute;
+    width:19px;
+    height:19px;
+    left:3px;
+    top:3px;
+    border-radius:50%;
+    background:#aaa5b1;
+    transition:.2s;
+}
+
+.switch input:checked + .slider{
+    background:#6e2aff;
+}
+
+.switch input:checked + .slider:before{
+    transform:translateX(19px);
+    background:white;
+}
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+.bottom-nav{
+    position:fixed;
+    z-index:1000;
+    left:0;
+    right:0;
+    bottom:0;
+    height:77px;
+    padding:
+        7px 8px
+        max(8px,env(safe-area-inset-bottom));
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    border-top:1px solid rgba(255,255,255,.05);
+    background:rgba(7,7,11,.92);
+    backdrop-filter:blur(22px);
+}
+
+.nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    color:#65636d;
+    font-size:9px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.nav-icon{
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    font-size:17px;
+}
+
+.nav-item.active{
+    color:#b888ff;
+}
+
+.nav-item.active .nav-icon{
+    background:rgba(119,43,255,.15);
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+#toast{
+    position:fixed;
+    z-index:10000;
+    left:50%;
+    bottom:92px;
+    transform:translateX(-50%) translateY(20px);
+    width:max-content;
+    max-width:88%;
+    padding:11px 15px;
+    border:1px solid #30283f;
+    border-radius:13px;
+    background:#14111b;
+    color:#fff;
+    font-size:11px;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+    box-shadow:0 12px 35px rgba(0,0,0,.4);
+}
+
+#toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(min-width:700px){
+
+    .content{
+        width:700px;
+        margin:auto;
+    }
+
+    .header{
+        padding-left:calc((100% - 700px)/2 + 15px);
+        padding-right:calc((100% - 700px)/2 + 15px);
+    }
+
+    .bottom-nav{
+        left:50%;
+        right:auto;
+        width:700px;
+        transform:translateX(-50%);
+        border-radius:20px 20px 0 0;
+    }
+
+    .modal-box{
+        border-radius:27px;
+        margin-bottom:15px;
+    }
+
+}
+
+@media(max-width:360px){
+
+    .device-list{
+        grid-template-columns:1fr;
+    }
+
+    .hero-title{
+        font-size:24px;
+    }
+
+    .multiplier{
+        height:235px;
+    }
+
+    .multiplier-value{
+        font-size:49px;
+    }
+
+}
+
+/* =========================================================
+   EXTRA EFFECTS
+========================================================= */
+
+.glow{
+    text-shadow:0 0 15px rgba(155,92,255,.8);
+}
+
+.hidden{
+    display:none !important;
+}
+
+.muted{
+    color:#72707b;
+}
+
+.green{
+    color:#00dc91;
+}
+
+.red{
+    color:#ff536d;
+}
+
+.purple{
+    color:#ad82ff;
 }
 
 </style>
@@ -82,129 +1272,2675 @@ body{
 
 <body>
 
-<h2 style="padding:15px;">📱 Девайсы</h2>
+<!-- =======================================================
+     LOGIN
+======================================================= -->
 
-<div id="list"></div>
+<section id="loginScreen">
 
-<div class="popup" id="popup">
-    <div class="popup-box" id="popupContent"></div>
+    <div class="login-box">
+
+        <div class="logo">
+            JC
+        </div>
+
+        <div class="login-title">
+            JACOOBC PANEL
+        </div>
+
+        <div class="login-sub">
+            Защищённая панель управления
+        </div>
+
+        <input
+            id="login"
+            class="input"
+            type="text"
+            autocomplete="off"
+            placeholder="Логин"
+        >
+
+        <input
+            id="password"
+            class="input"
+            type="password"
+            placeholder="Пароль"
+        >
+
+        <button
+            class="primary"
+            onclick="loginUser()"
+        >
+            Войти
+        </button>
+
+        <div
+            id="loginError"
+            class="login-error"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     APP
+======================================================= -->
+
+<div id="app">
+
+    <div class="app-shell">
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    ⚡
+                </div>
+
+                <div>
+
+                    <div class="brand-name">
+                        JACOOBC
+                    </div>
+
+                    <div class="brand-status">
+                        SYSTEM ONLINE
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="balance">
+
+                <div class="balance-label">
+                    BALANCE
+                </div>
+
+                <div
+                    id="headerBalance"
+                    class="balance-value"
+                >
+                    10 000 COIN
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <main class="content">
+
+
+            <!-- =================================================
+                 HOME
+            ================================================= -->
+
+            <section
+                id="page-home"
+                class="page active"
+            >
+
+                <div class="page-title">
+                    Панель
+                </div>
+
+                <div class="page-subtitle">
+                    Управление WebApp
+                </div>
+
+
+                <div class="hero">
+
+                    <div class="hero-label">
+                        JACOOBC WEBAPP
+                    </div>
+
+                    <div class="hero-title">
+                        Всё в одном месте
+                    </div>
+
+                    <div class="hero-text">
+                        Crash, устройства, усилитель,
+                        профиль и история операций.
+                    </div>
+
+                    <div class="hero-buttons">
+
+                        <button
+                            class="hero-btn accent"
+                            onclick="showPage('crash')"
+                        >
+                            🚀 Crash
+                        </button>
+
+                        <button
+                            class="hero-btn"
+                            onclick="showPage('devices')"
+                        >
+                            📱 Девайсы
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-grid">
+
+                    <div
+                        class="quick-card"
+                        onclick="showPage('crash')"
+                    >
+                        <div class="quick-icon">
+                            🚀
+                        </div>
+
+                        <div class="quick-title">
+                            Crash
+                        </div>
+
+                        <div class="quick-info">
+                            Ставка от 100 COIN
+                        </div>
+                    </div>
+
+
+                    <div
+                        class="quick-card"
+                        onclick="showPage('devices')"
+                    >
+                        <div class="quick-icon">
+                            📱
+                        </div>
+
+                        <div class="quick-title">
+                            60+ устройств
+                        </div>
+
+                        <div class="quick-info">
+                            Настройки моделей
+                        </div>
+                    </div>
+
+
+                    <div
+                        class="quick-card"
+                        onclick="showPage('booster')"
+                    >
+                        <div class="quick-icon">
+                            ⚡
+                        </div>
+
+                        <div class="quick-title">
+                            Усилитель
+                        </div>
+
+                        <div class="quick-info">
+                            Установка файла
+                        </div>
+                    </div>
+
+
+                    <div
+                        class="quick-card"
+                        onclick="showPage('profile')"
+                    >
+                        <div class="quick-icon">
+                            👤
+                        </div>
+
+                        <div class="quick-title">
+                            Профиль
+                        </div>
+
+                        <div class="quick-info">
+                            История и баланс
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CRASH
+            ================================================= -->
+
+            <section
+                id="page-crash"
+                class="page"
+            >
+
+                <div class="page-title">
+                    🚀 Crash
+                </div>
+
+                <div class="page-subtitle">
+                    Минимальная ставка — 100 COIN
+                </div>
+
+
+                <div class="crash-panel">
+
+                    <div class="crash-head">
+
+                        <div>
+                            <div class="crash-name">
+                                JACOOBC CRASH
+                            </div>
+
+                            <div
+                                id="crashStatus"
+                                class="crash-status"
+                            >
+                                Ожидание раунда
+                            </div>
+                        </div>
+
+                        <div class="glow">
+                            LIVE
+                        </div>
+
+                    </div>
+
+
+                    <div class="multiplier">
+
+                        <div
+                            id="multiplier"
+                            class="multiplier-value"
+                        >
+                            1.00x
+                        </div>
+
+                        <div class="rocket">
+                            🚀
+                        </div>
+
+                    </div>
+
+
+                    <div class="crash-controls">
+
+                        <div class="bet-row">
+
+                            <input
+                                id="betAmount"
+                                class="bet-input"
+                                type="number"
+                                min="100"
+                                value="100"
+                                placeholder="Ставка"
+                            >
+
+                            <input
+                                id="autoCashout"
+                                class="cashout-input"
+                                type="number"
+                                min="1.01"
+                                step="0.01"
+                                value="2.00"
+                                placeholder="Авто"
+                            >
+
+                        </div>
+
+
+                        <button
+                            id="crashButton"
+                            class="crash-action"
+                            onclick="crashAction()"
+                        >
+                            🚀 Сделать ставку
+                        </button>
+
+
+                        <div class="last-title">
+                            Последние 15 результатов
+                        </div>
+
+                        <div
+                            id="lastResults"
+                            class="last-results"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="players">
+
+                    <div class="players-title">
+                        👥 Игроки в раунде
+                    </div>
+
+                    <div id="playersList"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 DEVICES
+            ================================================= -->
+
+            <section
+                id="page-devices"
+                class="page"
+            >
+
+                <div class="page-title">
+                    📱 Девайсы
+                </div>
+
+                <div class="page-subtitle">
+                    60+ моделей и индивидуальные настройки
+                </div>
+
+
+                <div class="search-box">
+
+                    <span class="search-icon">
+                        🔎
+                    </span>
+
+                    <input
+                        id="deviceSearch"
+                        type="text"
+                        placeholder="Поиск устройства..."
+                        oninput="renderDevices()"
+                    >
+
+                </div>
+
+
+                <div class="section-label">
+                    Популярные 10
+                </div>
+
+                <div
+                    id="topDevices"
+                    class="device-list"
+                ></div>
+
+
+                <div class="section-label">
+                    Все устройства
+                </div>
+
+                <div
+                    id="allDevices"
+                    class="device-list"
+                ></div>
+
+            </section>
+
+
+            <!-- =================================================
+                 BOOSTER
+            ================================================= -->
+
+            <section
+                id="page-booster"
+                class="page"
+            >
+
+                <div class="page-title">
+                    ⚡ Усилитель
+                </div>
+
+                <div class="page-subtitle">
+                    Установка выбранного файла
+                </div>
+
+
+                <div class="booster-card">
+
+                    <div class="booster-icon">
+                        ⚡
+                    </div>
+
+                    <div class="booster-title">
+                        Device Booster PRO
+                    </div>
+
+                    <div class="booster-text">
+                        Выбери файл с устройства.
+                        После выбора нажми установить.
+                        Интерфейс покажет прогресс от 1% до 100%.
+                    </div>
+
+
+                    <input
+                        id="boosterFile"
+                        class="file-input"
+                        type="file"
+                    >
+
+
+                    <button
+                        class="install-btn"
+                        onclick="installBooster()"
+                    >
+                        ⚡ Установить
+                    </button>
+
+
+                    <div
+                        id="progressBox"
+                        class="progress-box"
+                    >
+
+                        <div class="progress-top">
+
+                            <span>
+                                Установка
+                            </span>
+
+                            <span id="progressText">
+                                0%
+                            </span>
+
+                        </div>
+
+                        <div class="progress-track">
+
+                            <div
+                                id="progressFill"
+                                class="progress-fill"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="successBox"
+                        class="success"
+                    >
+
+                        <div class="success-title">
+                            ✓ Установка завершена
+                        </div>
+
+                        <div class="success-text">
+                            Файл обработан интерфейсом.
+                        </div>
+
+                        <button
+                            class="install-btn"
+                            onclick="openFreeFire()"
+                        >
+                            🎮 Открыть Free Fire
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PROFILE
+            ================================================= -->
+
+            <section
+                id="page-profile"
+                class="page"
+            >
+
+                <div class="page-title">
+                    👤 Профиль
+                </div>
+
+                <div class="page-subtitle">
+                    Информация аккаунта
+                </div>
+
+
+                <div class="profile-card">
+
+                    <div class="profile-avatar">
+                        JC
+                    </div>
+
+                    <div class="profile-name">
+                        Jacoobc
+                    </div>
+
+                    <div class="profile-id">
+                        ID: 7895911575
+                    </div>
+
+
+                    <div class="profile-balance">
+
+                        <div class="profile-balance-label">
+                            Текущий баланс
+                        </div>
+
+                        <div
+                            id="profileBalance"
+                            class="profile-balance-value"
+                        >
+                            10 000 COIN
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="history">
+
+                    <div class="history-title">
+                        📜 История Crash
+                    </div>
+
+                    <div id="historyList"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SETTINGS
+            ================================================= -->
+
+            <section
+                id="page-settings"
+                class="page"
+            >
+
+                <div class="page-title">
+                    ⚙️ Настройки
+                </div>
+
+                <div class="page-subtitle">
+                    Настройки интерфейса
+                </div>
+
+
+                <div class="settings-list">
+
+                    <div class="setting">
+
+                        <div class="setting-left">
+
+                            <div class="setting-icon">
+                                🔔
+                            </div>
+
+                            <div>
+
+                                <div class="setting-name">
+                                    Уведомления
+                                </div>
+
+                                <div class="setting-desc">
+                                    Системные уведомления
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                id="notifications"
+                                type="checkbox"
+                                checked
+                                onchange="saveSetting('notifications',this.checked)"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <div class="setting-left">
+
+                            <div class="setting-icon">
+                                📳
+                            </div>
+
+                            <div>
+
+                                <div class="setting-name">
+                                    Вибрация
+                                </div>
+
+                                <div class="setting-desc">
+                                    Вибрация при действиях
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                id="vibration"
+                                type="checkbox"
+                                checked
+                                onchange="saveSetting('vibration',this.checked)"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <div class="setting-left">
+
+                            <div class="setting-icon">
+                                ✨
+                            </div>
+
+                            <div>
+
+                                <div class="setting-name">
+                                    Эффекты
+                                </div>
+
+                                <div class="setting-desc">
+                                    Анимации интерфейса
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                id="effects"
+                                type="checkbox"
+                                checked
+                                onchange="saveSetting('effects',this.checked)"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <div class="setting-left">
+
+                            <div class="setting-icon">
+                                🚀
+                            </div>
+
+                            <div>
+
+                                <div class="setting-name">
+                                    Авто-кэшаут
+                                </div>
+
+                                <div class="setting-desc">
+                                    Использовать значение 2.00x
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                id="autoSetting"
+                                type="checkbox"
+                                checked
+                                onchange="saveSetting('autoSetting',this.checked)"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <div class="setting-left">
+
+                            <div class="setting-icon">
+                                🔒
+                            </div>
+
+                            <div>
+
+                                <div class="setting-name">
+                                    Защита масштаба
+                                </div>
+
+                                <div class="setting-desc">
+                                    Два пальца не изменяют масштаб
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="green">
+                            ON
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="primary"
+                    onclick="logout()"
+                >
+                    Выйти из аккаунта
+                </button>
+
+            </section>
+
+        </main>
+
+
+        <!-- =================================================
+             NAV
+        ================================================= -->
+
+        <nav class="bottom-nav">
+
+            <div
+                class="nav-item active"
+                data-page="home"
+                onclick="showPage('home')"
+            >
+                <div class="nav-icon">
+                    🏠
+                </div>
+                Главная
+            </div>
+
+
+            <div
+                class="nav-item"
+                data-page="crash"
+                onclick="showPage('crash')"
+            >
+                <div class="nav-icon">
+                    🚀
+                </div>
+                Crash
+            </div>
+
+
+            <div
+                class="nav-item"
+                data-page="devices"
+                onclick="showPage('devices')"
+            >
+                <div class="nav-icon">
+                    📱
+                </div>
+                Девайсы
+            </div>
+
+
+            <div
+                class="nav-item"
+                data-page="booster"
+                onclick="showPage('booster')"
+            >
+                <div class="nav-icon">
+                    ⚡
+                </div>
+                Усилитель
+            </div>
+
+
+            <div
+                class="nav-item"
+                data-page="profile"
+                onclick="showPage('profile')"
+            >
+                <div class="nav-icon">
+                    👤
+                </div>
+                Профиль
+            </div>
+
+        </nav>
+
+    </div>
+
 </div>
+
+
+<!-- =======================================================
+     DEVICE MODAL
+======================================================= -->
+
+<div
+    id="deviceModal"
+    class="modal"
+    onclick="closeDeviceModal(event)"
+>
+
+    <div
+        class="modal-box"
+        onclick="event.stopPropagation()"
+    >
+
+        <div class="modal-handle"></div>
+
+        <div
+            id="modalDeviceTitle"
+            class="modal-title"
+        >
+            iPhone 14
+        </div>
+
+        <div class="modal-subtitle">
+            Настройки устройства
+        </div>
+
+
+        <div
+            id="deviceStats"
+            class="stats"
+        ></div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-btn"
+                onclick="closeDeviceModal()"
+            >
+                Закрыть
+            </button>
+
+            <button
+                class="modal-btn primary-btn"
+                onclick="goBoosterFromDevice()"
+            >
+                ⚡ Усилитель
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     TOAST
+======================================================= -->
+
+<div id="toast"></div>
+
 
 <script>
 
-/* ===== DATA ===== */
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
 
-const topDevices = [
-"iPhone 11","iPhone 13","iPhone 14","iPhone 15","iPhone 15 Pro",
-"Poco X6","Samsung A57","Samsung A26","Samsung S24 Ultra","Vivo X200"
+const AUTH_LOGIN = "Jacoobc";
+const AUTH_PASSWORD = "Jacoobc88990";
+
+const START_BALANCE = 10000;
+
+let balance = Number(
+    localStorage.getItem("jacoobc_balance")
+) || START_BALANCE;
+
+let crashRunning = false;
+let crashBet = 0;
+let crashMultiplier = 1;
+let crashTimer = null;
+let crashTarget = 0;
+let hasCashedOut = false;
+
+let lastResults =
+    JSON.parse(
+        localStorage.getItem("jacoobc_results") || "[]"
+    );
+
+let history =
+    JSON.parse(
+        localStorage.getItem("jacoobc_history") || "[]"
+    );
+
+
+/* =========================================================
+   DEVICE DATA
+========================================================= */
+
+const popularDevices = [
+
+    "iPhone 11",
+    "iPhone 13",
+    "iPhone 14",
+    "iPhone 15",
+    "iPhone 15 Pro",
+    "Poco X6",
+    "Samsung Galaxy A57",
+    "Samsung Galaxy A26",
+    "Samsung S24 Ultra",
+    "Vivo X200"
+
 ];
 
-for(let i=0;i<50;i++){
-    topDevices.push("Device "+(i+1));
+
+const additionalDevices = [
+
+    "iPhone 12",
+    "iPhone 12 Pro",
+    "iPhone 13 Pro",
+    "iPhone 13 Pro Max",
+    "iPhone 14 Plus",
+    "iPhone 14 Pro",
+    "iPhone 14 Pro Max",
+    "iPhone 15 Plus",
+    "iPhone 15 Pro Max",
+    "iPhone 16",
+    "iPhone 16 Plus",
+    "iPhone 16 Pro",
+    "iPhone 16 Pro Max",
+
+    "Samsung Galaxy A15",
+    "Samsung Galaxy A25",
+    "Samsung Galaxy A35",
+    "Samsung Galaxy A55",
+    "Samsung Galaxy A56",
+    "Samsung Galaxy S21",
+    "Samsung Galaxy S22",
+    "Samsung Galaxy S23",
+    "Samsung Galaxy S23 Ultra",
+    "Samsung Galaxy S24",
+    "Samsung Galaxy S24+",
+    "Samsung Galaxy S25",
+    "Samsung Galaxy S25 Ultra",
+
+    "Poco X3",
+    "Poco X4 Pro",
+    "Poco X5",
+    "Poco X5 Pro",
+    "Poco X6 Pro",
+    "Poco X7",
+    "Poco F5",
+    "Poco F6",
+
+    "Xiaomi Redmi Note 10",
+    "Xiaomi Redmi Note 11",
+    "Xiaomi Redmi Note 12",
+    "Xiaomi Redmi Note 13",
+    "Xiaomi Redmi Note 14",
+    "Xiaomi 12",
+    "Xiaomi 13",
+    "Xiaomi 14",
+    "Xiaomi 14 Ultra",
+
+    "Vivo X90",
+    "Vivo X100",
+    "Vivo X100 Pro",
+    "Vivo X200",
+    "Vivo X200 Pro",
+
+    "OnePlus 10 Pro",
+    "OnePlus 11",
+    "OnePlus 12",
+    "OnePlus 13",
+
+    "Realme GT Neo 3",
+    "Realme GT Neo 5",
+    "Realme GT 5",
+    "Realme GT 6",
+
+    "Google Pixel 7",
+    "Google Pixel 8",
+    "Google Pixel 8 Pro",
+    "Google Pixel 9",
+    "Google Pixel 9 Pro"
+
+];
+
+
+const allDevices = [
+    ...popularDevices,
+    ...additionalDevices.filter(
+        x => !popularDevices.includes(x)
+    )
+];
+
+
+/* =========================================================
+   RANDOM DEVICE SETTINGS
+========================================================= */
+
+function generateDeviceStats(device){
+
+    const key =
+        "device_stats_" +
+        device.replace(/\W/g,"_");
+
+    const saved =
+        localStorage.getItem(key);
+
+    if(saved){
+
+        return JSON.parse(saved);
+
+    }
+
+    const stats = {
+
+        headshot:
+            randomNumber(65,98),
+
+        overview:
+            randomNumber(55,95),
+
+        collimator:
+            randomNumber(40,90),
+
+        scope2x:
+            randomNumber(35,90),
+
+        scope4x:
+            randomNumber(40,95),
+
+        sniper:
+            randomNumber(35,85),
+
+        button:
+            randomNumber(45,90)
+
+    };
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(stats)
+    );
+
+    return stats;
 }
 
-/* ===== RENDER ===== */
 
-const list = document.getElementById("list");
+/* =========================================================
+   UTILITY
+========================================================= */
 
-topDevices.forEach(name=>{
-    const div = document.createElement("div");
-    div.className="device";
-    div.innerText=name;
-    div.onclick=()=>openDevice(name);
-    list.appendChild(div);
-});
+function randomNumber(min,max){
 
-/* ===== RANDOM STATS ===== */
+    return Math.floor(
+        Math.random() *
+        (max - min + 1)
+    ) + min;
 
-function rand(){
-    return Math.floor(Math.random()*100);
 }
 
-/* ===== OPEN DEVICE ===== */
+
+function formatCoins(value){
+
+    return Number(value)
+        .toLocaleString("ru-RU") +
+        " COIN";
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function loginUser(){
+
+    const login =
+        document.getElementById("login").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const error =
+        document.getElementById("loginError");
+
+
+    if(
+        login === AUTH_LOGIN &&
+        password === AUTH_PASSWORD
+    ){
+
+        localStorage.setItem(
+            "jacoobc_logged",
+            "1"
+        );
+
+        document.getElementById(
+            "loginScreen"
+        ).style.display = "none";
+
+        document.getElementById(
+            "app"
+        ).style.display = "block";
+
+        updateBalance();
+
+        showToast("Добро пожаловать, Jacoobc");
+
+    }else{
+
+        error.textContent =
+            "Неверный логин или пароль";
+
+    }
+
+}
+
+
+document
+    .getElementById("password")
+    .addEventListener(
+        "keydown",
+        e => {
+
+            if(e.key === "Enter"){
+
+                loginUser();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   AUTO LOGIN
+========================================================= */
+
+if(
+    localStorage.getItem(
+        "jacoobc_logged"
+    ) === "1"
+){
+
+    document.getElementById(
+        "loginScreen"
+    ).style.display = "none";
+
+    document.getElementById(
+        "app"
+    ).style.display = "block";
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+    localStorage.removeItem(
+        "jacoobc_logged"
+    );
+
+    location.reload();
+
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function showPage(page){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(
+            p => p.classList.remove("active")
+        );
+
+
+    const target =
+        document.getElementById(
+            "page-" + page
+        );
+
+    if(target){
+
+        target.classList.add("active");
+
+    }
+
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(
+            item => {
+
+                item.classList.toggle(
+                    "active",
+                    item.dataset.page === page
+                );
+
+            }
+        );
+
+
+    const content =
+        document.querySelector(".content");
+
+    if(content){
+
+        content.scrollTop = 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   BALANCE
+========================================================= */
+
+function updateBalance(){
+
+    balance =
+        Math.max(
+            0,
+            Number(balance)
+        );
+
+    localStorage.setItem(
+        "jacoobc_balance",
+        balance
+    );
+
+
+    document.getElementById(
+        "headerBalance"
+    ).textContent =
+        formatCoins(balance);
+
+
+    document.getElementById(
+        "profileBalance"
+    ).textContent =
+        formatCoins(balance);
+
+}
+
+
+/* =========================================================
+   DEVICE RENDER
+========================================================= */
+
+function deviceHTML(name){
+
+    return `
+
+        <div
+            class="device-card"
+            onclick="openDevice('${escapeHTML(name)}')"
+        >
+
+            <div class="device-icon">
+                📱
+            </div>
+
+            <div class="device-name">
+                ${escapeHTML(name)}
+            </div>
+
+            <div class="device-tag">
+                НАСТРОЙКИ
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function renderDevices(){
+
+    const query =
+        document
+            .getElementById("deviceSearch")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const filtered =
+        allDevices.filter(
+            device =>
+                device
+                    .toLowerCase()
+                    .includes(query)
+        );
+
+
+    const top =
+        document.getElementById(
+            "topDevices"
+        );
+
+    const all =
+        document.getElementById(
+            "allDevices"
+        );
+
+
+    if(query){
+
+        top.innerHTML = "";
+
+        all.innerHTML =
+            filtered
+                .map(deviceHTML)
+                .join("");
+
+        return;
+
+    }
+
+
+    top.innerHTML =
+        popularDevices
+            .map(deviceHTML)
+            .join("");
+
+
+    all.innerHTML =
+        allDevices
+            .filter(
+                x =>
+                    !popularDevices.includes(x)
+            )
+            .map(deviceHTML)
+            .join("");
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+    return value
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   DEVICE MODAL
+========================================================= */
+
+let selectedDevice = "";
+
 
 function openDevice(name){
 
-    document.getElementById("popup").style.display="flex";
+    selectedDevice = name;
 
-    document.getElementById("popupContent").innerHTML=`
-        <h3>${name}</h3>
+    const stats =
+        generateDeviceStats(name);
 
-        Хедшот: ${rand()}%<br>
-        Обзор: ${rand()}%<br>
-        Колиматор: ${rand()}%<br>
-        2x: ${rand()}%<br>
-        4x: ${rand()}%<br>
-        Снайпер: ${rand()}%<br>
-        Размер кнопки: ${rand()}%
 
-        <button class="btn" onclick="openBooster()">⚡ Усилитель</button>
-        <button class="btn" onclick="closePopup()">Закрыть</button>
-    `;
+    document.getElementById(
+        "modalDeviceTitle"
+    ).textContent = name;
+
+
+    const data = [
+
+        ["Хедшот",stats.headshot],
+        ["Обзор",stats.overview],
+        ["Колиматор",stats.collimator],
+        ["2x",stats.scope2x],
+        ["4x",stats.scope4x],
+        ["Снайпер",stats.sniper],
+        ["Размер кнопки",stats.button]
+
+    ];
+
+
+    document.getElementById(
+        "deviceStats"
+    ).innerHTML =
+
+        data.map(
+            item => `
+
+                <div class="stat">
+
+                    <div class="stat-head">
+
+                        <span class="stat-name">
+                            ${item[0]}
+                        </span>
+
+                        <span class="stat-value">
+                            ${item[1]}%
+                        </span>
+
+                    </div>
+
+                    <div class="stat-bar">
+
+                        <div
+                            class="stat-fill"
+                            style="width:${item[1]}%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            `
+        ).join("");
+
+
+    document
+        .getElementById("deviceModal")
+        .classList.add("show");
+
 }
 
-/* ===== BOOSTER ===== */
 
-function openBooster(){
+function closeDeviceModal(){
 
-    document.getElementById("popupContent").innerHTML=`
-        <h3>Установка усилителя</h3>
+    document
+        .getElementById("deviceModal")
+        .classList.remove("show");
 
-        <input type="file" id="file">
-
-        <button class="btn" onclick="install()">Установить</button>
-    `;
 }
 
-/* ===== INSTALL ===== */
 
-function install(){
+function goBoosterFromDevice(){
+
+    closeDeviceModal();
+
+    showPage("booster");
+
+    showToast(
+        selectedDevice +
+        " выбран"
+    );
+
+}
+
+
+/* =========================================================
+   BOOSTER INSTALLATION
+========================================================= */
+
+function installBooster(){
+
+    const input =
+        document.getElementById(
+            "boosterFile"
+        );
+
+
+    if(!input.files.length){
+
+        showToast(
+            "Сначала выбери файл"
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "progressBox"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "successBox"
+    ).style.display = "none";
+
 
     let progress = 0;
 
-    document.getElementById("popupContent").innerHTML=`
-        <h3>Установка...</h3>
-        <div class="bar"><span id="bar"></span></div>
-        <div id="percent">0%</div>
-    `;
 
-    const interval = setInterval(()=>{
+    document.getElementById(
+        "progressFill"
+    ).style.width = "0%";
 
-        progress++;
 
-        document.getElementById("bar").style.width=progress+"%";
-        document.getElementById("percent").innerText=progress+"%";
+    document.getElementById(
+        "progressText"
+    ).textContent = "0%";
 
-        if(progress>=100){
-            clearInterval(interval);
-            done();
+
+    const interval =
+        setInterval(
+            () => {
+
+                progress +=
+                    randomNumber(1,4);
+
+                if(progress > 100){
+
+                    progress = 100;
+
+                }
+
+
+                document.getElementById(
+                    "progressFill"
+                ).style.width =
+                    progress + "%";
+
+
+                document.getElementById(
+                    "progressText"
+                ).textContent =
+                    progress + "%";
+
+
+                if(progress >= 100){
+
+                    clearInterval(interval);
+
+                    setTimeout(
+                        () => {
+
+                            document.getElementById(
+                                "successBox"
+                            ).style.display =
+                                "block";
+
+                            showToast(
+                                "Установка завершена"
+                            );
+
+                        },
+                        400
+                    );
+
+                }
+
+            },
+            100
+        );
+
+}
+
+
+/* =========================================================
+   FREE FIRE
+========================================================= */
+
+function openFreeFire(){
+
+    /*
+       Браузер не может гарантированно открыть
+       приложение на каждом устройстве.
+
+       Используется стандартная попытка
+       через deep-link.
+    */
+
+    const links = [
+
+        "freefire://",
+
+        "intent://#Intent;" +
+        "scheme=freefire;" +
+        "package=com.dts.freefireth;" +
+        "end"
+
+    ];
+
+
+    window.location.href =
+        links[0];
+
+
+    setTimeout(
+        () => {
+
+            showToast(
+                "Если игра не открылась, запусти Free Fire вручную"
+            );
+
+        },
+        1500
+    );
+
+}
+
+
+/* =========================================================
+   CRASH RANDOM TARGET
+========================================================= */
+
+function generateCrashTarget(){
+
+    const r =
+        Math.random();
+
+    if(r < .08){
+
+        return randomNumber(100,115) / 100;
+
+    }
+
+    if(r < .30){
+
+        return randomNumber(115,180) / 100;
+
+    }
+
+    if(r < .70){
+
+        return randomNumber(180,350) / 100;
+
+    }
+
+    if(r < .92){
+
+        return randomNumber(350,800) / 100;
+
+    }
+
+    return randomNumber(800,3000) / 100;
+
+}
+
+
+/* =========================================================
+   CRASH ACTION
+========================================================= */
+
+function crashAction(){
+
+    if(crashRunning){
+
+        cashOut();
+
+        return;
+
+    }
+
+
+    const amount =
+        Number(
+            document.getElementById(
+                "betAmount"
+            ).value
+        );
+
+
+    if(!Number.isFinite(amount)){
+
+        showToast("Неверная ставка");
+
+        return;
+
+    }
+
+
+    if(amount < 100){
+
+        showToast(
+            "Минимальная ставка — 100 COIN"
+        );
+
+        return;
+
+    }
+
+
+    if(amount > balance){
+
+        showToast(
+            "Недостаточно COIN"
+        );
+
+        return;
+
+    }
+
+
+    balance -= amount;
+
+    updateBalance();
+
+
+    crashBet = amount;
+
+    crashMultiplier = 1;
+
+    crashTarget =
+        generateCrashTarget();
+
+    crashRunning = true;
+
+    hasCashedOut = false;
+
+
+    document.getElementById(
+        "crashButton"
+    ).textContent =
+        "💰 Забрать выигрыш";
+
+
+    document.getElementById(
+        "crashButton"
+    ).className =
+        "crash-action green";
+
+
+    document.getElementById(
+        "crashStatus"
+    ).textContent =
+        "Раунд идёт";
+
+
+    runCrash();
+
+}
+
+
+/* =========================================================
+   CRASH LOOP
+========================================================= */
+
+function runCrash(){
+
+    clearInterval(crashTimer);
+
+
+    crashTimer =
+        setInterval(
+            () => {
+
+                crashMultiplier +=
+                    0.01 +
+                    crashMultiplier * 0.002;
+
+
+                crashMultiplier =
+                    Math.round(
+                        crashMultiplier * 100
+                    ) / 100;
+
+
+                document.getElementById(
+                    "multiplier"
+                ).textContent =
+                    crashMultiplier.toFixed(2) +
+                    "x";
+
+
+                const auto =
+                    Number(
+                        document.getElementById(
+                            "autoCashout"
+                        ).value
+                    );
+
+
+                const autoEnabled =
+                    document.getElementById(
+                        "autoSetting"
+                    ).checked;
+
+
+                if(
+                    autoEnabled &&
+                    Number.isFinite(auto) &&
+                    auto > 1 &&
+                    crashMultiplier >= auto &&
+                    !hasCashedOut
+                ){
+
+                    cashOut();
+
+                    return;
+
+                }
+
+
+                if(
+                    crashMultiplier >=
+                    crashTarget
+                ){
+
+                    crashEnd();
+
+                }
+
+            },
+            70
+        );
+
+}
+
+
+/* =========================================================
+   CASH OUT
+========================================================= */
+
+function cashOut(){
+
+    if(!crashRunning){
+
+        return;
+
+    }
+
+
+    if(hasCashedOut){
+
+        return;
+
+    }
+
+
+    hasCashedOut = true;
+
+
+    const win =
+        Math.floor(
+            crashBet *
+            crashMultiplier
+        );
+
+
+    balance += win;
+
+    updateBalance();
+
+
+    addHistory(
+        "win",
+        crashBet,
+        crashMultiplier,
+        win
+    );
+
+
+    showToast(
+        "Выигрыш +" +
+        formatCoins(win)
+    );
+
+
+    document.getElementById(
+        "crashStatus"
+    ).textContent =
+        "Вы забрали " +
+        crashMultiplier.toFixed(2) +
+        "x";
+
+
+    clearInterval(crashTimer);
+
+    crashRunning = false;
+
+
+    document.getElementById(
+        "crashButton"
+    ).textContent =
+        "🚀 Следующая ставка";
+
+
+    document.getElementById(
+        "crashButton"
+    ).className =
+        "crash-action";
+
+
+    setTimeout(
+        resetCrash,
+        1200
+    );
+
+}
+
+
+/* =========================================================
+   CRASH END
+========================================================= */
+
+function crashEnd(){
+
+    clearInterval(crashTimer);
+
+    crashRunning = false;
+
+
+    const final =
+        crashTarget;
+
+
+    document.getElementById(
+        "multiplier"
+    ).textContent =
+        final.toFixed(2) +
+        "x";
+
+
+    document.getElementById(
+        "crashStatus"
+    ).textContent =
+        "💥 CRASH";
+
+
+    addResult(final);
+
+
+    if(!hasCashedOut){
+
+        addHistory(
+            "loss",
+            crashBet,
+            final,
+            0
+        );
+
+        showToast(
+            "Ставка проиграла"
+        );
+
+    }
+
+
+    document.getElementById(
+        "crashButton"
+    ).textContent =
+        "🚀 Следующая ставка";
+
+
+    document.getElementById(
+        "crashButton"
+    ).className =
+        "crash-action";
+
+
+    setTimeout(
+        resetCrash,
+        1700
+    );
+
+}
+
+
+/* =========================================================
+   RESET CRASH
+========================================================= */
+
+function resetCrash(){
+
+    if(crashRunning){
+
+        return;
+
+    }
+
+
+    crashMultiplier = 1;
+
+    hasCashedOut = false;
+
+
+    document.getElementById(
+        "multiplier"
+    ).textContent =
+        "1.00x";
+
+
+    document.getElementById(
+        "crashStatus"
+    ).textContent =
+        "Ожидание раунда";
+
+
+    document.getElementById(
+        "crashButton"
+    ).textContent =
+        "🚀 Сделать ставку";
+
+
+    document.getElementById(
+        "crashButton"
+    ).className =
+        "crash-action";
+
+}
+
+
+/* =========================================================
+   LAST RESULTS
+========================================================= */
+
+function addResult(value){
+
+    lastResults.unshift(
+        Number(value.toFixed(2))
+    );
+
+
+    lastResults =
+        lastResults.slice(0,15);
+
+
+    localStorage.setItem(
+        "jacoobc_results",
+        JSON.stringify(lastResults)
+    );
+
+
+    renderResults();
+
+}
+
+
+function renderResults(){
+
+    const container =
+        document.getElementById(
+            "lastResults"
+        );
+
+
+    if(!lastResults.length){
+
+        container.innerHTML =
+            `<span class="result">Нет результатов</span>`;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        lastResults
+            .map(
+                value => `
+
+                    <span
+                        class="result"
+                    >
+                        ${Number(value).toFixed(2)}x
+                    </span>
+
+                `
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function addHistory(
+    type,
+    bet,
+    multiplier,
+    win
+){
+
+    history.unshift({
+
+        type,
+
+        bet,
+
+        multiplier,
+
+        win,
+
+        time:
+            new Date()
+                .toLocaleTimeString(
+                    "ru-RU",
+                    {
+                        hour:"2-digit",
+                        minute:"2-digit"
+                    }
+                )
+
+    });
+
+
+    history =
+        history.slice(0,30);
+
+
+    localStorage.setItem(
+        "jacoobc_history",
+        JSON.stringify(history)
+    );
+
+
+    renderHistory();
+
+}
+
+
+function renderHistory(){
+
+    const list =
+        document.getElementById(
+            "historyList"
+        );
+
+
+    if(!history.length){
+
+        list.innerHTML = `
+
+            <div class="history-row">
+
+                <span class="muted">
+                    История пуста
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        history
+            .map(
+                item => {
+
+                    const isWin =
+                        item.type === "win";
+
+
+                    return `
+
+                        <div
+                            class="history-row"
+                        >
+
+                            <span>
+                                ${item.time}
+                                ·
+                                ${item.multiplier.toFixed(2)}x
+                            </span>
+
+                            <span
+                                class="${
+                                    isWin
+                                    ? "history-win"
+                                    : "history-loss"
+                                }"
+                            >
+
+                                ${
+                                    isWin
+                                    ? "+" + formatCoins(item.win)
+                                    : "-" + formatCoins(item.bet)
+                                }
+
+                            </span>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
+   PLAYERS
+========================================================= */
+
+const fakePlayers = [
+
+    ["Daulet","2 500"],
+    ["Madi","1 200"],
+    ["Arsen","700"],
+    ["Nurik","5 000"],
+    ["Ayan","350"],
+    ["RedmiUser","900"],
+    ["K5","3 000"],
+    ["Jacoob","650"]
+
+];
+
+
+function renderPlayers(){
+
+    const list =
+        document.getElementById(
+            "playersList"
+        );
+
+
+    list.innerHTML =
+        fakePlayers
+            .map(
+                player => `
+
+                    <div class="player">
+
+                        <div class="avatar">
+                            ${player[0][0]}
+                        </div>
+
+                        <div class="player-info">
+
+                            <div class="player-name">
+                                ${player[0]}
+                            </div>
+
+                            <div class="player-bet">
+                                Ставка ${player[1]} COIN
+                            </div>
+
+                        </div>
+
+                        <div class="player-win">
+                            LIVE
+                        </div>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function saveSetting(
+    key,
+    value
+){
+
+    localStorage.setItem(
+        "setting_" + key,
+        value ? "1" : "0"
+    );
+
+}
+
+
+function loadSettings(){
+
+    const keys = [
+
+        "notifications",
+        "vibration",
+        "effects",
+        "autoSetting"
+
+    ];
+
+
+    keys.forEach(
+        key => {
+
+            const saved =
+                localStorage.getItem(
+                    "setting_" + key
+                );
+
+
+            if(saved !== null){
+
+                document.getElementById(
+                    key
+                ).checked =
+                    saved === "1";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
+
+}
+
+
+/* =========================================================
+   VIBRATION
+========================================================= */
+
+function vibrate(){
+
+    const enabled =
+        document.getElementById(
+            "vibration"
+        );
+
+
+    if(
+        enabled &&
+        enabled.checked &&
+        navigator.vibrate
+    ){
+
+        navigator.vibrate(12);
+
+    }
+
+}
+
+
+/* =========================================================
+   BUTTON VIBRATION
+========================================================= */
+
+document.addEventListener(
+    "click",
+    e => {
+
+        if(
+            e.target.closest("button") ||
+            e.target.closest(".device-card") ||
+            e.target.closest(".nav-item")
+        ){
+
+            vibrate();
+
         }
 
-    },30);
+    }
+);
+
+
+/* =========================================================
+   PREVENT MOBILE ZOOM
+========================================================= */
+
+document.addEventListener(
+    "gesturestart",
+    e => {
+
+        e.preventDefault();
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+document.addEventListener(
+    "gesturechange",
+    e => {
+
+        e.preventDefault();
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+document.addEventListener(
+    "gestureend",
+    e => {
+
+        e.preventDefault();
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+let lastTouchEnd = 0;
+
+
+document.addEventListener(
+    "touchend",
+    e => {
+
+        const now =
+            Date.now();
+
+
+        if(
+            now - lastTouchEnd <= 300
+        ){
+
+            e.preventDefault();
+
+        }
+
+
+        lastTouchEnd = now;
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+function init(){
+
+    updateBalance();
+
+    renderDevices();
+
+    renderResults();
+
+    renderHistory();
+
+    renderPlayers();
+
+    loadSettings();
+
 }
 
-/* ===== DONE ===== */
 
-function done(){
+init();
 
-    document.getElementById("popupContent").innerHTML=`
-        <h3>✅ Успешно!</h3>
 
-        <button class="btn" onclick="openGame()">🎮 Открыть Free Fire</button>
-    `;
+/* =========================================================
+   KEYBOARD SHORTCUTS
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    e => {
+
+        if(e.key === "Escape"){
+
+            closeDeviceModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PREVENT CONTEXT MENU
+========================================================= */
+
+document.addEventListener(
+    "contextmenu",
+    e => {
+
+        e.preventDefault();
+
+    }
+);
+
+
+/* =========================================================
+   DEVICE RANDOMIZATION
+========================================================= */
+
+function regenerateSelectedDevice(){
+
+    if(!selectedDevice){
+
+        return;
+
+    }
+
+
+    const key =
+        "device_stats_" +
+        selectedDevice.replace(
+            /\W/g,
+            "_"
+        );
+
+
+    localStorage.removeItem(key);
+
+    openDevice(
+        selectedDevice
+    );
+
 }
 
-/* ===== OPEN GAME ===== */
 
-function openGame(){
-    window.location.href="freefire://";
-}
+/* =========================================================
+   BALANCE DEBUG DISPLAY
+========================================================= */
 
-/* ===== CLOSE ===== */
+window.getBalance =
+    function(){
 
-function closePopup(){
-    document.getElementById("popup").style.display="none";
-}
+        return balance;
+
+    };
+
+
+/* =========================================================
+   RESET LOCAL DATA
+========================================================= */
+
+window.resetLocalData =
+    function(){
+
+        localStorage.removeItem(
+            "jacoobc_balance"
+        );
+
+        localStorage.removeItem(
+            "jacoobc_results"
+        );
+
+        localStorage.removeItem(
+            "jacoobc_history"
+        );
+
+        location.reload();
+
+    };
+
 
 </script>
 
