@@ -3,827 +3,804 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               maximum-scale=1.0,
-               user-scalable=no">
+      content="width=device-width,initial-scale=1,
+      maximum-scale=1,user-scalable=no">
 
-<meta name="theme-color" content="#050509">
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<title>Device Settings</title>
+<title>Jacoob Settings</title>
 
 <style>
-/* =========================================================
-   RESET
-========================================================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body {
-    width: 100%;
-    min-height: 100%;
-    background: #030305;
-    color: #fff;
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-    overflow-x: hidden;
+html,body{
+    min-height:100%;
+    background:#050507;
+    color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,
+    "Segoe UI",Arial,sans-serif;
+    overscroll-behavior-x:none;
 }
 
-body {
-    overscroll-behavior-x: none;
-    touch-action: pan-y;
+body{
+    touch-action:pan-y;
+    overflow-x:hidden;
 }
 
-button,
-input {
-    font-family: inherit;
+button,input{
+    font:inherit;
 }
 
-button {
-    border: 0;
-    outline: none;
+button{
+    cursor:pointer;
+    border:0;
 }
 
-/* =========================================================
-   BACKGROUND
-========================================================= */
-
-body::before {
-    content: "";
-    position: fixed;
-    width: 420px;
-    height: 420px;
-    left: -180px;
-    top: 100px;
-    background: rgba(123, 47, 255, .15);
-    filter: blur(100px);
-    pointer-events: none;
+.hidden{
+    display:none!important;
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    width: 400px;
-    height: 400px;
-    right: -180px;
-    top: 420px;
-    background: rgba(0, 220, 255, .10);
-    filter: blur(100px);
-    pointer-events: none;
-}
+/* =========================
+LOGIN
+========================= */
 
-/* =========================================================
-   LOGIN
-========================================================= */
-
-.login-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 22px;
+.login{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
     background:
-        radial-gradient(
-            circle at 50% 20%,
-            rgba(130, 40, 255, .25),
-            transparent 40%
-        ),
-        #030305;
+    radial-gradient(circle at 50% 20%,
+    rgba(135,45,255,.25),
+    transparent 40%),
+    #050507;
 }
 
-.login-box {
-    width: 100%;
-    max-width: 390px;
-    padding: 30px 22px 24px;
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 28px;
-    background: rgba(15,15,22,.88);
-    box-shadow:
-        0 0 60px rgba(124,42,255,.20),
-        inset 0 1px 0 rgba(255,255,255,.06);
-    backdrop-filter: blur(25px);
+.login-card{
+    width:100%;
+    max-width:380px;
+    padding:27px 21px;
+    border-radius:25px;
+    background:rgba(17,17,24,.94);
+    border:1px solid rgba(255,255,255,.07);
+    box-shadow:0 20px 80px rgba(0,0,0,.6);
 }
 
-.login-logo {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 18px;
-    border-radius: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
+.login-logo{
+    width:65px;
+    height:65px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:20px;
+    font-size:29px;
+    background:linear-gradient(135deg,#a43cff,#6017d7);
+    box-shadow:0 0 35px rgba(145,50,255,.35);
+}
+
+.login-title{
+    margin-top:17px;
+    text-align:center;
+    font-size:24px;
+    font-weight:900;
+}
+
+.login-sub{
+    text-align:center;
+    color:#777784;
+    font-size:12px;
+    margin:6px 0 22px;
+}
+
+.login-input{
+    width:100%;
+    height:52px;
+    margin-bottom:11px;
+    padding:0 15px;
+    color:#fff;
+    background:#0b0b10;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:15px;
+    outline:none;
+}
+
+.login-input:focus{
+    border-color:#9139ff;
+}
+
+.login-btn{
+    width:100%;
+    height:52px;
+    border-radius:15px;
+    color:#fff;
+    font-weight:850;
+    background:linear-gradient(135deg,#a13cff,#6218d7);
+}
+
+.login-error{
+    min-height:20px;
+    margin-top:10px;
+    text-align:center;
+    color:#ff5578;
+    font-size:12px;
+}
+
+/* =========================
+HEADER
+========================= */
+
+.app{
+    display:none;
+    min-height:100vh;
+    padding-bottom:40px;
+}
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    padding:14px 14px 11px;
+    background:rgba(5,5,7,.88);
+    backdrop-filter:blur(22px);
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.header-line{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    font-size:19px;
+    font-weight:950;
+}
+
+.logo span{
+    color:#a643ff;
+}
+
+.online{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 9px;
+    border-radius:20px;
+    background:#101017;
+    color:#858592;
+    font-size:10px;
+}
+
+.dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#30f39b;
+    box-shadow:0 0 10px #30f39b;
+}
+
+/* =========================
+TICKER
+========================= */
+
+.ticker-window{
+    width:100%;
+    overflow:hidden;
+    margin-top:11px;
+}
+
+.ticker{
+    width:max-content;
+    display:flex;
+    gap:8px;
+    animation:moveTicker 21s linear infinite;
+}
+
+.ticker-item{
+    min-width:158px;
+    height:37px;
+    display:flex;
+    align-items:center;
+    padding:0 12px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.07);
+    background:#111119;
+    font-size:11px;
+    font-weight:800;
+}
+
+@keyframes moveTicker{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+}
+
+/* =========================
+CONTENT
+========================= */
+
+.content{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    padding:18px 14px;
+}
+
+.title{
+    font-size:19px;
+    font-weight:900;
+}
+
+.sub{
+    color:#70707d;
+    font-size:11px;
+    margin-top:4px;
+}
+
+/* =========================
+SEARCH
+========================= */
+
+.search{
+    position:relative;
+    margin-top:15px;
+}
+
+.search input{
+    width:100%;
+    height:49px;
+    padding:0 43px;
+    border-radius:15px;
+    outline:none;
+    color:#fff;
+    background:#0c0c12;
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.search-icon{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    opacity:.6;
+}
+
+.clear{
+    position:absolute;
+    right:9px;
+    top:50%;
+    transform:translateY(-50%);
+    width:29px;
+    height:29px;
+    border-radius:50%;
+    background:#191920;
+    color:#aaa;
+    display:none;
+}
+
+/* =========================
+ACTION BUTTONS
+========================= */
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:12px;
+}
+
+.action{
+    min-height:48px;
+    border-radius:15px;
+    color:#fff;
+    font-size:11px;
+    font-weight:850;
+    background:#111119;
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.action.main{
+    background:linear-gradient(135deg,#8d31ff,#5c16d0);
+}
+
+.action:active{
+    transform:scale(.97);
+}
+
+/* =========================
+VIP
+========================= */
+
+.vip-menu{
+    margin-top:20px;
+}
+
+.vip-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.vip-title b{
+    font-size:18px;
+}
+
+.vip-badge{
+    padding:5px 8px;
+    border-radius:8px;
+    color:#ffd96a;
+    background:rgba(255,190,40,.1);
+    font-size:9px;
+    font-weight:900;
+}
+
+.vip-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:10px;
+}
+
+.vip-card{
+    min-height:82px;
+    padding:13px;
+    border-radius:17px;
     background:
-        linear-gradient(
-            135deg,
-            #8b2cff,
-            #5310d8
-        );
-    box-shadow:
-        0 0 35px rgba(137,44,255,.45);
+    linear-gradient(145deg,#171720,#0c0c11);
+    border:1px solid rgba(255,255,255,.06);
+    position:relative;
+    overflow:hidden;
 }
 
-.login-title {
-    text-align: center;
-    font-size: 25px;
-    font-weight: 800;
+.vip-card::after{
+    content:"";
+    position:absolute;
+    width:80px;
+    height:80px;
+    right:-40px;
+    top:-40px;
+    background:rgba(165,50,255,.12);
+    filter:blur(18px);
+    border-radius:50%;
 }
 
-.login-subtitle {
-    text-align: center;
-    color: #858594;
-    font-size: 13px;
-    margin-top: 7px;
-    margin-bottom: 25px;
+.vip-icon{
+    font-size:20px;
 }
 
-.login-input {
-    width: 100%;
-    height: 54px;
-    border-radius: 16px;
-    padding: 0 16px;
-    margin-bottom: 12px;
-    border: 1px solid rgba(255,255,255,.08);
-    outline: none;
-    background: #0c0c12;
-    color: white;
-    font-size: 15px;
-    transition: .2s;
+.vip-name{
+    margin-top:7px;
+    font-size:11px;
+    font-weight:800;
 }
 
-.login-input:focus {
-    border-color: #9a3cff;
-    box-shadow: 0 0 20px rgba(154,60,255,.18);
+.vip-price{
+    margin-top:3px;
+    color:#b45aff;
+    font-size:12px;
+    font-weight:900;
 }
 
-.login-button {
-    width: 100%;
-    height: 54px;
-    border-radius: 16px;
-    margin-top: 7px;
-    color: white;
-    font-weight: 800;
-    font-size: 15px;
+/* =========================
+POPULAR
+========================= */
+
+.section{
+    margin-top:23px;
+}
+
+.horizontal{
+    display:flex;
+    gap:9px;
+    overflow-x:auto;
+    padding:10px 1px;
+    scrollbar-width:none;
+}
+
+.horizontal::-webkit-scrollbar{
+    display:none;
+}
+
+.popular{
+    min-width:125px;
+    padding:12px;
+    border-radius:17px;
+    background:#101017;
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.popular:active{
+    transform:scale(.96);
+}
+
+.phone-icon{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:rgba(145,47,255,.12);
+    font-size:19px;
+}
+
+.phone-name{
+    margin-top:9px;
+    font-size:11px;
+    font-weight:850;
+}
+
+.phone-company{
+    margin-top:3px;
+    color:#676774;
+    font-size:9px;
+}
+
+/* =========================
+DEVICES
+========================= */
+
+.devices{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;
+    margin-top:10px;
+}
+
+.device{
+    min-height:120px;
+    padding:13px;
+    border-radius:17px;
     background:
-        linear-gradient(
-            135deg,
-            #9b3cff,
-            #6419df
-        );
-    box-shadow:
-        0 10px 30px rgba(120,30,255,.25);
-    cursor: pointer;
+    linear-gradient(145deg,#15151e,#09090e);
+    border:1px solid rgba(255,255,255,.055);
 }
-
-.login-error {
-    min-height: 20px;
-    text-align: center;
-    color: #ff4d72;
-    font-size: 13px;
-    margin-top: 13px;
-}
-
-/* =========================================================
-   APP
-========================================================= */
-
-.app {
-    display: none;
-    width: 100%;
-    min-height: 100vh;
-    padding-bottom: 40px;
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
 
-.header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    padding: 16px 15px 12px;
-    background: rgba(3,3,5,.88);
-    backdrop-filter: blur(25px);
-    border-bottom: 1px solid rgba(255,255,255,.05);
-}
-
-.header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    font-size: 20px;
-    font-weight: 900;
-    letter-spacing: -.5px;
-}
-
-.logo span {
-    color: #a63cff;
-}
-
-.header-status {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 7px 10px;
-    border-radius: 20px;
-    background: rgba(255,255,255,.05);
-    color: #a8a8b6;
-    font-size: 11px;
+.device:active{
+    transform:scale(.97);
 }
 
-.status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #30f79a;
-    box-shadow: 0 0 12px #30f79a;
+.device-top{
+    display:flex;
+    justify-content:space-between;
 }
 
-/* =========================================================
-   MOVING TOP CARDS
-========================================================= */
+.device-emoji{
+    font-size:22px;
+}
+
+.arrow{
+    color:#6d6d78;
+}
 
-.ticker-window {
-    width: 100%;
-    overflow: hidden;
-    margin-top: 13px;
-    border-radius: 15px;
+.device-name{
+    margin-top:11px;
+    font-size:12px;
+    font-weight:850;
 }
 
-.ticker {
-    display: flex;
-    width: max-content;
-    gap: 9px;
-    animation: tickerMove 22s linear infinite;
+.device-company{
+    margin-top:4px;
+    color:#656572;
+    font-size:9px;
 }
 
-.ticker:hover {
-    animation-play-state: paused;
+.device-tag{
+    display:inline-block;
+    margin-top:9px;
+    padding:4px 7px;
+    border-radius:7px;
+    color:#ad5cff;
+    background:rgba(143,43,255,.1);
+    font-size:8px;
+    font-weight:850;
 }
 
-.ticker-card {
-    height: 40px;
-    min-width: 170px;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-radius: 13px;
-    font-size: 12px;
-    font-weight: 800;
-    white-space: nowrap;
-    border: 1px solid rgba(255,255,255,.08);
-    background: linear-gradient(
-        135deg,
-        rgba(134,40,255,.24),
-        rgba(25,25,34,.9)
-    );
-}
-
-.ticker-card.purple {
-    box-shadow: inset 0 0 25px rgba(148,42,255,.15);
-}
+/* =========================
+MODAL
+========================= */
 
-.ticker-card.gold {
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,170,0,.24),
-            rgba(25,25,34,.9)
-        );
-}
-
-.ticker-card.blue {
-    background:
-        linear-gradient(
-            135deg,
-            rgba(0,180,255,.20),
-            rgba(25,25,34,.9)
-        );
-}
-
-.ticker-card.green {
-    background:
-        linear-gradient(
-            135deg,
-            rgba(0,255,150,.18),
-            rgba(25,25,34,.9)
-        );
-}
-
-@keyframes tickerMove {
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        transform: translateX(-50%);
-    }
-}
-
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.content {
-    padding: 18px 15px 30px;
-}
-
-.section-title {
-    font-size: 19px;
-    font-weight: 850;
-    margin-bottom: 5px;
-}
-
-.section-subtitle {
-    color: #737382;
-    font-size: 12px;
-    margin-bottom: 15px;
-}
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-.search-box {
-    position: relative;
-    margin-bottom: 22px;
-}
-
-.search-icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 17px;
-    opacity: .65;
-}
-
-.search-input {
-    width: 100%;
-    height: 52px;
-    padding: 0 44px;
-    border-radius: 17px;
-    border: 1px solid rgba(255,255,255,.07);
-    outline: none;
-    background: #0b0b11;
-    color: white;
-    font-size: 14px;
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.search-input::placeholder {
-    color: #5e5e6a;
-}
-
-.search-input:focus {
-    border-color: rgba(150,55,255,.7);
-    box-shadow:
-        0 0 25px rgba(130,40,255,.13);
-}
-
-.clear-search {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 29px;
-    height: 29px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.07);
-    color: #aaa;
-    display: none;
-}
-
-/* =========================================================
-   POPULAR
-========================================================= */
-
-.popular-scroll {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-    scrollbar-width: none;
-}
-
-.popular-scroll::-webkit-scrollbar {
-    display: none;
-}
-
-.popular-card {
-    min-width: 132px;
-    padding: 13px;
-    border-radius: 18px;
-    background:
-        linear-gradient(
-            145deg,
-            #15151e,
-            #0a0a0f
-        );
-    border: 1px solid rgba(255,255,255,.06);
-    cursor: pointer;
-    transition: transform .18s, border .18s;
-}
-
-.popular-card:active {
-    transform: scale(.96);
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:none;
+    align-items:flex-end;
+    background:rgba(0,0,0,.68);
+    backdrop-filter:blur(10px);
 }
-
-.device-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    background: rgba(142,50,255,.12);
-    margin-bottom: 10px;
-}
-
-.device-name {
-    font-size: 12px;
-    font-weight: 800;
-    line-height: 1.25;
-}
 
-.device-type {
-    color: #666675;
-    font-size: 10px;
-    margin-top: 4px;
-}
-
-/* =========================================================
-   CATALOG
-========================================================= */
-
-.catalog {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+.modal.show{
+    display:flex;
 }
 
-.device-card {
-    position: relative;
-    min-height: 126px;
-    padding: 15px;
-    border-radius: 19px;
-    background:
-        linear-gradient(
-            145deg,
-            rgba(22,22,31,.98),
-            rgba(8,8,13,.98)
-        );
-    border: 1px solid rgba(255,255,255,.06);
-    overflow: hidden;
-    cursor: pointer;
-    transition:
-        transform .18s,
-        border-color .18s,
-        box-shadow .18s;
+.modal-box{
+    width:100%;
+    max-height:82vh;
+    overflow:auto;
+    padding:8px 15px 20px;
+    border-radius:24px 24px 0 0;
+    background:#0e0e15;
+    border-top:1px solid rgba(255,255,255,.08);
+    animation:modalUp .22s ease;
 }
 
-.device-card::before {
-    content: "";
-    position: absolute;
-    width: 90px;
-    height: 90px;
-    right: -45px;
-    top: -45px;
-    border-radius: 50%;
-    background: rgba(139,42,255,.12);
-    filter: blur(20px);
-}
-
-.device-card:active {
-    transform: scale(.97);
+@keyframes modalUp{
+    from{transform:translateY(100%)}
+    to{transform:translateY(0)}
 }
 
-.device-card:hover {
-    border-color: rgba(151,60,255,.35);
-}
+.handle{
+    width:38px;
+    height:4px;
+    margin:0 auto 13px;
+    border-radius:10px;
+    background:#383842;
+}
+
+.modal-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:13px;
+}
 
-.card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+.modal-icon{
+    width:45px;
+    height:45px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:13px;
+    background:rgba(145,45,255,.14);
+    font-size:22px;
 }
 
-.card-phone {
-    font-size: 24px;
+.modal-title{
+    font-size:17px;
+    font-weight:900;
 }
-
-.card-arrow {
-    color: #777786;
-    font-size: 16px;
+
+.modal-subtitle{
+    color:#70707c;
+    font-size:9px;
+    margin-top:3px;
 }
 
-.card-name {
-    position: relative;
-    margin-top: 12px;
-    font-size: 13px;
-    font-weight: 850;
+/* =========================
+SETTINGS
+========================= */
+
+.setting{
+    padding:10px 11px;
+    margin-bottom:7px;
+    border-radius:13px;
+    background:#13131b;
+    border:1px solid rgba(255,255,255,.045);
 }
 
-.card-company {
-    margin-top: 4px;
-    color: #686876;
-    font-size: 10px;
-}
-
-.card-badge {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 4px 7px;
-    border-radius: 8px;
-    background: rgba(139,45,255,.12);
-    color: #ad62ff;
-    font-size: 9px;
-    font-weight: 800;
-}
-
-/* =========================================================
-   EMPTY
-========================================================= */
-
-.empty {
-    display: none;
-    padding: 50px 20px;
-    text-align: center;
-    color: #696977;
+.setting-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:7px;
 }
-
-.empty-icon {
-    font-size: 40px;
-    margin-bottom: 12px;
-}
-
-.empty-title {
-    color: #aaa;
-    font-weight: 800;
+
+.setting-name{
+    font-size:11px;
+    font-weight:750;
 }
 
-/* =========================================================
-   MODAL
-========================================================= */
+.setting-value{
+    color:#ae58ff;
+    font-size:11px;
+    font-weight:900;
+}
 
-.modal {
-    position: fixed;
-    inset: 0;
-    z-index: 500;
-    display: none;
-    align-items: flex-end;
-    background: rgba(0,0,0,.68);
-    backdrop-filter: blur(12px);
+.bar{
+    width:100%;
+    height:6px;
+    border-radius:10px;
+    background:#292932;
+    overflow:hidden;
 }
 
-.modal.show {
-    display: flex;
+.fill{
+    height:100%;
+    border-radius:10px;
+    background:linear-gradient(90deg,#741de7,#b74cff);
 }
 
-.modal-box {
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 9px 17px 28px;
-    border-radius: 28px 28px 0 0;
-    background:
-        linear-gradient(
-            180deg,
-            #14141d,
-            #08080d
-        );
-    border-top: 1px solid rgba(255,255,255,.09);
-    animation: modalUp .25s ease;
+.setting-hint{
+    margin-top:4px;
+    color:#53535f;
+    font-size:8px;
 }
 
-@keyframes modalUp {
-    from {
-        transform: translateY(100%);
-    }
+/* =========================
+BOOSTER
+========================= */
 
-    to {
-        transform: translateY(0);
-    }
+.booster{
+    display:none;
 }
 
-.modal-handle {
-    width: 43px;
-    height: 5px;
-    margin: 0 auto 18px;
-    border-radius: 10px;
-    background: #3a3a44;
+.booster.show{
+    display:block;
 }
 
-.modal-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 22px;
+.booster-device{
+    padding:12px;
+    border-radius:14px;
+    background:#13131b;
+    margin-bottom:9px;
 }
 
-.modal-device-icon {
-    width: 54px;
-    height: 54px;
-    border-radius: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 27px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(145,45,255,.35),
-            rgba(40,40,55,.8)
-        );
+.booster-device b{
+    font-size:12px;
 }
 
-.modal-title {
-    font-size: 20px;
-    font-weight: 900;
+.file-input{
+    display:none;
 }
 
-.modal-subtitle {
-    margin-top: 4px;
-    color: #747483;
-    font-size: 11px;
+.file-btn{
+    width:100%;
+    height:45px;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#191923;
+    border:1px dashed #5b3b79;
+    color:#b96cff;
+    font-size:11px;
+    font-weight:850;
 }
 
-/* =========================================================
-   SETTINGS
-========================================================= */
+.file-name{
+    margin-top:6px;
+    text-align:center;
+    color:#666672;
+    font-size:9px;
+}
 
-.setting-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.setting {
-    padding: 14px;
-    border-radius: 16px;
-    background: #0d0d14;
-    border: 1px solid rgba(255,255,255,.055);
-}
-
-.setting-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
+.progress-wrap{
+    display:none;
+    margin-top:12px;
 }
 
-.setting-name {
-    font-size: 13px;
-    font-weight: 750;
-}
+.progress-number{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    color:#858591;
+    margin-bottom:6px;
+}
 
-.setting-value {
-    color: #a958ff;
-    font-size: 13px;
-    font-weight: 900;
+.big-progress{
+    height:9px;
+    border-radius:10px;
+    overflow:hidden;
+    background:#292932;
 }
 
-.progress {
-    height: 8px;
-    overflow: hidden;
-    border-radius: 10px;
-    background: #24242d;
+.big-fill{
+    width:0%;
+    height:100%;
+    border-radius:10px;
+    background:linear-gradient(90deg,#7d21ed,#c153ff);
+    box-shadow:0 0 14px rgba(173,61,255,.5);
 }
 
-.progress-fill {
-    height: 100%;
-    border-radius: inherit;
-    background:
-        linear-gradient(
-            90deg,
-            #6c16e9,
-            #b34cff
-        );
-    box-shadow:
-        0 0 12px rgba(163,50,255,.45);
+.success{
+    display:none;
+    margin-top:10px;
+    padding:10px;
+    border-radius:12px;
+    text-align:center;
+    color:#47efa5;
+    background:rgba(40,240,155,.07);
+    border:1px solid rgba(40,240,155,.12);
+    font-size:10px;
+    font-weight:800;
 }
 
-.setting-note {
-    margin-top: 7px;
-    color: #555562;
-    font-size: 9px;
+.open-game{
+    display:none;
+    width:100%;
+    height:45px;
+    margin-top:9px;
+    border-radius:13px;
+    color:#fff;
+    font-size:11px;
+    font-weight:900;
+    background:linear-gradient(135deg,#8e32ff,#5b16ce);
 }
+
+/* =========================
+MODAL BUTTONS
+========================= */
 
-.modal-buttons {
-    display: flex;
-    gap: 9px;
-    margin-top: 18px;
+.modal-buttons{
+    display:flex;
+    gap:8px;
+    margin-top:11px;
 }
 
-.modal-btn {
-    flex: 1;
-    height: 50px;
-    border-radius: 15px;
-    color: white;
-    font-weight: 800;
-    cursor: pointer;
+.modal-button{
+    flex:1;
+    height:44px;
+    border-radius:13px;
+    color:#fff;
+    font-size:11px;
+    font-weight:850;
 }
 
-.btn-save {
-    background:
-        linear-gradient(
-            135deg,
-            #9638ff,
-            #6119d8
-        );
+.close-btn{
+    background:#191920;
 }
 
-.btn-close {
-    background: #191921;
-    border: 1px solid rgba(255,255,255,.06);
+.save-btn{
+    background:linear-gradient(135deg,#9336ff,#6118d6);
 }
 
-/* =========================================================
-   TOAST
-========================================================= */
+/* =========================
+TOAST
+========================= */
 
-.toast {
-    position: fixed;
-    left: 50%;
-    bottom: 25px;
-    z-index: 1000;
-    transform: translate(-50%, 120px);
-    width: calc(100% - 30px);
-    max-width: 390px;
-    padding: 14px 16px;
-    border-radius: 16px;
-    background: rgba(27,27,36,.96);
-    border: 1px solid rgba(255,255,255,.08);
-    box-shadow: 0 15px 40px rgba(0,0,0,.4);
-    color: #fff;
-    text-align: center;
-    font-size: 12px;
-    transition: transform .3s ease;
-    backdrop-filter: blur(15px);
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:20px;
+    z-index:1000;
+    width:calc(100% - 30px);
+    max-width:380px;
+    padding:12px;
+    text-align:center;
+    border-radius:13px;
+    background:#1c1c25;
+    border:1px solid rgba(255,255,255,.07);
+    transform:translate(-50%,120px);
+    transition:.3s;
+    font-size:11px;
 }
 
-.toast.show {
-    transform: translate(-50%, 0);
+.toast.show{
+    transform:translate(-50%,0);
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+/* =========================
+RESPONSIVE
+========================= */
 
-@media (min-width: 700px) {
-    .content {
-        max-width: 900px;
-        margin: auto;
-    }
+@media(min-width:700px){
 
-    .catalog {
+    .devices{
         grid-template-columns:
-            repeat(4, minmax(0, 1fr));
+        repeat(4,minmax(0,1fr));
     }
 
-    .modal {
-        align-items: center;
-        justify-content: center;
+    .vip-grid{
+        grid-template-columns:
+        repeat(4,1fr);
     }
 
-    .modal-box {
-        max-width: 520px;
-        border-radius: 25px;
-    }
-}
-
-@media (max-width: 360px) {
-    .catalog {
-        gap: 8px;
+    .modal{
+        align-items:center;
+        justify-content:center;
     }
 
-    .device-card {
-        padding: 12px;
-    }
-
-    .card-name {
-        font-size: 12px;
+    .modal-box{
+        width:430px;
+        max-height:78vh;
+        border-radius:23px;
     }
 }
 </style>
@@ -831,45 +808,41 @@ body::after {
 
 <body>
 
-<!-- =======================================================
-     LOGIN
-======================================================= -->
+<!-- =====================================================
+LOGIN
+===================================================== -->
 
-<section class="login-screen" id="loginScreen">
+<div class="login" id="loginScreen">
 
-    <div class="login-box">
+    <div class="login-card">
 
-        <div class="login-logo">
-            ⚙️
-        </div>
+        <div class="login-logo">⚙️</div>
 
         <div class="login-title">
-            Device Settings
+            Jacoob Settings
         </div>
 
-        <div class="login-subtitle">
-            Войдите для доступа к настройкам
+        <div class="login-sub">
+            Авторизация
         </div>
 
         <input
-            id="loginInput"
             class="login-input"
-            type="text"
+            id="login"
             placeholder="Логин"
-            autocomplete="username"
+            autocomplete="off"
         >
 
         <input
-            id="passwordInput"
             class="login-input"
+            id="password"
             type="password"
             placeholder="Пароль"
-            autocomplete="current-password"
         >
 
         <button
-            class="login-button"
-            id="loginButton"
+            class="login-btn"
+            onclick="loginUser()"
         >
             Войти
         </button>
@@ -881,266 +854,409 @@ body::after {
 
     </div>
 
-</section>
+</div>
 
 
-<!-- =======================================================
-     APP
-======================================================= -->
+<!-- =====================================================
+APP
+===================================================== -->
 
-<main class="app" id="app">
+<div class="app" id="app">
 
-    <!-- HEADER -->
+<header class="header">
 
-    <header class="header">
+    <div class="header-line">
 
-        <div class="header-top">
+        <div class="logo">
+            JACOOB<span>SETTINGS</span>
+        </div>
 
-            <div class="logo">
-                DEVICE<span>SETTINGS</span>
+        <div class="online">
+            <span class="dot"></span>
+            ONLINE
+        </div>
+
+    </div>
+
+    <div class="ticker-window">
+
+        <div class="ticker">
+
+            <div class="ticker-item">
+                ⚡ Чит настройка на iPhone
             </div>
 
-            <div class="header-status">
-                <span class="status-dot"></span>
-                Система активна
+            <div class="ticker-item">
+                👑 Элитный
             </div>
 
-        </div>
-
-
-        <!-- MOVING BAR -->
-
-        <div class="ticker-window">
-
-            <div class="ticker">
-
-                <div class="ticker-card purple">
-                    ⚡ Чит настройка на iPhone
-                </div>
-
-                <div class="ticker-card gold">
-                    ⚡ Элитный
-                </div>
-
-                <div class="ticker-card gold">
-                    👑 VIP
-                </div>
-
-                <div class="ticker-card blue">
-                    🔄 Обнова
-                </div>
-
-                <div class="ticker-card green">
-                    📱 50+ устройств
-                </div>
-
-                <div class="ticker-card purple">
-                    ⚙️ Настройки устройств
-                </div>
-
-
-                <!-- DUPLICATE FOR SMOOTH LOOP -->
-
-                <div class="ticker-card purple">
-                    ⚡ Чит настройка на iPhone
-                </div>
-
-                <div class="ticker-card gold">
-                    ⚡ Элитный
-                </div>
-
-                <div class="ticker-card gold">
-                    👑 VIP
-                </div>
-
-                <div class="ticker-card blue">
-                    🔄 Обнова
-                </div>
-
-                <div class="ticker-card green">
-                    📱 50+ устройств
-                </div>
-
-                <div class="ticker-card purple">
-                    ⚙️ Настройки устройств
-                </div>
-
+            <div class="ticker-item">
+                💎 VIP
             </div>
 
-        </div>
-
-    </header>
-
-
-    <!-- CONTENT -->
-
-    <section class="content">
-
-        <div class="section-title">
-            Настройки устройств
-        </div>
-
-        <div class="section-subtitle">
-            Выберите модель смартфона
-        </div>
-
-
-        <!-- SEARCH -->
-
-        <div class="search-box">
-
-            <span class="search-icon">
-                🔍
-            </span>
-
-            <input
-                id="searchInput"
-                class="search-input"
-                type="search"
-                placeholder="Поиск устройства..."
-                autocomplete="off"
-                spellcheck="false"
-            >
-
-            <button
-                id="clearSearch"
-                class="clear-search"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <!-- POPULAR -->
-
-        <div class="section-title">
-            Популярные
-        </div>
-
-        <div class="section-subtitle">
-            10 популярных моделей
-        </div>
-
-        <div
-            class="popular-scroll"
-            id="popularList"
-        ></div>
-
-
-        <!-- ALL -->
-
-        <div
-            class="section-title"
-            style="margin-top:24px;"
-        >
-            Все устройства
-        </div>
-
-        <div class="section-subtitle">
-            Доступно более 50 моделей
-        </div>
-
-        <div
-            class="catalog"
-            id="deviceCatalog"
-        ></div>
-
-        <div
-            class="empty"
-            id="emptyState"
-        >
-            <div class="empty-icon">
-                🔍
+            <div class="ticker-item">
+                🔄 Обнова
             </div>
 
-            <div class="empty-title">
-                Ничего не найдено
+            <div class="ticker-item">
+                📱 60+ устройств
             </div>
 
-            <div style="margin-top:5px;">
-                Попробуйте другое название
-            </div>
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- =======================================================
-     DEVICE MODAL
-======================================================= -->
-
-<div
-    class="modal"
-    id="deviceModal"
->
-
-    <div class="modal-box">
-
-        <div class="modal-handle"></div>
-
-        <div class="modal-header">
-
-            <div
-                class="modal-device-icon"
-                id="modalIcon"
-            >
-                📱
+            <div class="ticker-item">
+                ⚙️ Настройки
             </div>
 
-            <div>
-
-                <div
-                    class="modal-title"
-                    id="modalTitle"
-                >
-                    iPhone 14
-                </div>
-
-                <div
-                    class="modal-subtitle"
-                    id="modalSubtitle"
-                >
-                    Настройки устройства
-                </div>
-
+            <div class="ticker-item">
+                ⚡ Чит настройка на iPhone
             </div>
 
-        </div>
+            <div class="ticker-item">
+                👑 Элитный
+            </div>
 
+            <div class="ticker-item">
+                💎 VIP
+            </div>
 
-        <div
-            class="setting-list"
-            id="settingList"
-        ></div>
+            <div class="ticker-item">
+                🔄 Обнова
+            </div>
 
+            <div class="ticker-item">
+                📱 60+ устройств
+            </div>
 
-        <div class="modal-buttons">
-
-            <button
-                class="modal-btn btn-close"
-                id="closeModal"
-            >
-                Закрыть
-            </button>
-
-            <button
-                class="modal-btn btn-save"
-                id="saveSettings"
-            >
-                Сохранить
-            </button>
+            <div class="ticker-item">
+                ⚙️ Настройки
+            </div>
 
         </div>
 
     </div>
 
+</header>
+
+
+<main class="content">
+
+    <div class="title">
+        Настройки устройств
+    </div>
+
+    <div class="sub">
+        Выберите модель смартфона
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search">
+
+        <span class="search-icon">🔍</span>
+
+        <input
+            id="search"
+            placeholder="Поиск устройства..."
+        >
+
+        <button
+            class="clear"
+            id="clear"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="actions">
+
+        <button
+            class="action main"
+            onclick="randomDevice()"
+        >
+            🎲 Случайное устройство
+        </button>
+
+        <button
+            class="action"
+            onclick="openBooster()"
+        >
+            ⚡ Усилитель
+        </button>
+
+    </div>
+
+
+    <!-- VIP -->
+
+    <section class="vip-menu">
+
+        <div class="vip-title">
+
+            <b>👑 VIP меню</b>
+
+            <span class="vip-badge">
+                PREMIUM
+            </span>
+
+        </div>
+
+        <div class="vip-grid">
+
+            <div
+                class="vip-card"
+                onclick="showToast('Чит настройка — 350₸')"
+            >
+                <div class="vip-icon">⚙️</div>
+                <div class="vip-name">
+                    Чит настройка
+                </div>
+                <div class="vip-price">
+                    350₸
+                </div>
+            </div>
+
+            <div
+                class="vip-card"
+                onclick="showToast('VIP настройка — 300₸')"
+            >
+                <div class="vip-icon">👑</div>
+                <div class="vip-name">
+                    VIP настройка
+                </div>
+                <div class="vip-price">
+                    300₸
+                </div>
+            </div>
+
+            <div
+                class="vip-card"
+                onclick="openBooster('Android')"
+            >
+                <div class="vip-icon">⚡</div>
+                <div class="vip-name">
+                    Усилитель Android
+                </div>
+                <div class="vip-price">
+                    150₸
+                </div>
+            </div>
+
+            <div
+                class="vip-card"
+                onclick="openBooster('iPhone')"
+            >
+                <div class="vip-icon">🍎</div>
+                <div class="vip-name">
+                    Усилитель iPhone
+                </div>
+                <div class="vip-price">
+                    200₸
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- POPULAR -->
+
+    <section class="section">
+
+        <div class="title">
+            🔥 Популярные
+        </div>
+
+        <div class="sub">
+            10 популярных смартфонов
+        </div>
+
+        <div
+            class="horizontal"
+            id="popular"
+        ></div>
+
+    </section>
+
+
+    <!-- ALL -->
+
+    <section class="section">
+
+        <div class="title">
+            📱 Все устройства
+        </div>
+
+        <div class="sub">
+            Более 60 моделей
+        </div>
+
+        <div
+            class="devices"
+            id="devices"
+        ></div>
+
+    </section>
+
+</main>
+
 </div>
 
 
-<!-- TOAST -->
+<!-- =====================================================
+MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="modal"
+>
+
+<div class="modal-box">
+
+    <div class="handle"></div>
+
+    <div class="modal-head">
+
+        <div
+            class="modal-icon"
+            id="modalIcon"
+        >
+            📱
+        </div>
+
+        <div>
+
+            <div
+                class="modal-title"
+                id="modalTitle"
+            >
+                iPhone
+            </div>
+
+            <div
+                class="modal-subtitle"
+                id="modalSubtitle"
+            >
+                Настройки устройства
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SETTINGS -->
+
+    <div id="settingsArea"></div>
+
+
+    <!-- BOOSTER -->
+
+    <div
+        class="booster"
+        id="booster"
+    >
+
+        <div class="booster-device">
+
+            <b id="boosterDevice">
+                Устройство не выбрано
+            </b>
+
+        </div>
+
+        <label class="file-btn">
+
+            📁 Выбрать файл
+
+            <input
+                class="file-input"
+                id="file"
+                type="file"
+            >
+
+        </label>
+
+        <div
+            class="file-name"
+            id="fileName"
+        >
+            Файл не выбран
+        </div>
+
+        <div
+            class="progress-wrap"
+            id="progressWrap"
+        >
+
+            <div class="progress-number">
+
+                <span>
+                    Загрузка
+                </span>
+
+                <b id="percent">
+                    0%
+                </b>
+
+            </div>
+
+            <div class="big-progress">
+
+                <div
+                    class="big-fill"
+                    id="bigFill"
+                ></div>
+
+            </div>
+
+        </div>
+
+        <div
+            class="success"
+            id="success"
+        >
+            ✓ Файл успешно обработан интерфейсом
+        </div>
+
+        <button
+            class="open-game"
+            id="openGame"
+        >
+            🎮 Открыть Free Fire
+        </button>
+
+    </div>
+
+
+    <div class="modal-buttons">
+
+        <button
+            class="modal-button close-btn"
+            onclick="closeModal()"
+        >
+            Закрыть
+        </button>
+
+        <button
+            class="modal-button save-btn"
+            id="save"
+            onclick="saveSettings()"
+        >
+            Сохранить
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
 
 <div
     class="toast"
@@ -1149,1120 +1265,816 @@ body::after {
 
 
 <script>
-/* =========================================================
-   LOGIN
-========================================================= */
 
-/*
-   Это локальная авторизация интерфейса.
-
-   Для настоящего сайта логин/пароль нельзя хранить
-   непосредственно в HTML/JS — их нужно проверять
-   на сервере.
-*/
+/* =====================================================
+LOGIN
+===================================================== */
 
 const LOGIN = "Jacoobc";
 const PASSWORD = "Jacoobc88990";
 
-const loginScreen =
-    document.getElementById("loginScreen");
+function loginUser(){
 
-const app =
-    document.getElementById("app");
+    const l =
+        document.getElementById("login")
+        .value.trim();
 
-const loginInput =
-    document.getElementById("loginInput");
+    const p =
+        document.getElementById("password")
+        .value;
 
-const passwordInput =
-    document.getElementById("passwordInput");
+    const error =
+        document.getElementById("loginError");
 
-const loginButton =
-    document.getElementById("loginButton");
+    if(
+        l === LOGIN &&
+        p === PASSWORD
+    ){
 
-const loginError =
-    document.getElementById("loginError");
+        document.getElementById(
+            "loginScreen"
+        ).style.display="none";
 
+        document.getElementById(
+            "app"
+        ).style.display="block";
 
-function login() {
+        error.textContent="";
 
-    const username =
-        loginInput.value.trim();
+    }else{
 
-    const password =
-        passwordInput.value;
-
-    if (
-        username === LOGIN &&
-        password === PASSWORD
-    ) {
-
-        loginError.textContent = "";
-
-        loginScreen.style.display = "none";
-
-        app.style.display = "block";
-
-        localStorage.setItem(
-            "device_settings_auth",
-            "true"
-        );
-
-        showToast(
-            "Добро пожаловать 👋"
-        );
-
-    } else {
-
-        loginError.textContent =
+        error.textContent =
             "Неверный логин или пароль";
 
-        passwordInput.value = "";
-
     }
+
 }
 
 
-loginButton.addEventListener(
-    "click",
-    login
-);
-
-
-passwordInput.addEventListener(
-    "keydown",
-    event => {
-
-        if (event.key === "Enter") {
-            login();
-        }
-
-    }
-);
-
-
-/* =========================================================
-   DEVICES
-========================================================= */
+/* =====================================================
+DEVICES
+===================================================== */
 
 const devices = [
 
-    /* POPULAR 10 */
-
-    {
-        name: "iPhone 11",
-        company: "Apple",
-        icon: "📱",
-        popular: true
-    },
-
-    {
-        name: "iPhone 13",
-        company: "Apple",
-        icon: "📱",
-        popular: true
-    },
-
-    {
-        name: "iPhone 14",
-        company: "Apple",
-        icon: "📱",
-        popular: true
-    },
-
-    {
-        name: "iPhone 15",
-        company: "Apple",
-        icon: "📱",
-        popular: true
-    },
-
-    {
-        name: "iPhone 15 Pro",
-        company: "Apple",
-        icon: "📱",
-        popular: true
-    },
-
-    {
-        name: "Poco X6",
-        company: "POCO",
-        icon: "📱",
-        popular: true
-    },
-
-    {
-        name: "Samsung Galaxy A57",
-        company: "Samsung",
-        icon: "📱",
-        popular: true
-    },
-
-    {
-        name: "Samsung Galaxy A26",
-        company: "Samsung",
-        icon: "📱",
-        popular: true
-    },
-
-    {
-        name: "Samsung S24 Ultra",
-        company: "Samsung",
-        icon: "📱",
-        popular: true
-    },
-
-    {
-        name: "Vivo X200",
-        company: "Vivo",
-        icon: "📱",
-        popular: true
-    },
-
-
-    /* APPLE */
-
-    {
-        name: "iPhone 11 Pro",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 11 Pro Max",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 12",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 12 Pro",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 12 Pro Max",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 13 Mini",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 13 Pro",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 13 Pro Max",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 14 Plus",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 14 Pro",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 14 Pro Max",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 15 Plus",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 15 Pro Max",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 16",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 16 Pro",
-        company: "Apple",
-        icon: "📱"
-    },
-
-    {
-        name: "iPhone 16 Pro Max",
-        company: "Apple",
-        icon: "📱"
-    },
-
-
-    /* SAMSUNG */
-
-    {
-        name: "Galaxy A15",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy A25",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy A35",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy A55",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy A56",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy A57",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S21",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S21 Ultra",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S22",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S22 Ultra",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S23",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S23 Ultra",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S24",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S24 Ultra",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S25",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-    {
-        name: "Galaxy S25 Ultra",
-        company: "Samsung",
-        icon: "📱"
-    },
-
-
-    /* XIAOMI / POCO */
-
-    {
-        name: "Poco X3",
-        company: "POCO",
-        icon: "📱"
-    },
-
-    {
-        name: "Poco X3 Pro",
-        company: "POCO",
-        icon: "📱"
-    },
-
-    {
-        name: "Poco X4 Pro",
-        company: "POCO",
-        icon: "📱"
-    },
-
-    {
-        name: "Poco X5",
-        company: "POCO",
-        icon: "📱"
-    },
-
-    {
-        name: "Poco X5 Pro",
-        company: "POCO",
-        icon: "📱"
-    },
-
-    {
-        name: "Poco X6",
-        company: "POCO",
-        icon: "📱"
-    },
-
-    {
-        name: "Poco X6 Pro",
-        company: "POCO",
-        icon: "📱"
-    },
-
-    {
-        name: "Redmi Note 12",
-        company: "Xiaomi",
-        icon: "📱"
-    },
-
-    {
-        name: "Redmi Note 13",
-        company: "Xiaomi",
-        icon: "📱"
-    },
-
-    {
-        name: "Redmi Note 14",
-        company: "Xiaomi",
-        icon: "📱"
-    },
-
-
-    /* VIVO */
-
-    {
-        name: "Vivo X90",
-        company: "Vivo",
-        icon: "📱"
-    },
-
-    {
-        name: "Vivo X100",
-        company: "Vivo",
-        icon: "📱"
-    },
-
-    {
-        name: "Vivo X100 Pro",
-        company: "Vivo",
-        icon: "📱"
-    },
-
-    {
-        name: "Vivo X200",
-        company: "Vivo",
-        icon: "📱"
-    },
-
-    {
-        name: "Vivo V30",
-        company: "Vivo",
-        icon: "📱"
-    },
-
-    {
-        name: "Vivo V40",
-        company: "Vivo",
-        icon: "📱"
-    },
-
-
-    /* OTHER */
-
-    {
-        name: "OnePlus 11",
-        company: "OnePlus",
-        icon: "📱"
-    },
-
-    {
-        name: "OnePlus 12",
-        company: "OnePlus",
-        icon: "📱"
-    },
-
-    {
-        name: "OnePlus 13",
-        company: "OnePlus",
-        icon: "📱"
-    },
-
-    {
-        name: "Google Pixel 7",
-        company: "Google",
-        icon: "📱"
-    },
-
-    {
-        name: "Google Pixel 8",
-        company: "Google",
-        icon: "📱"
-    },
-
-    {
-        name: "Google Pixel 9",
-        company: "Google",
-        icon: "📱"
-    }
-
-];
-
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const popularList =
-    document.getElementById("popularList");
-
-const deviceCatalog =
-    document.getElementById("deviceCatalog");
-
-const emptyState =
-    document.getElementById("emptyState");
-
-const searchInput =
-    document.getElementById("searchInput");
-
-const clearSearch =
-    document.getElementById("clearSearch");
-
-
-/* =========================================================
-   RANDOM SETTINGS
-========================================================= */
-
-function randomSettings() {
-
-    return {
-
-        headshot:
-            Math.floor(
-                Math.random() * 9
-            ) + 91,
-
-        overview:
-            Math.floor(
-                Math.random() * 15
-            ) + 84,
-
-        collimator:
-            Math.floor(
-                Math.random() * 45
-            ) + 45,
-
-        x2:
-            Math.floor(
-                Math.random() * 55
-            ) + 40,
-
-        x4:
-            Math.floor(
-                Math.random() * 28
-            ) + 65,
-
-        sniper:
-            Math.floor(
-                Math.random() * 45
-            ) + 40,
-
-        button:
-            Math.floor(
-                Math.random() * 40
-            ) + 55
-
-    };
-
-}
-
-
-/* =========================================================
-   SETTINGS NAMES
-========================================================= */
+["iPhone 11","Apple","🍎",true],
+["iPhone 13","Apple","🍎",true],
+["iPhone 14","Apple","🍎",true],
+["iPhone 15","Apple","🍎",true],
+["iPhone 15 Pro","Apple","🍎",true],
+["Poco X6","POCO","📱",true],
+["Samsung Galaxy A57","Samsung","📱",true],
+["Samsung Galaxy A26","Samsung","📱",true],
+["Samsung S24 Ultra","Samsung","📱",true],
+["Vivo X200","Vivo","📱",true],
+
+["iPhone 11 Pro","Apple","🍎"],
+["iPhone 11 Pro Max","Apple","🍎"],
+["iPhone 12","Apple","🍎"],
+["iPhone 12 Pro","Apple","🍎"],
+["iPhone 12 Pro Max","Apple","🍎"],
+["iPhone 13 Mini","Apple","🍎"],
+["iPhone 13 Pro","Apple","🍎"],
+["iPhone 13 Pro Max","Apple","🍎"],
+["iPhone 14 Plus","Apple","🍎"],
+["iPhone 14 Pro","Apple","🍎"],
+["iPhone 14 Pro Max","Apple","🍎"],
+["iPhone 15 Plus","Apple","🍎"],
+["iPhone 15 Pro Max","Apple","🍎"],
+["iPhone 16","Apple","🍎"],
+["iPhone 16 Plus","Apple","🍎"],
+["iPhone 16 Pro","Apple","🍎"],
+["iPhone 16 Pro Max","Apple","🍎"],
+
+["Galaxy A15","Samsung","📱"],
+["Galaxy A25","Samsung","📱"],
+["Galaxy A35","Samsung","📱"],
+["Galaxy A55","Samsung","📱"],
+["Galaxy A56","Samsung","📱"],
+["Galaxy A57","Samsung","📱"],
+["Galaxy S21","Samsung","📱"],
+["Galaxy S21 Ultra","Samsung","📱"],
+["Galaxy S22","Samsung","📱"],
+["Galaxy S22 Ultra","Samsung","📱"],
+["Galaxy S23","Samsung","📱"],
+["Galaxy S23 Ultra","Samsung","📱"],
+["Galaxy S24","Samsung","📱"],
+["Galaxy S24 Ultra","Samsung","📱"],
+["Galaxy S25","Samsung","📱"],
+["Galaxy S25 Ultra","Samsung","📱"],
+
+["Poco X3","POCO","📱"],
+["Poco X3 Pro","POCO","📱"],
+["Poco X4 Pro","POCO","📱"],
+["Poco X5","POCO","📱"],
+["Poco X5 Pro","POCO","📱"],
+["Poco X6","POCO","📱"],
+["Poco X6 Pro","POCO","📱"],
+["Poco F5","POCO","📱"],
+["Poco F6","POCO","📱"],
+
+["Redmi Note 12","Xiaomi","📱"],
+["Redmi Note 13","Xiaomi","📱"],
+["Redmi Note 14","Xiaomi","📱"],
+["Xiaomi 13","Xiaomi","📱"],
+["Xiaomi 14","Xiaomi","📱"],
+["Xiaomi 14 Ultra","Xiaomi","📱"],
+
+["Vivo X90","Vivo","📱"],
+["Vivo X100","Vivo","📱"],
+["Vivo X100 Pro","Vivo","📱"],
+["Vivo X200","Vivo","📱"],
+["Vivo X200 Pro","Vivo","📱"],
+["Vivo V30","Vivo","📱"],
+["Vivo V40","Vivo","📱"],
+
+["OnePlus 11","OnePlus","📱"],
+["OnePlus 12","OnePlus","📱"],
+["OnePlus 13","OnePlus","📱"],
+
+["Google Pixel 7","Google","📱"],
+["Google Pixel 8","Google","📱"],
+["Google Pixel 9","Google","📱"]
+
+].map(x=>({
+
+    name:x[0],
+    company:x[1],
+    icon:x[2],
+    popular:x[3] || false
+
+}));
+
+
+/* =====================================================
+SETTINGS
+===================================================== */
 
 const settingNames = [
-
-    "Хедшот",
-    "Обзор",
-    "Колиматор",
-    "2x",
-    "4x",
-    "Снайпер",
-    "Размер кнопки"
-
+    ["Хедшот",90,100],
+    ["Обзор",80,200],
+    ["Колиматор",35,100],
+    ["2x",30,100],
+    ["4x",45,100],
+    ["Снайпер",30,100],
+    ["Размер кнопки",30,70]
 ];
 
+function randomValue(min,max){
 
-/* =========================================================
-   RENDER POPULAR
-========================================================= */
+    return Math.floor(
+        Math.random()*(max-min+1)
+    )+min;
 
-function renderPopular() {
+}
 
-    popularList.innerHTML = "";
+function createSettings(){
 
-    devices
-        .filter(device => device.popular)
-        .forEach(device => {
+    return settingNames.map(x=>({
 
-            const card =
-                document.createElement("div");
+        name:x[0],
+        value:randomValue(x[1],x[2]),
+        max:x[2]
 
-            card.className =
-                "popular-card";
-
-            card.innerHTML = `
-
-                <div class="device-icon">
-                    ${device.icon}
-                </div>
-
-                <div class="device-name">
-                    ${device.name}
-                </div>
-
-                <div class="device-type">
-                    ${device.company}
-                </div>
-
-            `;
-
-            card.addEventListener(
-                "click",
-                () => openDevice(device)
-            );
-
-            popularList.appendChild(card);
-
-        });
+    }));
 
 }
 
 
-/* =========================================================
-   RENDER CATALOG
-========================================================= */
+/* =====================================================
+RENDER POPULAR
+===================================================== */
 
-function renderDevices(list = devices) {
+function renderPopular(){
 
-    deviceCatalog.innerHTML = "";
+    const box =
+        document.getElementById("popular");
 
-    if (!list.length) {
+    box.innerHTML="";
 
-        emptyState.style.display =
-            "block";
+    devices
+    .filter(d=>d.popular)
+    .forEach(d=>{
 
-        return;
-
-    }
-
-    emptyState.style.display =
-        "none";
-
-
-    list.forEach(device => {
-
-        const card =
+        const el =
             document.createElement("div");
 
-        card.className =
-            "device-card";
+        el.className="popular";
 
-        card.innerHTML = `
+        el.innerHTML=`
 
-            <div class="card-top">
-
-                <div class="card-phone">
-                    ${device.icon}
-                </div>
-
-                <div class="card-arrow">
-                    ›
-                </div>
-
+            <div class="phone-icon">
+                ${d.icon}
             </div>
 
-            <div class="card-name">
-                ${device.name}
+            <div class="phone-name">
+                ${d.name}
             </div>
 
-            <div class="card-company">
-                ${device.company}
-            </div>
-
-            <div class="card-badge">
-                НАСТРОЙКИ
+            <div class="phone-company">
+                ${d.company}
             </div>
 
         `;
 
-        card.addEventListener(
-            "click",
-            () => openDevice(device)
-        );
+        el.onclick=()=>{
+            openSettings(d);
+        };
 
-        deviceCatalog.appendChild(card);
+        box.appendChild(el);
 
     });
 
 }
 
 
-/* =========================================================
-   SEARCH
-========================================================= */
+/* =====================================================
+RENDER ALL
+===================================================== */
 
-searchInput.addEventListener(
-    "input",
-    () => {
+function renderDevices(list=devices){
 
-        const query =
-            searchInput.value
-                .trim()
-                .toLowerCase();
+    const box =
+        document.getElementById("devices");
 
-        clearSearch.style.display =
-            query ? "block" : "none";
+    box.innerHTML="";
 
+    list.forEach(d=>{
 
-        if (!query) {
+        const el =
+            document.createElement("div");
 
-            renderDevices(devices);
+        el.className="device";
 
-            return;
+        el.innerHTML=`
 
-        }
+            <div class="device-top">
 
+                <span class="device-emoji">
+                    ${d.icon}
+                </span>
 
-        const filtered =
-            devices.filter(device => {
+                <span class="arrow">
+                    ›
+                </span>
 
-                return (
-                    device.name
-                        .toLowerCase()
-                        .includes(query)
-                    ||
-                    device.company
-                        .toLowerCase()
-                        .includes(query)
-                );
+            </div>
 
-            });
+            <div class="device-name">
+                ${d.name}
+            </div>
 
+            <div class="device-company">
+                ${d.company}
+            </div>
 
-        renderDevices(filtered);
+            <span class="device-tag">
+                НАСТРОЙКИ
+            </span>
 
-    }
-);
+        `;
 
+        el.onclick=()=>{
+            openSettings(d);
+        };
 
-clearSearch.addEventListener(
-    "click",
-    () => {
+        box.appendChild(el);
 
-        searchInput.value = "";
-
-        clearSearch.style.display =
-            "none";
-
-        renderDevices(devices);
-
-        searchInput.focus();
-
-    }
-);
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-const modal =
-    document.getElementById("deviceModal");
-
-const modalIcon =
-    document.getElementById("modalIcon");
-
-const modalTitle =
-    document.getElementById("modalTitle");
-
-const modalSubtitle =
-    document.getElementById("modalSubtitle");
-
-const settingList =
-    document.getElementById("settingList");
-
-const closeModal =
-    document.getElementById("closeModal");
-
-const saveSettings =
-    document.getElementById("saveSettings");
-
-
-let selectedDevice = null;
-let selectedSettings = null;
-
-
-function openDevice(device) {
-
-    selectedDevice =
-        device;
-
-    selectedSettings =
-        randomSettings();
-
-
-    modalIcon.textContent =
-        device.icon;
-
-    modalTitle.textContent =
-        device.name;
-
-    modalSubtitle.textContent =
-        device.company +
-        " • настройки устройства";
-
-
-    settingList.innerHTML = "";
-
-
-    const values = [
-
-        selectedSettings.headshot,
-        selectedSettings.overview,
-        selectedSettings.collimator,
-        selectedSettings.x2,
-        selectedSettings.x4,
-        selectedSettings.sniper,
-        selectedSettings.button
-
-    ];
-
-
-    settingNames.forEach(
-        (name, index) => {
-
-            const value =
-                values[index];
-
-            const row =
-                document.createElement("div");
-
-            row.className =
-                "setting";
-
-            row.innerHTML = `
-
-                <div class="setting-head">
-
-                    <div class="setting-name">
-                        ${name}
-                    </div>
-
-                    <div
-                        class="setting-value"
-                        id="value-${index}"
-                    >
-                        ${value}%
-                    </div>
-
-                </div>
-
-                <div class="progress">
-
-                    <div
-                        class="progress-fill"
-                        style="width:${value}%"
-                    ></div>
-
-                </div>
-
-                <div class="setting-note">
-                    Индивидуальное значение устройства
-                </div>
-
-            `;
-
-            settingList.appendChild(row);
-
-        }
-    );
-
-
-    modal.classList.add("show");
-
-    document.body.style.overflow =
-        "hidden";
+    });
 
 }
 
 
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
+/* =====================================================
+SEARCH
+===================================================== */
 
-function closeDeviceModal() {
+document
+.getElementById("search")
+.addEventListener(
+"input",
+function(){
 
-    modal.classList.remove("show");
+    const q =
+        this.value
+        .toLowerCase()
+        .trim();
 
-    document.body.style.overflow =
-        "";
+    document.getElementById(
+        "clear"
+    ).style.display =
+        q ? "block":"none";
+
+    const filtered =
+        devices.filter(d=>
+            d.name
+            .toLowerCase()
+            .includes(q) ||
+            d.company
+            .toLowerCase()
+            .includes(q)
+        );
+
+    renderDevices(filtered);
+
+});
+
+
+document
+.getElementById("clear")
+.onclick=function(){
+
+    document.getElementById(
+        "search"
+    ).value="";
+
+    this.style.display="none";
+
+    renderDevices();
+
+};
+
+
+/* =====================================================
+OPEN SETTINGS
+===================================================== */
+
+let currentDevice=null;
+
+function openSettings(device){
+
+    currentDevice=device;
+
+    document.getElementById(
+        "modalIcon"
+    ).textContent=device.icon;
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent=device.name;
+
+    document.getElementById(
+        "modalSubtitle"
+    ).textContent=
+        device.company+
+        " • настройки";
+
+    document.getElementById(
+        "settingsArea"
+    ).innerHTML="";
+
+    const settings =
+        createSettings();
+
+    settings.forEach(s=>{
+
+        const row =
+            document.createElement("div");
+
+        row.className="setting";
+
+        const percent =
+            Math.min(
+                s.value,
+                s.max
+            );
+
+        const width =
+            s.max === 200
+            ? (s.value/200)*100
+            : s.value;
+
+        row.innerHTML=`
+
+            <div class="setting-row">
+
+                <span class="setting-name">
+                    ${s.name}
+                </span>
+
+                <span class="setting-value">
+                    ${percent}%
+                </span>
+
+            </div>
+
+            <div class="bar">
+
+                <div
+                    class="fill"
+                    style="width:${width}%"
+                ></div>
+
+            </div>
+
+            <div class="setting-hint">
+                Максимум отображения:
+                ${s.max}%
+            </div>
+
+        `;
+
+        document
+        .getElementById("settingsArea")
+        .appendChild(row);
+
+    });
+
+
+    document.getElementById(
+        "settingsArea"
+    ).style.display="block";
+
+    document.getElementById(
+        "booster"
+    ).classList.remove("show");
+
+    document.getElementById(
+        "save"
+    ).style.display="block";
+
+    document.getElementById(
+        "modal"
+    ).classList.add("show");
 
 }
 
 
-closeModal.addEventListener(
-    "click",
-    closeDeviceModal
-);
+/* =====================================================
+RANDOM DEVICE
+===================================================== */
 
+function randomDevice(){
 
-modal.addEventListener(
-    "click",
-    event => {
-
-        if (
-            event.target === modal
-        ) {
-
-            closeDeviceModal();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   SAVE
-========================================================= */
-
-saveSettings.addEventListener(
-    "click",
-    () => {
-
-        if (!selectedDevice) {
-            return;
-        }
-
-
-        localStorage.setItem(
-
-            "settings_" +
-            selectedDevice.name,
-
-            JSON.stringify(
-                selectedSettings
+    const device =
+        devices[
+            Math.floor(
+                Math.random()*devices.length
             )
+        ];
 
-        );
-
-
-        closeDeviceModal();
-
-        showToast(
-            "Настройки " +
-            selectedDevice.name +
-            " сохранены ✓"
-        );
-
-    }
-);
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-const toast =
-    document.getElementById("toast");
-
-let toastTimer = null;
-
-
-function showToast(message) {
-
-    toast.textContent =
-        message;
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            2300
-        );
+    openSettings(device);
 
 }
 
 
-/* =========================================================
-   ESCAPE
-========================================================= */
+/* =====================================================
+BOOSTER UI
+===================================================== */
+
+function openBooster(type=""){
+
+    const device =
+        type === "iPhone"
+        ? devices.find(
+            d=>d.name.includes("iPhone")
+        )
+        : type === "Android"
+        ? devices.find(
+            d=>d.company==="Samsung"
+        )
+        : devices[
+            Math.floor(
+                Math.random()*devices.length
+        )];
+
+    currentDevice=device;
+
+    document.getElementById(
+        "modalIcon"
+    ).textContent="⚡";
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent="Усилитель";
+
+    document.getElementById(
+        "modalSubtitle"
+    ).textContent=
+        "Загрузка файла";
+
+    document.getElementById(
+        "settingsArea"
+    ).style.display="none";
+
+    document.getElementById(
+        "booster"
+    ).classList.add("show");
+
+    document.getElementById(
+        "boosterDevice"
+    ).textContent=
+        "📱 "+device.name;
+
+    document.getElementById(
+        "save"
+    ).style.display="none";
+
+    resetUpload();
+
+    document.getElementById(
+        "modal"
+    ).classList.add("show");
+
+}
+
+
+/* =====================================================
+FILE
+===================================================== */
+
+document
+.getElementById("file")
+.addEventListener(
+"change",
+function(){
+
+    if(!this.files.length){
+        return;
+    }
+
+    const file=this.files[0];
+
+    document.getElementById(
+        "fileName"
+    ).textContent=
+        file.name;
+
+    startUpload();
+
+});
+
+
+function startUpload(){
+
+    const wrap =
+        document.getElementById(
+            "progressWrap"
+        );
+
+    const fill =
+        document.getElementById(
+            "bigFill"
+        );
+
+    const percent =
+        document.getElementById(
+            "percent"
+        );
+
+    const success =
+        document.getElementById(
+            "success"
+        );
+
+    const openGame =
+        document.getElementById(
+            "openGame"
+        );
+
+    wrap.style.display="block";
+
+    success.style.display="none";
+
+    openGame.style.display="none";
+
+    let value=0;
+
+    fill.style.width="0%";
+
+    percent.textContent="0%";
+
+
+    const timer =
+        setInterval(()=>{
+
+            value +=
+                Math.floor(
+                    Math.random()*5
+                )+1;
+
+            if(value>=100){
+
+                value=100;
+
+                clearInterval(timer);
+
+                success.style.display=
+                    "block";
+
+                openGame.style.display=
+                    "block";
+
+            }
+
+            fill.style.width=
+                value+"%";
+
+            percent.textContent=
+                value+"%";
+
+        },90);
+
+}
+
+
+/* =====================================================
+RESET
+===================================================== */
+
+function resetUpload(){
+
+    document.getElementById(
+        "file"
+    ).value="";
+
+    document.getElementById(
+        "fileName"
+    ).textContent=
+        "Файл не выбран";
+
+    document.getElementById(
+        "progressWrap"
+    ).style.display="none";
+
+    document.getElementById(
+        "success"
+    ).style.display="none";
+
+    document.getElementById(
+        "openGame"
+    ).style.display="none";
+
+    document.getElementById(
+        "bigFill"
+    ).style.width="0%";
+
+    document.getElementById(
+        "percent"
+    ).textContent="0%";
+
+}
+
+
+/* =====================================================
+OPEN FREE FIRE
+===================================================== */
+
+document
+.getElementById("openGame")
+.onclick=function(){
+
+    /*
+      Безопасный вариант:
+      пытаемся открыть приложение через URL scheme.
+      Если приложение/схема недоступна,
+      браузер просто покажет уведомление.
+    */
+
+    showToast(
+        "Открытие Free Fire..."
+    );
+
+    window.location.href=
+        "freefire://";
+
+};
+
+
+/* =====================================================
+SAVE
+===================================================== */
+
+function saveSettings(){
+
+    if(!currentDevice){
+        return;
+    }
+
+    localStorage.setItem(
+        "device_"+currentDevice.name,
+        JSON.stringify({
+            saved:true,
+            time:Date.now()
+        })
+    );
+
+    closeModal();
+
+    showToast(
+        "Настройки сохранены ✓"
+    );
+
+}
+
+
+/* =====================================================
+CLOSE
+===================================================== */
+
+function closeModal(){
+
+    document
+    .getElementById("modal")
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+TOAST
+===================================================== */
+
+let toastTimer;
+
+function showToast(text){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    toast.textContent=text;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer=setTimeout(()=>{
+
+        toast.classList.remove(
+            "show"
+        );
+
+    },2200);
+
+}
+
+
+/* =====================================================
+MODAL BACKGROUND
+===================================================== */
+
+document
+.getElementById("modal")
+.addEventListener(
+"click",
+function(e){
+
+    if(e.target===this){
+        closeModal();
+    }
+
+});
+
+
+/* =====================================================
+NO PINCH ZOOM
+===================================================== */
 
 document.addEventListener(
-    "keydown",
-    event => {
+"touchstart",
+function(e){
 
-        if (
-            event.key === "Escape"
-            &&
-            modal.classList.contains(
-                "show"
-            )
-        ) {
-
-            closeDeviceModal();
-
-        }
-
+    if(e.touches.length>1){
+        e.preventDefault();
     }
+
+},
+{passive:false}
+);
+
+document.addEventListener(
+"gesturestart",
+function(e){
+    e.preventDefault();
+},
+{passive:false}
+);
+
+document.addEventListener(
+"gesturechange",
+function(e){
+    e.preventDefault();
+},
+{passive:false}
+);
+
+document.addEventListener(
+"gestureend",
+function(e){
+    e.preventDefault();
+},
+{passive:false}
 );
 
 
-/* =========================================================
-   PREVENT DOUBLE TOUCH ZOOM
-========================================================= */
-
-document.addEventListener(
-    "touchstart",
-    event => {
-
-        if (event.touches.length > 1) {
-
-            event.preventDefault();
-
-        }
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-document.addEventListener(
-    "gesturestart",
-    event => {
-
-        event.preventDefault();
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-document.addEventListener(
-    "gesturechange",
-    event => {
-
-        event.preventDefault();
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-document.addEventListener(
-    "gestureend",
-    event => {
-
-        event.preventDefault();
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-/* =========================================================
-   START
-========================================================= */
+/* =====================================================
+START
+===================================================== */
 
 renderPopular();
-
-renderDevices(devices);
-
-
-/*
-   Для безопасности авторизация не пропускается
-   автоматически после перезагрузки.
-*/
-
-localStorage.removeItem(
-    "device_settings_auth"
-);
+renderDevices();
 
 </script>
 
