@@ -1,515 +1,3300 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Қазақстан тарихы — 100 сұрақ</title>
+<meta name="theme-color" content="#070812">
+
+<title>Jacoobc Control</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    background: #000;
-    color: #fff;
-    font-family: Arial, sans-serif;
+:root{
+    --bg:#05060b;
+    --bg2:#090b14;
+    --card:#0d101c;
+    --card2:#111527;
+    --border:#242a40;
+    --text:#ffffff;
+    --muted:#858ca5;
+    --purple:#8d35ff;
+    --purple2:#b83dff;
+    --blue:#12caff;
+    --green:#20e49a;
+    --red:#ff466d;
+    --yellow:#ffc62d;
 }
 
-.container {
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 15% 0%,rgba(119,39,255,.22),transparent 30%),
+        radial-gradient(circle at 90% 80%,rgba(0,198,255,.12),transparent 30%),
+        #05060b;
+    color:var(--text);
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
 }
 
-h1 {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 10px;
+/* =========================
+   LOGIN
+========================= */
+
+#loginScreen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
 }
 
-.subtitle {
-    text-align: center;
-    color: #aaa;
-    margin-bottom: 25px;
+.glow{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    pointer-events:none;
 }
 
-.question {
-    background: #080808;
-    border: 1px solid #222;
-    border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 15px;
+.glow.one{
+    width:300px;
+    height:300px;
+    background:#762cff;
+    top:-120px;
+    left:-100px;
+    opacity:.3;
 }
 
-.question h3 {
-    margin-top: 0;
-    line-height: 1.5;
+.glow.two{
+    width:280px;
+    height:280px;
+    background:#00c8ff;
+    bottom:-120px;
+    right:-100px;
+    opacity:.18;
 }
 
-label {
-    display: block;
-    background: #111;
-    border: 1px solid #222;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    cursor: pointer;
+.login-box{
+    width:430px;
+    max-width:100%;
+    padding:35px;
+    border:1px solid #2d3450;
+    border-radius:28px;
+    background:rgba(10,12,24,.86);
+    backdrop-filter:blur(25px);
+    box-shadow:
+        0 0 80px rgba(120,40,255,.18),
+        inset 0 0 30px rgba(255,255,255,.015);
+    position:relative;
+    z-index:2;
 }
 
-label:hover {
-    background: #1b1b1b;
+.logo{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    margin-bottom:30px;
 }
 
-input {
-    margin-right: 10px;
+.logo-icon{
+    width:52px;
+    height:52px;
+    border-radius:16px;
+    display:grid;
+    place-items:center;
+    font-size:25px;
+    background:linear-gradient(
+        135deg,
+        #7c2cff,
+        #b03cff,
+        #12caff
+    );
+    box-shadow:0 0 30px rgba(141,53,255,.5);
 }
 
-button {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 10px;
-    background: #fff;
-    color: #000;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 8px 0;
+.logo h1{
+    font-size:21px;
 }
 
-button:hover {
-    background: #ccc;
+.logo small{
+    color:#777f99;
+    font-size:10px;
 }
 
-.answer {
-    display: none;
-    margin-top: 12px;
-    padding: 12px;
-    background: #111;
-    border-left: 4px solid #fff;
-    border-radius: 5px;
+.login-box h2{
+    font-size:30px;
+    margin-bottom:8px;
 }
 
-.correct {
-    border-color: #fff;
+.login-description{
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:25px;
 }
 
-.wrong {
-    border-color: #555;
+.input-group{
+    margin-bottom:16px;
 }
 
-#result {
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-    margin: 25px 0;
+.input-group label{
+    display:block;
+    color:#b7bdd0;
+    font-size:11px;
+    margin-bottom:7px;
+    letter-spacing:.5px;
+}
+
+.input-group input{
+    width:100%;
+    padding:15px;
+    border-radius:13px;
+    border:1px solid var(--border);
+    background:#080a13;
+    color:#fff;
+    outline:none;
+    font-size:14px;
+    transition:.2s;
+}
+
+.input-group input:focus{
+    border-color:var(--purple);
+    box-shadow:0 0 0 3px rgba(141,53,255,.12);
+}
+
+.login-button{
+    width:100%;
+    padding:15px;
+    border:0;
+    border-radius:14px;
+    color:white;
+    font-weight:800;
+    font-size:14px;
+    background:
+        linear-gradient(
+            100deg,
+            #722cff,
+            #ad36ff,
+            #0dc7ff
+        );
+    box-shadow:0 12px 35px rgba(120,40,255,.25);
+    cursor:pointer;
+    transition:.2s;
+}
+
+.login-button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 15px 40px rgba(120,40,255,.4);
+}
+
+.login-error{
+    color:#ff6484;
+    text-align:center;
+    font-size:12px;
+    min-height:18px;
+    margin-top:12px;
+}
+
+/* =========================
+   APP
+========================= */
+
+#application{
+    display:none;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+    background:rgba(5,6,11,.88);
+    border-bottom:1px solid #1b2033;
+    backdrop-filter:blur(20px);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:900;
+}
+
+.brand-icon{
+    width:36px;
+    height:36px;
+    border-radius:11px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(
+        135deg,
+        #792cff,
+        #11caff
+    );
+}
+
+.top-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.top-button{
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
+    background:#0b0e18;
+    color:white;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:5px 10px 5px 6px;
+    border:1px solid var(--border);
+    background:#0b0e18;
+    border-radius:14px;
+}
+
+.avatar{
+    width:30px;
+    height:30px;
+    border-radius:10px;
+    display:grid;
+    place-items:center;
+    font-size:11px;
+    font-weight:bold;
+    background:linear-gradient(
+        135deg,
+        #ff2f87,
+        #702cff
+    );
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.layout{
+    display:grid;
+    grid-template-columns:240px 1fr;
+    min-height:calc(100vh - 70px);
+}
+
+.sidebar{
+    border-right:1px solid #1b2033;
+    background:rgba(5,7,13,.65);
+    padding:18px 12px;
+}
+
+.sidebar-title{
+    color:#565f78;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    padding:12px;
+}
+
+.nav-button{
+    width:100%;
+    padding:12px;
+    margin:3px 0;
+    border:1px solid transparent;
+    border-radius:12px;
+    background:transparent;
+    color:#9299b1;
+    text-align:left;
+    cursor:pointer;
+    display:flex;
+    gap:11px;
+    align-items:center;
+    font-size:13px;
+}
+
+.nav-button:hover{
+    color:white;
+    background:#101427;
+}
+
+.nav-button.active{
+    color:white;
+    background:#111528;
+    border-color:#282e49;
+    box-shadow:
+        inset 3px 0 #973cff,
+        0 0 20px rgba(141,53,255,.06);
+}
+
+.content{
+    width:100%;
+    max-width:1450px;
+    margin:auto;
+    padding:25px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.page-header h2{
+    font-size:28px;
+    margin-bottom:6px;
+}
+
+.page-header p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primary{
+    border:0;
+    color:white;
+    font-weight:700;
+    padding:11px 16px;
+    border-radius:11px;
+    cursor:pointer;
+    background:
+        linear-gradient(
+            100deg,
+            #762cff,
+            #b03cff
+        );
+}
+
+.secondary{
+    border:1px solid #303650;
+    background:#111528;
+    color:white;
+    padding:10px 15px;
+    border-radius:11px;
+    cursor:pointer;
+}
+
+.danger{
+    border:1px solid #562637;
+    background:#21101a;
+    color:#ff708d;
+    padding:10px 15px;
+    border-radius:11px;
+    cursor:pointer;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 11px;
+    border-radius:11px;
+    background:#0c1a16;
+    border:1px solid #194b3c;
+    color:#61eab5;
+    font-size:11px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#20e49a;
+    box-shadow:0 0 10px #20e49a;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    padding:25px;
+    border:1px solid #292e4b;
+    border-radius:22px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(125,43,255,.17),
+            rgba(0,195,255,.05)
+        ),
+        #0b0e19;
+    box-shadow:0 0 40px rgba(120,40,255,.08);
+    margin-bottom:16px;
+}
+
+.hero-flex{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.hero h3{
+    font-size:25px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#9ba3ba;
+    font-size:13px;
+    max-width:700px;
+}
+
+.sync{
+    background:#111629;
+    border:1px solid #303752;
+    border-radius:12px;
+    padding:11px 14px;
+    font-size:11px;
+    white-space:nowrap;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+    margin-bottom:16px;
+}
+
+.stat{
+    background:#0c0f1a;
+    border:1px solid #20253a;
+    border-radius:17px;
+    padding:17px;
+}
+
+.stat-icon{
+    font-size:20px;
+}
+
+.stat-number{
+    font-size:25px;
+    font-weight:900;
+    margin-top:8px;
+}
+
+.stat-label{
+    color:#747c95;
+    font-size:11px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.grid-2{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:16px;
+}
+
+.card{
+    background:rgba(12,15,28,.92);
+    border:1px solid #20263c;
+    border-radius:20px;
+    padding:20px;
+}
+
+.card h3{
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.card-sub{
+    color:#707993;
+    font-size:11px;
+    margin-bottom:15px;
+}
+
+/* =========================
+   DEVICES
+========================= */
+
+.device{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:14px 0;
+    border-bottom:1px solid #1b2032;
+}
+
+.device:last-child{
+    border-bottom:0;
+}
+
+.device-left{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.device-icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    background:#151a2d;
+    display:grid;
+    place-items:center;
+    font-size:19px;
+}
+
+.device-name{
+    font-size:13px;
+    font-weight:700;
+}
+
+.device-info{
+    color:#6f7892;
+    font-size:10px;
+    margin-top:3px;
+}
+
+/* =========================
+   SWITCH
+========================= */
+
+.switch{
+    width:44px;
+    height:25px;
+    border:0;
+    border-radius:20px;
+    background:#282d40;
+    position:relative;
+    cursor:pointer;
+}
+
+.switch::after{
+    content:"";
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    background:#737b91;
+    position:absolute;
+    top:3px;
+    left:3px;
+    transition:.2s;
+}
+
+.switch.on{
+    background:#792cff;
+}
+
+.switch.on::after{
+    left:22px;
+    background:white;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-row{
+    margin:15px 0;
+}
+
+.progress-label{
+    display:flex;
+    justify-content:space-between;
+    color:#858da5;
+    font-size:11px;
+}
+
+.progress{
+    height:9px;
+    margin-top:7px;
+    background:#20253a;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    border-radius:10px;
+    background:
+        linear-gradient(
+            90deg,
+            #762cff,
+            #bd3dff,
+            #12caff
+        );
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.setting{
+    min-height:63px;
+    padding:13px 0;
+    border-bottom:1px solid #1b2032;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.setting:last-child{
+    border-bottom:0;
+}
+
+.setting-title{
+    font-size:13px;
+    font-weight:700;
+}
+
+.setting-description{
+    color:#6e7690;
+    font-size:10px;
+    margin-top:4px;
+}
+
+select{
+    background:#090c16;
+    color:white;
+    border:1px solid #282e43;
+    border-radius:10px;
+    padding:10px;
+    outline:none;
+}
+
+input[type="range"]{
+    accent-color:#9839ff;
+}
+
+/* =========================
+   AMPLIFIER
+========================= */
+
+.amplifier-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.amplifier-center{
+    text-align:center;
+    padding:30px;
+}
+
+.knob{
+    width:210px;
+    height:210px;
+    border-radius:50%;
+    margin:20px auto;
+    padding:11px;
+    background:
+        conic-gradient(
+            #a83cff 0 72%,
+            #20243a 72% 100%
+        );
+    box-shadow:
+        0 0 55px rgba(154,57,255,.25);
+}
+
+.knob-inner{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle,
+            #1b2035,
+            #080a13 68%
+        );
+    border:1px solid #303752;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.knob-value{
+    font-size:42px;
+    font-weight:900;
+}
+
+.knob-label{
+    color:#727b94;
+    font-size:10px;
+}
+
+/* =========================
+   APP MODULES
+========================= */
+
+.module-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.module{
+    background:#0c101e;
+    border:1px solid #252b43;
+    border-radius:18px;
+    padding:19px;
+}
+
+.module-icon{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    display:grid;
+    place-items:center;
+    font-size:22px;
+    background:#161b31;
+    margin-bottom:13px;
+}
+
+.module h3{
+    font-size:14px;
+}
+
+.module p{
+    color:#747d97;
+    font-size:11px;
+    line-height:1.5;
+    margin:8px 0;
+}
+
+/* =========================
+   LOG
+========================= */
+
+.log{
+    background:#070910;
+    border-radius:13px;
+    padding:15px;
+    max-height:330px;
+    overflow:auto;
+    color:#9098b1;
+    font-family:monospace;
+    font-size:11px;
+    line-height:1.9;
+}
+
+.log-success{
+    color:#4ce5a9;
+}
+
+.log-warning{
+    color:#ffca4c;
+}
+
+.log-error{
+    color:#ff6683;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:999;
+    padding:13px 17px;
+    border-radius:13px;
+    background:#12172a;
+    border:1px solid #343b5b;
+    box-shadow:0 15px 40px #0008;
+    transform:translateY(120px);
+    opacity:0;
+    transition:.25s;
+    font-size:12px;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+.mobile-nav{
+    display:none;
+}
+
+@media(max-width:900px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .content{
+        padding:16px;
+        padding-bottom:90px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .grid-2,
+    .settings-grid,
+    .amplifier-grid{
+        grid-template-columns:1fr;
+    }
+
+    .module-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero-flex{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .sync{
+        width:100%;
+        text-align:center;
+    }
+
+    .mobile-nav{
+        display:flex;
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        height:70px;
+        background:rgba(7,9,17,.95);
+        backdrop-filter:blur(18px);
+        border-top:1px solid #252a40;
+        z-index:500;
+        justify-content:space-around;
+    }
+
+    .mobile-nav button{
+        background:transparent;
+        border:0;
+        color:#7e869e;
+        font-size:9px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:3px;
+    }
+
+    .mobile-nav button.active{
+        color:white;
+    }
+
+    .mobile-nav span{
+        font-size:20px;
+    }
+}
+
+@media(max-width:520px){
+
+    .login-box{
+        padding:25px 20px;
+    }
+
+    .login-box h2{
+        font-size:25px;
+    }
+
+    .topbar{
+        padding:0 13px;
+    }
+
+    .top-button{
+        display:none;
+    }
+
+    .content{
+        padding:13px;
+    }
+
+    .page-header h2{
+        font-size:23px;
+    }
+
+    .stats{
+        gap:9px;
+    }
+
+    .stat{
+        padding:14px;
+    }
+
+    .stat-number{
+        font-size:22px;
+    }
+
+    .module-grid{
+        grid-template-columns:1fr;
+    }
+
+    .knob{
+        width:180px;
+        height:180px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- =========================
+     LOGIN
+========================= -->
 
-<h1>Қазақстан тарихы</h1>
-<div class="subtitle">100 сұрақтық тест</div>
+<div id="loginScreen">
 
-<div id="quiz"></div>
+    <div class="glow one"></div>
+    <div class="glow two"></div>
 
-<button onclick="checkAnswers()">БАРЛЫҒЫН ТЕКСЕРУ</button>
+    <div class="login-box">
 
-<div id="result"></div>
+        <div class="logo">
+
+            <div class="logo-icon">
+                ⚡
+            </div>
+
+            <div>
+                <h1>JACOOBC CONTROL</h1>
+                <small>PRIVATE CONTROL PANEL</small>
+            </div>
+
+        </div>
+
+        <h2>Вход в систему</h2>
+
+        <p class="login-description">
+            Введите данные для доступа к панели управления.
+        </p>
+
+        <div class="input-group">
+
+            <label>ЛОГИН</label>
+
+            <input
+                id="username"
+                type="text"
+                placeholder="Введите логин"
+                autocomplete="username"
+            >
+
+        </div>
+
+        <div class="input-group">
+
+            <label>ПАРОЛЬ</label>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Введите пароль"
+                autocomplete="current-password"
+            >
+
+        </div>
+
+        <button
+            class="login-button"
+            onclick="login()"
+        >
+            Войти в панель →
+        </button>
+
+        <div
+            id="loginError"
+            class="login-error"
+        ></div>
+
+    </div>
 
 </div>
 
-<script>
 
-const questions = [
+<!-- =========================
+     APPLICATION
+========================= -->
 
-["Адамзат тарихының ең алғашқы кезеңі қалай аталады?",
-["Тас дәуірі","Қола дәуірі","Темір дәуірі","Орта ғасыр","Антикалық дәуір"],0],
+<div id="application">
 
-["Алғашқы адамдардың алғашқы қоғамдық ұйымы?",
-["Тайпа","Ру","Тобыр","Мемлекет","Халық"],2],
+<header class="topbar">
 
-["Тобырдан кейін қалыптасқан қоғамдық ұйым?",
-["Мемлекет","Рулық қауым","Империя","Қауымдастық","Хандық"],1],
+    <div class="brand">
 
-["Рулық қауымнан кейін қалыптасқан ұйым?",
-["Тайпа","Тобыр","Мемлекет","Империя","Хандық"],0],
+        <div class="brand-icon">
+            ⚡
+        </div>
 
-["Алғашқы ірі қоғамдық еңбек бөлінісі?",
-["Қолөнердің бөлінуі","Сауданың пайда болуы","Аңшылықтың дамуы","Балық аулау","Егіншілік пен мал шаруашылығының бөлінуі"],4],
+        JACOOBC CONTROL
 
-["Қазақстан аумағында өмір сүрген ең ежелгі адам?",
-["Неандерталь","Кроманьон","Синантроп","Питекантроп","Епті адам"],4],
+    </div>
 
-["Епті адам шамамен қашан өмір сүрді?",
-["100 мың жыл бұрын","500 мың жыл бұрын","1 млн жыл бұрын","1 млн 750 мың жыл бұрын","50 мың жыл бұрын"],3],
+    <div class="top-right">
 
-["Ең алғашқы еңбек құралы?",
-["Қола балта","Үшкір тас","Темір пышақ","Қыш ыдыс","Орақ"],1],
+        <button
+            class="top-button"
+            onclick="showToast('Новых уведомлений нет')"
+        >
+            🔔
+        </button>
 
-["Тік жүретін адамның Қазақстанға жақын өкілі?",
-["Кроманьон","Неандерталь","Синантроп","Епті адам","Homo sapiens"],2],
+        <div class="user">
 
-["Б.з.б. 100–35 мың жыл аралығында өмір сүрген адам?",
-["Кроманьон","Неандертальдықтар","Синантроп","Епті адам","Питекантроп"],1],
+            <div class="avatar">
+                JC
+            </div>
 
-["40–35 мың жыл бұрын өмір сүрген адам?",
-["Синантроп","Питекантроп","Неандерталь","Саналы адам","Епті адам"],3],
+            <span style="font-size:11px">
+                Jacoobc
+            </span>
 
-["Алғашқы адамдардың негізгі кәсібінің бірі?",
-["Терімшілік","Зауыт жұмысы","Сауда","Кен өндіру","Егіншілік"],0],
+        </div>
 
-["Палеолит дәуірінің мерзімі?",
-["2,5 млн – 12 мың жыл бұрын","12–5 мың жыл бұрын","5–3 мың жыл бұрын","3–1 мың жыл бұрын","1 мың жыл бұрын"],0],
+    </div>
 
-["Мезолит дәуірінің мерзімі?",
-["100–50 мың жыл","12–5 мың жыл бұрын","5–3 мың жыл","3–2 мың жыл","1 мың жыл"],1],
+</header>
 
-["Неолит дәуірінің мерзімі?",
-["12–5 мың жыл бұрын","2,5 млн – 12 мың жыл","5–3 мың жыл","3–1 мың жыл","1 мың жыл"],0],
 
-["Қазақстандағы алғашқы адамдар алғаш қоныстанған аймақ?",
-["Солтүстік Қазақстан","Батыс Қазақстан","Оңтүстік Қазақстан","Орталық Қазақстан","Шығыс Қазақстан"],2],
+<div class="layout">
 
-["Қазақстандағы алғашқы адамдардың замандасы?",
-["Питекантроп","Кроманьон","Неандерталь","Синантроп","Homo sapiens"],0],
+<!-- =========================
+     SIDEBAR
+========================= -->
 
-["Алғашқы адамдардың алғашқы баспаналары?",
-["Киіз үй","Үңгірлер","Ағаш үй","Кірпіш үй","Қамал"],1],
+<aside class="sidebar">
 
-["Палеолит дәуірінде адамдар аулаған жануарлар?",
-["Мамонт пен бизон","Жылқы мен түйе","Қой мен ешкі","Сиыр мен жылқы","Бұғы мен қой"],0],
+    <div class="sidebar-title">
+        Панель
+    </div>
 
-["Мезолит дәуіріндегі негізгі жаңалықтардың бірі?",
-["Темірдің пайда болуы","Садақ пен жебенің пайда болуы","Жазудың пайда болуы","Қалалардың пайда болуы","Қоланың пайда болуы"],1],
-
-["Жамбыл облысындағы ежелгі тас құралдары табылған өңір?",
-["Жамбыл өңірі","Алтай","Маңғыстау","Арал","Сарыарқа"],0],
-
-["Бөріқазған мен Шабақты ескерткіштері қай дәуірге жатады?",
-["Қола дәуірі","Темір дәуірі","Палеолит","Неолит","Энеолит"],2],
-
-["Тасты өңдеудің жетілдірілген әдісі кең тараған кезең?",
-["Ерте палеолит","Кейінгі палеолит","Неолит","Энеолит","Қола"],1],
-
-["Адамды жануарлардан ажырататын басты белгі?",
-["Жылдам жүруі","Құрал жасай білуі","Көп ұйықтауы","Күшті болуы","Жылдам жүгіруі"],1],
-
-["Жердің күрт суынуы шамамен қашан басталды?",
-["100 мың жыл бұрын","10 мың жыл бұрын","5 мың жыл бұрын","1 мың жыл бұрын","500 жыл бұрын"],0],
-
-["Мұздықтардың ери бастаған уақыты?",
-["13 мың жыл бұрын","2 мың жыл бұрын","50 мың жыл бұрын","1 млн жыл бұрын","500 жыл бұрын"],0],
-
-["Ежелгі ине қандай заттан жасалды?",
-["Темірден","Мыстан","Сүйектен","Ағаштан","Қоладан"],2],
-
-["Жіптің орнына не пайдаланылды?",
-["Мақта","Жүн","Малдың сіңірі","Жібек","Зығыр"],2],
-
-["Дәнүккіш қай дәуірде пайда болды?",
-["Палеолит","Мезолит","Неолит","Энеолит","Қола"],2],
-
-["Қазақстандағы ерте палеолиттің ең көне ескерткіштері?",
-["Шақпақата, Арыстанды","Ботай, Шебір","Петровка, Боголюбов","Таңбалы, Хантау","Беғазы, Дәндібай"],0],
-
-["Екі жағынан өңделген тас құрал?",
-["Микролит","Бифас","Қырғыш","Орақ","Балта"],1],
-
-["Тастың шетін ұсақ ретушь арқылы өңдеу әдісі?",
-["Қашау","Ретушь әдісі","Балқыту","Ұнтақтау","Жылтырату"],1],
-
-["Бөріқазған мен Шабақты орналасқан аймақ?",
-["Жамбыл облысы","Солтүстік Қазақстан","Батыс Қазақстан","Шығыс Қазақстан","Арал маңы"],0],
-
-["Неандерталь баласының сүйегі табылған үңгір?",
-["Шақпақата","Тесіктас","Батпақ","Бөріқазған","Ақбауыр"],1],
-
-["Алғашқы саналы адамның сүйегі табылған үңгір?",
-["Кроманьон","Тесіктас","Батпақ","Арыстанды","Шабақты"],0],
-
-["Орталық Қазақстандағы палеолит ескерткіші?",
-["Шабақты","Ботай","Пенкі","Усть-Нарым","Шебір"],0],
-
-["Кейінгі палеолитке жататын Батпақ тұрағы қайда?",
-["Орталық Қазақстан","Оңтүстік Қазақстан","Батыс Қазақстан","Маңғыстау","Солтүстік Қазақстан"],0],
-
-["Рулық қауымның маңызды мәселелері қалай шешілді?",
-["Жеке адам шешті","Жалпы жиналыста","Хан шешті","Патша шешті","Әскер шешті"],1],
-
-["Мезолиттің мерзімі?",
-["12–5 мың жыл бұрын","5–3 мың жыл бұрын","3–1 мың жыл","100–50 мың жыл","1 млн жыл"],0],
-
-["Ұсақ тас құралдар қалай аталады?",
-["Бифас","Микролит","Қырғыш","Балта","Орақ"],1],
-
-["Мезолит дәуірінің ең маңызды жаңалығы?",
-["Садақ пен жебе","Темір","Қола","Жазу","Қыш"],0],
-
-["Мезолит дәуіріндегі негізгі кәсіп?",
-["Аңшылық","Кен өндіру","Сауда","Қолөнер","Егіншілік"],0],
-
-["Қазақстандағы мезолит ескерткіштерінің саны?",
-["5-тен аз","10-нан аз","20-дан астам","100-ден астам","500-ден астам"],2],
-
-["Мезолиттік тұрақтардың бірі орналасқан өзен?",
-["Есіл","Ертіс","Сырдария","Іле","Жайық"],0],
-
-["Жасөспірімнің ересектер қатарына өту рәсімі?",
-["Инвентаризация","Инициация","Ассимиляция","Миграция","Интеграция"],1],
-
-["Егіншілік шамамен қашан пайда болды?",
-["10 мың жыл бұрын","1 мың жыл бұрын","100 мың жыл бұрын","50 мың жыл бұрын","500 жыл бұрын"],0],
-
-["Егіншіліктің пайда болуына әсер еткен кәсіп?",
-["Терімшілік","Темір өңдеу","Сауда","Кен өндіру","Аңшылық"],0],
-
-["Егін ору құралы?",
-["Тас орақ","Темір балта","Қола найза","Садақ","Қырғыш"],0],
-
-["Жер өңдеуге қолданылған қарапайым құрал?",
-["Тесе","Балға","Найза","Қылыш","Қырғыш"],0],
-
-["Жануарларды қолға үйрету қай кезеңде басталды?",
-["Мезолит","Қола","Темір","Палеолит","Орта ғасыр"],0],
-
-["Алғашқы егіншілік қай кезеңде пайда болды?",
-["Неолит","Мезолит","Қола","Темір","Палеолит"],1],
-
-["Неолит дәуірінің мерзімі?",
-["12–5 мың жыл бұрын","5–3 мың жыл бұрын","3–1 мың жыл бұрын","100–50 мың жыл","1 млн жыл"],0],
-
-["Шығыс Қазақстандағы неолиттік тұрақ?",
-["Усть-Нарым","Пенкі","Ботай","Шебір","Зеленая Балка"],0],
-
-["Солтүстік Қазақстандағы неолиттік тұрақ?",
-["Пенкі","Ботай","Шебір","Тесіктас","Шақпақата"],0],
-
-["Қазақстандағы ең көне неолиттік ескерткіштер шамамен?",
-["Б.з.б. 7 мыңжылдық","Б.з.б. 1 мыңжылдық","Б.з.б. 2 мыңжылдық","Б.з.б. 10 мыңжылдық","Б.з.б. 500 жыл"],0],
-
-["Орталық Қазақстандағы неолиттік тұрақ?",
-["Зеленая Балка","Ботай","Пенкі","Шебір","Усть-Нарым"],0],
-
-["Неолит дәуіріндегі саздан жасалған ыдыс?",
-["Көзе","Қылыш","Найза","Балта","Орақ"],0],
-
-["Неолиттік ескерткіштер көп кездесетін аймақ?",
-["Жезқазған өңірі","Алтай","Маңғыстау","Жетісу","Арал"],0],
-
-["Қазіргі климатқа ұқсас климат қалыптасқан кезең?",
-["Мезолит","Палеолит","Энеолит","Қола","Темір"],0],
-
-["Қазақстандағы неолиттік тұрақтардың жалпы саны?",
-["20-дан астам","100-ден астам","500-ден астам","10-нан аз","50-ден аз"],2],
-
-["Сексеуіл тұрағы орналасқан аймақ?",
-["Қызылорда облысы","Алматы","Жамбыл","Солтүстік Қазақстан","Батыс Қазақстан"],0],
-
-["Неолит дәуіріндегі маңызды жаңалық?",
-["Қыш ыдыстың пайда болуы","Темірдің пайда болуы","Жазудың пайда болуы","Ақшаның пайда болуы","Мемлекеттің пайда болуы"],0],
-
-["«Қыш ыдыстар дәуірі» деп қай кезең аталады?",
-["Неолит","Мезолит","Энеолит","Қола","Темір"],0],
-
-["Энеолит дәуірінің шамамен мерзімі?",
-["Б.з.б. 3000–2800 жж.","Б.з.б. 1000–500 жж.","Б.з.б. 5000–4500 жж.","Б.з.б. 500–100 жж.","Б.з. 1–500 жж."],0],
-
-["Алғашқы металл құралдар пайда болған кезең?",
-["Энеолит","Палеолит","Мезолит","Неолит","Қола"],0],
-
-["Адамзат пайдаланған алғашқы металл?",
-["Темір","Қола","Мыс","Алтын","Күміс"],2],
-
-["Тас пен мысты қатар пайдаланған кезең?",
-["Энеолит","Неолит","Мезолит","Қола","Темір"],0],
-
-["Алғашқы ірі еңбек бөлінісі?",
-["Егіншілік пен мал шаруашылығының бөлінуі","Сауданың пайда болуы","Жазудың пайда болуы","Қолөнердің жойылуы","Мемлекеттің пайда болуы"],0],
-
-["Солтүстік Қазақстандағы энеолит дәуірінің әйгілі ескерткіші?",
-["Ботай","Шебір","Пенкі","Тесіктас","Батпақ"],0],
-
-["Ботай тұрағында шамамен қанша үй болған?",
-["158","50","500","20","1000"],0],
-
-["Көп мөлшерде жылқы сүйектері табылған тұрақ?",
-["Ботай","Шебір","Пенкі","Усть-Нарым","Батпақ"],0],
-
-["Маңғыстаудағы энеолиттік тұрақ?",
-["Шебір","Ботай","Пенкі","Зеленая Балка","Тесіктас"],0],
-
-["Қоғамдық еңбек бөлінісі қалыптасқан кезең?",
-["Энеолит","Палеолит","Мезолит","Темір","Орта ғасыр"],0],
-
-["Заттарды сурет арқылы жеткізу жазуы?",
-["Пиктография","Әліпби","Иероглиф","Кириллица","Латын"],0],
-
-["Жануардан тарағанына сену?",
-["Тотемизм","Анимизм","Монотеизм","Буддизм","Магия"],0],
-
-["Табиғаттағы заттар мен құбылыстарда рух бар деп сену?",
-["Анимизм","Тотемизм","Пиктография","Инициация","Магия"],0],
-
-["Табиғаттың тылсым күштеріне әсер ету әрекеті?",
-["Магиялық әрекет","Сауда","Егіншілік","Қолөнер","Терімшілік"],0],
-
-["Тотемизм дегеніміз?",
-["Адамның шығу тегін жануарлармен байланыстыру","Табиғатты зерттеу","Жазу өнері","Егіншілік","Аңшылық"],0],
-
-["Сүйек пен мүйізден жасалған әйел бейнелері нені білдіреді?",
-["Әйел бейнесін","Жауынгерді","Аңшыны","Бақсыны","Патшаны"],0],
-
-["Алғашқы адамдардың табиғатқа тәуелділігі?",
-["Табиғат күштеріне табынуға әкелді","Мемлекет құрды","Жазуды жойды","Сауданы тоқтатты","Темірді ашты"],0],
-
-["Алғашқы шаруашылықта қолданылған металл?",
-["Мыс","Темір","Қола","Күміс","Алтын"],0],
-
-["Қола қандай металдардың қосындысынан жасалады?",
-["Мыс пен қалайы","Темір мен мыс","Алтын мен күміс","Темір мен қалайы","Мыс пен алтын"],0],
-
-["Жезқазған кен орындарын зерттеген ғалым?",
-["Қаныш Сәтбаев","Әл-Фараби","Шоқан Уәлиханов","Ыбырай Алтынсарин","Абай Құнанбайұлы"],0],
-
-["Қалайы кенінің ежелгі орындары?",
-["Нарым, Қалба","Ботай, Шебір","Тесіктас, Батпақ","Пенкі, Ботай","Шақпақата, Арыстанды"],0],
-
-["Кенді балқытуға арналған күрделі құрылыс?",
-["Домна пештері","Қыш пештері","Ағаш пештері","Тас ошақтар","Қазандықтар"],0],
-
-["Тас пен мыс құралдарды ығыстырған құралдар?",
-["Қола құралдар","Ағаш құралдар","Сүйек құралдар","Тас құралдар","Алтын құралдар"],0],
-
-["Қола дәуіріндегі кең тараған ыдыс?",
-["Көзе","Шыны бөтелке","Фарфор","Қазан","Кесе"],0],
-
-["Еуразия даласындағы қола дәуірінің мәдениеті?",
-["Андронов мәдениеті","Ботай мәдениеті","Сақ мәдениеті","Ғұн мәдениеті","Түркі мәдениеті"],0],
-
-["Андронов мәдениетінің алғашқы ескерткіштері табылған жер?",
-["Андроново","Ботай","Шебір","Пенкі","Тесіктас"],0],
-
-["Солтүстік және Батыс Қазақстандағы Андронов қоныстарының саны?",
-["100-ден астам","10-нан аз","20-дан аз","50-ден аз","500-ден аз"],0],
-
-["Солтүстік Қазақстандағы қола дәуірінің қоныстары?",
-["Петровка, Боголюбов","Ботай, Шебір","Пенкі, Батпақ","Тесіктас, Ботай","Усть-Нарым, Шебір"],0],
-
-["30 қоныс пен 150-ге жуық қорған табылған аймақ?",
-["Солтүстік Қазақстан","Оңтүстік Қазақстан","Маңғыстау","Жетісу","Арал"],0],
-
-["Андроновтардың бет әлпетін зерттеген ғалым?",
-["М.М. Герасимов","Қ.Сәтбаев","Ш.Уәлиханов","Ә.Марғұлан","Әл-Фараби"],0],
-
-["Көшпелі мал шаруашылығына көшу кең тараған кезең?",
-["Қола дәуірі","Палеолит","Мезолит","Неолит","Энеолит"],0],
-
-["Теселі егіншілік алғаш дамыған кезең?",
-["Неолит","Қола","Темір","Мезолит","Палеолит"],0],
-
-["Андроновтықтардың жерлеу кезінде басын бағыттаған жағы?",
-["Батыс және оңтүстік","Солтүстік","Шығыс","Тек батыс","Тек шығыс"],0],
-
-["Андронов дәуірінің жартас суреттері кездесетін орындар?",
-["Таңбалы, Жасыбай, Хантау","Ботай, Шебір","Пенкі, Батпақ","Тесіктас, Бөріқазған","Усть-Нарым, Сексеуіл"],0],
-
-["Алғашқы адамдардың табиғаттың дайын өнімдерін жинап пайдалануы?",
-["Терімшілік","Егіншілік","Мал шаруашылығы","Қолөнер","Сауда"],0],
-
-["Мезолит дәуірінде аң аулауда кең қолданылған қару?",
-["Садақ пен жебе","Қола балта","Темір қылыш","Найза","Орақ"],0],
-
-["Ежелгі адамдардың өлген адамды жерлеуіне байланысты түсінік?",
-["О дүние туралы түсінік","Сауда туралы түсінік","Мемлекет туралы түсінік","Егіншілік туралы түсінік","Жазу туралы түсінік"],0],
-
-["Андронов мәдениеті қай дәуірге жатады?",
-["Қола дәуірі","Темір дәуірі","Тас дәуірі","Мезолит","Неолит"],0]
-
-];
-
-const quiz = document.getElementById("quiz");
-
-questions.forEach((q, i) => {
-
-    const div = document.createElement("div");
-    div.className = "question";
-    div.id = "q" + i;
-
-    let html = `<h3>${i + 1}. ${q[0]}</h3>`;
-
-    q[1].forEach((option, j) => {
-        html += `
-        <label>
-            <input type="radio" name="q${i}" value="${j}">
-            ${String.fromCharCode(65 + j)}) ${option}
-        </label>`;
-    });
-
-    html += `
-    <button onclick="showAnswer(${i})">
-        ЖАУАБЫН КӨРСЕТУ
+    <button
+        class="nav-button active"
+        data-page="dashboard"
+    >
+        ◈
+        <span>Обзор</span>
     </button>
 
-    <div class="answer" id="answer${i}">
-        Дұрыс жауап: <b>${String.fromCharCode(65 + q[2])}) ${q[1][q[2]]}</b>
+    <button
+        class="nav-button"
+        data-page="devices"
+    >
+        📱
+        <span>Все устройства</span>
+    </button>
+
+    <button
+        class="nav-button"
+        data-page="amplifier"
+    >
+        ⚡
+        <span>Усилитель iPhone</span>
+    </button>
+
+    <button
+        class="nav-button"
+        data-page="app"
+    >
+        ▦
+        <span>Приложение</span>
+    </button>
+
+
+    <div class="sidebar-title">
+        Система
     </div>
-    `;
 
-    div.innerHTML = html;
-    quiz.appendChild(div);
-});
+    <button
+        class="nav-button"
+        data-page="settings"
+    >
+        ⚙
+        <span>Настройки</span>
+    </button>
 
-function showAnswer(i) {
-    const answer = document.getElementById("answer" + i);
+    <button
+        class="nav-button"
+        data-page="logs"
+    >
+        ◉
+        <span>Журнал событий</span>
+    </button>
 
-    if (answer.style.display === "block") {
-        answer.style.display = "none";
-    } else {
-        answer.style.display = "block";
+
+    <div style="
+        margin-top:25px;
+        padding-top:15px;
+        border-top:1px solid #1b2033;
+    ">
+
+        <button
+            class="nav-button"
+            onclick="logout()"
+        >
+            ⇥
+            <span>Выйти</span>
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     CONTENT
+========================= -->
+
+<main class="content">
+
+
+<!-- =========================
+     DASHBOARD
+========================= -->
+
+<section
+    class="page active"
+    id="dashboard"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+                Главная
+            </h2>
+
+            <p>
+                Управление системой и подключёнными устройствами
+            </p>
+
+        </div>
+
+        <div class="status">
+
+            <div class="status-dot"></div>
+
+            Система онлайн
+
+        </div>
+
+    </div>
+
+
+    <div class="hero">
+
+        <div class="hero-flex">
+
+            <div>
+
+                <h3>
+                    Добро пожаловать, Jacoobc 👋
+                </h3>
+
+                <p>
+                    Управляйте устройствами, настройками,
+                    усилителем iPhone и параметрами приложения
+                    из одной панели.
+                </p>
+
+            </div>
+
+            <div class="sync">
+
+                Синхронизация:
+                <b id="syncTime">
+                    сейчас
+                </b>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📱
+            </div>
+
+            <div class="stat-number">
+                12
+            </div>
+
+            <div class="stat-label">
+                Устройств
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⚡
+            </div>
+
+            <div
+                class="stat-number"
+                id="dashboardPower"
+            >
+                72%
+            </div>
+
+            <div class="stat-label">
+                Усилитель
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🟢
+            </div>
+
+            <div class="stat-number">
+                10
+            </div>
+
+            <div class="stat-label">
+                Онлайн
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⏱️
+            </div>
+
+            <div class="stat-number">
+                24ms
+            </div>
+
+            <div class="stat-label">
+                Задержка
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="grid-2">
+
+
+        <div class="card">
+
+            <h3>
+                Активные устройства
+            </h3>
+
+            <div class="card-sub">
+                Управление подключениями
+            </div>
+
+
+            <div class="device">
+
+                <div class="device-left">
+
+                    <div class="device-icon">
+                        📱
+                    </div>
+
+                    <div>
+
+                        <div class="device-name">
+                            iPhone 14 Pro
+                        </div>
+
+                        <div class="device-info">
+                            iOS • Online • 82% батареи
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="device">
+
+                <div class="device-left">
+
+                    <div class="device-icon">
+                        📱
+                    </div>
+
+                    <div>
+
+                        <div class="device-name">
+                            iPhone 13
+                        </div>
+
+                        <div class="device-info">
+                            iOS • Online • 64% батареи
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="device">
+
+                <div class="device-left">
+
+                    <div class="device-icon">
+                        💻
+                    </div>
+
+                    <div>
+
+                        <div class="device-name">
+                            MacBook Control
+                        </div>
+
+                        <div class="device-info">
+                            macOS • Online
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Состояние усилителя
+            </h3>
+
+            <div class="card-sub">
+                Текущие показатели
+            </div>
+
+
+            <div class="progress-row">
+
+                <div class="progress-label">
+                    <span>Мощность</span>
+                    <b id="powerLabel">
+                        72%
+                    </b>
+                </div>
+
+                <div class="progress">
+                    <span
+                        id="powerProgress"
+                        style="width:72%"
+                    ></span>
+                </div>
+
+            </div>
+
+
+            <div class="progress-row">
+
+                <div class="progress-label">
+                    <span>Стабильность</span>
+                    <b>98%</b>
+                </div>
+
+                <div class="progress">
+                    <span style="width:98%"></span>
+                </div>
+
+            </div>
+
+
+            <div class="progress-row">
+
+                <div class="progress-label">
+                    <span>Нагрузка</span>
+                    <b>24%</b>
+                </div>
+
+                <div class="progress">
+                    <span style="width:24%"></span>
+                </div>
+
+            </div>
+
+
+            <button
+                class="primary"
+                style="width:100%;margin-top:10px"
+                onclick="openPage('amplifier')"
+            >
+                Открыть усилитель
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     DEVICES
+========================= -->
+
+<section
+    class="page"
+    id="devices"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+                Все устройства
+            </h2>
+
+            <p>
+                Общие параметры для всех девайсов
+            </p>
+
+        </div>
+
+        <button
+            class="primary"
+            onclick="addDevice()"
+        >
+            ＋ Добавить
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <div id="deviceList">
+
+            <div class="device">
+
+                <div class="device-left">
+
+                    <div class="device-icon">
+                        📱
+                    </div>
+
+                    <div>
+
+                        <div class="device-name">
+                            iPhone 14 Pro
+                        </div>
+
+                        <div class="device-info">
+                            iOS 18 • NC-1401 • Online
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="device">
+
+                <div class="device-left">
+
+                    <div class="device-icon">
+                        📱
+                    </div>
+
+                    <div>
+
+                        <div class="device-name">
+                            iPhone 13
+                        </div>
+
+                        <div class="device-info">
+                            iOS 18 • NC-1302 • Online
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="device">
+
+                <div class="device-left">
+
+                    <div class="device-icon">
+                        💻
+                    </div>
+
+                    <div>
+
+                        <div class="device-name">
+                            MacBook Pro
+                        </div>
+
+                        <div class="device-info">
+                            macOS • NC-M401 • Online
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="settings-grid">
+
+
+        <div class="card">
+
+            <h3>
+                Общие настройки
+            </h3>
+
+            <div class="card-sub">
+                Применяются ко всем устройствам
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Автосинхронизация
+                    </div>
+
+                    <div class="setting-description">
+                        Синхронизировать изменения
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Умный режим
+                    </div>
+
+                    <div class="setting-description">
+                        Автоматическая оптимизация
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Экономия энергии
+                    </div>
+
+                    <div class="setting-description">
+                        Снижение нагрузки
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Сеть
+            </h3>
+
+            <div class="card-sub">
+                Параметры соединения
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Режим подключения
+                    </div>
+
+                    <div class="setting-description">
+                        Основной протокол
+                    </div>
+
+                </div>
+
+                <select
+                    onchange="saveSetting('connection',this.value)"
+                >
+
+                    <option>
+                        Автоматически
+                    </option>
+
+                    <option>
+                        Wi-Fi
+                    </option>
+
+                    <option>
+                        Bluetooth
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Задержка
+                    </div>
+
+                    <div class="setting-description">
+                        Лимит:
+                        <b id="latency">
+                            40
+                        </b>
+                        ms
+                    </div>
+
+                </div>
+
+                <input
+                    type="range"
+                    min="10"
+                    max="100"
+                    value="40"
+                    oninput="
+                        document.getElementById('latency').textContent=this.value;
+                        saveSetting('latency',this.value)
+                    "
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     AMPLIFIER
+========================= -->
+
+<section
+    class="page"
+    id="amplifier"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+                ⚡ Усилитель iPhone
+            </h2>
+
+            <p>
+                Управление уровнем усиления
+            </p>
+
+        </div>
+
+        <div class="status">
+
+            <div class="status-dot"></div>
+
+            Активен
+
+        </div>
+
+    </div>
+
+
+    <div class="amplifier-grid">
+
+
+        <div class="card amplifier-center">
+
+            <h3>
+                Мощность
+            </h3>
+
+            <div class="card-sub">
+                Текущий уровень усиления
+            </div>
+
+
+            <div
+                class="knob"
+                id="knob"
+            >
+
+                <div class="knob-inner">
+
+                    <div
+                        class="knob-value"
+                        id="knobValue"
+                    >
+                        72%
+                    </div>
+
+                    <div class="knob-label">
+                        POWER LEVEL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <input
+                id="powerRange"
+                type="range"
+                min="0"
+                max="100"
+                value="72"
+                style="width:85%"
+                oninput="changePower(this.value)"
+            >
+
+
+            <div style="
+                display:flex;
+                justify-content:center;
+                gap:9px;
+                margin-top:20px;
+            ">
+
+                <button
+                    class="primary"
+                    onclick="saveAmplifier()"
+                >
+                    Сохранить
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="changePower(72)"
+                >
+                    Сбросить
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Дополнительные параметры
+            </h3>
+
+            <div class="card-sub">
+                Настройки обработки
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Автоусиление
+                    </div>
+
+                    <div class="setting-description">
+                        Автоматическая регулировка
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Чистый сигнал
+                    </div>
+
+                    <div class="setting-description">
+                        Снижение шумов
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Bass Boost
+                    </div>
+
+                    <div class="setting-description">
+                        Усиление низких частот
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Режим
+                    </div>
+
+                    <div class="setting-description">
+                        Профиль обработки
+                    </div>
+
+                </div>
+
+                <select>
+                    <option>
+                        Balanced
+                    </option>
+
+                    <option>
+                        Performance
+                    </option>
+
+                    <option>
+                        Power
+                    </option>
+                </select>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Максимальный уровень
+                    </div>
+
+                    <div class="setting-description">
+                        Ограничение мощности
+                    </div>
+
+                </div>
+
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="90"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     APPLICATION
+========================= -->
+
+<section
+    class="page"
+    id="app"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+                ▦ Приложение
+            </h2>
+
+            <p>
+                Управление функциями приложения
+            </p>
+
+        </div>
+
+        <button
+            class="primary"
+            onclick="publishSettings()"
+        >
+            Опубликовать
+        </button>
+
+    </div>
+
+
+    <div class="module-grid">
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                🚀
+            </div>
+
+            <h3>
+                Быстрый режим
+            </h3>
+
+            <p>
+                Упрощённый интерфейс для быстрого доступа.
+            </p>
+
+            <button
+                class="secondary"
+                onclick="showToast('Быстрый режим включён')"
+            >
+                Настроить
+            </button>
+
+        </div>
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                🎨
+            </div>
+
+            <h3>
+                Внешний вид
+            </h3>
+
+            <p>
+                Управление темой и визуальными эффектами.
+            </p>
+
+            <button
+                class="secondary"
+                onclick="showToast('Настройки дизайна открыты')"
+            >
+                Изменить
+            </button>
+
+        </div>
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                🔔
+            </div>
+
+            <h3>
+                Уведомления
+            </h3>
+
+            <p>
+                Управление системными уведомлениями.
+            </p>
+
+            <button
+                class="secondary"
+                onclick="showToast('Уведомления настроены')"
+            >
+                Настроить
+            </button>
+
+        </div>
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                🔐
+            </div>
+
+            <h3>
+                Безопасность
+            </h3>
+
+            <p>
+                Пароль, сессии и доступ пользователей.
+            </p>
+
+            <button
+                class="secondary"
+                onclick="openPage('settings')"
+            >
+                Открыть
+            </button>
+
+        </div>
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                ☁️
+            </div>
+
+            <h3>
+                Синхронизация
+            </h3>
+
+            <p>
+                Синхронизация параметров между устройствами.
+            </p>
+
+            <button
+                class="secondary"
+                onclick="syncDevices()"
+            >
+                Синхронизировать
+            </button>
+
+        </div>
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                🧩
+            </div>
+
+            <h3>
+                Модули
+            </h3>
+
+            <p>
+                Управление дополнительными функциями.
+            </p>
+
+            <button
+                class="secondary"
+                onclick="showToast('Модули загружены')"
+            >
+                Управлять
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="card">
+
+        <h3>
+            Параметры приложения
+        </h3>
+
+        <div class="setting">
+
+            <div>
+
+                <div class="setting-title">
+                    Автоматическое обновление
+                </div>
+
+                <div class="setting-description">
+                    Проверять новые версии
+                </div>
+
+            </div>
+
+            <button
+                class="switch on"
+                onclick="toggleSwitch(this)"
+            ></button>
+
+        </div>
+
+
+        <div class="setting">
+
+            <div>
+
+                <div class="setting-title">
+                    Анимации интерфейса
+                </div>
+
+                <div class="setting-description">
+                    Плавные переходы
+                </div>
+
+            </div>
+
+            <button
+                class="switch on"
+                onclick="toggleSwitch(this)"
+            ></button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SETTINGS
+========================= -->
+
+<section
+    class="page"
+    id="settings"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+                ⚙ Настройки
+            </h2>
+
+            <p>
+                Глобальные параметры системы
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="settings-grid">
+
+
+        <div class="card">
+
+            <h3>
+                Интерфейс
+            </h3>
+
+            <div class="card-sub">
+                Настройки отображения
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Язык
+                    </div>
+
+                    <div class="setting-description">
+                        Язык панели
+                    </div>
+
+                </div>
+
+                <select
+                    onchange="saveSetting('language',this.value)"
+                >
+
+                    <option>
+                        Русский
+                    </option>
+
+                    <option>
+                        Қазақша
+                    </option>
+
+                    <option>
+                        English
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Неоновое свечение
+                    </div>
+
+                    <div class="setting-description">
+                        Эффекты интерфейса
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Анимации
+                    </div>
+
+                    <div class="setting-description">
+                        Плавные переходы
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Безопасность
+            </h3>
+
+            <div class="card-sub">
+                Управление доступом
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Двухэтапная проверка
+                    </div>
+
+                    <div class="setting-description">
+                        Дополнительная защита
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <div class="setting-title">
+                        Автовыход
+                    </div>
+
+                    <div class="setting-description">
+                        Автоматическое завершение сессии
+                    </div>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    onclick="toggleSwitch(this)"
+                ></button>
+
+            </div>
+
+
+            <button
+                class="danger"
+                onclick="logout()"
+            >
+                Завершить сессию
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     LOGS
+========================= -->
+
+<section
+    class="page"
+    id="logs"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+                ◉ Журнал событий
+            </h2>
+
+            <p>
+                История действий панели
+            </p>
+
+        </div>
+
+        <button
+            class="secondary"
+            onclick="clearLogs()"
+        >
+            Очистить
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <div
+            class="log"
+            id="log"
+        >
+
+            <div class="log-success">
+                [SYSTEM] Панель запущена
+            </div>
+
+            <div>
+                [DEVICE] Устройства загружены
+            </div>
+
+            <div>
+                [SYNC] Синхронизация выполнена
+            </div>
+
+            <div class="log-success">
+                [AMPLIFIER] Усилитель готов
+            </div>
+
+            <div>
+                [APP] Конфигурация приложения загружена
+            </div>
+
+            <div class="log-warning">
+                [INFO] Ожидание событий...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+<!-- MOBILE NAVIGATION -->
+
+<nav class="mobile-nav">
+
+    <button
+        class="active"
+        data-page="dashboard"
+    >
+        <span>⌂</span>
+        Главная
+    </button>
+
+    <button data-page="devices">
+        <span>▣</span>
+        Устройства
+    </button>
+
+    <button data-page="amplifier">
+        <span>⚡</span>
+        Усилитель
+    </button>
+
+    <button data-page="app">
+        <span>▦</span>
+        Приложение
+    </button>
+
+    <button data-page="settings">
+        <span>⚙</span>
+        Настройки
+    </button>
+
+</nav>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* ==========================================
+   АВТОРИЗАЦИЯ
+========================================== */
+
+const LOGIN = "Jacoobc";
+const PASSWORD = "Jacoobc88990";
+
+
+function login(){
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const error =
+        document.getElementById("loginError");
+
+
+    if(
+        username === LOGIN &&
+        password === PASSWORD
+    ){
+
+        sessionStorage.setItem(
+            "jacoobc_authenticated",
+            "true"
+        );
+
+        document.getElementById(
+            "loginScreen"
+        ).style.display = "none";
+
+        document.getElementById(
+            "application"
+        ).style.display = "block";
+
+        error.textContent = "";
+
+        addLog(
+            "LOGIN",
+            "Пользователь успешно вошёл"
+        );
+
+        showToast(
+            "Добро пожаловать, Jacoobc!"
+        );
+
+    }else{
+
+        error.textContent =
+            "Неверный логин или пароль";
+
     }
+
 }
 
-function checkAnswers() {
 
-    let score = 0;
+/* Enter */
 
-    questions.forEach((q, i) => {
+document
+    .getElementById("password")
+    .addEventListener(
+        "keydown",
+        function(event){
 
-        const selected =
-            document.querySelector(`input[name="q${i}"]:checked`);
-
-        const question =
-            document.getElementById("q" + i);
-
-        question.classList.remove("correct", "wrong");
-
-        if (selected) {
-
-            if (Number(selected.value) === q[2]) {
-                score++;
-                question.classList.add("correct");
-            } else {
-                question.classList.add("wrong");
+            if(event.key === "Enter"){
+                login();
             }
 
         }
+    );
 
-    });
 
-    document.getElementById("result").innerHTML =
-        `Нәтиже: ${score} / ${questions.length}`;
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout(){
+
+    sessionStorage.removeItem(
+        "jacoobc_authenticated"
+    );
+
+    document.getElementById(
+        "application"
+    ).style.display = "none";
+
+    document.getElementById(
+        "loginScreen"
+    ).style.display = "flex";
+
+    document.getElementById(
+        "password"
+    ).value = "";
+
+    showToast(
+        "Вы вышли из системы"
+    );
+
+}
+
+
+/* ==========================================
+   PAGE NAVIGATION
+========================================== */
+
+function openPage(page){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(function(element){
+
+            element.classList.remove("active");
+
+        });
+
+
+    const target =
+        document.getElementById(page);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+
+    document
+        .querySelectorAll("[data-page]")
+        .forEach(function(button){
+
+            button.classList.toggle(
+                "active",
+                button.dataset.page === page
+            );
+
+        });
+
 
     window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+        top:0,
+        behavior:"smooth"
     });
+
 }
+
+
+document
+    .querySelectorAll("[data-page]")
+    .forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                openPage(
+                    button.dataset.page
+                );
+
+            }
+        );
+
+    });
+
+
+/* ==========================================
+   SWITCH
+========================================== */
+
+function toggleSwitch(element){
+
+    element.classList.toggle("on");
+
+    const state =
+        element.classList.contains("on");
+
+    showToast(
+        state
+        ? "Функция включена"
+        : "Функция выключена"
+    );
+
+    saveAllSwitches();
+
+}
+
+
+/* ==========================================
+   AMPLIFIER
+========================================== */
+
+function changePower(value){
+
+    value = Number(value);
+
+    document.getElementById(
+        "knobValue"
+    ).textContent = value + "%";
+
+
+    document.getElementById(
+        "dashboardPower"
+    ).textContent = value + "%";
+
+
+    document.getElementById(
+        "powerLabel"
+    ).textContent = value + "%";
+
+
+    document.getElementById(
+        "powerProgress"
+    ).style.width = value + "%";
+
+
+    document.getElementById(
+        "knob"
+    ).style.background =
+        "conic-gradient(" +
+        "#a83cff 0 " +
+        value +
+        "%,#20243a " +
+        value +
+        "% 100%)";
+
+
+    document.getElementById(
+        "powerRange"
+    ).value = value;
+
+
+    localStorage.setItem(
+        "amplifierPower",
+        value
+    );
+
+}
+
+
+function saveAmplifier(){
+
+    const value =
+        localStorage.getItem(
+            "amplifierPower"
+        ) || 72;
+
+    addLog(
+        "AMPLIFIER",
+        "Мощность установлена: " +
+        value +
+        "%"
+    );
+
+    showToast(
+        "Настройки усилителя сохранены"
+    );
+
+}
+
+
+/* ==========================================
+   DEVICE
+========================================== */
+
+function addDevice(){
+
+    const name =
+        prompt(
+            "Введите название устройства:"
+        );
+
+    if(!name){
+        return;
+    }
+
+
+    const list =
+        document.getElementById(
+            "deviceList"
+        );
+
+
+    const device =
+        document.createElement("div");
+
+    device.className = "device";
+
+
+    device.innerHTML = `
+
+        <div class="device-left">
+
+            <div class="device-icon">
+                📱
+            </div>
+
+            <div>
+
+                <div class="device-name">
+                    ${escapeHTML(name)}
+                </div>
+
+                <div class="device-info">
+                    Новое устройство • Online
+                </div>
+
+            </div>
+
+        </div>
+
+        <button
+            class="switch on"
+            onclick="toggleSwitch(this)"
+        ></button>
+
+    `;
+
+
+    list.appendChild(device);
+
+
+    addLog(
+        "DEVICE",
+        "Добавлено устройство: " + name
+    );
+
+
+    showToast(
+        "Устройство добавлено"
+    );
+
+}
+
+
+/* ==========================================
+   SYNC
+========================================== */
+
+function syncDevices(){
+
+    showToast(
+        "Синхронизация запущена..."
+    );
+
+
+    addLog(
+        "SYNC",
+        "Запущена синхронизация устройств"
+    );
+
+
+    setTimeout(
+        function(){
+
+            addLog(
+                "SYNC",
+                "Синхронизация завершена"
+            );
+
+            showToast(
+                "Синхронизация завершена"
+            );
+
+        },
+        1000
+    );
+
+}
+
+
+/* ==========================================
+   APP
+========================================== */
+
+function publishSettings(){
+
+    addLog(
+        "APP",
+        "Настройки приложения опубликованы"
+    );
+
+    showToast(
+        "Изменения опубликованы"
+    );
+
+}
+
+
+/* ==========================================
+   SETTINGS
+========================================== */
+
+function saveSetting(key,value){
+
+    localStorage.setItem(
+        "setting_" + key,
+        value
+    );
+
+    addLog(
+        "SETTING",
+        key + " = " + value
+    );
+
+}
+
+
+/* ==========================================
+   LOCAL STORAGE SWITCHES
+========================================== */
+
+function saveAllSwitches(){
+
+    const states = [];
+
+    document
+        .querySelectorAll(".switch")
+        .forEach(function(sw){
+
+            states.push(
+                sw.classList.contains("on")
+            );
+
+        });
+
+
+    localStorage.setItem(
+        "switchStates",
+        JSON.stringify(states)
+    );
+
+}
+
+
+/* ==========================================
+   LOG
+========================================== */
+
+function addLog(type,message){
+
+    const log =
+        document.getElementById("log");
+
+    if(!log){
+        return;
+    }
+
+
+    const time =
+        new Date().toLocaleTimeString(
+            "ru-RU"
+        );
+
+
+    const line =
+        document.createElement("div");
+
+
+    line.innerHTML =
+        "[" +
+        time +
+        "] " +
+        escapeHTML(type) +
+        " — " +
+        escapeHTML(message);
+
+
+    log.appendChild(line);
+
+    log.scrollTop =
+        log.scrollHeight;
+
+}
+
+
+function clearLogs(){
+
+    document.getElementById(
+        "log"
+    ).innerHTML =
+        '<div class="log-warning">' +
+        'Журнал очищен' +
+        '</div>';
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+let toastTimer;
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            function(){
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2300
+        );
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* ==========================================
+   RESTORE SETTINGS
+========================================== */
+
+function restoreSettings(){
+
+    const power =
+        localStorage.getItem(
+            "amplifierPower"
+        );
+
+    if(power !== null){
+
+        changePower(
+            power
+        );
+
+    }
+
+
+    const savedSwitches =
+        localStorage.getItem(
+            "switchStates"
+        );
+
+
+    if(savedSwitches){
+
+        try{
+
+            const states =
+                JSON.parse(
+                    savedSwitches
+                );
+
+
+            document
+                .querySelectorAll(".switch")
+                .forEach(
+                    function(sw,index){
+
+                        if(
+                            states[index] === true
+                        ){
+
+                            sw.classList.add(
+                                "on"
+                            );
+
+                        }else{
+
+                            sw.classList.remove(
+                                "on"
+                            );
+
+                        }
+
+                    }
+                );
+
+        }catch(error){
+
+            console.log(
+                "Ошибка восстановления:",
+                error
+            );
+
+        }
+
+    }
+
+
+    const latency =
+        localStorage.getItem(
+            "setting_latency"
+        );
+
+    if(latency){
+
+        document.getElementById(
+            "latency"
+        ).textContent =
+            latency;
+
+    }
+
+}
+
+
+/* ==========================================
+   TIME
+========================================== */
+
+document.getElementById(
+    "syncTime"
+).textContent =
+    new Date().toLocaleTimeString(
+        "ru-RU",
+        {
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+
+/* ==========================================
+   AUTO LOGIN SESSION
+========================================== */
+
+if(
+    sessionStorage.getItem(
+        "jacoobc_authenticated"
+    ) === "true"
+){
+
+    document.getElementById(
+        "loginScreen"
+    ).style.display = "none";
+
+    document.getElementById(
+        "application"
+    ).style.display = "block";
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+restoreSettings();
 
 </script>
 
