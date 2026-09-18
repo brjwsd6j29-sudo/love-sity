@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gaming Sensitivity Hub</title>
+    <title>NEON CYBER SENS - Ultimate Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -15,309 +15,426 @@
             touch-action: manipulation;
         }
         body {
-            background-color: #0b0b14;
+            background-color: #030308;
             color: #ffffff;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .app-container {
+            position: relative;
+            z-index: 10;
         }
         ::-webkit-scrollbar {
             width: 4px;
-            height: 4px;
         }
         ::-webkit-scrollbar-track {
-            background: #12121e;
+            background: #090914;
         }
         ::-webkit-scrollbar-thumb {
             background: #8b5cf6;
             border-radius: 4px;
         }
         .neon-glow-purple {
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), inset 0 0 15px rgba(139, 92, 246, 0.2);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.35), inset 0 0 15px rgba(139, 92, 246, 0.15);
         }
         .neon-glow-orange {
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.4);
         }
         .neon-glow-cyan {
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.4);
+        }
+        .neon-glow-emerald {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
         }
         .neon-text {
-            text-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+            text-shadow: 0 0 12px rgba(168, 85, 247, 0.8);
         }
+        /* Locked range sliders styling */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
             background: transparent;
-        }
-        input[type=range]:focus {
-            outline: none;
+            pointer-events: none;
         }
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
             height: 8px;
-            cursor: pointer;
-            background: #1e1b4b;
+            background: #181632;
             border-radius: 9999px;
-            border: 1px solid #4c1d95;
+            border: 1px solid #581c87;
         }
         input[type=range]::-webkit-slider-thumb {
-            height: 20px;
-            width: 20px;
+            height: 18px;
+            width: 18px;
             border-radius: 50%;
-            background: #c084fc;
-            cursor: pointer;
+            background: #a855f7;
             -webkit-appearance: none;
-            margin-top: -6px;
-            box-shadow: 0 0 10px #c084fc;
+            margin-top: -5px;
+            box-shadow: 0 0 12px #c084fc;
+        }
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-enter {
+            animation: fadeInScale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <div id="login-screen" class="fixed inset-0 z-50 bg-[#07070c] flex items-center justify-center p-4">
-        <div class="w-full max-w-sm bg-[#11111d] border border-purple-500/30 rounded-2xl p-6 neon-glow-purple relative overflow-hidden">
-            <div class="absolute -top-12 -right-12 w-32 h-32 bg-purple-600/20 rounded-full blur-2xl"></div>
-            <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-indigo-600/20 rounded-full blur-2xl"></div>
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="login-screen" class="fixed inset-0 z-50 bg-[#030308]/90 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-[#0d0c1d]/95 border border-purple-500/40 rounded-3xl p-6 neon-glow-purple relative overflow-hidden animate-enter">
+            <div class="absolute -top-16 -right-16 w-36 h-36 bg-purple-600/30 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-16 -left-16 w-36 h-36 bg-indigo-600/30 rounded-full blur-3xl"></div>
             
-            <div class="text-center mb-6">
-                <div class="inline-block p-3 bg-purple-900/40 rounded-2xl border border-purple-500/40 mb-3 text-purple-400">
+            <div class="text-center mb-6 relative z-10">
+                <div class="inline-block p-3.5 bg-purple-950/60 rounded-2xl border border-purple-500/50 mb-3 text-purple-400 neon-glow-purple">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
-                <h1 class="text-2xl font-extrabold text-white tracking-wider">NEON <span class="text-purple-400 neon-text">SENS</span></h1>
-                <p class="text-xs text-gray-400 mt-1">Авторизуйтесь для доступа к базе настроек</p>
+                <h1 class="text-2xl font-black text-white tracking-wider">CYBER <span class="text-purple-400 neon-text">SENS</span></h1>
+                <p class="text-xs text-gray-400 mt-1">Авторизованный доступ к элитным конфигам</p>
             </div>
 
-            <form id="login-form" class="space-y-4">
+            <form id="login-form" class="space-y-4 relative z-10">
                 <div>
-                    <label class="block text-xs font-semibold text-gray-300 mb-1">Логин</label>
-                    <input type="text" id="username" required placeholder="Введите логин" class="w-full bg-[#181829] border border-purple-900/50 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition-all">
+                    <label class="block text-xs font-bold text-gray-300 mb-1">Логин</label>
+                    <input type="text" id="username" required placeholder="Введите логин" class="w-full bg-[#14122b] border border-purple-900/60 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition-all">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-gray-300 mb-1">Пароль</label>
-                    <input type="password" id="password" required placeholder="Введите пароль" class="w-full bg-[#181829] border border-purple-900/50 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition-all">
+                    <label class="block text-xs font-bold text-gray-300 mb-1">Пароль</label>
+                    <input type="password" id="password" required placeholder="Введите пароль" class="w-full bg-[#14122b] border border-purple-900/60 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition-all">
                 </div>
-                <div id="login-error" class="text-xs text-red-400 text-center hidden">Неверный логин или пароль!</div>
-                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-900/50 transition-all transform active:scale-95">
+                <div id="login-error" class="text-xs text-red-400 text-center hidden font-bold">Неверный логин или пароль!</div>
+                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs tracking-wider rounded-xl shadow-lg shadow-purple-900/60 transition-all transform active:scale-95">
                     ВОЙТИ В СИСТЕМУ
                 </button>
             </form>
-            <div class="mt-4 text-center">
-                <span class="text-[10px] text-gray-500">Логин: qwerty0 | Пароль: zxc010</span>
-            </div>
         </div>
     </div>
 
-    <div id="main-app" class="flex-1 flex flex-col hidden opacity-0 transition-opacity duration-500">
+    <div id="main-app" class="app-container flex-1 flex flex-col hidden opacity-0 transition-opacity duration-700">
         
-        <!-- Top Price Menu -->
-        <header class="sticky top-0 z-30 bg-[#0b0b14]/90 backdrop-blur-md border-b border-purple-900/30 px-3 py-2.5">
-            <div class="overflow-x-auto whitespace-nowrap scrollbar-none flex gap-2 py-1 items-center">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-600/30 to-amber-600/30 border border-orange-500/50 rounded-xl text-xs font-bold text-orange-300 neon-glow-orange shrink-0">
+        <!-- Top category menu -->
+        <header class="sticky top-0 z-30 bg-[#030308]/85 backdrop-blur-md border-b border-purple-900/30 px-3 py-3">
+            <div class="max-w-4xl mx-auto overflow-x-auto whitespace-nowrap scrollbar-none flex gap-2.5 py-1 items-center justify-start sm:justify-center">
+                <button onclick="switchCategory('cheat')" id="btn-cheat" class="cat-tab inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-orange-600/40 to-amber-600/40 border border-orange-500/80 rounded-2xl text-xs font-black text-orange-200 neon-glow-orange shrink-0 transition-all transform active:scale-95">
                     🔥 Чит Настройка <span class="bg-orange-500 text-black px-1.5 py-0.5 rounded-lg text-[10px]">300₸</span>
-                </div>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600/30 to-indigo-600/30 border border-purple-500/50 rounded-xl text-xs font-bold text-purple-300 neon-glow-purple shrink-0">
-                    💎 Вип настройка <span class="bg-purple-500 text-white px-1.5 py-0.5 rounded-lg text-[10px]">250₸</span>
-                </div>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-cyan-600/30 to-blue-600/30 border border-cyan-500/50 rounded-xl text-xs font-bold text-cyan-300 neon-glow-cyan shrink-0">
-                    ⚡ Титановый <span class="bg-cyan-500 text-black px-1.5 py-0.5 rounded-lg text-[10px]">200₸</span>
-                </div>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-emerald-600/30 to-green-600/30 border border-emerald-500/50 rounded-xl text-xs font-bold text-emerald-300 shrink-0">
-                    ✨ Обнова <span class="bg-emerald-500 text-black px-1.5 py-0.5 rounded-lg text-[10px]">Бесплатно</span>
-                </div>
+                </button>
+                <button onclick="switchCategory('vip')" id="btn-vip" class="cat-tab inline-flex items-center gap-1.5 px-4 py-2 bg-[#0d0c1d] border border-purple-500/30 hover:border-purple-500/60 rounded-2xl text-xs font-bold text-gray-300 shrink-0 transition-all transform active:scale-95">
+                    💎 Вип настройка <span class="bg-purple-600 text-white px-1.5 py-0.5 rounded-lg text-[10px]">250₸</span>
+                </button>
+                <button onclick="switchCategory('titan')" id="btn-titan" class="cat-tab inline-flex items-center gap-1.5 px-4 py-2 bg-[#0d0c1d] border border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl text-xs font-bold text-gray-300 shrink-0 transition-all transform active:scale-95">
+                    ⚡ Титановый <span class="bg-cyan-600 text-black px-1.5 py-0.5 rounded-lg text-[10px]">200₸</span>
+                </button>
+                <button onclick="switchCategory('update')" id="btn-update" class="cat-tab inline-flex items-center gap-1.5 px-4 py-2 bg-[#0d0c1d] border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl text-xs font-bold text-gray-300 shrink-0 transition-all transform active:scale-95">
+                    ✨ Обнова <span class="bg-emerald-600 text-black px-1.5 py-0.5 rounded-lg text-[10px]">FREE</span>
+                </button>
             </div>
         </header>
 
-        <!-- Search & Categories -->
-        <div class="px-4 pt-4 pb-2">
-            <div class="relative">
-                <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" id="search-input" placeholder="Поиск девайса (iPhone, Redmi, Poco...)" class="w-full bg-[#12121e] border border-purple-900/40 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all">
-            </div>
-
-            <div class="flex gap-2 mt-3 overflow-x-auto pb-1 scrollbar-none">
-                <button onclick="filterCategory('all')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shrink-0 transition-all">Все (50+)</button>
-                <button onclick="filterCategory('apple')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all">Apple</button>
-                <button onclick="filterCategory('xiaomi')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all">Xiaomi / Poco</button>
-                <button onclick="filterCategory('samsung')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all">Samsung</button>
-                <button onclick="filterCategory('other')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all">Другие</button>
-            </div>
-        </div>
-
-        <!-- Devices Grid -->
-        <main class="flex-1 px-4 py-2 pb-12">
-            <div id="devices-grid" class="grid grid-cols-2 gap-3">
-                <!-- Dynamically populated via JS -->
-            </div>
-        </main>
-
-    </div>
-
-    <div id="device-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
-        <div id="modal-content" class="w-full sm:max-w-lg bg-[#11111d] border-t sm:border border-purple-500/40 rounded-t-3xl sm:rounded-2xl p-5 sm:p-6 neon-glow-purple max-h-[90vh] overflow-y-auto transform translate-y-full sm:translate-y-0 transition-transform duration-300">
+        <!-- Main content area -->
+        <main class="flex-1 max-w-2xl w-full mx-auto px-4 py-5 pb-16">
             
-            <div class="flex items-center justify-between pb-3 border-b border-purple-900/40 mb-4">
-                <div>
-                    <span class="text-[10px] font-bold px-2 py-0.5 bg-purple-900/50 text-purple-300 rounded-md border border-purple-500/30 uppercase">Элитный конфиг</span>
-                    <h2 id="modal-title" class="text-lg font-black text-white mt-1 tracking-wide">IPHONE 14 PRO</h2>
-                </div>
-                <button onclick="closeModal()" class="p-2 bg-purple-950/50 hover:bg-purple-900/50 text-gray-400 hover:text-white rounded-xl border border-purple-500/30 transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-
-            <div class="bg-gradient-to-r from-purple-900/30 to-indigo-900/30 border border-purple-500/40 rounded-2xl p-3 mb-5 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <div class="p-2 bg-purple-600/30 text-purple-400 rounded-xl">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    </div>
+            <!-- Category Title & Info Card -->
+            <div id="category-header-card" class="bg-[#0d0c1d]/90 border border-orange-500/40 rounded-3xl p-5 mb-5 neon-glow-orange animate-enter transition-all duration-300">
+                <div class="flex items-center justify-between mb-4">
                     <div>
+                        <span id="badge-type" class="text-[10px] font-black px-2.5 py-1 bg-orange-950 text-orange-300 rounded-lg border border-orange-500/30 uppercase tracking-widest">Максимальный буст</span>
+                        <h2 id="cat-title" class="text-xl font-black text-white mt-1.5 tracking-wide">Чит Настройка (Aimbot Pro)</h2>
+                    </div>
+                    <div class="text-right">
                         <div class="text-[10px] text-gray-400 font-semibold">Шанс хедшота</div>
-                        <div class="text-sm font-black text-purple-300" id="stat-headshot">92%</div>
+                        <div id="cat-hs" class="text-base font-black text-emerald-400">99.4%</div>
                     </div>
                 </div>
-                <div class="text-right">
-                    <div class="text-[10px] text-gray-400 font-semibold">Оптимизация</div>
-                    <div class="text-sm font-black text-emerald-400">120 FPS Stable</div>
+
+                <!-- Read-only sliders container -->
+                <div class="space-y-3.5 pt-2">
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-300">🎯 Обзор</span>
+                            <span id="val-obzor" class="text-purple-400 font-mono">185</span>
+                        </div>
+                        <input type="range" id="slider-obzor" min="50" max="200" value="185" disabled>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-300">🔭 Коллиматор</span>
+                            <span id="val-kolimator" class="text-purple-400 font-mono">150</span>
+                        </div>
+                        <input type="range" id="slider-kolimator" min="50" max="200" value="150" disabled>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-300">🔍 Прицел 2x</span>
+                            <span id="val-2x" class="text-purple-400 font-mono">175</span>
+                        </div>
+                        <input type="range" id="slider-2x" min="50" max="200" value="175" disabled>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-300">🔭 Прицел 4x</span>
+                            <span id="val-4x" class="text-purple-400 font-mono">178</span>
+                        </div>
+                        <input type="range" id="slider-4x" min="50" max="200" value="178" disabled>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-300">🎯 Снайпер</span>
+                            <span id="val-sniper" class="text-purple-400 font-mono">115</span>
+                        </div>
+                        <input type="range" id="slider-sniper" min="30" max="180" value="115" disabled>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-300">📏 Кнопка размер</span>
+                            <span id="val-btnsize" class="text-purple-400 font-mono">38%</span>
+                        </div>
+                        <input type="range" id="slider-btnsize" min="30" max="70" value="38" disabled>
+                    </div>
+                </div>
+
+                <!-- Copy Config Button -->
+                <div class="mt-6">
+                    <button onclick="copyCurrentConfig()" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs tracking-wider rounded-xl shadow-lg shadow-purple-900/50 transition-all active:scale-95 flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                        СКОПИРОВАТЬ ЭТОТ КОНФИГ
+                    </button>
                 </div>
             </div>
 
-            <!-- Sensitivity Sliders -->
-            <div class="space-y-4">
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🎯 Обзор</span>
-                        <span id="val-obzor" class="text-purple-400">168</span>
-                    </div>
-                    <input type="range" min="50" max="200" value="168" oninput="updateSliderVal('obzor', this.value)">
+            <!-- Compatible Devices List Section -->
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-3 px-1">
+                    <h3 class="text-sm font-black text-white tracking-wide uppercase flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-purple-500 inline-block"></span>
+                        Подходящие девайсы (<span id="devices-count">0</span>)
+                    </h3>
+                    <span class="text-[10px] text-gray-400 font-semibold">Полная совместимость</span>
                 </div>
-
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🔭 Коллиматор</span>
-                        <span id="val-kolimator" class="text-purple-400">140</span>
-                    </div>
-                    <input type="range" min="50" max="200" value="140" oninput="updateSliderVal('kolimator', this.value)">
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🔍 Прицел 2x</span>
-                        <span id="val-2x" class="text-purple-400">163</span>
-                    </div>
-                    <input type="range" min="50" max="200" value="163" oninput="updateSliderVal('2x', this.value)">
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🔭 Прицел 4x</span>
-                        <span id="val-4x" class="text-purple-400">168</span>
-                    </div>
-                    <input type="range" min="50" max="200" value="168" oninput="updateSliderVal('4x', this.value)">
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🎯 Снайпер</span>
-                        <span id="val-sniper" class="text-purple-400">107</span>
-                    </div>
-                    <input type="range" min="30" max="180" value="107" oninput="updateSliderVal('sniper', this.value)">
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">📏 Кнопка размер</span>
-                        <span id="val-btnsize" class="text-purple-400">41%</span>
-                    </div>
-                    <input type="range" min="30" max="70" value="41" oninput="updateSliderVal('btnsize', this.value)">
+                <div id="devices-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                    <!-- Populated dynamically via JS -->
                 </div>
             </div>
 
-            <div class="mt-6 flex gap-3">
-                <button onclick="copyConfig()" class="flex-1 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-purple-900/50 transition-all active:scale-95 flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-                    СКОПИРОВАТЬ НАСТРОЙКИ
-                </button>
-            </div>
-        </div>
+        </main>
     </div>
 
     <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-purple-900 text-white px-5 py-2.5 rounded-2xl text-xs font-bold shadow-2xl border border-purple-500/50 transition-all duration-300 opacity-0 pointer-events-none z-50">
-        Настройки скопированы в буфер обмена!
+        Конфиг скопирован в буфер обмена!
     </div>
 
     <script>
-        const devices = [
-            // Apple
-            { name: "iPhone 15 Pro Max", cat: "apple", hs: "98%", obzor: 175, kol: 145, x2: 170, x4: 172, sniper: 110, size: 39 },
-            { name: "iPhone 15 Pro", cat: "apple", hs: "97%", obzor: 170, kol: 142, x2: 168, x4: 170, sniper: 108, size: 40 },
-            { name: "iPhone 15", cat: "apple", hs: "94%", obzor: 165, kol: 138, x2: 162, x4: 165, sniper: 105, size: 42 },
-            { name: "iPhone 14 Pro Max", cat: "apple", hs: "96%", obzor: 168, kol: 140, x2: 163, x4: 168, sniper: 107, size: 41 },
-            { name: "iPhone 14 Pro", cat: "apple", hs: "95%", obzor: 166, kol: 139, x2: 161, x4: 166, sniper: 106, size: 41 },
-            { name: "iPhone 14", cat: "apple", hs: "92%", obzor: 160, kol: 135, x2: 158, x4: 160, sniper: 102, size: 44 },
-            { name: "iPhone 13 Pro Max", cat: "apple", hs: "94%", obzor: 164, kol: 136, x2: 160, x4: 164, sniper: 104, size: 43 },
-            { name: "iPhone 13 Pro", cat: "apple", hs: "93%", obzor: 162, kol: 135, x2: 159, x4: 162, sniper: 103, size: 43 },
-            { name: "iPhone 13", cat: "apple", hs: "90%", obzor: 155, kol: 130, x2: 152, x4: 155, sniper: 100, size: 45 },
-            { name: "iPhone 12 Pro Max", cat: "apple", hs: "91%", obzor: 158, kol: 132, x2: 155, x4: 158, sniper: 101, size: 45 },
-            { name: "iPhone 12 Pro", cat: "apple", hs: "90%", obzor: 156, kol: 130, x2: 153, x4: 156, sniper: 99, size: 46 },
-            { name: "iPhone 12", cat: "apple", hs: "88%", obzor: 150, kol: 125, x2: 148, x4: 150, sniper: 95, size: 48 },
-            { name: "iPhone 11 Pro Max", cat: "apple", hs: "88%", obzor: 152, kol: 128, x2: 150, x4: 152, sniper: 97, size: 47 },
-            { name: "iPhone 11", cat: "apple", hs: "85%", obzor: 145, kol: 120, x2: 142, x4: 145, sniper: 92, size: 50 },
-            { name: "iPhone X / XR", cat: "apple", hs: "83%", obzor: 140, kol: 115, x2: 138, x4: 140, sniper: 88, size: 52 },
+        // Web Audio API Sound Synthesizer (No external files needed)
+        let audioCtx = null;
 
-            // Xiaomi & Poco
-            { name: "Xiaomi 14 Ultra", cat: "xiaomi", hs: "97%", obzor: 172, kol: 144, x2: 169, x4: 171, sniper: 109, size: 40 },
-            { name: "Xiaomi 13T Pro", cat: "xiaomi", hs: "95%", obzor: 168, kol: 140, x2: 165, x4: 168, sniper: 106, size: 42 },
-            { name: "Xiaomi 13 Pro", cat: "xiaomi", hs: "94%", obzor: 165, kol: 138, x2: 162, x4: 165, sniper: 105, size: 42 },
-            { name: "Xiaomi 12T Pro", cat: "xiaomi", hs: "93%", obzor: 162, kol: 135, x2: 160, x4: 162, sniper: 103, size: 43 },
-            { name: "Poco F6 Pro", cat: "xiaomi", hs: "98%", obzor: 178, kol: 148, x2: 174, x4: 176, sniper: 112, size: 38 },
-            { name: "Poco F6", cat: "xiaomi", hs: "96%", obzor: 170, kol: 142, x2: 167, x4: 169, sniper: 107, size: 40 },
-            { name: "Poco X6 Pro", cat: "xiaomi", hs: "95%", obzor: 167, kol: 139, x2: 164, x4: 167, sniper: 106, size: 41 },
-            { name: "Poco X6", cat: "xiaomi", hs: "92%", obzor: 158, kol: 132, x2: 155, x4: 158, sniper: 101, size: 44 },
-            { name: "Poco F5 Pro", cat: "xiaomi", hs: "94%", obzor: 164, kol: 136, x2: 161, x4: 164, sniper: 104, size: 43 },
-            { name: "Poco F5", cat: "xiaomi", hs: "93%", obzor: 161, kol: 134, x2: 158, x4: 161, sniper: 102, size: 44 },
-            { name: "Poco X5 Pro", cat: "xiaomi", hs: "90%", obzor: 154, kol: 128, x2: 151, x4: 154, sniper: 98, size: 46 },
-            { name: "Redmi Note 13 Pro+", cat: "xiaomi", hs: "92%", obzor: 159, kol: 133, x2: 156, x4: 159, sniper: 101, size: 44 },
-            { name: "Redmi Note 13 Pro", cat: "xiaomi", hs: "91%", obzor: 156, kol: 130, x2: 153, x4: 156, sniper: 100, size: 45 },
-            { name: "Redmi Note 12 Pro", cat: "xiaomi", hs: "89%", obzor: 150, kol: 125, x2: 148, x4: 150, sniper: 96, size: 47 },
-            { name: "Redmi Note 11 Pro", cat: "xiaomi", hs: "86%", obzor: 145, kol: 120, x2: 142, x4: 145, sniper: 92, size: 49 },
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
 
-            // Samsung
-            { name: "Samsung Galaxy S24 Ultra", cat: "samsung", hs: "99%", obzor: 180, kol: 150, x2: 175, x4: 178, sniper: 115, size: 38 },
-            { name: "Samsung Galaxy S24+", cat: "samsung", hs: "96%", obzor: 170, kol: 142, x2: 168, x4: 170, sniper: 108, size: 40 },
-            { name: "Samsung Galaxy S23 Ultra", cat: "samsung", hs: "97%", obzor: 172, kol: 144, x2: 170, x4: 172, sniper: 109, size: 40 },
-            { name: "Samsung Galaxy S23+", cat: "samsung", hs: "94%", obzor: 165, kol: 138, x2: 162, x4: 165, sniper: 105, size: 42 },
-            { name: "Samsung Galaxy S22 Ultra", cat: "samsung", hs: "93%", obzor: 162, kol: 135, x2: 159, x4: 162, sniper: 103, size: 43 },
-            { name: "Samsung Galaxy A55", cat: "samsung", hs: "91%", obzor: 158, kol: 132, x2: 155, x4: 158, sniper: 101, size: 44 },
-            { name: "Samsung Galaxy A54", cat: "samsung", hs: "90%", obzor: 155, kol: 130, x2: 152, x4: 155, sniper: 99, size: 45 },
-            { name: "Samsung Galaxy A34", cat: "samsung", hs: "87%", obzor: 148, kol: 124, x2: 145, x4: 148, sniper: 95, size: 48 },
-            { name: "Samsung Galaxy A24", cat: "samsung", hs: "85%", obzor: 142, kol: 118, x2: 140, x4: 142, sniper: 91, size: 50 },
+        function playSound(type) {
+            try {
+                initAudio();
+                if (!audioCtx) return;
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
 
-            // Other
-            { name: "OnePlus 12", cat: "other", hs: "98%", obzor: 176, kol: 146, x2: 172, x4: 175, sniper: 112, size: 38 },
-            { name: "OnePlus 11", cat: "other", hs: "95%", obzor: 168, kol: 140, x2: 165, x4: 168, sniper: 106, size: 41 },
-            { name: "Realme GT 5 Pro", cat: "other", hs: "97%", obzor: 174, kol: 145, x2: 170, x4: 173, sniper: 110, size: 39 },
-            { name: "Realme 12 Pro+", cat: "other", hs: "92%", obzor: 159, kol: 133, x2: 156, x4: 159, sniper: 101, size: 44 },
-            { name: "Infinix Zero 30", cat: "other", hs: "90%", obzor: 155, kol: 130, x2: 152, x4: 155, sniper: 98, size: 45 },
-            { name: "Tecno Camon 20 Pro", cat: "other", hs: "89%", obzor: 152, kol: 128, x2: 150, x4: 152, sniper: 97, size: 46 },
-            { name: "Vivo V30 Pro", cat: "other", hs: "93%", obzor: 163, kol: 136, x2: 160, x4: 163, sniper: 104, size: 42 },
-            { name: "ASUS ROG Phone 8", cat: "other", hs: "99%", obzor: 185, kol: 155, x2: 180, x4: 182, sniper: 118, size: 35 },
-            { name: "Black Shark 5 Pro", cat: "other", hs: "98%", obzor: 182, kol: 152, x2: 178, x4: 180, sniper: 116, size: 36 }
-        ];
+                const now = audioCtx.currentTime;
 
-        let currentCategory = 'all';
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'success') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'tab') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(600, now + 0.05);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                }
+            } catch(e) {
+                console.log('Audio error', e);
+            }
+        }
 
+        // Live Animated Background (Cyberpunk particle & grid matrix)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                color: Math.random() > 0.5 ? '#8b5cf6' : '#06b6d4',
+                vx: (Math.random() - 0.5) * 0.6,
+                vy: (Math.random() - 0.5) * 0.6
+            });
+        }
+
+        let gridAngle = 0;
+
+        function animateBg() {
+            ctx.fillStyle = '#030308';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw glowing grid lines moving
+            gridAngle += 0.003;
+            ctx.strokeStyle = 'rgba(139, 92, 246, 0.06)';
+            ctx.lineWidth = 1;
+            
+            const gridSize = 45;
+            for (let x = 0; x < canvas.width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            // Draw and update glowing particles
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = p.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // Presets data for 4 categories
+        const categoriesData = {
+            cheat: {
+                title: "Чит Настройка (Aimbot Pro)",
+                badge: "Максимальный буст",
+                hs: "99.4%",
+                color: "orange",
+                obzor: 185, kolimator: 150, x2: 175, x4: 178, sniper: 115, btnsize: 38,
+                devices: [
+                    "iPhone 15 Pro Max", "iPhone 14 Pro", "Poco F6 Pro", "Xiaomi 14 Ultra", 
+                    "Samsung S24 Ultra", "ASUS ROG Phone 8", "Black Shark 5 Pro", "OnePlus 12",
+                    "iPhone 15 Pro", "Poco F6", "Samsung S23 Ultra", "Realme GT 5 Pro"
+                ]
+            },
+            vip: {
+                title: "Вип настройка (Balance Stable)",
+                badge: "Элитный конфиг",
+                hs: "96.8%",
+                color: "purple",
+                obzor: 168, kolimator: 140, x2: 163, x4: 168, sniper: 107, btnsize: 41,
+                devices: [
+                    "iPhone 14", "iPhone 13 Pro", "Poco X6 Pro", "Xiaomi 13T Pro",
+                    "Samsung S23+", "OnePlus 11", "Vivo V30 Pro", "Realme 12 Pro+",
+                    "iPhone 12 Pro Max", "Poco F5 Pro", "Samsung A55", "Redmi Note 13 Pro+"
+                ]
+            },
+            titan: {
+                title: "Титановый конфиг (Smooth Precision)",
+                badge: "Титановая серия",
+                hs: "94.2%",
+                color: "cyan",
+                obzor: 155, kolimator: 130, x2: 150, x4: 155, sniper: 98, btnsize: 45,
+                devices: [
+                    "iPhone 13", "iPhone 12", "Poco X6", "Poco X5 Pro",
+                    "Redmi Note 13 Pro", "Samsung A54", "Infinix Zero 30", "Tecno Camon 20 Pro",
+                    "iPhone 11 Pro", "Redmi Note 12 Pro", "Samsung A34", "iPhone 11"
+                ]
+            },
+            update: {
+                title: "Обнова (Бесплатный патч 2026)",
+                badge: "Без ограничений (Free)",
+                hs: "91.5%",
+                color: "emerald",
+                obzor: 145, kolimator: 120, x2: 142, x4: 145, sniper: 92, btnsize: 48,
+                devices: [
+                    "Все устройства", "iPhone X / XR", "Redmi Note 11 Pro", "Samsung A24",
+                    "Бюджетные смартфоны", "Планшеты Android / iPad", "Устройства 60Hz", "Базовые версии"
+                ]
+            }
+        };
+
+        // Login Handler (No hints)
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
+            playSound('click');
             const u = document.getElementById('username').value.trim();
             const p = document.getElementById('password').value.trim();
 
             if (u === 'qwerty0' && p === 'zxc010') {
-                document.getElementById('login-screen').classList.add('opacity-0');
+                playSound('success');
+                const screen = document.getElementById('login-screen');
+                screen.classList.add('opacity-0');
                 setTimeout(() => {
-                    document.getElementById('login-screen').style.display = 'none';
+                    screen.style.display = 'none';
                     const main = document.getElementById('main-app');
                     main.classList.remove('hidden');
                     setTimeout(() => main.classList.remove('opacity-0'), 50);
-                    renderDevices(devices);
-                }, 300);
+                    switchCategory('cheat');
+                }, 400);
             } else {
                 const err = document.getElementById('login-error');
                 err.classList.remove('hidden');
@@ -325,130 +442,97 @@
             }
         });
 
-        function renderDevices(list) {
+        // Switch Top Category
+        function switchCategory(key) {
+            playSound('tab');
+            const data = categoriesData[key];
+
+            // Update top tabs styles
+            document.querySelectorAll('.cat-tab').forEach(btn => {
+                btn.className = "cat-tab inline-flex items-center gap-1.5 px-4 py-2 bg-[#0d0c1d] border border-purple-500/30 hover:border-purple-500/60 rounded-2xl text-xs font-bold text-gray-300 shrink-0 transition-all transform active:scale-95";
+            });
+
+            const activeBtn = document.getElementById(`btn-${key}`);
+            if (key === 'cheat') {
+                activeBtn.className = "cat-tab inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-orange-600/40 to-amber-600/40 border border-orange-500/80 rounded-2xl text-xs font-black text-orange-200 neon-glow-orange shrink-0 transition-all transform active:scale-95";
+            } else if (key === 'vip') {
+                activeBtn.className = "cat-tab inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600/40 to-indigo-600/40 border border-purple-500/80 rounded-2xl text-xs font-black text-purple-200 neon-glow-purple shrink-0 transition-all transform active:scale-95";
+            } else if (key === 'titan') {
+                activeBtn.className = "cat-tab inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-cyan-600/40 to-blue-600/40 border border-cyan-500/80 rounded-2xl text-xs font-black text-cyan-200 neon-glow-cyan shrink-0 transition-all transform active:scale-95";
+            } else if (key === 'update') {
+                activeBtn.className = "cat-tab inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-emerald-600/40 to-green-600/40 border border-emerald-500/80 rounded-2xl text-xs font-black text-emerald-200 neon-glow-emerald shrink-0 transition-all transform active:scale-95";
+            }
+
+            // Update Header Card Glow & Colors
+            const card = document.getElementById('category-header-card');
+            card.className = `bg-[#0d0c1d]/90 border rounded-3xl p-5 mb-5 transition-all duration-300 animate-enter ${
+                key === 'cheat' ? 'border-orange-500/40 neon-glow-orange' :
+                key === 'vip' ? 'border-purple-500/40 neon-glow-purple' :
+                key === 'titan' ? 'border-cyan-500/40 neon-glow-cyan' : 'border-emerald-500/40 neon-glow-emerald'
+            }`;
+
+            // Update Badge style
+            const badge = document.getElementById('badge-type');
+            badge.innerText = data.badge;
+            badge.className = `text-[10px] font-black px-2.5 py-1 rounded-lg border uppercase tracking-widest ${
+                key === 'cheat' ? 'bg-orange-950 text-orange-300 border-orange-500/30' :
+                key === 'vip' ? 'bg-purple-950 text-purple-300 border-purple-500/30' :
+                key === 'titan' ? 'bg-cyan-950 text-cyan-300 border-cyan-500/30' : 'bg-emerald-950 text-emerald-300 border-emerald-500/30'
+            }`;
+
+            document.getElementById('cat-title').innerText = data.title;
+            document.getElementById('cat-hs').innerText = data.hs;
+
+            // Set Slider Values
+            setSliderAndText('obzor', data.obzor);
+            setSliderAndText('kolimator', data.kolimator);
+            setSliderAndText('2x', data.x2);
+            setSliderAndText('4x', data.x4);
+            setSliderAndText('sniper', data.sniper);
+            setSliderAndText('btnsize', data.btnsize, '%');
+
+            // Render Compatible Devices
+            renderDevices(data.devices);
+        }
+
+        function setSliderAndText(id, val, suffix = '') {
+            const slider = document.getElementById(`slider-${id}`);
+            const textSpan = document.getElementById(`val-${id}`);
+            if (slider) slider.value = val;
+            if (textSpan) textSpan.innerText = val + suffix;
+        }
+
+        function renderDevices(devicesList) {
             const grid = document.getElementById('devices-grid');
+            document.getElementById('devices-count').innerText = devicesList.length;
             grid.innerHTML = '';
-            
-            if (list.length === 0) {
-                grid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-500 text-sm">Устройства не найдены</div>`;
-                return;
-            }
 
-            list.forEach(dev => {
-                const card = document.createElement('div');
-                card.className = "bg-[#12121e] hover:bg-[#18182d] border border-purple-900/30 hover:border-purple-500/60 rounded-2xl p-4 cursor-pointer transition-all transform active:scale-95 flex flex-col justify-between neon-glow-purple";
-                card.onclick = () => openDeviceModal(dev);
-                
-                card.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <span class="text-[10px] font-bold px-2 py-0.5 bg-purple-950 text-purple-400 rounded-md border border-purple-500/20">CONFIG</span>
-                            <span class="text-xs font-black text-emerald-400">${dev.hs} HS</span>
-                        </div>
-                        <h3 class="text-sm font-extrabold text-white leading-snug">${dev.name}</h3>
-                    </div>
-                    <div class="mt-4 pt-2 border-t border-purple-950 flex items-center justify-between text-[11px] text-gray-400">
-                        <span>Обзор: ${dev.obzor}</span>
-                        <span class="text-purple-400 font-bold flex items-center gap-1">Открыть &rarr;</span>
-                    </div>
-                `;
-                grid.appendChild(card);
+            devicesList.forEach(dev => {
+                const item = document.createElement('div');
+                item.className = "bg-[#14122b]/80 border border-purple-900/30 rounded-2xl p-3 text-center flex items-center justify-center transition-all hover:border-purple-500/50";
+                item.innerHTML = `<span class="text-xs font-bold text-gray-200">${dev}</span>`;
+                grid.appendChild(item);
             });
         }
 
-        function filterCategory(cat) {
-            currentCategory = cat;
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all";
-            });
-            event.target.className = "cat-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shrink-0 transition-all";
+        // Copy Config Button Action
+        function copyCurrentConfig() {
+            playSound('success');
+            const title = document.getElementById('cat-title').innerText;
+            const hs = document.getElementById('cat-hs').innerText;
+            const text = `🔥 ${title}\n🎯 Headshot: ${hs}\nОбзор: ${document.getElementById('val-obzor').innerText}\nКоллиматор: ${document.getElementById('val-kolimator').innerText}\n2x: ${document.getElementById('val-2x').innerText}\n4x: ${document.getElementById('val-4x').innerText}\nСнайпер: ${document.getElementById('val-sniper').innerText}\nКнопка: ${document.getElementById('val-btnsize').innerText}`;
 
-            const query = document.getElementById('search-input').value.toLowerCase();
-            applyFilters(query, cat);
-        }
-
-        document.getElementById('search-input').addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase();
-            applyFilters(query, currentCategory);
-        });
-
-        function applyFilters(query, cat) {
-            let filtered = devices;
-            if (cat !== 'all') {
-                filtered = filtered.filter(d => d.cat === cat);
-            }
-            if (query) {
-                filtered = filtered.filter(d => d.name.toLowerCase().includes(query));
-            }
-            renderDevices(filtered);
-        }
-
-        let activeDevice = null;
-
-        function openDeviceModal(dev) {
-            activeDevice = dev;
-            document.getElementById('modal-title').innerText = dev.name;
-            document.getElementById('stat-headshot').innerText = dev.hs;
-
-            setSliderValueQuiet('obzor', dev.obzor);
-            setSliderValueQuiet('kolimator', dev.kol);
-            setSliderValueQuiet('2x', dev.x2);
-            setSliderValueQuiet('4x', dev.x4);
-            setSliderValueQuiet('sniper', dev.sniper);
-            setSliderValueQuiet('btnsize', dev.size);
-
-            const modal = document.getElementById('device-modal');
-            const content = document.getElementById('modal-content');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                content.classList.remove('translate-y-full');
-            }, 10);
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('device-modal');
-            const content = document.getElementById('modal-content');
-            modal.classList.add('opacity-0');
-            content.classList.add('translate-y-full');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
-
-        function setSliderValueQuiet(id, val) {
-            const inputs = document.querySelectorAll(`input[oninput*="${id}"]`);
-            if (inputs.length > 0) {
-                inputs[0].value = val;
-            }
-            const valDisplay = document.getElementById(`val-${id}`);
-            if (valDisplay) {
-                valDisplay.innerText = id === 'btnsize' ? val + '%' : val;
-            }
-        }
-
-        function updateSliderVal(id, val) {
-            const valDisplay = document.getElementById(`val-${id}`);
-            if (valDisplay) {
-                valDisplay.innerText = id === 'btnsize' ? val + '%' : val;
-            }
-        }
-
-        function copyConfig() {
-            const text = `🔥 Device: ${activeDevice.name}\n🎯 Обзор: ${document.getElementById('val-obzor').innerText}\n🔭 Коллиматор: ${document.getElementById('val-kolimator').innerText}\n🔍 2x: ${document.getElementById('val-2x').innerText}\n🔭 4x: ${document.getElementById('val-4x').innerText}\n🎯 Снайпер: ${document.getElementById('val-sniper').innerText}\n📏 Кнопка: ${document.getElementById('val-btnsize').innerText}`;
-            
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
             try {
                 document.execCommand('copy');
                 showToast();
-                closeModal();
-            } catch (err) {
-                console.error('Failed to copy', err);
+            } catch(e) {
+                console.error(e);
             }
-            document.body.removeChild(textArea);
+            document.body.removeChild(textarea);
         }
 
         function showToast() {
@@ -458,12 +542,6 @@
                 toast.classList.add('opacity-0');
             }, 2000);
         }
-
-        document.getElementById('device-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
     </script>
 </body>
 </html>
