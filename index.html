@@ -1,3948 +1,469 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,
-    initial-scale=1.0,
-    maximum-scale=1.0,
-    minimum-scale=1.0,
-    user-scalable=no,
-    viewport-fit=cover"
->
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#050509">
-
-<title>JACOOBC PANEL</title>
-
-<style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
-}
-
-html{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    touch-action:pan-y;
-}
-
-body{
-    width:100%;
-    min-height:100%;
-    margin:0;
-    padding:0;
-    background:
-        radial-gradient(circle at 20% 0%,rgba(121,38,255,.18),transparent 30%),
-        radial-gradient(circle at 90% 20%,rgba(0,221,255,.12),transparent 28%),
-        #050509;
-    color:#fff;
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
-    overflow:hidden;
-    user-select:none;
-    -webkit-user-select:none;
-}
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-::-webkit-scrollbar{
-    width:4px;
-}
-
-::-webkit-scrollbar-track{
-    background:transparent;
-}
-
-::-webkit-scrollbar-thumb{
-    background:#6128ff;
-    border-radius:20px;
-}
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-#loginScreen{
-    position:fixed;
-    inset:0;
-    z-index:9999;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    background:
-        radial-gradient(circle at 50% 15%,rgba(112,42,255,.25),transparent 30%),
-        #040407;
-}
-
-.login-box{
-    width:100%;
-    max-width:420px;
-    padding:30px 24px;
-    border:1px solid rgba(148,76,255,.4);
-    border-radius:28px;
-    background:
-        linear-gradient(145deg,rgba(20,18,32,.96),rgba(7,7,13,.98));
-    box-shadow:
-        0 0 50px rgba(112,35,255,.25),
-        inset 0 0 30px rgba(255,255,255,.02);
-}
-
-.logo{
-    width:74px;
-    height:74px;
-    margin:0 auto 18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:22px;
-    background:linear-gradient(135deg,#7b2cff,#b000ff);
-    box-shadow:0 0 35px rgba(127,44,255,.55);
-    font-size:30px;
-    font-weight:900;
-}
-
-.login-title{
-    text-align:center;
-    font-size:26px;
-    font-weight:900;
-    letter-spacing:1px;
-}
-
-.login-sub{
-    margin-top:8px;
-    text-align:center;
-    color:#92929d;
-    font-size:13px;
-}
-
-.input{
-    width:100%;
-    height:54px;
-    margin-top:13px;
-    padding:0 16px;
-    border:1px solid #272532;
-    outline:none;
-    border-radius:16px;
-    color:#fff;
-    background:#0e0d15;
-    font-size:15px;
-}
-
-.input:focus{
-    border-color:#7e39ff;
-    box-shadow:0 0 0 3px rgba(126,57,255,.12);
-}
-
-.primary{
-    width:100%;
-    height:54px;
-    margin-top:15px;
-    border:0;
-    border-radius:16px;
-    background:linear-gradient(100deg,#6928ff,#a700ff);
-    color:white;
-    font-size:16px;
-    font-weight:800;
-    cursor:pointer;
-    box-shadow:0 10px 30px rgba(105,40,255,.25);
-}
-
-.primary:active{
-    transform:scale(.98);
-}
-
-.login-error{
-    min-height:20px;
-    margin-top:10px;
-    text-align:center;
-    color:#ff526f;
-    font-size:13px;
-}
-
-/* =========================================================
-   APP
-========================================================= */
-
-#app{
-    display:none;
-    width:100%;
-    height:100dvh;
-}
-
-.app-shell{
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.header{
-    flex:none;
-    height:74px;
-    padding:
-        max(10px,env(safe-area-inset-top))
-        15px
-        8px;
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    background:rgba(5,5,9,.82);
-    backdrop-filter:blur(18px);
-    border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.brand-icon{
-    width:40px;
-    height:40px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:13px;
-    background:linear-gradient(135deg,#712aff,#c000ff);
-    box-shadow:0 0 20px rgba(115,42,255,.3);
-}
-
-.brand-name{
-    font-size:16px;
-    font-weight:900;
-}
-
-.brand-status{
-    margin-top:2px;
-    color:#777683;
-    font-size:10px;
-}
-
-.balance{
-    padding:10px 13px;
-    border:1px solid rgba(155,83,255,.35);
-    border-radius:14px;
-    background:rgba(111,42,255,.1);
-    text-align:right;
-}
-
-.balance-label{
-    color:#858390;
-    font-size:9px;
-}
-
-.balance-value{
-    color:#d7b9ff;
-    font-size:14px;
-    font-weight:900;
-}
-
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.content{
-    flex:1;
-    overflow-y:auto;
-    overflow-x:hidden;
-    padding:14px 14px 105px;
-    overscroll-behavior:contain;
-}
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-    animation:pageIn .22s ease;
-}
-
-@keyframes pageIn{
-    from{
-        opacity:0;
-        transform:translateY(6px);
-    }
-    to{
-        opacity:1;
-        transform:none;
-    }
-}
-
-.page-title{
-    margin:7px 0 4px;
-    font-size:25px;
-    font-weight:950;
-}
-
-.page-subtitle{
-    margin-bottom:18px;
-    color:#777681;
-    font-size:12px;
-}
-
-/* =========================================================
-   HOME
-========================================================= */
-
-.hero{
-    position:relative;
-    overflow:hidden;
-    padding:20px;
-    border:1px solid rgba(143,72,255,.25);
-    border-radius:25px;
-    background:
-        radial-gradient(circle at 100% 0%,rgba(134,40,255,.32),transparent 40%),
-        linear-gradient(135deg,#12101c,#09090e);
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
-}
-
-.hero:after{
-    content:"";
-    position:absolute;
-    width:170px;
-    height:170px;
-    right:-70px;
-    top:-70px;
-    border-radius:50%;
-    background:#7429ff;
-    filter:blur(70px);
-    opacity:.2;
-}
-
-.hero-label{
-    color:#9d80ff;
-    font-size:11px;
-    font-weight:800;
-}
-
-.hero-title{
-    position:relative;
-    z-index:1;
-    margin-top:7px;
-    font-size:29px;
-    font-weight:950;
-}
-
-.hero-text{
-    position:relative;
-    z-index:1;
-    margin-top:7px;
-    color:#888692;
-    font-size:12px;
-    line-height:1.5;
-}
-
-.hero-buttons{
-    position:relative;
-    z-index:2;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-    margin-top:18px;
-}
-
-.hero-btn{
-    height:47px;
-    border:0;
-    border-radius:14px;
-    color:white;
-    background:#171521;
-    font-weight:800;
-}
-
-.hero-btn.accent{
-    background:linear-gradient(100deg,#6828ff,#a300ff);
-}
-
-/* =========================================================
-   QUICK CARDS
-========================================================= */
-
-.quick-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-    margin-top:12px;
-}
-
-.quick-card{
-    min-height:105px;
-    padding:15px;
-    border:1px solid #1d1b26;
-    border-radius:19px;
-    background:#0d0c13;
-}
-
-.quick-icon{
-    font-size:23px;
-}
-
-.quick-title{
-    margin-top:10px;
-    font-size:13px;
-    font-weight:800;
-}
-
-.quick-info{
-    margin-top:4px;
-    color:#777582;
-    font-size:10px;
-}
-
-/* =========================================================
-   CRASH
-========================================================= */
-
-.crash-panel{
-    overflow:hidden;
-    border:1px solid rgba(133,54,255,.3);
-    border-radius:24px;
-    background:#09080e;
-    box-shadow:0 0 40px rgba(91,32,255,.12);
-}
-
-.crash-head{
-    padding:17px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid #1c1a24;
-}
-
-.crash-name{
-    font-weight:900;
-}
-
-.crash-status{
-    color:#777481;
-    font-size:11px;
-}
-
-.multiplier{
-    position:relative;
-    height:270px;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:
-        radial-gradient(circle,#25134b 0%,#0a0910 55%);
-}
-
-.multiplier:before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-    background-size:35px 35px;
-}
-
-.multiplier-value{
-    position:relative;
-    z-index:3;
-    font-size:58px;
-    font-weight:950;
-    color:#e7d5ff;
-    text-shadow:
-        0 0 15px #7b2cff,
-        0 0 45px rgba(123,44,255,.6);
-}
-
-.rocket{
-    position:absolute;
-    left:15%;
-    bottom:25px;
-    font-size:35px;
-    opacity:.2;
-    transform:rotate(-35deg);
-}
-
-.crash-controls{
-    padding:14px;
-}
-
-.bet-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-}
-
-.bet-input{
-    width:100%;
-    height:48px;
-    border:1px solid #292631;
-    border-radius:13px;
-    background:#111019;
-    color:white;
-    padding:0 13px;
-    outline:none;
-}
-
-.cashout-input{
-    width:100%;
-    height:48px;
-    border:1px solid #292631;
-    border-radius:13px;
-    background:#111019;
-    color:white;
-    padding:0 13px;
-    outline:none;
-}
-
-.crash-action{
-    width:100%;
-    height:53px;
-    margin-top:10px;
-    border:0;
-    border-radius:15px;
-    color:white;
-    background:linear-gradient(100deg,#752aff,#b000ff);
-    font-size:16px;
-    font-weight:900;
-}
-
-.crash-action.red{
-    background:linear-gradient(100deg,#ff315a,#ff0055);
-}
-
-.crash-action.green{
-    background:linear-gradient(100deg,#00a86b,#00d98b);
-}
-
-.last-title{
-    margin-top:16px;
-    font-size:12px;
-    font-weight:800;
-}
-
-.last-results{
-    display:flex;
-    gap:7px;
-    overflow-x:auto;
-    padding:9px 0 2px;
-}
-
-.result{
-    flex:none;
-    padding:7px 10px;
-    border-radius:10px;
-    background:#15131c;
-    color:#b4a6c8;
-    font-size:10px;
-    font-weight:800;
-}
-
-/* =========================================================
-   PLAYERS
-========================================================= */
-
-.players{
-    margin-top:14px;
-    border:1px solid #1b1923;
-    border-radius:19px;
-    overflow:hidden;
-}
-
-.players-title{
-    padding:13px 15px;
-    font-size:12px;
-    font-weight:900;
-    background:#0e0d14;
-}
-
-.player{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:11px 13px;
-    border-top:1px solid #17151d;
-}
-
-.avatar{
-    width:34px;
-    height:34px;
-    flex:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    background:linear-gradient(135deg,#6828ff,#bd00ff);
-    font-size:13px;
-    font-weight:900;
-}
-
-.player-info{
-    min-width:0;
-    flex:1;
-}
-
-.player-name{
-    font-size:11px;
-    font-weight:800;
-}
-
-.player-bet{
-    margin-top:2px;
-    color:#777481;
-    font-size:9px;
-}
-
-.player-win{
-    font-size:11px;
-    font-weight:900;
-    color:#9b7aff;
-}
-
-/* =========================================================
-   DEVICES
-========================================================= */
-
-.search-box{
-    position:relative;
-    margin-bottom:13px;
-}
-
-.search-box input{
-    width:100%;
-    height:49px;
-    padding:0 15px 0 43px;
-    border:1px solid #24212e;
-    border-radius:15px;
-    background:#0e0d14;
-    color:white;
-    outline:none;
-}
-
-.search-icon{
-    position:absolute;
-    left:15px;
-    top:15px;
-    color:#696674;
-}
-
-.section-label{
-    margin:16px 0 9px;
-    color:#8a8794;
-    font-size:10px;
-    font-weight:900;
-    text-transform:uppercase;
-    letter-spacing:1px;
-}
-
-.device-list{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-}
-
-.device-card{
-    min-height:83px;
-    padding:12px;
-    border:1px solid #1d1b25;
-    border-radius:17px;
-    background:#0d0c13;
-    cursor:pointer;
-    transition:.18s;
-}
-
-.device-card:active{
-    transform:scale(.97);
-    border-color:#7830ff;
-}
-
-.device-icon{
-    width:29px;
-    height:29px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:9px;
-    background:#181522;
-    font-size:14px;
-}
-
-.device-name{
-    margin-top:8px;
-    font-size:11px;
-    font-weight:850;
-    line-height:1.2;
-}
-
-.device-tag{
-    margin-top:3px;
-    color:#686571;
-    font-size:8px;
-}
-
-/* =========================================================
-   DEVICE MODAL
-========================================================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:5000;
-    display:none;
-    align-items:flex-end;
-    justify-content:center;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(10px);
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:520px;
-    max-height:90dvh;
-    overflow-y:auto;
-    padding:18px;
-    border-radius:27px 27px 0 0;
-    background:#0b0a11;
-    border:1px solid #2b2637;
-    animation:sheet .2s ease;
-}
-
-@keyframes sheet{
-    from{
-        transform:translateY(100%);
-    }
-    to{
-        transform:none;
-    }
-}
-
-.modal-handle{
-    width:42px;
-    height:4px;
-    margin:0 auto 18px;
-    border-radius:20px;
-    background:#383340;
-}
-
-.modal-title{
-    font-size:21px;
-    font-weight:950;
-}
-
-.modal-subtitle{
-    margin-top:4px;
-    color:#777481;
-    font-size:11px;
-}
-
-.stats{
-    margin-top:17px;
-}
-
-.stat{
-    margin-top:13px;
-}
-
-.stat-head{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:6px;
-    font-size:11px;
-}
-
-.stat-name{
-    color:#b3b0bb;
-}
-
-.stat-value{
-    color:#ad83ff;
-    font-weight:900;
-}
-
-.stat-bar{
-    width:100%;
-    height:9px;
-    overflow:hidden;
-    border-radius:10px;
-    background:#1a1721;
-}
-
-.stat-fill{
-    height:100%;
-    border-radius:10px;
-    background:linear-gradient(90deg,#6626ff,#c000ff);
-    box-shadow:0 0 12px rgba(129,40,255,.55);
-}
-
-.modal-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-    margin-top:20px;
-}
-
-.modal-btn{
-    height:48px;
-    border:0;
-    border-radius:14px;
-    background:#18151f;
-    color:white;
-    font-weight:800;
-}
-
-.modal-btn.primary-btn{
-    background:linear-gradient(100deg,#6b28ff,#ad00ff);
-}
-
-/* =========================================================
-   BOOSTER
-========================================================= */
-
-.booster-card{
-    padding:20px;
-    border:1px solid rgba(127,48,255,.3);
-    border-radius:22px;
-    background:
-        radial-gradient(circle at 100% 0%,rgba(125,38,255,.22),transparent 45%),
-        #0d0c13;
-}
-
-.booster-icon{
-    font-size:38px;
-}
-
-.booster-title{
-    margin-top:9px;
-    font-size:21px;
-    font-weight:950;
-}
-
-.booster-text{
-    margin-top:6px;
-    color:#777481;
-    font-size:11px;
-    line-height:1.5;
-}
-
-.file-input{
-    width:100%;
-    margin-top:17px;
-    padding:12px;
-    border:1px dashed #4d3b6e;
-    border-radius:14px;
-    color:#aaa5b6;
-    background:#0a0910;
-}
-
-.install-btn{
-    width:100%;
-    height:51px;
-    margin-top:10px;
-    border:0;
-    border-radius:14px;
-    background:linear-gradient(100deg,#702aff,#b000ff);
-    color:white;
-    font-weight:900;
-}
-
-.progress-box{
-    display:none;
-    margin-top:18px;
-}
-
-.progress-top{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:8px;
-    font-size:11px;
-}
-
-.progress-track{
-    width:100%;
-    height:12px;
-    overflow:hidden;
-    border-radius:20px;
-    background:#1b1823;
-}
-
-.progress-fill{
-    width:0%;
-    height:100%;
-    border-radius:20px;
-    background:linear-gradient(90deg,#6726ff,#d000ff);
-    box-shadow:0 0 18px #8d2cff;
-    transition:width .08s linear;
-}
-
-.success{
-    display:none;
-    margin-top:16px;
-    padding:16px;
-    border:1px solid rgba(0,220,150,.25);
-    border-radius:17px;
-    background:rgba(0,190,120,.07);
-}
-
-.success-title{
-    color:#00db91;
-    font-weight:900;
-}
-
-.success-text{
-    margin-top:5px;
-    color:#7b827f;
-    font-size:10px;
-}
-
-/* =========================================================
-   PROFILE
-========================================================= */
-
-.profile-card{
-    padding:20px;
-    border:1px solid #211e29;
-    border-radius:22px;
-    background:#0d0c13;
-    text-align:center;
-}
-
-.profile-avatar{
-    width:76px;
-    height:76px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:25px;
-    background:linear-gradient(135deg,#6c29ff,#bf00ff);
-    box-shadow:0 0 30px rgba(113,40,255,.3);
-    font-size:28px;
-    font-weight:950;
-}
-
-.profile-name{
-    margin-top:12px;
-    font-size:20px;
-    font-weight:950;
-}
-
-.profile-id{
-    margin-top:4px;
-    color:#74717e;
-    font-size:10px;
-}
-
-.profile-balance{
-    margin-top:18px;
-    padding:15px;
-    border-radius:15px;
-    background:#14121b;
-}
-
-.profile-balance-label{
-    color:#777481;
-    font-size:10px;
-}
-
-.profile-balance-value{
-    margin-top:4px;
-    font-size:23px;
-    font-weight:950;
-    color:#c9a7ff;
-}
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-.history{
-    margin-top:14px;
-    border:1px solid #1e1b27;
-    border-radius:19px;
-    overflow:hidden;
-}
-
-.history-title{
-    padding:13px 15px;
-    background:#0e0d14;
-    font-size:12px;
-    font-weight:900;
-}
-
-.history-row{
-    display:flex;
-    justify-content:space-between;
-    padding:12px 14px;
-    border-top:1px solid #18151f;
-    font-size:10px;
-}
-
-.history-win{
-    color:#00d98b;
-}
-
-.history-loss{
-    color:#ff526d;
-}
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-.settings-list{
-    overflow:hidden;
-    border:1px solid #1d1a25;
-    border-radius:20px;
-    background:#0d0c13;
-}
-
-.setting{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    min-height:58px;
-    padding:11px 14px;
-    border-bottom:1px solid #191620;
-}
-
-.setting:last-child{
-    border-bottom:0;
-}
-
-.setting-left{
-    display:flex;
-    align-items:center;
-    gap:11px;
-}
-
-.setting-icon{
-    width:34px;
-    height:34px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:10px;
-    background:#17141f;
-}
-
-.setting-name{
-    font-size:12px;
-    font-weight:800;
-}
-
-.setting-desc{
-    margin-top:3px;
-    color:#696673;
-    font-size:9px;
-}
-
-/* =========================================================
-   SWITCH
-========================================================= */
-
-.switch{
-    position:relative;
-    width:44px;
-    height:25px;
-    flex:none;
-}
-
-.switch input{
-    display:none;
-}
-
-.slider{
-    position:absolute;
-    inset:0;
-    border-radius:20px;
-    background:#292632;
-    transition:.2s;
-}
-
-.slider:before{
-    content:"";
-    position:absolute;
-    width:19px;
-    height:19px;
-    left:3px;
-    top:3px;
-    border-radius:50%;
-    background:#aaa5b1;
-    transition:.2s;
-}
-
-.switch input:checked + .slider{
-    background:#6e2aff;
-}
-
-.switch input:checked + .slider:before{
-    transform:translateX(19px);
-    background:white;
-}
-
-/* =========================================================
-   BOTTOM NAV
-========================================================= */
-
-.bottom-nav{
-    position:fixed;
-    z-index:1000;
-    left:0;
-    right:0;
-    bottom:0;
-    height:77px;
-    padding:
-        7px 8px
-        max(8px,env(safe-area-inset-bottom));
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    border-top:1px solid rgba(255,255,255,.05);
-    background:rgba(7,7,11,.92);
-    backdrop-filter:blur(22px);
-}
-
-.nav-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:5px;
-    color:#65636d;
-    font-size:9px;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.nav-icon{
-    width:30px;
-    height:30px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:11px;
-    font-size:17px;
-}
-
-.nav-item.active{
-    color:#b888ff;
-}
-
-.nav-item.active .nav-icon{
-    background:rgba(119,43,255,.15);
-}
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-#toast{
-    position:fixed;
-    z-index:10000;
-    left:50%;
-    bottom:92px;
-    transform:translateX(-50%) translateY(20px);
-    width:max-content;
-    max-width:88%;
-    padding:11px 15px;
-    border:1px solid #30283f;
-    border-radius:13px;
-    background:#14111b;
-    color:#fff;
-    font-size:11px;
-    opacity:0;
-    pointer-events:none;
-    transition:.25s;
-    box-shadow:0 12px 35px rgba(0,0,0,.4);
-}
-
-#toast.show{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(min-width:700px){
-
-    .content{
-        width:700px;
-        margin:auto;
-    }
-
-    .header{
-        padding-left:calc((100% - 700px)/2 + 15px);
-        padding-right:calc((100% - 700px)/2 + 15px);
-    }
-
-    .bottom-nav{
-        left:50%;
-        right:auto;
-        width:700px;
-        transform:translateX(-50%);
-        border-radius:20px 20px 0 0;
-    }
-
-    .modal-box{
-        border-radius:27px;
-        margin-bottom:15px;
-    }
-
-}
-
-@media(max-width:360px){
-
-    .device-list{
-        grid-template-columns:1fr;
-    }
-
-    .hero-title{
-        font-size:24px;
-    }
-
-    .multiplier{
-        height:235px;
-    }
-
-    .multiplier-value{
-        font-size:49px;
-    }
-
-}
-
-/* =========================================================
-   EXTRA EFFECTS
-========================================================= */
-
-.glow{
-    text-shadow:0 0 15px rgba(155,92,255,.8);
-}
-
-.hidden{
-    display:none !important;
-}
-
-.muted{
-    color:#72707b;
-}
-
-.green{
-    color:#00dc91;
-}
-
-.red{
-    color:#ff536d;
-}
-
-.purple{
-    color:#ad82ff;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gaming Sensitivity Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        body {
+            background-color: #0b0b14;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #12121e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8b5cf6;
+            border-radius: 4px;
+        }
+        .neon-glow-purple {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), inset 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+        .neon-glow-orange {
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+        }
+        .neon-text {
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #1e1b4b;
+            border-radius: 9999px;
+            border: 1px solid #4c1d95;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #c084fc;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -6px;
+            box-shadow: 0 0 10px #c084fc;
+        }
+    </style>
 </head>
+<body class="min-h-screen flex flex-col">
 
-<body>
+    <div id="login-screen" class="fixed inset-0 z-50 bg-[#07070c] flex items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-[#11111d] border border-purple-500/30 rounded-2xl p-6 neon-glow-purple relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-purple-600/20 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-indigo-600/20 rounded-full blur-2xl"></div>
+            
+            <div class="text-center mb-6">
+                <div class="inline-block p-3 bg-purple-900/40 rounded-2xl border border-purple-500/40 mb-3 text-purple-400">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                </div>
+                <h1 class="text-2xl font-extrabold text-white tracking-wider">NEON <span class="text-purple-400 neon-text">SENS</span></h1>
+                <p class="text-xs text-gray-400 mt-1">Авторизуйтесь для доступа к базе настроек</p>
+            </div>
 
-<!-- =======================================================
-     LOGIN
-======================================================= -->
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Логин</label>
+                    <input type="text" id="username" required placeholder="Введите логин" class="w-full bg-[#181829] border border-purple-900/50 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Пароль</label>
+                    <input type="password" id="password" required placeholder="Введите пароль" class="w-full bg-[#181829] border border-purple-900/50 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition-all">
+                </div>
+                <div id="login-error" class="text-xs text-red-400 text-center hidden">Неверный логин или пароль!</div>
+                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-900/50 transition-all transform active:scale-95">
+                    ВОЙТИ В СИСТЕМУ
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <span class="text-[10px] text-gray-500">Логин: qwerty0 | Пароль: zxc010</span>
+            </div>
+        </div>
+    </div>
 
-<section id="loginScreen">
+    <div id="main-app" class="flex-1 flex flex-col hidden opacity-0 transition-opacity duration-500">
+        
+        <!-- Top Price Menu -->
+        <header class="sticky top-0 z-30 bg-[#0b0b14]/90 backdrop-blur-md border-b border-purple-900/30 px-3 py-2.5">
+            <div class="overflow-x-auto whitespace-nowrap scrollbar-none flex gap-2 py-1 items-center">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-600/30 to-amber-600/30 border border-orange-500/50 rounded-xl text-xs font-bold text-orange-300 neon-glow-orange shrink-0">
+                    🔥 Чит Настройка <span class="bg-orange-500 text-black px-1.5 py-0.5 rounded-lg text-[10px]">300₸</span>
+                </div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600/30 to-indigo-600/30 border border-purple-500/50 rounded-xl text-xs font-bold text-purple-300 neon-glow-purple shrink-0">
+                    💎 Вип настройка <span class="bg-purple-500 text-white px-1.5 py-0.5 rounded-lg text-[10px]">250₸</span>
+                </div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-cyan-600/30 to-blue-600/30 border border-cyan-500/50 rounded-xl text-xs font-bold text-cyan-300 neon-glow-cyan shrink-0">
+                    ⚡ Титановый <span class="bg-cyan-500 text-black px-1.5 py-0.5 rounded-lg text-[10px]">200₸</span>
+                </div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-emerald-600/30 to-green-600/30 border border-emerald-500/50 rounded-xl text-xs font-bold text-emerald-300 shrink-0">
+                    ✨ Обнова <span class="bg-emerald-500 text-black px-1.5 py-0.5 rounded-lg text-[10px]">Бесплатно</span>
+                </div>
+            </div>
+        </header>
 
-    <div class="login-box">
+        <!-- Search & Categories -->
+        <div class="px-4 pt-4 pb-2">
+            <div class="relative">
+                <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="search-input" placeholder="Поиск девайса (iPhone, Redmi, Poco...)" class="w-full bg-[#12121e] border border-purple-900/40 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all">
+            </div>
 
-        <div class="logo">
-            JC
+            <div class="flex gap-2 mt-3 overflow-x-auto pb-1 scrollbar-none">
+                <button onclick="filterCategory('all')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shrink-0 transition-all">Все (50+)</button>
+                <button onclick="filterCategory('apple')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all">Apple</button>
+                <button onclick="filterCategory('xiaomi')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all">Xiaomi / Poco</button>
+                <button onclick="filterCategory('samsung')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all">Samsung</button>
+                <button onclick="filterCategory('other')" class="cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all">Другие</button>
+            </div>
         </div>
 
-        <div class="login-title">
-            JACOOBC PANEL
-        </div>
-
-        <div class="login-sub">
-            Защищённая панель управления
-        </div>
-
-        <input
-            id="login"
-            class="input"
-            type="text"
-            autocomplete="off"
-            placeholder="Логин"
-        >
-
-        <input
-            id="password"
-            class="input"
-            type="password"
-            placeholder="Пароль"
-        >
-
-        <button
-            class="primary"
-            onclick="loginUser()"
-        >
-            Войти
-        </button>
-
-        <div
-            id="loginError"
-            class="login-error"
-        ></div>
+        <!-- Devices Grid -->
+        <main class="flex-1 px-4 py-2 pb-12">
+            <div id="devices-grid" class="grid grid-cols-2 gap-3">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </main>
 
     </div>
 
-</section>
+    <div id="device-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
+        <div id="modal-content" class="w-full sm:max-w-lg bg-[#11111d] border-t sm:border border-purple-500/40 rounded-t-3xl sm:rounded-2xl p-5 sm:p-6 neon-glow-purple max-h-[90vh] overflow-y-auto transform translate-y-full sm:translate-y-0 transition-transform duration-300">
+            
+            <div class="flex items-center justify-between pb-3 border-b border-purple-900/40 mb-4">
+                <div>
+                    <span class="text-[10px] font-bold px-2 py-0.5 bg-purple-900/50 text-purple-300 rounded-md border border-purple-500/30 uppercase">Элитный конфиг</span>
+                    <h2 id="modal-title" class="text-lg font-black text-white mt-1 tracking-wide">IPHONE 14 PRO</h2>
+                </div>
+                <button onclick="closeModal()" class="p-2 bg-purple-950/50 hover:bg-purple-900/50 text-gray-400 hover:text-white rounded-xl border border-purple-500/30 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
 
+            <div class="bg-gradient-to-r from-purple-900/30 to-indigo-900/30 border border-purple-500/40 rounded-2xl p-3 mb-5 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="p-2 bg-purple-600/30 text-purple-400 rounded-xl">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-gray-400 font-semibold">Шанс хедшота</div>
+                        <div class="text-sm font-black text-purple-300" id="stat-headshot">92%</div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-[10px] text-gray-400 font-semibold">Оптимизация</div>
+                    <div class="text-sm font-black text-emerald-400">120 FPS Stable</div>
+                </div>
+            </div>
 
-<!-- =======================================================
-     APP
-======================================================= -->
-
-<div id="app">
-
-    <div class="app-shell">
-
-        <!-- HEADER -->
-
-        <header class="header">
-
-            <div class="brand">
-
-                <div class="brand-icon">
-                    ⚡
+            <!-- Sensitivity Sliders -->
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-gray-300">🎯 Обзор</span>
+                        <span id="val-obzor" class="text-purple-400">168</span>
+                    </div>
+                    <input type="range" min="50" max="200" value="168" oninput="updateSliderVal('obzor', this.value)">
                 </div>
 
                 <div>
-
-                    <div class="brand-name">
-                        JACOOBC
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-gray-300">🔭 Коллиматор</span>
+                        <span id="val-kolimator" class="text-purple-400">140</span>
                     </div>
-
-                    <div class="brand-status">
-                        SYSTEM ONLINE
-                    </div>
-
+                    <input type="range" min="50" max="200" value="140" oninput="updateSliderVal('kolimator', this.value)">
                 </div>
 
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-gray-300">🔍 Прицел 2x</span>
+                        <span id="val-2x" class="text-purple-400">163</span>
+                    </div>
+                    <input type="range" min="50" max="200" value="163" oninput="updateSliderVal('2x', this.value)">
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-gray-300">🔭 Прицел 4x</span>
+                        <span id="val-4x" class="text-purple-400">168</span>
+                    </div>
+                    <input type="range" min="50" max="200" value="168" oninput="updateSliderVal('4x', this.value)">
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-gray-300">🎯 Снайпер</span>
+                        <span id="val-sniper" class="text-purple-400">107</span>
+                    </div>
+                    <input type="range" min="30" max="180" value="107" oninput="updateSliderVal('sniper', this.value)">
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-gray-300">📏 Кнопка размер</span>
+                        <span id="val-btnsize" class="text-purple-400">41%</span>
+                    </div>
+                    <input type="range" min="30" max="70" value="41" oninput="updateSliderVal('btnsize', this.value)">
+                </div>
             </div>
 
-            <div class="balance">
-
-                <div class="balance-label">
-                    BALANCE
-                </div>
-
-                <div
-                    id="headerBalance"
-                    class="balance-value"
-                >
-                    10 000 COIN
-                </div>
-
-            </div>
-
-        </header>
-
-
-        <!-- CONTENT -->
-
-        <main class="content">
-
-
-            <!-- =================================================
-                 HOME
-            ================================================= -->
-
-            <section
-                id="page-home"
-                class="page active"
-            >
-
-                <div class="page-title">
-                    Панель
-                </div>
-
-                <div class="page-subtitle">
-                    Управление WebApp
-                </div>
-
-
-                <div class="hero">
-
-                    <div class="hero-label">
-                        JACOOBC WEBAPP
-                    </div>
-
-                    <div class="hero-title">
-                        Всё в одном месте
-                    </div>
-
-                    <div class="hero-text">
-                        Crash, устройства, усилитель,
-                        профиль и история операций.
-                    </div>
-
-                    <div class="hero-buttons">
-
-                        <button
-                            class="hero-btn accent"
-                            onclick="showPage('crash')"
-                        >
-                            🚀 Crash
-                        </button>
-
-                        <button
-                            class="hero-btn"
-                            onclick="showPage('devices')"
-                        >
-                            📱 Девайсы
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="quick-grid">
-
-                    <div
-                        class="quick-card"
-                        onclick="showPage('crash')"
-                    >
-                        <div class="quick-icon">
-                            🚀
-                        </div>
-
-                        <div class="quick-title">
-                            Crash
-                        </div>
-
-                        <div class="quick-info">
-                            Ставка от 100 COIN
-                        </div>
-                    </div>
-
-
-                    <div
-                        class="quick-card"
-                        onclick="showPage('devices')"
-                    >
-                        <div class="quick-icon">
-                            📱
-                        </div>
-
-                        <div class="quick-title">
-                            60+ устройств
-                        </div>
-
-                        <div class="quick-info">
-                            Настройки моделей
-                        </div>
-                    </div>
-
-
-                    <div
-                        class="quick-card"
-                        onclick="showPage('booster')"
-                    >
-                        <div class="quick-icon">
-                            ⚡
-                        </div>
-
-                        <div class="quick-title">
-                            Усилитель
-                        </div>
-
-                        <div class="quick-info">
-                            Установка файла
-                        </div>
-                    </div>
-
-
-                    <div
-                        class="quick-card"
-                        onclick="showPage('profile')"
-                    >
-                        <div class="quick-icon">
-                            👤
-                        </div>
-
-                        <div class="quick-title">
-                            Профиль
-                        </div>
-
-                        <div class="quick-info">
-                            История и баланс
-                        </div>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 CRASH
-            ================================================= -->
-
-            <section
-                id="page-crash"
-                class="page"
-            >
-
-                <div class="page-title">
-                    🚀 Crash
-                </div>
-
-                <div class="page-subtitle">
-                    Минимальная ставка — 100 COIN
-                </div>
-
-
-                <div class="crash-panel">
-
-                    <div class="crash-head">
-
-                        <div>
-                            <div class="crash-name">
-                                JACOOBC CRASH
-                            </div>
-
-                            <div
-                                id="crashStatus"
-                                class="crash-status"
-                            >
-                                Ожидание раунда
-                            </div>
-                        </div>
-
-                        <div class="glow">
-                            LIVE
-                        </div>
-
-                    </div>
-
-
-                    <div class="multiplier">
-
-                        <div
-                            id="multiplier"
-                            class="multiplier-value"
-                        >
-                            1.00x
-                        </div>
-
-                        <div class="rocket">
-                            🚀
-                        </div>
-
-                    </div>
-
-
-                    <div class="crash-controls">
-
-                        <div class="bet-row">
-
-                            <input
-                                id="betAmount"
-                                class="bet-input"
-                                type="number"
-                                min="100"
-                                value="100"
-                                placeholder="Ставка"
-                            >
-
-                            <input
-                                id="autoCashout"
-                                class="cashout-input"
-                                type="number"
-                                min="1.01"
-                                step="0.01"
-                                value="2.00"
-                                placeholder="Авто"
-                            >
-
-                        </div>
-
-
-                        <button
-                            id="crashButton"
-                            class="crash-action"
-                            onclick="crashAction()"
-                        >
-                            🚀 Сделать ставку
-                        </button>
-
-
-                        <div class="last-title">
-                            Последние 15 результатов
-                        </div>
-
-                        <div
-                            id="lastResults"
-                            class="last-results"
-                        ></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="players">
-
-                    <div class="players-title">
-                        👥 Игроки в раунде
-                    </div>
-
-                    <div id="playersList"></div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 DEVICES
-            ================================================= -->
-
-            <section
-                id="page-devices"
-                class="page"
-            >
-
-                <div class="page-title">
-                    📱 Девайсы
-                </div>
-
-                <div class="page-subtitle">
-                    60+ моделей и индивидуальные настройки
-                </div>
-
-
-                <div class="search-box">
-
-                    <span class="search-icon">
-                        🔎
-                    </span>
-
-                    <input
-                        id="deviceSearch"
-                        type="text"
-                        placeholder="Поиск устройства..."
-                        oninput="renderDevices()"
-                    >
-
-                </div>
-
-
-                <div class="section-label">
-                    Популярные 10
-                </div>
-
-                <div
-                    id="topDevices"
-                    class="device-list"
-                ></div>
-
-
-                <div class="section-label">
-                    Все устройства
-                </div>
-
-                <div
-                    id="allDevices"
-                    class="device-list"
-                ></div>
-
-            </section>
-
-
-            <!-- =================================================
-                 BOOSTER
-            ================================================= -->
-
-            <section
-                id="page-booster"
-                class="page"
-            >
-
-                <div class="page-title">
-                    ⚡ Усилитель
-                </div>
-
-                <div class="page-subtitle">
-                    Установка выбранного файла
-                </div>
-
-
-                <div class="booster-card">
-
-                    <div class="booster-icon">
-                        ⚡
-                    </div>
-
-                    <div class="booster-title">
-                        Device Booster PRO
-                    </div>
-
-                    <div class="booster-text">
-                        Выбери файл с устройства.
-                        После выбора нажми установить.
-                        Интерфейс покажет прогресс от 1% до 100%.
-                    </div>
-
-
-                    <input
-                        id="boosterFile"
-                        class="file-input"
-                        type="file"
-                    >
-
-
-                    <button
-                        class="install-btn"
-                        onclick="installBooster()"
-                    >
-                        ⚡ Установить
-                    </button>
-
-
-                    <div
-                        id="progressBox"
-                        class="progress-box"
-                    >
-
-                        <div class="progress-top">
-
-                            <span>
-                                Установка
-                            </span>
-
-                            <span id="progressText">
-                                0%
-                            </span>
-
-                        </div>
-
-                        <div class="progress-track">
-
-                            <div
-                                id="progressFill"
-                                class="progress-fill"
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        id="successBox"
-                        class="success"
-                    >
-
-                        <div class="success-title">
-                            ✓ Установка завершена
-                        </div>
-
-                        <div class="success-text">
-                            Файл обработан интерфейсом.
-                        </div>
-
-                        <button
-                            class="install-btn"
-                            onclick="openFreeFire()"
-                        >
-                            🎮 Открыть Free Fire
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 PROFILE
-            ================================================= -->
-
-            <section
-                id="page-profile"
-                class="page"
-            >
-
-                <div class="page-title">
-                    👤 Профиль
-                </div>
-
-                <div class="page-subtitle">
-                    Информация аккаунта
-                </div>
-
-
-                <div class="profile-card">
-
-                    <div class="profile-avatar">
-                        JC
-                    </div>
-
-                    <div class="profile-name">
-                        Jacoobc
-                    </div>
-
-                    <div class="profile-id">
-                        ID: 7895911575
-                    </div>
-
-
-                    <div class="profile-balance">
-
-                        <div class="profile-balance-label">
-                            Текущий баланс
-                        </div>
-
-                        <div
-                            id="profileBalance"
-                            class="profile-balance-value"
-                        >
-                            10 000 COIN
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="history">
-
-                    <div class="history-title">
-                        📜 История Crash
-                    </div>
-
-                    <div id="historyList"></div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 SETTINGS
-            ================================================= -->
-
-            <section
-                id="page-settings"
-                class="page"
-            >
-
-                <div class="page-title">
-                    ⚙️ Настройки
-                </div>
-
-                <div class="page-subtitle">
-                    Настройки интерфейса
-                </div>
-
-
-                <div class="settings-list">
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                🔔
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Уведомления
-                                </div>
-
-                                <div class="setting-desc">
-                                    Системные уведомления
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                id="notifications"
-                                type="checkbox"
-                                checked
-                                onchange="saveSetting('notifications',this.checked)"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                📳
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Вибрация
-                                </div>
-
-                                <div class="setting-desc">
-                                    Вибрация при действиях
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                id="vibration"
-                                type="checkbox"
-                                checked
-                                onchange="saveSetting('vibration',this.checked)"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                ✨
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Эффекты
-                                </div>
-
-                                <div class="setting-desc">
-                                    Анимации интерфейса
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                id="effects"
-                                type="checkbox"
-                                checked
-                                onchange="saveSetting('effects',this.checked)"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                🚀
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Авто-кэшаут
-                                </div>
-
-                                <div class="setting-desc">
-                                    Использовать значение 2.00x
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                id="autoSetting"
-                                type="checkbox"
-                                checked
-                                onchange="saveSetting('autoSetting',this.checked)"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-left">
-
-                            <div class="setting-icon">
-                                🔒
-                            </div>
-
-                            <div>
-
-                                <div class="setting-name">
-                                    Защита масштаба
-                                </div>
-
-                                <div class="setting-desc">
-                                    Два пальца не изменяют масштаб
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="green">
-                            ON
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="primary"
-                    onclick="logout()"
-                >
-                    Выйти из аккаунта
+            <div class="mt-6 flex gap-3">
+                <button onclick="copyConfig()" class="flex-1 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-purple-900/50 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                    СКОПИРОВАТЬ НАСТРОЙКИ
                 </button>
-
-            </section>
-
-        </main>
-
-
-        <!-- =================================================
-             NAV
-        ================================================= -->
-
-        <nav class="bottom-nav">
-
-            <div
-                class="nav-item active"
-                data-page="home"
-                onclick="showPage('home')"
-            >
-                <div class="nav-icon">
-                    🏠
-                </div>
-                Главная
             </div>
-
-
-            <div
-                class="nav-item"
-                data-page="crash"
-                onclick="showPage('crash')"
-            >
-                <div class="nav-icon">
-                    🚀
-                </div>
-                Crash
-            </div>
-
-
-            <div
-                class="nav-item"
-                data-page="devices"
-                onclick="showPage('devices')"
-            >
-                <div class="nav-icon">
-                    📱
-                </div>
-                Девайсы
-            </div>
-
-
-            <div
-                class="nav-item"
-                data-page="booster"
-                onclick="showPage('booster')"
-            >
-                <div class="nav-icon">
-                    ⚡
-                </div>
-                Усилитель
-            </div>
-
-
-            <div
-                class="nav-item"
-                data-page="profile"
-                onclick="showPage('profile')"
-            >
-                <div class="nav-icon">
-                    👤
-                </div>
-                Профиль
-            </div>
-
-        </nav>
-
+        </div>
     </div>
 
-</div>
-
-
-<!-- =======================================================
-     DEVICE MODAL
-======================================================= -->
-
-<div
-    id="deviceModal"
-    class="modal"
-    onclick="closeDeviceModal(event)"
->
-
-    <div
-        class="modal-box"
-        onclick="event.stopPropagation()"
-    >
-
-        <div class="modal-handle"></div>
-
-        <div
-            id="modalDeviceTitle"
-            class="modal-title"
-        >
-            iPhone 14
-        </div>
-
-        <div class="modal-subtitle">
-            Настройки устройства
-        </div>
-
-
-        <div
-            id="deviceStats"
-            class="stats"
-        ></div>
-
-
-        <div class="modal-actions">
-
-            <button
-                class="modal-btn"
-                onclick="closeDeviceModal()"
-            >
-                Закрыть
-            </button>
-
-            <button
-                class="modal-btn primary-btn"
-                onclick="goBoosterFromDevice()"
-            >
-                ⚡ Усилитель
-            </button>
-
-        </div>
-
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-purple-900 text-white px-5 py-2.5 rounded-2xl text-xs font-bold shadow-2xl border border-purple-500/50 transition-all duration-300 opacity-0 pointer-events-none z-50">
+        Настройки скопированы в буфер обмена!
     </div>
 
-</div>
-
-
-<!-- =======================================================
-     TOAST
-======================================================= -->
-
-<div id="toast"></div>
-
-
-<script>
-
-/* =========================================================
-   GLOBAL STATE
-========================================================= */
-
-const AUTH_LOGIN = "Jacoobc";
-const AUTH_PASSWORD = "Jacoobc88990";
-
-const START_BALANCE = 10000;
-
-let balance = Number(
-    localStorage.getItem("jacoobc_balance")
-) || START_BALANCE;
-
-let crashRunning = false;
-let crashBet = 0;
-let crashMultiplier = 1;
-let crashTimer = null;
-let crashTarget = 0;
-let hasCashedOut = false;
-
-let lastResults =
-    JSON.parse(
-        localStorage.getItem("jacoobc_results") || "[]"
-    );
-
-let history =
-    JSON.parse(
-        localStorage.getItem("jacoobc_history") || "[]"
-    );
-
-
-/* =========================================================
-   DEVICE DATA
-========================================================= */
-
-const popularDevices = [
-
-    "iPhone 11",
-    "iPhone 13",
-    "iPhone 14",
-    "iPhone 15",
-    "iPhone 15 Pro",
-    "Poco X6",
-    "Samsung Galaxy A57",
-    "Samsung Galaxy A26",
-    "Samsung S24 Ultra",
-    "Vivo X200"
-
-];
-
-
-const additionalDevices = [
-
-    "iPhone 12",
-    "iPhone 12 Pro",
-    "iPhone 13 Pro",
-    "iPhone 13 Pro Max",
-    "iPhone 14 Plus",
-    "iPhone 14 Pro",
-    "iPhone 14 Pro Max",
-    "iPhone 15 Plus",
-    "iPhone 15 Pro Max",
-    "iPhone 16",
-    "iPhone 16 Plus",
-    "iPhone 16 Pro",
-    "iPhone 16 Pro Max",
-
-    "Samsung Galaxy A15",
-    "Samsung Galaxy A25",
-    "Samsung Galaxy A35",
-    "Samsung Galaxy A55",
-    "Samsung Galaxy A56",
-    "Samsung Galaxy S21",
-    "Samsung Galaxy S22",
-    "Samsung Galaxy S23",
-    "Samsung Galaxy S23 Ultra",
-    "Samsung Galaxy S24",
-    "Samsung Galaxy S24+",
-    "Samsung Galaxy S25",
-    "Samsung Galaxy S25 Ultra",
-
-    "Poco X3",
-    "Poco X4 Pro",
-    "Poco X5",
-    "Poco X5 Pro",
-    "Poco X6 Pro",
-    "Poco X7",
-    "Poco F5",
-    "Poco F6",
-
-    "Xiaomi Redmi Note 10",
-    "Xiaomi Redmi Note 11",
-    "Xiaomi Redmi Note 12",
-    "Xiaomi Redmi Note 13",
-    "Xiaomi Redmi Note 14",
-    "Xiaomi 12",
-    "Xiaomi 13",
-    "Xiaomi 14",
-    "Xiaomi 14 Ultra",
-
-    "Vivo X90",
-    "Vivo X100",
-    "Vivo X100 Pro",
-    "Vivo X200",
-    "Vivo X200 Pro",
-
-    "OnePlus 10 Pro",
-    "OnePlus 11",
-    "OnePlus 12",
-    "OnePlus 13",
-
-    "Realme GT Neo 3",
-    "Realme GT Neo 5",
-    "Realme GT 5",
-    "Realme GT 6",
-
-    "Google Pixel 7",
-    "Google Pixel 8",
-    "Google Pixel 8 Pro",
-    "Google Pixel 9",
-    "Google Pixel 9 Pro"
-
-];
-
-
-const allDevices = [
-    ...popularDevices,
-    ...additionalDevices.filter(
-        x => !popularDevices.includes(x)
-    )
-];
-
-
-/* =========================================================
-   RANDOM DEVICE SETTINGS
-========================================================= */
-
-function generateDeviceStats(device){
-
-    const key =
-        "device_stats_" +
-        device.replace(/\W/g,"_");
-
-    const saved =
-        localStorage.getItem(key);
-
-    if(saved){
-
-        return JSON.parse(saved);
-
-    }
-
-    const stats = {
-
-        headshot:
-            randomNumber(65,98),
-
-        overview:
-            randomNumber(55,95),
-
-        collimator:
-            randomNumber(40,90),
-
-        scope2x:
-            randomNumber(35,90),
-
-        scope4x:
-            randomNumber(40,95),
-
-        sniper:
-            randomNumber(35,85),
-
-        button:
-            randomNumber(45,90)
-
-    };
-
-    localStorage.setItem(
-        key,
-        JSON.stringify(stats)
-    );
-
-    return stats;
-}
-
-
-/* =========================================================
-   UTILITY
-========================================================= */
-
-function randomNumber(min,max){
-
-    return Math.floor(
-        Math.random() *
-        (max - min + 1)
-    ) + min;
-
-}
-
-
-function formatCoins(value){
-
-    return Number(value)
-        .toLocaleString("ru-RU") +
-        " COIN";
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-function loginUser(){
-
-    const login =
-        document.getElementById("login").value.trim();
-
-    const password =
-        document.getElementById("password").value;
-
-    const error =
-        document.getElementById("loginError");
-
-
-    if(
-        login === AUTH_LOGIN &&
-        password === AUTH_PASSWORD
-    ){
-
-        localStorage.setItem(
-            "jacoobc_logged",
-            "1"
-        );
-
-        document.getElementById(
-            "loginScreen"
-        ).style.display = "none";
-
-        document.getElementById(
-            "app"
-        ).style.display = "block";
-
-        updateBalance();
-
-        showToast("Добро пожаловать, Jacoobc");
-
-    }else{
-
-        error.textContent =
-            "Неверный логин или пароль";
-
-    }
-
-}
-
-
-document
-    .getElementById("password")
-    .addEventListener(
-        "keydown",
-        e => {
-
-            if(e.key === "Enter"){
-
-                loginUser();
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   AUTO LOGIN
-========================================================= */
-
-if(
-    localStorage.getItem(
-        "jacoobc_logged"
-    ) === "1"
-){
-
-    document.getElementById(
-        "loginScreen"
-    ).style.display = "none";
-
-    document.getElementById(
-        "app"
-    ).style.display = "block";
-
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-function logout(){
-
-    localStorage.removeItem(
-        "jacoobc_logged"
-    );
-
-    location.reload();
-
-}
-
-
-/* =========================================================
-   PAGE NAVIGATION
-========================================================= */
-
-function showPage(page){
-
-    document
-        .querySelectorAll(".page")
-        .forEach(
-            p => p.classList.remove("active")
-        );
-
-
-    const target =
-        document.getElementById(
-            "page-" + page
-        );
-
-    if(target){
-
-        target.classList.add("active");
-
-    }
-
-
-    document
-        .querySelectorAll(".nav-item")
-        .forEach(
-            item => {
-
-                item.classList.toggle(
-                    "active",
-                    item.dataset.page === page
-                );
-
-            }
-        );
-
-
-    const content =
-        document.querySelector(".content");
-
-    if(content){
-
-        content.scrollTop = 0;
-
-    }
-
-}
-
-
-/* =========================================================
-   BALANCE
-========================================================= */
-
-function updateBalance(){
-
-    balance =
-        Math.max(
-            0,
-            Number(balance)
-        );
-
-    localStorage.setItem(
-        "jacoobc_balance",
-        balance
-    );
-
-
-    document.getElementById(
-        "headerBalance"
-    ).textContent =
-        formatCoins(balance);
-
-
-    document.getElementById(
-        "profileBalance"
-    ).textContent =
-        formatCoins(balance);
-
-}
-
-
-/* =========================================================
-   DEVICE RENDER
-========================================================= */
-
-function deviceHTML(name){
-
-    return `
-
-        <div
-            class="device-card"
-            onclick="openDevice('${escapeHTML(name)}')"
-        >
-
-            <div class="device-icon">
-                📱
-            </div>
-
-            <div class="device-name">
-                ${escapeHTML(name)}
-            </div>
-
-            <div class="device-tag">
-                НАСТРОЙКИ
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-function renderDevices(){
-
-    const query =
-        document
-            .getElementById("deviceSearch")
-            .value
-            .toLowerCase()
-            .trim();
-
-
-    const filtered =
-        allDevices.filter(
-            device =>
-                device
-                    .toLowerCase()
-                    .includes(query)
-        );
-
-
-    const top =
-        document.getElementById(
-            "topDevices"
-        );
-
-    const all =
-        document.getElementById(
-            "allDevices"
-        );
-
-
-    if(query){
-
-        top.innerHTML = "";
-
-        all.innerHTML =
-            filtered
-                .map(deviceHTML)
-                .join("");
-
-        return;
-
-    }
-
-
-    top.innerHTML =
-        popularDevices
-            .map(deviceHTML)
-            .join("");
-
-
-    all.innerHTML =
-        allDevices
-            .filter(
-                x =>
-                    !popularDevices.includes(x)
-            )
-            .map(deviceHTML)
-            .join("");
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHTML(value){
-
-    return value
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================================================
-   DEVICE MODAL
-========================================================= */
-
-let selectedDevice = "";
-
-
-function openDevice(name){
-
-    selectedDevice = name;
-
-    const stats =
-        generateDeviceStats(name);
-
-
-    document.getElementById(
-        "modalDeviceTitle"
-    ).textContent = name;
-
-
-    const data = [
-
-        ["Хедшот",stats.headshot],
-        ["Обзор",stats.overview],
-        ["Колиматор",stats.collimator],
-        ["2x",stats.scope2x],
-        ["4x",stats.scope4x],
-        ["Снайпер",stats.sniper],
-        ["Размер кнопки",stats.button]
-
-    ];
-
-
-    document.getElementById(
-        "deviceStats"
-    ).innerHTML =
-
-        data.map(
-            item => `
-
-                <div class="stat">
-
-                    <div class="stat-head">
-
-                        <span class="stat-name">
-                            ${item[0]}
-                        </span>
-
-                        <span class="stat-value">
-                            ${item[1]}%
-                        </span>
-
-                    </div>
-
-                    <div class="stat-bar">
-
-                        <div
-                            class="stat-fill"
-                            style="width:${item[1]}%"
-                        ></div>
-
-                    </div>
-
-                </div>
-
-            `
-        ).join("");
-
-
-    document
-        .getElementById("deviceModal")
-        .classList.add("show");
-
-}
-
-
-function closeDeviceModal(){
-
-    document
-        .getElementById("deviceModal")
-        .classList.remove("show");
-
-}
-
-
-function goBoosterFromDevice(){
-
-    closeDeviceModal();
-
-    showPage("booster");
-
-    showToast(
-        selectedDevice +
-        " выбран"
-    );
-
-}
-
-
-/* =========================================================
-   BOOSTER INSTALLATION
-========================================================= */
-
-function installBooster(){
-
-    const input =
-        document.getElementById(
-            "boosterFile"
-        );
-
-
-    if(!input.files.length){
-
-        showToast(
-            "Сначала выбери файл"
-        );
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "progressBox"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "successBox"
-    ).style.display = "none";
-
-
-    let progress = 0;
-
-
-    document.getElementById(
-        "progressFill"
-    ).style.width = "0%";
-
-
-    document.getElementById(
-        "progressText"
-    ).textContent = "0%";
-
-
-    const interval =
-        setInterval(
-            () => {
-
-                progress +=
-                    randomNumber(1,4);
-
-                if(progress > 100){
-
-                    progress = 100;
-
-                }
-
-
-                document.getElementById(
-                    "progressFill"
-                ).style.width =
-                    progress + "%";
-
-
-                document.getElementById(
-                    "progressText"
-                ).textContent =
-                    progress + "%";
-
-
-                if(progress >= 100){
-
-                    clearInterval(interval);
-
-                    setTimeout(
-                        () => {
-
-                            document.getElementById(
-                                "successBox"
-                            ).style.display =
-                                "block";
-
-                            showToast(
-                                "Установка завершена"
-                            );
-
-                        },
-                        400
-                    );
-
-                }
-
-            },
-            100
-        );
-
-}
-
-
-/* =========================================================
-   FREE FIRE
-========================================================= */
-
-function openFreeFire(){
-
-    /*
-       Браузер не может гарантированно открыть
-       приложение на каждом устройстве.
-
-       Используется стандартная попытка
-       через deep-link.
-    */
-
-    const links = [
-
-        "freefire://",
-
-        "intent://#Intent;" +
-        "scheme=freefire;" +
-        "package=com.dts.freefireth;" +
-        "end"
-
-    ];
-
-
-    window.location.href =
-        links[0];
-
-
-    setTimeout(
-        () => {
-
-            showToast(
-                "Если игра не открылась, запусти Free Fire вручную"
-            );
-
-        },
-        1500
-    );
-
-}
-
-
-/* =========================================================
-   CRASH RANDOM TARGET
-========================================================= */
-
-function generateCrashTarget(){
-
-    const r =
-        Math.random();
-
-    if(r < .08){
-
-        return randomNumber(100,115) / 100;
-
-    }
-
-    if(r < .30){
-
-        return randomNumber(115,180) / 100;
-
-    }
-
-    if(r < .70){
-
-        return randomNumber(180,350) / 100;
-
-    }
-
-    if(r < .92){
-
-        return randomNumber(350,800) / 100;
-
-    }
-
-    return randomNumber(800,3000) / 100;
-
-}
-
-
-/* =========================================================
-   CRASH ACTION
-========================================================= */
-
-function crashAction(){
-
-    if(crashRunning){
-
-        cashOut();
-
-        return;
-
-    }
-
-
-    const amount =
-        Number(
-            document.getElementById(
-                "betAmount"
-            ).value
-        );
-
-
-    if(!Number.isFinite(amount)){
-
-        showToast("Неверная ставка");
-
-        return;
-
-    }
-
-
-    if(amount < 100){
-
-        showToast(
-            "Минимальная ставка — 100 COIN"
-        );
-
-        return;
-
-    }
-
-
-    if(amount > balance){
-
-        showToast(
-            "Недостаточно COIN"
-        );
-
-        return;
-
-    }
-
-
-    balance -= amount;
-
-    updateBalance();
-
-
-    crashBet = amount;
-
-    crashMultiplier = 1;
-
-    crashTarget =
-        generateCrashTarget();
-
-    crashRunning = true;
-
-    hasCashedOut = false;
-
-
-    document.getElementById(
-        "crashButton"
-    ).textContent =
-        "💰 Забрать выигрыш";
-
-
-    document.getElementById(
-        "crashButton"
-    ).className =
-        "crash-action green";
-
-
-    document.getElementById(
-        "crashStatus"
-    ).textContent =
-        "Раунд идёт";
-
-
-    runCrash();
-
-}
-
-
-/* =========================================================
-   CRASH LOOP
-========================================================= */
-
-function runCrash(){
-
-    clearInterval(crashTimer);
-
-
-    crashTimer =
-        setInterval(
-            () => {
-
-                crashMultiplier +=
-                    0.01 +
-                    crashMultiplier * 0.002;
-
-
-                crashMultiplier =
-                    Math.round(
-                        crashMultiplier * 100
-                    ) / 100;
-
-
-                document.getElementById(
-                    "multiplier"
-                ).textContent =
-                    crashMultiplier.toFixed(2) +
-                    "x";
-
-
-                const auto =
-                    Number(
-                        document.getElementById(
-                            "autoCashout"
-                        ).value
-                    );
-
-
-                const autoEnabled =
-                    document.getElementById(
-                        "autoSetting"
-                    ).checked;
-
-
-                if(
-                    autoEnabled &&
-                    Number.isFinite(auto) &&
-                    auto > 1 &&
-                    crashMultiplier >= auto &&
-                    !hasCashedOut
-                ){
-
-                    cashOut();
-
-                    return;
-
-                }
-
-
-                if(
-                    crashMultiplier >=
-                    crashTarget
-                ){
-
-                    crashEnd();
-
-                }
-
-            },
-            70
-        );
-
-}
-
-
-/* =========================================================
-   CASH OUT
-========================================================= */
-
-function cashOut(){
-
-    if(!crashRunning){
-
-        return;
-
-    }
-
-
-    if(hasCashedOut){
-
-        return;
-
-    }
-
-
-    hasCashedOut = true;
-
-
-    const win =
-        Math.floor(
-            crashBet *
-            crashMultiplier
-        );
-
-
-    balance += win;
-
-    updateBalance();
-
-
-    addHistory(
-        "win",
-        crashBet,
-        crashMultiplier,
-        win
-    );
-
-
-    showToast(
-        "Выигрыш +" +
-        formatCoins(win)
-    );
-
-
-    document.getElementById(
-        "crashStatus"
-    ).textContent =
-        "Вы забрали " +
-        crashMultiplier.toFixed(2) +
-        "x";
-
-
-    clearInterval(crashTimer);
-
-    crashRunning = false;
-
-
-    document.getElementById(
-        "crashButton"
-    ).textContent =
-        "🚀 Следующая ставка";
-
-
-    document.getElementById(
-        "crashButton"
-    ).className =
-        "crash-action";
-
-
-    setTimeout(
-        resetCrash,
-        1200
-    );
-
-}
-
-
-/* =========================================================
-   CRASH END
-========================================================= */
-
-function crashEnd(){
-
-    clearInterval(crashTimer);
-
-    crashRunning = false;
-
-
-    const final =
-        crashTarget;
-
-
-    document.getElementById(
-        "multiplier"
-    ).textContent =
-        final.toFixed(2) +
-        "x";
-
-
-    document.getElementById(
-        "crashStatus"
-    ).textContent =
-        "💥 CRASH";
-
-
-    addResult(final);
-
-
-    if(!hasCashedOut){
-
-        addHistory(
-            "loss",
-            crashBet,
-            final,
-            0
-        );
-
-        showToast(
-            "Ставка проиграла"
-        );
-
-    }
-
-
-    document.getElementById(
-        "crashButton"
-    ).textContent =
-        "🚀 Следующая ставка";
-
-
-    document.getElementById(
-        "crashButton"
-    ).className =
-        "crash-action";
-
-
-    setTimeout(
-        resetCrash,
-        1700
-    );
-
-}
-
-
-/* =========================================================
-   RESET CRASH
-========================================================= */
-
-function resetCrash(){
-
-    if(crashRunning){
-
-        return;
-
-    }
-
-
-    crashMultiplier = 1;
-
-    hasCashedOut = false;
-
-
-    document.getElementById(
-        "multiplier"
-    ).textContent =
-        "1.00x";
-
-
-    document.getElementById(
-        "crashStatus"
-    ).textContent =
-        "Ожидание раунда";
-
-
-    document.getElementById(
-        "crashButton"
-    ).textContent =
-        "🚀 Сделать ставку";
-
-
-    document.getElementById(
-        "crashButton"
-    ).className =
-        "crash-action";
-
-}
-
-
-/* =========================================================
-   LAST RESULTS
-========================================================= */
-
-function addResult(value){
-
-    lastResults.unshift(
-        Number(value.toFixed(2))
-    );
-
-
-    lastResults =
-        lastResults.slice(0,15);
-
-
-    localStorage.setItem(
-        "jacoobc_results",
-        JSON.stringify(lastResults)
-    );
-
-
-    renderResults();
-
-}
-
-
-function renderResults(){
-
-    const container =
-        document.getElementById(
-            "lastResults"
-        );
-
-
-    if(!lastResults.length){
-
-        container.innerHTML =
-            `<span class="result">Нет результатов</span>`;
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        lastResults
-            .map(
-                value => `
-
-                    <span
-                        class="result"
-                    >
-                        ${Number(value).toFixed(2)}x
-                    </span>
-
-                `
-            )
-            .join("");
-
-}
-
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-function addHistory(
-    type,
-    bet,
-    multiplier,
-    win
-){
-
-    history.unshift({
-
-        type,
-
-        bet,
-
-        multiplier,
-
-        win,
-
-        time:
-            new Date()
-                .toLocaleTimeString(
-                    "ru-RU",
-                    {
-                        hour:"2-digit",
-                        minute:"2-digit"
-                    }
-                )
-
-    });
-
-
-    history =
-        history.slice(0,30);
-
-
-    localStorage.setItem(
-        "jacoobc_history",
-        JSON.stringify(history)
-    );
-
-
-    renderHistory();
-
-}
-
-
-function renderHistory(){
-
-    const list =
-        document.getElementById(
-            "historyList"
-        );
-
-
-    if(!history.length){
-
-        list.innerHTML = `
-
-            <div class="history-row">
-
-                <span class="muted">
-                    История пуста
-                </span>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        history
-            .map(
-                item => {
-
-                    const isWin =
-                        item.type === "win";
-
-
-                    return `
-
-                        <div
-                            class="history-row"
-                        >
-
-                            <span>
-                                ${item.time}
-                                ·
-                                ${item.multiplier.toFixed(2)}x
-                            </span>
-
-                            <span
-                                class="${
-                                    isWin
-                                    ? "history-win"
-                                    : "history-loss"
-                                }"
-                            >
-
-                                ${
-                                    isWin
-                                    ? "+" + formatCoins(item.win)
-                                    : "-" + formatCoins(item.bet)
-                                }
-
-                            </span>
-
-                        </div>
-
-                    `;
-
-                }
-            )
-            .join("");
-
-}
-
-
-/* =========================================================
-   PLAYERS
-========================================================= */
-
-const fakePlayers = [
-
-    ["Daulet","2 500"],
-    ["Madi","1 200"],
-    ["Arsen","700"],
-    ["Nurik","5 000"],
-    ["Ayan","350"],
-    ["RedmiUser","900"],
-    ["K5","3 000"],
-    ["Jacoob","650"]
-
-];
-
-
-function renderPlayers(){
-
-    const list =
-        document.getElementById(
-            "playersList"
-        );
-
-
-    list.innerHTML =
-        fakePlayers
-            .map(
-                player => `
-
-                    <div class="player">
-
-                        <div class="avatar">
-                            ${player[0][0]}
-                        </div>
-
-                        <div class="player-info">
-
-                            <div class="player-name">
-                                ${player[0]}
-                            </div>
-
-                            <div class="player-bet">
-                                Ставка ${player[1]} COIN
-                            </div>
-
-                        </div>
-
-                        <div class="player-win">
-                            LIVE
-                        </div>
-
-                    </div>
-
-                `
-            )
-            .join("");
-
-}
-
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-function saveSetting(
-    key,
-    value
-){
-
-    localStorage.setItem(
-        "setting_" + key,
-        value ? "1" : "0"
-    );
-
-}
-
-
-function loadSettings(){
-
-    const keys = [
-
-        "notifications",
-        "vibration",
-        "effects",
-        "autoSetting"
-
-    ];
-
-
-    keys.forEach(
-        key => {
-
-            const saved =
-                localStorage.getItem(
-                    "setting_" + key
-                );
-
-
-            if(saved !== null){
-
-                document.getElementById(
-                    key
-                ).checked =
-                    saved === "1";
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer;
-
-
-function showToast(message){
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-
-    toast.textContent =
-        message;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(toastTimer);
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            2200
-        );
-
-}
-
-
-/* =========================================================
-   VIBRATION
-========================================================= */
-
-function vibrate(){
-
-    const enabled =
-        document.getElementById(
-            "vibration"
-        );
-
-
-    if(
-        enabled &&
-        enabled.checked &&
-        navigator.vibrate
-    ){
-
-        navigator.vibrate(12);
-
-    }
-
-}
-
-
-/* =========================================================
-   BUTTON VIBRATION
-========================================================= */
-
-document.addEventListener(
-    "click",
-    e => {
-
-        if(
-            e.target.closest("button") ||
-            e.target.closest(".device-card") ||
-            e.target.closest(".nav-item")
-        ){
-
-            vibrate();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   PREVENT MOBILE ZOOM
-========================================================= */
-
-document.addEventListener(
-    "gesturestart",
-    e => {
-
-        e.preventDefault();
-
-    },
-    {
-        passive:false
-    }
-);
-
-
-document.addEventListener(
-    "gesturechange",
-    e => {
-
-        e.preventDefault();
-
-    },
-    {
-        passive:false
-    }
-);
-
-
-document.addEventListener(
-    "gestureend",
-    e => {
-
-        e.preventDefault();
-
-    },
-    {
-        passive:false
-    }
-);
-
-
-let lastTouchEnd = 0;
-
-
-document.addEventListener(
-    "touchend",
-    e => {
-
-        const now =
-            Date.now();
-
-
-        if(
-            now - lastTouchEnd <= 300
-        ){
-
+    <script>
+        const devices = [
+            // Apple
+            { name: "iPhone 15 Pro Max", cat: "apple", hs: "98%", obzor: 175, kol: 145, x2: 170, x4: 172, sniper: 110, size: 39 },
+            { name: "iPhone 15 Pro", cat: "apple", hs: "97%", obzor: 170, kol: 142, x2: 168, x4: 170, sniper: 108, size: 40 },
+            { name: "iPhone 15", cat: "apple", hs: "94%", obzor: 165, kol: 138, x2: 162, x4: 165, sniper: 105, size: 42 },
+            { name: "iPhone 14 Pro Max", cat: "apple", hs: "96%", obzor: 168, kol: 140, x2: 163, x4: 168, sniper: 107, size: 41 },
+            { name: "iPhone 14 Pro", cat: "apple", hs: "95%", obzor: 166, kol: 139, x2: 161, x4: 166, sniper: 106, size: 41 },
+            { name: "iPhone 14", cat: "apple", hs: "92%", obzor: 160, kol: 135, x2: 158, x4: 160, sniper: 102, size: 44 },
+            { name: "iPhone 13 Pro Max", cat: "apple", hs: "94%", obzor: 164, kol: 136, x2: 160, x4: 164, sniper: 104, size: 43 },
+            { name: "iPhone 13 Pro", cat: "apple", hs: "93%", obzor: 162, kol: 135, x2: 159, x4: 162, sniper: 103, size: 43 },
+            { name: "iPhone 13", cat: "apple", hs: "90%", obzor: 155, kol: 130, x2: 152, x4: 155, sniper: 100, size: 45 },
+            { name: "iPhone 12 Pro Max", cat: "apple", hs: "91%", obzor: 158, kol: 132, x2: 155, x4: 158, sniper: 101, size: 45 },
+            { name: "iPhone 12 Pro", cat: "apple", hs: "90%", obzor: 156, kol: 130, x2: 153, x4: 156, sniper: 99, size: 46 },
+            { name: "iPhone 12", cat: "apple", hs: "88%", obzor: 150, kol: 125, x2: 148, x4: 150, sniper: 95, size: 48 },
+            { name: "iPhone 11 Pro Max", cat: "apple", hs: "88%", obzor: 152, kol: 128, x2: 150, x4: 152, sniper: 97, size: 47 },
+            { name: "iPhone 11", cat: "apple", hs: "85%", obzor: 145, kol: 120, x2: 142, x4: 145, sniper: 92, size: 50 },
+            { name: "iPhone X / XR", cat: "apple", hs: "83%", obzor: 140, kol: 115, x2: 138, x4: 140, sniper: 88, size: 52 },
+
+            // Xiaomi & Poco
+            { name: "Xiaomi 14 Ultra", cat: "xiaomi", hs: "97%", obzor: 172, kol: 144, x2: 169, x4: 171, sniper: 109, size: 40 },
+            { name: "Xiaomi 13T Pro", cat: "xiaomi", hs: "95%", obzor: 168, kol: 140, x2: 165, x4: 168, sniper: 106, size: 42 },
+            { name: "Xiaomi 13 Pro", cat: "xiaomi", hs: "94%", obzor: 165, kol: 138, x2: 162, x4: 165, sniper: 105, size: 42 },
+            { name: "Xiaomi 12T Pro", cat: "xiaomi", hs: "93%", obzor: 162, kol: 135, x2: 160, x4: 162, sniper: 103, size: 43 },
+            { name: "Poco F6 Pro", cat: "xiaomi", hs: "98%", obzor: 178, kol: 148, x2: 174, x4: 176, sniper: 112, size: 38 },
+            { name: "Poco F6", cat: "xiaomi", hs: "96%", obzor: 170, kol: 142, x2: 167, x4: 169, sniper: 107, size: 40 },
+            { name: "Poco X6 Pro", cat: "xiaomi", hs: "95%", obzor: 167, kol: 139, x2: 164, x4: 167, sniper: 106, size: 41 },
+            { name: "Poco X6", cat: "xiaomi", hs: "92%", obzor: 158, kol: 132, x2: 155, x4: 158, sniper: 101, size: 44 },
+            { name: "Poco F5 Pro", cat: "xiaomi", hs: "94%", obzor: 164, kol: 136, x2: 161, x4: 164, sniper: 104, size: 43 },
+            { name: "Poco F5", cat: "xiaomi", hs: "93%", obzor: 161, kol: 134, x2: 158, x4: 161, sniper: 102, size: 44 },
+            { name: "Poco X5 Pro", cat: "xiaomi", hs: "90%", obzor: 154, kol: 128, x2: 151, x4: 154, sniper: 98, size: 46 },
+            { name: "Redmi Note 13 Pro+", cat: "xiaomi", hs: "92%", obzor: 159, kol: 133, x2: 156, x4: 159, sniper: 101, size: 44 },
+            { name: "Redmi Note 13 Pro", cat: "xiaomi", hs: "91%", obzor: 156, kol: 130, x2: 153, x4: 156, sniper: 100, size: 45 },
+            { name: "Redmi Note 12 Pro", cat: "xiaomi", hs: "89%", obzor: 150, kol: 125, x2: 148, x4: 150, sniper: 96, size: 47 },
+            { name: "Redmi Note 11 Pro", cat: "xiaomi", hs: "86%", obzor: 145, kol: 120, x2: 142, x4: 145, sniper: 92, size: 49 },
+
+            // Samsung
+            { name: "Samsung Galaxy S24 Ultra", cat: "samsung", hs: "99%", obzor: 180, kol: 150, x2: 175, x4: 178, sniper: 115, size: 38 },
+            { name: "Samsung Galaxy S24+", cat: "samsung", hs: "96%", obzor: 170, kol: 142, x2: 168, x4: 170, sniper: 108, size: 40 },
+            { name: "Samsung Galaxy S23 Ultra", cat: "samsung", hs: "97%", obzor: 172, kol: 144, x2: 170, x4: 172, sniper: 109, size: 40 },
+            { name: "Samsung Galaxy S23+", cat: "samsung", hs: "94%", obzor: 165, kol: 138, x2: 162, x4: 165, sniper: 105, size: 42 },
+            { name: "Samsung Galaxy S22 Ultra", cat: "samsung", hs: "93%", obzor: 162, kol: 135, x2: 159, x4: 162, sniper: 103, size: 43 },
+            { name: "Samsung Galaxy A55", cat: "samsung", hs: "91%", obzor: 158, kol: 132, x2: 155, x4: 158, sniper: 101, size: 44 },
+            { name: "Samsung Galaxy A54", cat: "samsung", hs: "90%", obzor: 155, kol: 130, x2: 152, x4: 155, sniper: 99, size: 45 },
+            { name: "Samsung Galaxy A34", cat: "samsung", hs: "87%", obzor: 148, kol: 124, x2: 145, x4: 148, sniper: 95, size: 48 },
+            { name: "Samsung Galaxy A24", cat: "samsung", hs: "85%", obzor: 142, kol: 118, x2: 140, x4: 142, sniper: 91, size: 50 },
+
+            // Other
+            { name: "OnePlus 12", cat: "other", hs: "98%", obzor: 176, kol: 146, x2: 172, x4: 175, sniper: 112, size: 38 },
+            { name: "OnePlus 11", cat: "other", hs: "95%", obzor: 168, kol: 140, x2: 165, x4: 168, sniper: 106, size: 41 },
+            { name: "Realme GT 5 Pro", cat: "other", hs: "97%", obzor: 174, kol: 145, x2: 170, x4: 173, sniper: 110, size: 39 },
+            { name: "Realme 12 Pro+", cat: "other", hs: "92%", obzor: 159, kol: 133, x2: 156, x4: 159, sniper: 101, size: 44 },
+            { name: "Infinix Zero 30", cat: "other", hs: "90%", obzor: 155, kol: 130, x2: 152, x4: 155, sniper: 98, size: 45 },
+            { name: "Tecno Camon 20 Pro", cat: "other", hs: "89%", obzor: 152, kol: 128, x2: 150, x4: 152, sniper: 97, size: 46 },
+            { name: "Vivo V30 Pro", cat: "other", hs: "93%", obzor: 163, kol: 136, x2: 160, x4: 163, sniper: 104, size: 42 },
+            { name: "ASUS ROG Phone 8", cat: "other", hs: "99%", obzor: 185, kol: 155, x2: 180, x4: 182, sniper: 118, size: 35 },
+            { name: "Black Shark 5 Pro", cat: "other", hs: "98%", obzor: 182, kol: 152, x2: 178, x4: 180, sniper: 116, size: 36 }
+        ];
+
+        let currentCategory = 'all';
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
 
+            if (u === 'qwerty0' && p === 'zxc010') {
+                document.getElementById('login-screen').classList.add('opacity-0');
+                setTimeout(() => {
+                    document.getElementById('login-screen').style.display = 'none';
+                    const main = document.getElementById('main-app');
+                    main.classList.remove('hidden');
+                    setTimeout(() => main.classList.remove('opacity-0'), 50);
+                    renderDevices(devices);
+                }, 300);
+            } else {
+                const err = document.getElementById('login-error');
+                err.classList.remove('hidden');
+                setTimeout(() => err.classList.add('hidden'), 3000);
+            }
+        });
+
+        function renderDevices(list) {
+            const grid = document.getElementById('devices-grid');
+            grid.innerHTML = '';
+            
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-500 text-sm">Устройства не найдены</div>`;
+                return;
+            }
+
+            list.forEach(dev => {
+                const card = document.createElement('div');
+                card.className = "bg-[#12121e] hover:bg-[#18182d] border border-purple-900/30 hover:border-purple-500/60 rounded-2xl p-4 cursor-pointer transition-all transform active:scale-95 flex flex-col justify-between neon-glow-purple";
+                card.onclick = () => openDeviceModal(dev);
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-purple-950 text-purple-400 rounded-md border border-purple-500/20">CONFIG</span>
+                            <span class="text-xs font-black text-emerald-400">${dev.hs} HS</span>
+                        </div>
+                        <h3 class="text-sm font-extrabold text-white leading-snug">${dev.name}</h3>
+                    </div>
+                    <div class="mt-4 pt-2 border-t border-purple-950 flex items-center justify-between text-[11px] text-gray-400">
+                        <span>Обзор: ${dev.obzor}</span>
+                        <span class="text-purple-400 font-bold flex items-center gap-1">Открыть &rarr;</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
         }
 
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#12121e] text-gray-400 hover:text-white border border-purple-900/30 shrink-0 transition-all";
+            });
+            event.target.className = "cat-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shrink-0 transition-all";
 
-        lastTouchEnd = now;
-
-    },
-    {
-        passive:false
-    }
-);
-
-
-/* =========================================================
-   INIT
-========================================================= */
-
-function init(){
-
-    updateBalance();
-
-    renderDevices();
-
-    renderResults();
-
-    renderHistory();
-
-    renderPlayers();
-
-    loadSettings();
-
-}
-
-
-init();
-
-
-/* =========================================================
-   KEYBOARD SHORTCUTS
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    e => {
-
-        if(e.key === "Escape"){
-
-            closeDeviceModal();
-
+            const query = document.getElementById('search-input').value.toLowerCase();
+            applyFilters(query, cat);
         }
 
-    }
-);
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            applyFilters(query, currentCategory);
+        });
 
+        function applyFilters(query, cat) {
+            let filtered = devices;
+            if (cat !== 'all') {
+                filtered = filtered.filter(d => d.cat === cat);
+            }
+            if (query) {
+                filtered = filtered.filter(d => d.name.toLowerCase().includes(query));
+            }
+            renderDevices(filtered);
+        }
 
-/* =========================================================
-   PREVENT CONTEXT MENU
-========================================================= */
+        let activeDevice = null;
 
-document.addEventListener(
-    "contextmenu",
-    e => {
+        function openDeviceModal(dev) {
+            activeDevice = dev;
+            document.getElementById('modal-title').innerText = dev.name;
+            document.getElementById('stat-headshot').innerText = dev.hs;
 
-        e.preventDefault();
+            setSliderValueQuiet('obzor', dev.obzor);
+            setSliderValueQuiet('kolimator', dev.kol);
+            setSliderValueQuiet('2x', dev.x2);
+            setSliderValueQuiet('4x', dev.x4);
+            setSliderValueQuiet('sniper', dev.sniper);
+            setSliderValueQuiet('btnsize', dev.size);
 
-    }
-);
+            const modal = document.getElementById('device-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('translate-y-full');
+            }, 10);
+        }
 
+        function closeModal() {
+            const modal = document.getElementById('device-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('translate-y-full');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
 
-/* =========================================================
-   DEVICE RANDOMIZATION
-========================================================= */
+        function setSliderValueQuiet(id, val) {
+            const inputs = document.querySelectorAll(`input[oninput*="${id}"]`);
+            if (inputs.length > 0) {
+                inputs[0].value = val;
+            }
+            const valDisplay = document.getElementById(`val-${id}`);
+            if (valDisplay) {
+                valDisplay.innerText = id === 'btnsize' ? val + '%' : val;
+            }
+        }
 
-function regenerateSelectedDevice(){
+        function updateSliderVal(id, val) {
+            const valDisplay = document.getElementById(`val-${id}`);
+            if (valDisplay) {
+                valDisplay.innerText = id === 'btnsize' ? val + '%' : val;
+            }
+        }
 
-    if(!selectedDevice){
+        function copyConfig() {
+            const text = `🔥 Device: ${activeDevice.name}\n🎯 Обзор: ${document.getElementById('val-obzor').innerText}\n🔭 Коллиматор: ${document.getElementById('val-kolimator').innerText}\n🔍 2x: ${document.getElementById('val-2x').innerText}\n🔭 4x: ${document.getElementById('val-4x').innerText}\n🎯 Снайпер: ${document.getElementById('val-sniper').innerText}\n📏 Кнопка: ${document.getElementById('val-btnsize').innerText}`;
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+                closeModal();
+            } catch (err) {
+                console.error('Failed to copy', err);
+            }
+            document.body.removeChild(textArea);
+        }
 
-        return;
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('opacity-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 2000);
+        }
 
-    }
-
-
-    const key =
-        "device_stats_" +
-        selectedDevice.replace(
-            /\W/g,
-            "_"
-        );
-
-
-    localStorage.removeItem(key);
-
-    openDevice(
-        selectedDevice
-    );
-
-}
-
-
-/* =========================================================
-   BALANCE DEBUG DISPLAY
-========================================================= */
-
-window.getBalance =
-    function(){
-
-        return balance;
-
-    };
-
-
-/* =========================================================
-   RESET LOCAL DATA
-========================================================= */
-
-window.resetLocalData =
-    function(){
-
-        localStorage.removeItem(
-            "jacoobc_balance"
-        );
-
-        localStorage.removeItem(
-            "jacoobc_results"
-        );
-
-        localStorage.removeItem(
-            "jacoobc_history"
-        );
-
-        location.reload();
-
-    };
-
-
-</script>
-
+        document.getElementById('device-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
