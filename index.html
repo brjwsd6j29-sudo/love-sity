@@ -1,802 +1,153 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CYBER SENS PRO - Ultimate Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        * {
-            font-family: 'Montserrat', sans-serif;
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-        }
-        body {
-            background-color: #030308;
-            color: #ffffff;
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
-        }
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-        .app-container {
-            position: relative;
-            z-index: 10;
-        }
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #090914;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #8b5cf6;
-            border-radius: 4px;
-        }
-        .neon-glow-purple {
-            box-shadow: 0 0 25px rgba(139, 92, 246, 0.35), inset 0 0 15px rgba(139, 92, 246, 0.15);
-        }
-        .neon-glow-orange {
-            box-shadow: 0 0 25px rgba(249, 115, 22, 0.4);
-        }
-        .neon-glow-cyan {
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.4);
-        }
-        .neon-glow-emerald {
-            box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
-        }
-        .neon-text {
-            text-shadow: 0 0 12px rgba(168, 85, 247, 0.8);
-        }
-        /* Locked range sliders styling */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-            pointer-events: none;
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 8px;
-            background: #181632;
-            border-radius: 9999px;
-            border: 1px solid #581c87;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            height: 18px;
-            width: 18px;
-            border-radius: 50%;
-            background: #a855f7;
-            -webkit-appearance: none;
-            margin-top: -5px;
-            box-shadow: 0 0 12px #c084fc;
-        }
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .animate-enter {
-            animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-            opacity: 0;
-        }
-        .accordion-content.active {
-            max-height: 2500px;
-            opacity: 1;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>36 карт</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: #0b0d12;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin: 0 0 8px;
+}
+
+.info {
+    text-align: center;
+    color: #8c93a3;
+    margin-bottom: 20px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.card {
+    height: 100px;
+    background: #151922;
+    border: 1px solid #292e3a;
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.card:active {
+    transform: scale(0.95);
+}
+
+.value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.suit {
+    font-size: 28px;
+    margin-top: 5px;
+}
+
+.status {
+    font-size: 12px;
+    color: #858d9d;
+    margin-top: 4px;
+}
+
+/* УШЛА */
+.card.gone {
+    background: #555;
+    border-color: #666;
+    color: #aaa;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.card.gone .status {
+    color: #ccc;
+}
+</style>
 </head>
-<body class="min-h-screen flex flex-col">
 
-    <canvas id="bg-canvas"></canvas>
+<body>
 
-    <div id="login-screen" class="fixed inset-0 z-50 bg-[#030308]/90 backdrop-blur-xl flex items-center justify-center p-4">
-        <div class="w-full max-w-sm bg-[#0d0c1d]/95 border border-purple-500/40 rounded-3xl p-6 neon-glow-purple relative overflow-hidden animate-enter">
-            <div class="absolute -top-16 -right-16 w-36 h-36 bg-purple-600/30 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-16 -left-16 w-36 h-36 bg-indigo-600/30 rounded-full blur-3xl"></div>
-            
-            <div class="text-center mb-6 relative z-10">
-                <div class="inline-block p-3.5 bg-purple-950/60 rounded-2xl border border-purple-500/50 mb-3 text-purple-400 neon-glow-purple">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                </div>
-                <h1 class="text-2xl font-black text-white tracking-wider">CYBER <span class="text-purple-400 neon-text">SENS</span></h1>
-                <p class="text-xs text-gray-400 mt-1">Авторизованный доступ к элитным конфигам</p>
-            </div>
+<h1>36 карт</h1>
 
-            <form id="login-form" class="space-y-4 relative z-10">
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">Логин</label>
-                    <input type="text" id="username" required placeholder="Введите логин" class="w-full bg-[#14122b] border border-purple-900/60 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition-all">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">Пароль</label>
-                    <input type="password" id="password" required placeholder="Введите пароль" class="w-full bg-[#14122b] border border-purple-900/60 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition-all">
-                </div>
-                <div id="login-error" class="text-xs text-red-400 text-center hidden font-bold">Неверный логин или пароль!</div>
-                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs tracking-wider rounded-xl shadow-lg shadow-purple-900/60 transition-all transform active:scale-95">
-                    ВОЙТИ В СИСТЕМУ
-                </button>
-            </form>
-        </div>
-    </div>
+<div class="info">
+    Нажми на карту — она уйдёт
+</div>
 
-    <div id="main-app" class="app-container flex-1 flex flex-col hidden opacity-0 transition-opacity duration-700">
-        
-        <!-- Top Menu Categories (Accordion Accord) -->
-        <header class="sticky top-0 z-30 bg-[#030308]/90 backdrop-blur-md border-b border-purple-900/30 px-3 py-3">
-            <div class="max-w-4xl mx-auto overflow-x-auto whitespace-nowrap scrollbar-none flex gap-2.5 py-1 items-center justify-start sm:justify-center">
-                
-                <button onclick="toggleCategory('cheat')" id="btn-cheat" class="cat-btn inline-flex items-center gap-1.5 px-4 py-2 bg-[#0d0c1d] border border-orange-500/40 rounded-2xl text-xs font-bold text-orange-200 shrink-0 transition-all transform active:scale-95">
-                    🔥 Чит Настройка <span class="bg-orange-500 text-black px-1.5 py-0.5 rounded-lg text-[10px] font-black">300₸</span>
-                </button>
+<div class="cards" id="cards"></div>
 
-                <button onclick="toggleCategory('vip')" id="btn-vip" class="cat-btn inline-flex items-center gap-1.5 px-4 py-2 bg-[#0d0c1d] border border-purple-500/30 rounded-2xl text-xs font-bold text-gray-300 shrink-0 transition-all transform active:scale-95">
-                    💎 Вип настройка <span class="bg-purple-600 text-white px-1.5 py-0.5 rounded-lg text-[10px] font-black">250₸</span>
-                </button>
+<script>
 
-                <button onclick="toggleCategory('titan')" id="btn-titan" class="cat-btn inline-flex items-center gap-1.5 px-4 py-2 bg-[#0d0c1d] border border-cyan-500/30 rounded-2xl text-xs font-bold text-gray-300 shrink-0 transition-all transform active:scale-95">
-                    ⚡ Титановый <span class="bg-cyan-600 text-black px-1.5 py-0.5 rounded-lg text-[10px] font-black">200₸</span>
-                </button>
+const cards = document.getElementById("cards");
 
-                <button onclick="toggleCategory('update')" id="btn-update" class="cat-btn inline-flex items-center gap-1.5 px-4 py-2 bg-[#0d0c1d] border border-emerald-500/30 rounded-2xl text-xs font-bold text-gray-300 shrink-0 transition-all transform active:scale-95">
-                    ✨ Обнова <span class="bg-emerald-600 text-black px-1.5 py-0.5 rounded-lg text-[10px] font-black">FREE</span>
-                </button>
+const suits = [
+    "♥️",
+    "♦️",
+    "♠️",
+    "♣️"
+];
 
-            </div>
-        </header>
+// 36 карт
+const values = [
+    "6", "7", "8", "9", "10", "В", "Д", "К", "Т"
+];
 
-        <!-- Accordion Container for Top Categories -->
-        <main class="flex-1 max-w-2xl w-full mx-auto px-4 py-5 pb-16">
-            
-            <!-- Category Accordion Body -->
-            <div id="category-accordion" class="accordion-content mb-6">
-                <div id="category-header-card" class="bg-[#0d0c1d]/95 border border-orange-500/40 rounded-3xl p-5 neon-glow-orange transition-all duration-300">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <span id="badge-type" class="text-[10px] font-black px-2.5 py-1 bg-orange-950 text-orange-300 rounded-lg border border-orange-500/30 uppercase tracking-widest">Максимальный буст</span>
-                            <h2 id="cat-title" class="text-xl font-black text-white mt-1.5 tracking-wide">Чит Настройка (Aimbot Pro)</h2>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-[10px] text-gray-400 font-semibold">Шанс хедшота</div>
-                            <div id="cat-hs" class="text-base font-black text-emerald-400">99.4%</div>
-                        </div>
-                    </div>
+// Создаём карты
+suits.forEach(suit => {
 
-                    <!-- Locked range sliders -->
-                    <div class="space-y-3.5 pt-2">
-                        <div>
-                            <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-gray-300">🎯 Обзор</span>
-                                <span id="val-obzor" class="text-purple-400 font-mono">185</span>
-                            </div>
-                            <input type="range" id="slider-obzor" min="50" max="200" value="185" disabled>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-gray-300">🔭 Коллиматор</span>
-                                <span id="val-kolimator" class="text-purple-400 font-mono">150</span>
-                            </div>
-                            <input type="range" id="slider-kolimator" min="50" max="200" value="150" disabled>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-gray-300">🔍 Прицел 2x</span>
-                                <span id="val-2x" class="text-purple-400 font-mono">175</span>
-                            </div>
-                            <input type="range" id="slider-2x" min="50" max="200" value="175" disabled>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-gray-300">🔭 Прицел 4x</span>
-                                <span id="val-4x" class="text-purple-400 font-mono">178</span>
-                            </div>
-                            <input type="range" id="slider-4x" min="50" max="200" value="178" disabled>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-gray-300">🎯 Снайпер</span>
-                                <span id="val-sniper" class="text-purple-400 font-mono">115</span>
-                            </div>
-                            <input type="range" id="slider-sniper" min="30" max="180" value="115" disabled>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-gray-300">📏 Кнопка размер</span>
-                                <span id="val-btnsize" class="text-purple-400 font-mono">38%</span>
-                            </div>
-                            <input type="range" id="slider-btnsize" min="30" max="70" value="38" disabled>
-                        </div>
-                    </div>
+    values.forEach(value => {
 
-                    <!-- Copy Config Button -->
-                    <div class="mt-6">
-                        <button onclick="copyCurrentConfig()" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs tracking-wider rounded-xl shadow-lg shadow-purple-900/50 transition-all active:scale-95 flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-                            СКОПИРОВАТЬ ЭТОТ КОНФИГ
-                        </button>
-                    </div>
+        const card = document.createElement("div");
 
-                    <!-- Category Devices Sub-list -->
-                    <div class="mt-6 pt-5 border-t border-purple-900/40">
-                        <h4 class="text-xs font-black text-gray-300 uppercase tracking-wider mb-3">Подходящие девайсы для этой категории:</h4>
-                        <div id="category-devices-list" class="flex flex-wrap gap-1.5">
-                            <!-- Populated dynamically -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+        card.className = "card";
 
-            <div class="mb-8">
-                <div class="flex items-center justify-between mb-3 px-1">
-                    <h3 class="text-sm font-black text-white tracking-wide uppercase flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-purple-500 inline-block"></span>
-                        Каталог девайсов (50+ настроек)
-                    </h3>
-                    <span id="total-devices-count" class="text-[10px] text-purple-400 font-bold bg-purple-950/80 px-2.5 py-1 rounded-lg border border-purple-500/30">54 устройства</span>
-                </div>
-                
-                <!-- Search input for devices -->
-                <div class="mb-4">
-                    <input type="text" id="device-search" oninput="filterDevices()" placeholder="🔍 Поиск вашего телефона (например: iPhone, Poco, Samsung)..." class="w-full bg-[#0d0c1d] border border-purple-900/50 rounded-2xl px-4 py-3 text-xs text-white focus:outline-none focus:border-purple-500 transition-all">
-                </div>
+        card.innerHTML = `
+            <div class="value">${value}</div>
+            <div class="suit">${suit}</div>
+            <div class="status">Свободна</div>
+        `;
 
-                <div id="devices-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                    <!-- Populated dynamically with 50+ items -->
-                </div>
-            </div>
+        card.onclick = () => {
 
-            <div class="bg-[#0d0c1d]/90 border border-purple-500/30 rounded-3xl p-5 mb-6 neon-glow-purple">
-                <h3 class="text-sm font-black text-white tracking-wide uppercase mb-4 flex items-center gap-2">
-                    ⚙️ Настройки интерфейса и звука
-                </h3>
-                
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-300 mb-2">🎨 Вариант живого фона:</label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="setBgTheme(1)" id="bg-btn-1" class="py-2.5 px-3 bg-purple-900/40 border border-purple-500 rounded-xl text-xs font-bold text-white transition-all">Киберпанк Сетка</button>
-                            <button onclick="setBgTheme(2)" id="bg-btn-2" class="py-2.5 px-3 bg-[#14122b] border border-purple-900/50 rounded-xl text-xs font-bold text-gray-400 transition-all">Космос Частицы</button>
-                            <button onclick="setBgTheme(3)" id="bg-btn-3" class="py-2.5 px-3 bg-[#14122b] border border-purple-900/50 rounded-xl text-xs font-bold text-gray-400 transition-all">Неоновые Волны</button>
-                            <button onclick="setBgTheme(4)" id="bg-btn-4" class="py-2.5 px-3 bg-[#14122b] border border-purple-900/50 rounded-xl text-xs font-bold text-gray-400 transition-all">Матричный Дождь</button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-gray-300 mb-2">🎵 Звуковой пресет:</label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="setSoundPreset('laser')" id="snd-btn-laser" class="py-2.5 px-3 bg-purple-900/40 border border-purple-500 rounded-xl text-xs font-bold text-white transition-all">Лазер ⚡</button>
-                            <button onclick="setSoundPreset('metal')" id="snd-btn-metal" class="py-2.5 px-3 bg-[#14122b] border border-purple-900/50 rounded-xl text-xs font-bold text-gray-400 transition-all">Металл 🔔</button>
-                            <button onclick="setSoundPreset('retro')" id="snd-btn-retro" class="py-2.5 px-3 bg-[#14122b] border border-purple-900/50 rounded-xl text-xs font-bold text-gray-400 transition-all">Ретро 🕹️</button>
-                            <button onclick="setSoundPreset('pop')" id="snd-btn-pop" class="py-2.5 px-3 bg-[#14122b] border border-purple-900/50 rounded-xl text-xs font-bold text-gray-400 transition-all">Мягкий Поп 💧</button>
-                        </div>
-                    </div>
-
-                    <div class="pt-2">
-                        <button onclick="toggleAudioMute()" id="mute-btn" class="w-full py-3 bg-[#14122b] border border-purple-500/40 rounded-xl text-xs font-bold text-white transition-all flex items-center justify-center gap-2">
-                            🔊 Звук: <span id="mute-status" class="text-emerald-400 font-black">ВКЛЮЧЕН</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-    </div>
-
-    <div id="device-modal" class="fixed inset-0 z-50 bg-[#030308]/85 backdrop-blur-md hidden items-center justify-center p-4">
-        <div id="modal-box" class="w-full max-w-sm bg-[#0d0c1d] border border-purple-500/50 rounded-3xl p-6 neon-glow-purple relative animate-enter max-h-[90vh] overflow-y-auto">
-            <button onclick="closeDeviceModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-
-            <div class="mb-4">
-                <span id="modal-dev-brand" class="text-[10px] font-black px-2.5 py-1 bg-purple-950 text-purple-300 rounded-lg border border-purple-500/30 uppercase tracking-widest">Смартфон</span>
-                <h3 id="modal-dev-name" class="text-lg font-black text-white mt-1.5">iPhone 14 Pro</h3>
-            </div>
-
-            <!-- Locked Sliders for specific device -->
-            <div class="space-y-3 mb-5">
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🎯 Обзор</span>
-                        <span id="m-val-obzor" class="text-purple-400 font-mono">175</span>
-                    </div>
-                    <input type="range" id="m-slider-obzor" min="50" max="200" value="175" disabled>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🔭 Коллиматор</span>
-                        <span id="m-val-kolimator" class="text-purple-400 font-mono">140</span>
-                    </div>
-                    <input type="range" id="m-slider-kolimator" min="50" max="200" value="140" disabled>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🔍 Прицел 2x</span>
-                        <span id="m-val-2x" class="text-purple-400 font-mono">165</span>
-                    </div>
-                    <input type="range" id="m-slider-2x" min="50" max="200" value="165" disabled>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🔭 Прицел 4x</span>
-                        <span id="m-val-4x" class="text-purple-400 font-mono">168</span>
-                    </div>
-                    <input type="range" id="m-slider-4x" min="50" max="200" value="168" disabled>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">🎯 Снайпер</span>
-                        <span id="m-val-sniper" class="text-purple-400 font-mono">105</span>
-                    </div>
-                    <input type="range" id="m-slider-sniper" min="30" max="180" value="105" disabled>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                        <span class="text-gray-300">📏 Кнопка размер</span>
-                        <span id="m-val-btnsize" class="text-purple-400 font-mono">42%</span>
-                    </div>
-                    <input type="range" id="m-slider-btnsize" min="30" max="70" value="42" disabled>
-                </div>
-            </div>
-
-            <button onclick="copyModalConfig()" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs tracking-wider rounded-xl shadow-lg shadow-purple-900/50 transition-all active:scale-95 flex items-center justify-center gap-2">
-                СКОПИРОВАТЬ НАСТРОЙКИ ДЕВАЙСА
-            </button>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-purple-900 text-white px-5 py-2.5 rounded-2xl text-xs font-bold shadow-2xl border border-purple-500/50 transition-all duration-300 opacity-0 pointer-events-none z-50">
-        Конфиг скопирован в буфер обмена!
-    </div>
-
-    <script>
-        // Web Audio API & Sound Presets
-        let audioCtx = null;
-        let soundPreset = 'laser';
-        let isMuted = false;
-
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        function playSound(type) {
-            if (isMuted) return;
-            try {
-                initAudio();
-                if (!audioCtx) return;
-                
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                const now = audioCtx.currentTime;
-
-                if (soundPreset === 'laser') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(soundPreset === 'laser' && type === 'click' ? 400 : 600, now);
-                    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
-                    gain.gain.setValueAtTime(0.12, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-                    osc.start(now);
-                    osc.stop(now + 0.1);
-                } else if (soundPreset === 'metal') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(220, now);
-                    osc.frequency.setValueAtTime(440, now + 0.05);
-                    gain.gain.setValueAtTime(0.18, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-                    osc.start(now);
-                    osc.stop(now + 0.15);
-                } else if (soundPreset === 'retro') {
-                    osc.type = 'square';
-                    osc.frequency.setValueAtTime(150, now);
-                    osc.frequency.setValueAtTime(300, now + 0.04);
-                    osc.frequency.setValueAtTime(450, now + 0.08);
-                    gain.gain.setValueAtTime(0.1, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
-                    osc.start(now);
-                    osc.stop(now + 0.12);
-                } else if (soundPreset === 'pop') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(800, now);
-                    osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
-                    gain.gain.setValueAtTime(0.15, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
-                    osc.start(now);
-                    osc.stop(now + 0.08);
-                }
-            } catch(e) {
-                console.log('Audio error', e);
-            }
-        }
-
-        function setSoundPreset(preset) {
-            playSound('click');
-            soundPreset = preset;
-            ['laser', 'metal', 'retro', 'pop'].forEach(p => {
-                const btn = document.getElementById(`snd-btn-${p}`);
-                if (p === preset) {
-                    btn.className = "py-2.5 px-3 bg-purple-900/40 border border-purple-500 rounded-xl text-xs font-bold text-white transition-all";
-                } else {
-                    btn.className = "py-2.5 px-3 bg-[#14122b] border border-purple-900/50 rounded-xl text-xs font-bold text-gray-400 transition-all";
-                }
-            });
-        }
-
-        function toggleAudioMute() {
-            isMuted = !isMuted;
-            const status = document.getElementById('mute-status');
-            if (isMuted) {
-                status.innerText = "ВЫКЛЮЧЕН";
-                status.className = "text-red-400 font-black";
-            } else {
-                status.innerText = "ВКЛЮЧЕН";
-                status.className = "text-emerald-400 font-black";
-                playSound('click');
-            }
-        }
-
-        // Background Themes (4 variants)
-        let bgTheme = 1;
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        let particles = [];
-        for (let i = 0; i < 60; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2 + 1,
-                color: Math.random() > 0.5 ? '#8b5cf6' : '#06b6d4',
-                vx: (Math.random() - 0.5) * 0.8,
-                vy: (Math.random() - 0.5) * 0.8
-            });
-        }
-
-        // Matrix drops
-        let matrixDrops = [];
-        const cols = Math.floor(window.innerWidth / 20);
-        for (let i = 0; i < cols; i++) matrixDrops[i] = Math.random() * canvas.height;
-
-        let waveAngle = 0;
-
-        function animateBg() {
-            ctx.fillStyle = '#030308';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            if (bgTheme === 1) {
-                // Cyberpunk Grid
-                ctx.strokeStyle = 'rgba(139, 92, 246, 0.07)';
-                ctx.lineWidth = 1;
-                const gridSize = 45;
-                for (let x = 0; x < canvas.width; x += gridSize) {
-                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-                }
-                for (let y = 0; y < canvas.height; y += gridSize) {
-                    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-                }
-            } else if (bgTheme === 2) {
-                // Cosmic Particles
-                particles.forEach(p => {
-                    p.x += p.vx; p.y += p.vy;
-                    if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
-                    if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color;
-                    ctx.shadowBlur = 10; ctx.shadowColor = p.color;
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
-                });
-            } else if (bgTheme === 3) {
-                // Neon Waves
-                waveAngle += 0.03;
-                ctx.lineWidth = 2;
-                for (let i = 0; i < 3; i++) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = i === 0 ? 'rgba(139, 92, 246, 0.25)' : i === 1 ? 'rgba(6, 182, 212, 0.25)' : 'rgba(236, 72, 153, 0.25)';
-                    for (let x = 0; x < canvas.width; x += 15) {
-                        let y = canvas.height / 2 + Math.sin(x * 0.005 + waveAngle + i) * 80 + Math.cos(x * 0.01 - waveAngle) * 40;
-                        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-                    }
-                    ctx.stroke();
-                }
-            } else if (bgTheme === 4) {
-                // Matrix Rain
-                ctx.fillStyle = 'rgba(16, 185, 129, 0.35)';
-                ctx.font = '14px monospace';
-                for (let i = 0; i < matrixDrops.length; i++) {
-                    let text = String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96));
-                    ctx.fillText(text, i * 20, matrixDrops[i]);
-                    if (matrixDrops[i] > canvas.height && Math.random() > 0.975) matrixDrops[i] = 0;
-                    matrixDrops[i] += 15;
-                }
-            }
-
-            requestAnimationFrame(animateBg);
-        }
-        animateBg();
-
-        function setBgTheme(theme) {
-            playSound('click');
-            bgTheme = theme;
-            for (let i = 1; i <= 4; i++) {
-                const btn = document.getElementById(`bg-btn-${i}`);
-                if (i === theme) {
-                    btn.className = "py-2.5 px-3 bg-purple-900/40 border border-purple-500 rounded-xl text-xs font-bold text-white transition-all";
-                } else {
-                    btn.className = "py-2.5 px-3 bg-[#14122b] border border-purple-900/50 rounded-xl text-xs font-bold text-gray-400 transition-all";
-                }
-            }
-        }
-
-        // Categories Data & Accordion Logic
-        const categoriesData = {
-            cheat: {
-                title: "Чит Настройка (Aimbot Pro)",
-                badge: "Максимальный буст",
-                hs: "99.4%",
-                obzor: 185, kolimator: 150, x2: 175, x4: 178, sniper: 115, btnsize: 38,
-                devices: ["iPhone 15 Pro Max", "iPhone 14 Pro", "Poco F6 Pro", "Xiaomi 14 Ultra", "Samsung S24 Ultra", "ASUS ROG Phone 8", "Black Shark 5 Pro", "OnePlus 12"]
-            },
-            vip: {
-                title: "Вип настройка (Balance Stable)",
-                badge: "Элитный конфиг",
-                hs: "96.8%",
-                obzor: 168, kolimator: 140, x2: 163, x4: 168, sniper: 107, btnsize: 41,
-                devices: ["iPhone 14", "iPhone 13 Pro", "Poco X6 Pro", "Xiaomi 13T Pro", "Samsung S23+", "OnePlus 11", "Vivo V30 Pro", "Realme 12 Pro+"]
-            },
-            titan: {
-                title: "Титановый конфиг (Smooth Precision)",
-                badge: "Титановая серия",
-                hs: "94.2%",
-                obzor: 155, kolimator: 130, x2: 150, x4: 155, sniper: 98, btnsize: 45,
-                devices: ["iPhone 13", "iPhone 12", "Poco X6", "Poco X5 Pro", "Redmi Note 13 Pro", "Samsung A54", "Infinix Zero 30", "Tecno Camon 20 Pro"]
-            },
-            update: {
-                title: "Обнова (Бесплатный патч 2026)",
-                badge: "Без ограничений (Free)",
-                hs: "91.5%",
-                obzor: 145, kolimator: 120, x2: 142, x4: 145, sniper: 92, btnsize: 48,
-                devices: ["Все устройства", "iPhone X / XR", "Redmi Note 11 Pro", "Samsung A24", "Бюджетные смартфоны", "Планшеты Android / iPad"]
-            }
-        };
-
-        let currentActiveCategory = null;
-
-        function toggleCategory(key) {
-            playSound('click');
-            const accordion = document.getElementById('category-accordion');
-
-            if (currentActiveCategory === key) {
-                // Already open -> Close it
-                accordion.classList.remove('active');
-                currentActiveCategory = null;
-                resetCatButtonsStyle();
+            if (card.classList.contains("gone")) {
                 return;
             }
 
-            // Open category
-            currentActiveCategory = key;
-            accordion.classList.add('active');
-            resetCatButtonsStyle();
+            card.classList.add("gone");
 
-            const btn = document.getElementById(`btn-${key}`);
-            btn.className = "cat-btn inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600/50 to-indigo-600/50 border border-purple-500 rounded-2xl text-xs font-black text-white neon-glow-purple shrink-0 transition-all transform active:scale-95";
-
-            const data = categoriesData[key];
-            document.getElementById('badge-type').innerText = data.badge;
-            document.getElementById('cat-title').innerText = data.title;
-            document.getElementById('cat-hs').innerText = data.hs;
-
-            setSliderAndText('obzor', data.obzor);
-            setSliderAndText('kolimator', data.kolimator);
-            setSliderAndText('2x', data.x2);
-            setSliderAndText('4x', data.x4);
-            setSliderAndText('sniper', data.sniper);
-            setSliderAndText('btnsize', data.btnsize, '%');
-
-            // Render category devices chips
-            const devListContainer = document.getElementById('category-devices-list');
-            devListContainer.innerHTML = '';
-            data.devices.forEach(d => {
-                const chip = document.createElement('span');
-                chip.className = "px-2.5 py-1 bg-[#14122b] border border-purple-900/50 rounded-lg text-[11px] font-bold text-gray-300";
-                chip.innerText = d;
-                devListContainer.appendChild(chip);
-            });
-        }
-
-        function resetCatButtonsStyle() {
-            ['cheat', 'vip', 'titan', 'update'].forEach(k => {
-                const b = document.getElementById(`btn-${k}`);
-                b.className = "cat-btn inline-flex items-center gap-1.5 px-4 py-2 bg-[#0d0c1d] border border-purple-500/30 rounded-2xl text-xs font-bold text-gray-300 shrink-0 transition-all transform active:scale-95";
-            });
-        }
-
-        function setSliderAndText(id, val, suffix = '') {
-            document.getElementById(`slider-${id}`).value = val;
-            document.getElementById(`val-${id}`).innerText = val + suffix;
-        }
-
-        // 50+ Devices Catalog Data Generation
-        const brands = ['Apple iPhone', 'Xiaomi / Poco', 'Samsung Galaxy', 'OnePlus / Realme', 'ASUS / BlackShark', 'Vivo / Oppo / Tecno'];
-        const modelsBase = {
-            'Apple iPhone': ['iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15', 'iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14', 'iPhone 13 Pro', 'iPhone 13', 'iPhone 12', 'iPhone 11', 'iPhone SE 2022', 'iPad Pro 11'],
-            'Xiaomi / Poco': ['Poco F6 Pro', 'Poco F6', 'Poco X6 Pro', 'Poco X6', 'Poco X5 Pro', 'Xiaomi 14 Ultra', 'Xiaomi 14', 'Xiaomi 13T Pro', 'Redmi Note 13 Pro+', 'Redmi Note 13 Pro', 'Redmi Note 12 Pro', 'Redmi 13C'],
-            'Samsung Galaxy': ['Galaxy S24 Ultra', 'Galaxy S24+', 'Galaxy S23 Ultra', 'Galaxy S23', 'Galaxy A55', 'Galaxy A54', 'Galaxy A34', 'Galaxy A24', 'Galaxy M34', 'Galaxy Z Fold 5', 'Galaxy Tab S9'],
-            'OnePlus / Realme': ['OnePlus 12', 'OnePlus 11', 'OnePlus Nord 3', 'Realme GT 5 Pro', 'Realme 12 Pro+', 'Realme C67', 'Realme Narzo 60'],
-            'ASUS / BlackShark': ['ASUS ROG Phone 8 Pro', 'ASUS ROG Phone 7', 'Black Shark 5 Pro', 'Black Shark 4', 'Lenovo Legion Y90'],
-            'Vivo / Oppo / Tecno': ['Vivo V30 Pro', 'Vivo X100 Pro', 'Oppo Reno 11 Pro', 'Oppo Find X7', 'Tecno Camon 20 Pro', 'Infinix Zero 30', 'Infinix Note 40']
+            card.querySelector(".status").textContent = "Ушла";
         };
 
-        let allDevices = [];
-        Object.keys(modelsBase).forEach(brand => {
-            modelsBase[brand].forEach(model => {
-                allDevices.push({
-                    name: model,
-                    brand: brand,
-                    obzor: Math.floor(Math.random() * 40) + 155,
-                    kolimator: Math.floor(Math.random() * 35) + 125,
-                    x2: Math.floor(Math.random() * 35) + 145,
-                    x4: Math.floor(Math.random() * 35) + 148,
-                    sniper: Math.floor(Math.random() * 40) + 90,
-                    btnsize: Math.floor(Math.random() * 20) + 35
-                });
-            });
-        });
+        cards.appendChild(card);
 
-        function renderDevicesCatalog(list) {
-            const grid = document.getElementById('devices-grid');
-            document.getElementById('total-devices-count').innerText = `${list.length} девайсов`;
-            grid.innerHTML = '';
+    });
 
-            list.forEach((dev, idx) => {
-                const card = document.createElement('div');
-                card.className = "bg-[#0d0c1d]/90 border border-purple-900/40 hover:border-purple-500/60 rounded-2xl p-3.5 text-center cursor-pointer transition-all transform active:scale-95 flex flex-col justify-between";
-                card.onclick = () => openDeviceModal(dev);
-                card.innerHTML = `
-                    <div>
-                        <span class="text-[9px] text-purple-400 font-bold uppercase tracking-wider">${dev.brand}</span>
-                        <div class="text-xs font-black text-white mt-1 leading-snug">${dev.name}</div>
-                    </div>
-                    <div class="mt-3 pt-2 border-t border-purple-900/30 flex items-center justify-between text-[10px] text-gray-400">
-                        <span>Сенс: <b class="text-purple-300">${dev.obzor}</b></span>
-                        <span class="text-emerald-400 font-bold">Выбрать ⚡</span>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-        renderDevicesCatalog(allDevices);
+});
 
-        function filterDevices() {
-            const query = document.getElementById('device-search').value.toLowerCase();
-            const filtered = allDevices.filter(d => d.name.toLowerCase().includes(query) || d.brand.toLowerCase().includes(query));
-            renderDevicesCatalog(filtered);
-        }
+</script>
 
-        // Device Modal Logic
-        let selectedDeviceData = null;
-
-        function openDeviceModal(dev) {
-            playSound('click');
-            selectedDeviceData = dev;
-            document.getElementById('modal-dev-brand').innerText = dev.brand;
-            document.getElementById('modal-dev-name').innerText = dev.name;
-
-            document.getElementById('m-slider-obzor').value = dev.obzor;
-            document.getElementById('m-val-obzor').innerText = dev.obzor;
-
-            document.getElementById('m-slider-kolimator').value = dev.kolimator;
-            document.getElementById('m-val-kolimator').innerText = dev.kolimator;
-
-            document.getElementById('m-slider-2x').value = dev.x2;
-            document.getElementById('m-val-2x').innerText = dev.x2;
-
-            document.getElementById('m-slider-4x').value = dev.x4;
-            document.getElementById('m-val-4x').innerText = dev.x4;
-
-            document.getElementById('m-slider-sniper').value = dev.sniper;
-            document.getElementById('m-val-sniper').innerText = dev.sniper;
-
-            document.getElementById('m-slider-btnsize').value = dev.btnsize;
-            document.getElementById('m-val-btnsize').innerText = dev.btnsize + '%';
-
-            const modal = document.getElementById('device-modal');
-            modal.style.display = 'flex';
-        }
-
-        function closeDeviceModal() {
-            playSound('click');
-            document.getElementById('device-modal').style.display = 'none';
-        }
-
-        // Login Handler (Clean without hints)
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            playSound('click');
-            const u = document.getElementById('username').value.trim();
-            const p = document.getElementById('password').value.trim();
-
-            if (u === 'qwerty0' && p === 'zxc010') {
-                playSound('click');
-                const screen = document.getElementById('login-screen');
-                screen.classList.add('opacity-0');
-                setTimeout(() => {
-                    screen.style.display = 'none';
-                    const main = document.getElementById('main-app');
-                    main.classList.remove('hidden');
-                    setTimeout(() => main.classList.remove('opacity-0'), 50);
-                }, 400);
-            } else {
-                const err = document.getElementById('login-error');
-                err.classList.remove('hidden');
-                setTimeout(() => err.classList.add('hidden'), 3000);
-            }
-        });
-
-        // Copy Config Handlers
-        function copyCurrentConfig() {
-            playSound('click');
-            const title = document.getElementById('cat-title').innerText;
-            const text = `🔥 ${title}\nОбзор: ${document.getElementById('val-obzor').innerText}\nКоллиматор: ${document.getElementById('val-kolimator').innerText}\n2x: ${document.getElementById('val-2x').innerText}\n4x: ${document.getElementById('val-4x').innerText}\nСнайпер: ${document.getElementById('val-sniper').innerText}\nКнопка: ${document.getElementById('val-btnsize').innerText}`;
-            copyToClipboard(text);
-        }
-
-        function copyModalConfig() {
-            playSound('click');
-            if (!selectedDeviceData) return;
-            const text = `📱 Девайс: ${selectedDeviceData.name}\nОбзор: ${selectedDeviceData.obzor}\nКоллиматор: ${selectedDeviceData.kolimator}\n2x: ${selectedDeviceData.x2}\n4x: ${selectedDeviceData.x4}\nСнайпер: ${selectedDeviceData.sniper}\nКнопка: ${selectedDeviceData.btnsize}%`;
-            copyToClipboard(text);
-        }
-
-        function copyToClipboard(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                showToast();
-            } catch(e) {
-                console.error(e);
-            }
-            document.body.removeChild(textarea);
-        }
-
-        function showToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.remove('opacity-0');
-            setTimeout(() => {
-                toast.classList.add('opacity-0');
-            }, 2000);
-        }
-    </script>
 </body>
 </html>
