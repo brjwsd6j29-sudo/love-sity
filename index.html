@@ -266,14 +266,14 @@
 <body>
 
 <div class="container">
-  <h1>🎵 Добро пожаловать</h1>
-  <p class="subtitle">Нажми любую кнопку — заиграет музыка</p>
+  <h1>🥳 Добро пожаловать</h1>
+  <p class="subtitle">Нажми на игры — чтобы играть</p>
 
   <div class="menu">
-    <button onclick="handleClick('🏠 Главная')">🏠 Главная</button>
-    <button onclick="handleClick('📰 Новости')">📰 Новости</button>
-    <button onclick="handleClick('ℹ️ О нас')">ℹ️ О нас</button>
-    <button onclick="handleClick('✉️ Контакты')">✉️ Контакты</button>
+    <button onclick="handleClick('🏠 Главная меню')">🏠 Главная меню</button>
+    <button onclick="handleClick('🎮 Игры')">🎮 Игры</button>
+    <button onclick="handleClick('ℹ️ Важно')">ℹ️ Важно</button>
+    <button onclick="handleClick('✉️ Связь с нами')">✉️ Связь с нами</button>
     <button class="admin-btn" onclick="openPassModal()">🔐 Админ панель</button>
   </div>
 
@@ -402,7 +402,7 @@ function loadMusic() {
 }
 
 audio.addEventListener("canplaythrough", () => {
-  if (audio.paused) statusText.textContent = "✅ Музыка готова — нажми кнопку";
+  if (audio.paused) statusText.textContent = "✅ Сайт работает 100%";
 });
 audio.addEventListener("play", () => {
   eq.classList.remove("paused");
