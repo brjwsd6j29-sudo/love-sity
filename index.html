@@ -4,145 +4,142 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>36 карт</title>
+<title>Звуковая кнопка</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
+    * {
+        box-sizing: border-box;
+    }
 
-body {
-    margin: 0;
-    padding: 20px;
-    background: #0b0d12;
-    color: white;
-    font-family: Arial, sans-serif;
-}
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #080b12;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
 
-h1 {
-    text-align: center;
-    margin: 0 0 8px;
-}
+    .container {
+        width: 90%;
+        max-width: 420px;
+        background: #111722;
+        padding: 25px;
+        border-radius: 22px;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0,0,0,.4);
+    }
 
-.info {
-    text-align: center;
-    color: #8c93a3;
-    margin-bottom: 20px;
-}
+    h1 {
+        margin-top: 0;
+        font-size: 25px;
+    }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    max-width: 600px;
-    margin: auto;
-}
+    .file {
+        width: 100%;
+        padding: 15px;
+        background: #1b2331;
+        border-radius: 14px;
+        margin: 20px 0;
+        color: #aaa;
+    }
 
-.card {
-    height: 100px;
-    background: #151922;
-    border: 1px solid #292e3a;
-    border-radius: 16px;
+    input[type="file"] {
+        width: 100%;
+    }
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    #fileName {
+        margin: 15px 0;
+        color: #7db5ff;
+        font-size: 14px;
+        word-break: break-all;
+    }
 
-    cursor: pointer;
-    transition: 0.2s;
-}
+    .sound-btn {
+        width: 100%;
+        border: none;
+        padding: 18px;
+        border-radius: 16px;
+        background: #1677ff;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: .15s;
+    }
 
-.card:active {
-    transform: scale(0.95);
-}
+    .sound-btn:active {
+        transform: scale(.96);
+        background: #0d5ed1;
+    }
 
-.value {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.suit {
-    font-size: 28px;
-    margin-top: 5px;
-}
-
-.status {
-    font-size: 12px;
-    color: #858d9d;
-    margin-top: 4px;
-}
-
-/* УШЛА */
-.card.gone {
-    background: #555;
-    border-color: #666;
-    color: #aaa;
-    opacity: 0.65;
-    cursor: not-allowed;
-}
-
-.card.gone .status {
-    color: #ccc;
-}
+    .sound-btn:disabled {
+        opacity: .4;
+        cursor: not-allowed;
+    }
 </style>
 </head>
 
 <body>
 
-<h1>36 карт</h1>
+<div class="container">
 
-<div class="info">
-    Нажми на карту — она уйдёт
+    <h1>🔊 Звуковая кнопка</h1>
+
+    <div class="file">
+        <input type="file" id="soundFile" accept="audio/*">
+    </div>
+
+    <div id="fileName">
+        Файл не выбран
+    </div>
+
+    <button class="sound-btn" id="playButton" disabled>
+        ▶️ ПРОИГРАТЬ ЗВУК
+    </button>
+
 </div>
-
-<div class="cards" id="cards"></div>
 
 <script>
 
-const cards = document.getElementById("cards");
+let audio = null;
 
-const suits = [
-    "♥️",
-    "♦️",
-    "♠️",
-    "♣️"
-];
+const soundFile = document.getElementById("soundFile");
+const playButton = document.getElementById("playButton");
+const fileName = document.getElementById("fileName");
 
-// 36 карт
-const values = [
-    "6", "7", "8", "9", "10", "В", "Д", "К", "Т"
-];
+soundFile.addEventListener("change", function () {
 
-// Создаём карты
-suits.forEach(suit => {
+    const file = this.files[0];
 
-    values.forEach(value => {
+    if (!file) {
+        audio = null;
+        playButton.disabled = true;
+        fileName.textContent = "Файл не выбран";
+        return;
+    }
 
-        const card = document.createElement("div");
+    // Создаём ссылку на выбранный звук
+    const url = URL.createObjectURL(file);
 
-        card.className = "card";
+    audio = new Audio(url);
 
-        card.innerHTML = `
-            <div class="value">${value}</div>
-            <div class="suit">${suit}</div>
-            <div class="status">Свободна</div>
-        `;
+    fileName.textContent = "🎵 " + file.name;
 
-        card.onclick = () => {
+    playButton.disabled = false;
+});
 
-            if (card.classList.contains("gone")) {
-                return;
-            }
+playButton.addEventListener("click", function () {
 
-            card.classList.add("gone");
+    if (!audio) return;
 
-            card.querySelector(".status").textContent = "Ушла";
-        };
+    // Если звук уже играет — начинаем заново
+    audio.currentTime = 0;
 
-        cards.appendChild(card);
-
+    audio.play().catch(error => {
+        console.log("Ошибка воспроизведения:", error);
     });
 
 });
