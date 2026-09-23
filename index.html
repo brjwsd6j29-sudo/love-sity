@@ -17,6 +17,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
+    overflow-x: hidden;
   }
 
   .container { width: 100%; max-width: 500px; text-align: center; }
@@ -25,15 +26,22 @@
     font-size: 30px;
     margin-bottom: 10px;
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    animation: fadeIn 0.8s ease;
   }
 
   .subtitle {
     font-size: 15px;
     opacity: 0.75;
     margin-bottom: 35px;
+    animation: fadeIn 1.2s ease;
   }
 
-  .menu { display: flex; flex-direction: column; gap: 14px; }
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    animation: fadeIn 0.6s ease;
+  }
 
   .menu button {
     padding: 16px 22px;
@@ -47,7 +55,6 @@
     transition: all 0.25s ease;
     box-shadow: 0 6px 18px rgba(0,0,0,0.35);
   }
-
   .menu button:hover {
     background: #ffd700;
     transform: translateY(-3px);
@@ -93,7 +100,11 @@
     50% { height: 20px; }
   }
 
-  /* Модальные окна */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .modal {
     display: none;
     position: fixed;
@@ -118,6 +129,12 @@
     box-shadow: 0 20px 60px rgba(0,0,0,0.6);
     max-height: 92vh;
     overflow-y: auto;
+    animation: popIn 0.35s ease;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
   }
 
   .modal-box h2 {
@@ -127,43 +144,25 @@
     color: #0f2027;
   }
 
-  .modal-box h3 {
-    margin: 18px 0 10px;
-    font-size: 15px;
-    color: #0f2027;
-  }
-
   .modal-box p {
-    font-size: 13px;
+    font-size: 14px;
     color: #555;
     line-height: 1.55;
     margin-bottom: 12px;
   }
 
-  .modal-box input[type="password"],
-  .modal-box input[type="text"] {
+  .modal-box input[type="password"] {
     width: 100%;
-    padding: 13px 15px;
+    padding: 14px 16px;
     border: 2px solid #ddd;
     border-radius: 12px;
-    font-size: 15px;
-    margin-bottom: 12px;
+    font-size: 16px;
+    margin-bottom: 14px;
     outline: none;
     transition: border 0.2s;
     font-family: inherit;
   }
   .modal-box input:focus { border-color: #ffd700; }
-
-  .modal-box input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    border: 2px dashed #ccc;
-    border-radius: 12px;
-    font-size: 14px;
-    margin-bottom: 12px;
-    background: #f9f9f9;
-    cursor: pointer;
-  }
 
   .modal-box button {
     width: 100%;
@@ -181,7 +180,6 @@
   }
   .modal-box button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
   .modal-box button:active { transform: scale(0.97); }
-  .modal-box button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
   .close-btn {
     background: #e0e0e0 !important;
@@ -198,37 +196,23 @@
     padding: 8px;
     border-radius: 8px;
   }
-  .msg.error { color: #ff416c; background: #fff0f3; }
+  .msg.error   { color: #ff416c; background: #fff0f3; }
   .msg.success { color: #16a34a; background: #f0fdf4; }
-  .msg.info { color: #0369a1; background: #f0f9ff; }
-
-  .info-block {
-    background: #f3f4f6;
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 13px;
-    color: #333;
-    margin-bottom: 14px;
-    line-height: 1.55;
-  }
-  .info-block code {
-    background: #e5e7eb;
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-size: 12px;
-  }
+  .msg.info    { color: #0369a1; background: #f0f9ff; }
 
   .step {
     display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-    font-size: 13px;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 13.5px;
     color: #333;
+    text-align: left;
+    line-height: 1.5;
   }
   .step-num {
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     background: #ffd700;
     color: #0f2027;
     border-radius: 50%;
@@ -236,7 +220,40 @@
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 11px;
+    font-size: 12px;
+    margin-top: 1px;
+  }
+
+  .info-block {
+    background: #f3f4f6;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 16px;
+    border-left: 4px solid #ffd700;
+  }
+
+  .link-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .link-box input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: monospace;
+    background: #f9f9f9;
+    color: #333;
+  }
+  .link-box button {
+    width: auto;
+    padding: 10px 14px;
+    margin: 0;
+    font-size: 13px;
+    background: #ffd700 !important;
+    color: #0f2027 !important;
   }
 
   @media (max-width: 480px) {
@@ -268,7 +285,7 @@
   </div>
 </div>
 
-<!-- ОКНО: ВВОД ПАРОЛЯ -->
+<!-- ПАРОЛЬ -->
 <div class="modal" id="passModal">
   <div class="modal-box">
     <h2>🔐 Введите пароль</h2>
@@ -279,69 +296,50 @@
   </div>
 </div>
 
-<!-- ОКНО: НАСТРОЙКА GITHUB (первый запуск) -->
-<div class="modal" id="setupModal">
-  <div class="modal-box">
-    <h2>⚙️ Настройка GitHub</h2>
-
-    <div class="info-block">
-      <strong>Что нужно сделать 1 раз:</strong>
-      <div class="step" style="margin-top:10px;">
-        <div class="step-num">1</div>
-        <div>Открой <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:#0369a1;">github.com/settings/tokens</a> → <b>Generate new token</b></div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>Название: любое. Срок: <b>No expiration</b></div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>Repository access → <b>Only select repositories</b> → выбери свой репозиторий</div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div>Permissions → Repository permissions → <b>Contents: Read and write</b></div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div>Скопируй токен (начинается с <code>github_pat_</code> или <code>ghp_</code>) и вставь ниже</div>
-      </div>
-    </div>
-
-    <h3>👤 Владелец репозитория (username)</h3>
-    <input type="text" id="ghUser" placeholder="например: ivan123">
-
-    <h3>📦 Название репозитория</h3>
-    <input type="text" id="ghRepo" placeholder="например: mysite">
-
-    <h3>🔑 GitHub Token</h3>
-    <input type="password" id="ghToken" placeholder="github_pat_... или ghp_...">
-
-    <div class="msg" id="setupMsg"></div>
-    <button onclick="saveSetup()">✅ Сохранить и продолжить</button>
-    <button class="close-btn" onclick="closeModal('setupModal')">Отмена</button>
-  </div>
-</div>
-
-<!-- ОКНО: АДМИН ПАНЕЛЬ -->
+<!-- АДМИН ПАНЕЛЬ -->
 <div class="modal" id="adminModal">
   <div class="modal-box">
     <h2>⚙️ Админ панель</h2>
 
-    <div class="info-block" id="currentInfo">
-      <b>Репозиторий:</b> <span id="repoInfo">—</span>
+    <div class="info-block">
+      <p style="margin:0;font-weight:700;color:#0f2027;margin-bottom:8px;">📌 Как поменять музыку для ВСЕХ:</p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>Открой свой репозиторий на <b>github.com</b></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>Нажми <b>Add file → Upload files</b></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>Перетащи новый mp3-файл и назови его <b>music.mp3</b></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>Нажми <b>Commit changes</b> — согласись заменить старый файл</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>Через 1–2 минуты музыка заиграет у <b>всех посетителей</b> 🎉</div>
+      </div>
     </div>
 
-    <h3>🎵 Загрузить новую музыку для ВСЕХ</h3>
-    <p>Выбери mp3-файл (до 20 МБ). Он будет загружен в репозиторий GitHub и заиграет у <b>всех посетителей</b> сайта.</p>
-    <input type="file" id="fileInput" accept="audio/mpeg,audio/mp3,audio/*">
-    <button id="uploadBtn" onclick="uploadMusic()">📤 Загрузить музыку</button>
+    <p style="font-size:13px;color:#666;text-align:left;">💡 Ссылка на твой репозиторий:</p>
+    <div class="link-box">
+      <input type="text" id="repoLink" readonly>
+      <button onclick="copyRepoLink()">Копировать</button>
+    </div>
+
+    <p style="font-size:13px;color:#666;text-align:left;">💡 Прямая ссылка на музыку:</p>
+    <div class="link-box">
+      <input type="text" id="musicLink" readonly>
+      <button onclick="copyMusicLink()">Копировать</button>
+    </div>
 
     <div class="msg" id="adminMsg"></div>
 
-    <h3 style="margin-top:22px;">🔧 Действия</h3>
-    <button onclick="reloadForAll()" style="background:linear-gradient(135deg,#0ea5e9,#0369a1);">🔄 Обновить музыку у меня</button>
-    <button onclick="openSetupReset()" style="background:linear-gradient(135deg,#f59e0b,#d97706);">🧹 Сбросить настройки GitHub</button>
+    <button onclick="reloadMusic()" style="background:linear-gradient(135deg,#0ea5e9,#0369a1);">🔄 Обновить музыку сейчас</button>
     <button class="close-btn" onclick="closeModal('adminModal')">Закрыть</button>
   </div>
 </div>
@@ -353,87 +351,87 @@
 /* ============================================================
    НАСТРОЙКИ
 ============================================================ */
-const ADMIN_PASSWORD = "676767";  // ← пароль админа
-const MUSIC_FILE     = "music.mp3"; // имя файла в репозитории
-const BRANCH         = "main";    // ветка (main или master)
-const MAX_SIZE_MB    = 20;        // лимит размера файла
+const ADMIN_PASSWORD = "676767";
+const MUSIC_FILE     = "music.mp3";
 
 /* ============================================================
-   АВТООПРЕДЕЛЕНИЕ РЕПОЗИТОРИЯ
-============================================================ */
-function detectRepo() {
-  const host = location.hostname;   // user.github.io
-  const path = location.pathname;   // /repo/ или /
-  const user = host.split(".")[0];
-  const parts = path.split("/").filter(Boolean);
-  const repo = parts[0] || `${user}.github.io`;
-  return { user, repo };
-}
-
-/* ============================================================
-   СОСТОЯНИЕ
-============================================================ */
-let githubConfig = JSON.parse(localStorage.getItem("ghConfig") || "null");
-
-/* ============================================================
-   АУДИО
+   ЭЛЕМЕНТЫ
 ============================================================ */
 const audio      = document.getElementById("bgMusic");
 const eq         = document.getElementById("eq");
 const statusText = document.getElementById("statusText");
 
-function musicUrlWithCache() {
-  // Кэш-бастинг раз в сессию — чтобы получить свежий файл
-  let v = sessionStorage.getItem("musicVersion");
-  if (!v) {
-    v = Date.now().toString();
-    sessionStorage.setItem("musicVersion", v);
-  }
-  const { user, repo } = detectRepo();
-  // Прямой адрес raw-файла — работает и на GitHub Pages, и локально
-  if (location.hostname.endsWith("github.io")) {
-    return `https://raw.githubusercontent.com/${user}/${repo}/${BRANCH}/${MUSIC_FILE}?v=${v}`;
-  }
-  return `${MUSIC_FILE}?v=${v}`;
+/* ============================================================
+   АВТООПРЕДЕЛЕНИЕ АДРЕСА МУЗЫКИ
+============================================================ */
+function getMusicUrl() {
+  // cache-busting: обновляем раз в 5 минут
+  const stamp = Math.floor(Date.now() / (5 * 60 * 1000));
+  return MUSIC_FILE + "?v=" + stamp;
 }
 
+function getRepoUrl() {
+  const host = location.hostname;
+  const parts = location.pathname.split("/").filter(Boolean);
+  if (host.endsWith(".github.io")) {
+    const user = host.split(".")[0];
+    const repo = parts[0] || (user + ".github.io");
+    return `https://github.com/${user}/${repo}`;
+  }
+  return "https://github.com";
+}
+
+function getRawMusicUrl() {
+  const host = location.hostname;
+  const parts = location.pathname.split("/").filter(Boolean);
+  if (host.endsWith(".github.io")) {
+    const user = host.split(".")[0];
+    const repo = parts[0] || (user + ".github.io");
+    return `https://github.com/${user}/${repo}/raw/main/${MUSIC_FILE}`;
+  }
+  return location.origin + "/" + MUSIC_FILE;
+}
+
+/* ============================================================
+   ЗАГРУЗКА И СОБЫТИЯ АУДИО
+============================================================ */
 function loadMusic() {
-  audio.src = musicUrlWithCache();
+  statusText.textContent = "Загрузка музыки…";
+  audio.src = getMusicUrl();
   audio.load();
 }
 
+audio.addEventListener("canplaythrough", () => {
+  if (audio.paused) statusText.textContent = "✅ Музыка готова — нажми кнопку";
+});
+audio.addEventListener("play", () => {
+  eq.classList.remove("paused");
+  statusText.textContent = "▶️ Музыка играет";
+});
+audio.addEventListener("pause", () => {
+  eq.classList.add("paused");
+  statusText.textContent = "⏸ Музыка на паузе";
+});
+audio.addEventListener("error", () => {
+  statusText.textContent = "⚠️ Файл music.mp3 не найден в репозитории";
+});
+
 window.addEventListener("DOMContentLoaded", () => {
   loadMusic();
-  // Если конфиг не сохранён и нет в браузере — не мешаем пользователю
-  // (админ настроит сам через панель)
 
-  audio.addEventListener("play", () => {
-    eq.classList.remove("paused");
-    statusText.textContent = "▶️ Музыка играет";
-  });
-  audio.addEventListener("pause", () => {
-    eq.classList.add("paused");
-    statusText.textContent = "⏸ Музыка на паузе";
-  });
-  audio.addEventListener("error", () => {
-    statusText.textContent = "⚠️ Файл music.mp3 пока не загружен админом";
-  });
-  audio.addEventListener("loadeddata", () => {
-    if (statusText.textContent.includes("⚠️")) {
-      statusText.textContent = "✅ Музыка готова к запуску";
-    }
-  });
+  // Показываем ссылки в админ панели
+  document.getElementById("repoLink").value  = getRepoUrl();
+  document.getElementById("musicLink").value = getRawMusicUrl();
 });
 
 /* ============================================================
-   КЛИК ПО КНОПКАМ МЕНЮ
+   КЛИК ПО МЕНЮ — ИГРАЕМ МУЗЫКУ
 ============================================================ */
 function handleClick(pageName) {
-  if (!audio.src) { console.log("Музыка не задана"); return; }
   if (audio.paused) {
     audio.volume = 0.7;
     audio.play().catch(err => {
-      console.warn("Ошибка воспроизведения:", err);
+      console.warn("Не удалось запустить:", err);
       statusText.textContent = "⚠️ Не удалось запустить музыку";
     });
   }
@@ -454,11 +452,9 @@ function checkPassword() {
   const val = document.getElementById("passInput").value.trim();
   if (val === ADMIN_PASSWORD) {
     closeModal("passModal");
-    if (githubConfig) {
-      openAdminPanel();
-    } else {
-      openSetupModal();
-    }
+    document.getElementById("adminMsg").textContent = "";
+    document.getElementById("adminMsg").className = "msg";
+    document.getElementById("adminModal").classList.add("show");
   } else {
     document.getElementById("passError").textContent = "❌ Неверный пароль!";
     document.getElementById("passInput").value = "";
@@ -467,188 +463,56 @@ function checkPassword() {
 }
 
 /* ============================================================
-   НАСТРОЙКА GITHUB
+   ДЕЙСТВИЯ АДМИНА
 ============================================================ */
-function openSetupModal() {
-  const detected = detectRepo();
-  document.getElementById("ghUser").value  = githubConfig?.user  || detected.user;
-  document.getElementById("ghRepo").value  = githubConfig?.repo  || detected.repo;
-  document.getElementById("ghToken").value = githubConfig?.token || "";
-  document.getElementById("setupMsg").textContent = "";
-  document.getElementById("setupMsg").className = "msg";
-  document.getElementById("setupModal").classList.add("show");
-}
-
-function openSetupReset() {
-  githubConfig = null;
-  localStorage.removeItem("ghConfig");
-  closeModal("adminModal");
-  openSetupModal();
-}
-
-async function saveSetup() {
-  const user  = document.getElementById("ghUser").value.trim();
-  const repo  = document.getElementById("ghRepo").value.trim();
-  const token = document.getElementById("ghToken").value.trim();
-  const msg   = document.getElementById("setupMsg");
-
-  if (!user || !repo || !token) {
-    setMsg(msg, "⚠️ Заполни все поля!", "error");
-    return;
-  }
-
-  setMsg(msg, "⏳ Проверка токена…", "info");
-
-  try {
-    const res = await fetch(`https://api.github.com/repos/${user}/${repo}`, {
-      headers: { Authorization: `token ${token}` }
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || "Репозиторий не найден");
-    }
-    const data = await res.json();
-    if (!data.permissions?.push) {
-      throw new Error("У токена нет прав на запись в репозиторий");
-    }
-    githubConfig = { user, repo, token };
-    localStorage.setItem("ghConfig", JSON.stringify(githubConfig));
-    setMsg(msg, "✅ Успешно! Открываю панель…", "success");
-    setTimeout(() => {
-      closeModal("setupModal");
-      openAdminPanel();
-    }, 900);
-  } catch (e) {
-    setMsg(msg, "❌ " + e.message, "error");
-  }
-}
-
-/* ============================================================
-   АДМИН ПАНЕЛЬ
-============================================================ */
-function openAdminPanel() {
-  if (!githubConfig) { openSetupModal(); return; }
-  document.getElementById("repoInfo").textContent =
-    `${githubConfig.user}/${githubConfig.repo}`;
-  document.getElementById("adminMsg").textContent = "";
-  document.getElementById("adminMsg").className = "msg";
-  document.getElementById("fileInput").value = "";
-  document.getElementById("adminModal").classList.add("show");
-}
-
-/* ============================================================
-   ЗАГРУЗКА MP3 В GITHUB
-============================================================ */
-async function uploadMusic() {
-  const fileInput = document.getElementById("fileInput");
-  const msg       = document.getElementById("adminMsg");
-  const btn       = document.getElementById("uploadBtn");
-
-  if (!fileInput.files || !fileInput.files.length) {
-    setMsg(msg, "⚠️ Выбери mp3-файл!", "error");
-    return;
-  }
-
-  const file = fileInput.files[0];
-  const sizeMB = file.size / (1024 * 1024);
-
-  if (sizeMB > MAX_SIZE_MB) {
-    setMsg(msg, `❌ Файл слишком большой (${sizeMB.toFixed(1)} МБ). Лимит: ${MAX_SIZE_MB} МБ`, "error");
-    return;
-  }
-
-  btn.disabled = true;
-  setMsg(msg, `⏳ Загрузка ${sizeMB.toFixed(1)} МБ в GitHub…`, "info");
-
-  try {
-    const { user, repo, token } = githubConfig;
-    const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${MUSIC_FILE}`;
-
-    // 1) Получаем SHA существующего файла (нужно для перезаписи)
-    let sha = null;
-    try {
-      const r = await fetch(apiUrl + `?ref=${BRANCH}`, {
-        headers: { Authorization: `token ${token}` }
-      });
-      if (r.ok) {
-        const d = await r.json();
-        sha = d.sha;
-      }
-    } catch (_) {}
-
-    // 2) Файл → base64
-    const base64 = await fileToBase64(file);
-    const pureBase64 = base64.split(",")[1];
-
-    // 3) PUT в GitHub
-    const body = {
-      message: `🎵 Обновление музыки через админ-панель (${new Date().toLocaleString("ru-RU")})`,
-      content: pureBase64,
-      branch: BRANCH
-    };
-    if (sha) body.sha = sha;
-
-    const res = await fetch(apiUrl, {
-      method: "PUT",
-      headers: {
-        Authorization: `token ${token}`,
-        "Content-Type": "application/json",
-        Accept: "application/vnd.github+json"
-      },
-      body: JSON.stringify(body)
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `HTTP ${res.status}`);
-    }
-
-    setMsg(msg, "✅ Файл загружен в GitHub!", "success");
-
-    // 4) Сбрасываем кэш у себя → играем свежую версию
-    sessionStorage.removeItem("musicVersion");
-    setTimeout(() => {
-      loadMusic();
-      setMsg(msg, "🎵 Готово! Музыка обновлена у всех посетителей (в течение 1–2 минут)", "success");
-      btn.disabled = false;
-    }, 900);
-
-  } catch (e) {
-    setMsg(msg, "❌ Ошибка: " + e.message, "error");
-    btn.disabled = false;
-  }
-}
-
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload  = () => resolve(r.result);
-    r.onerror = reject;
-    r.readAsDataURL(file);
-  });
-}
-
-function reloadForAll() {
-  sessionStorage.removeItem("musicVersion");
+function reloadMusic() {
   loadMusic();
-  setMsg(document.getElementById("adminMsg"), "🔄 Музыка перезагружена", "success");
+  const msg = document.getElementById("adminMsg");
+  msg.textContent = "🔄 Музыка перезагружена";
+  msg.className = "msg success";
+  setTimeout(() => { msg.textContent = ""; msg.className = "msg"; }, 2500);
+}
+
+function copyRepoLink() {
+  const el = document.getElementById("repoLink");
+  el.select();
+  el.setSelectionRange(0, 99999);
+  try {
+    navigator.clipboard.writeText(el.value);
+    showAdminMsg("✅ Ссылка скопирована");
+  } catch {
+    document.execCommand("copy");
+    showAdminMsg("✅ Ссылка скопирована");
+  }
+}
+
+function copyMusicLink() {
+  const el = document.getElementById("musicLink");
+  el.select();
+  el.setSelectionRange(0, 99999);
+  try {
+    navigator.clipboard.writeText(el.value);
+    showAdminMsg("✅ Ссылка скопирована");
+  } catch {
+    document.execCommand("copy");
+    showAdminMsg("✅ Ссылка скопирована");
+  }
+}
+
+function showAdminMsg(text) {
+  const msg = document.getElementById("adminMsg");
+  msg.textContent = text;
+  msg.className = "msg success";
+  setTimeout(() => { msg.textContent = ""; msg.className = "msg"; }, 2500);
 }
 
 /* ============================================================
-   ВСПОМОГАТЕЛЬНЫЕ
+   ЗАКРЫТИЕ МОДАЛЬНЫХ ОКОН
 ============================================================ */
-function setMsg(el, text, type = "") {
-  el.textContent = text;
-  el.className = "msg" + (type ? " " + type : "");
-}
-
 function closeModal(id) {
   document.getElementById(id).classList.remove("show");
 }
 
-/* ============================================================
-   СОБЫТИЯ
-============================================================ */
 document.getElementById("passInput").addEventListener("keydown", e => {
   if (e.key === "Enter") checkPassword();
 });
