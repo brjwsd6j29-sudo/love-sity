@@ -3,596 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b1220">
-<title>Telegram Music Player</title>
+<title>Мой сайт</title>
 <style>
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-body {
-    margin: 0;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
     min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-    background:
-        radial-gradient(circle at 50% 0%, #183b70 0%, transparent 45%),
-        linear-gradient(180deg, #080d17, #03050a);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    color: #fff;
     padding: 20px;
-}
-.player {
-    width: 100%;
-    max-width: 430px;
-    padding: 28px 22px 24px;
-    border-radius: 30px;
-    background: rgba(16, 24, 39, .94);
-    border: 1px solid rgba(255,255,255,.08);
-    box-shadow:
-        0 30px 80px rgba(0,0,0,.55),
-        inset 0 1px rgba(255,255,255,.04);
-}
-.logo {
-    width: 105px;
-    height: 105px;
-    margin: 0 auto 22px;
-    border-radius: 50%;
+  }
+  h1 { margin-bottom: 30px; font-size: 30px; text-align: center; }
+
+  .menu {
     display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+  }
+
+  .menu button {
+    padding: 15px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    background: #fff;
+    color: #1e3c72;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.25s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .menu button:hover {
+    background: #ffd700;
+    transform: translateY(-2px);
+  }
+  .menu button:active { transform: scale(0.97); }
+
+  .admin-btn {
+    background: #ffd700 !important;
+    color: #000 !important;
+  }
+
+  /* Модальное окно */
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
     align-items: center;
     justify-content: center;
-    font-size: 47px;
-    background:
-        linear-gradient(145deg, #2387ff, #0754c8);
-    box-shadow:
-        0 0 45px rgba(22,119,255,.4);
-}
-.title {
-    text-align: center;
-    font-size: 27px;
-    font-weight: 800;
-    margin-bottom: 7px;
-}
-.subtitle {
-    text-align: center;
-    color: #8491a5;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
-.track {
-    padding: 15px;
-    border-radius: 17px;
-    background: rgba(255,255,255,.045);
-    margin-bottom: 18px;
-}
-.track-label {
-    color: #707d91;
-    font-size: 11px;
-    text-transform: uppercase;
-    margin-bottom: 7px;
-}
-.track-name {
-    font-size: 15px;
-    font-weight: 700;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-.status {
-    text-align: center;
-    min-height: 20px;
-    margin-bottom: 18px;
-    color: #8e9bae;
-    font-size: 13px;
-}
-.play {
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal.show { display: flex; }
+
+  .modal-box {
+    background: #fff;
+    color: #1e3c72;
+    border-radius: 15px;
+    padding: 30px;
     width: 100%;
-    height: 60px;
-    border: 0;
-    border-radius: 18px;
-    background:
-        linear-gradient(135deg, #2184ff, #075bd2);
-    color: white;
-    font-size: 18px;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow:
-        0 12px 30px rgba(18,108,235,.25);
-    transition: transform .12s, opacity .12s;
-}
-.play:active {
-    transform: scale(.96);
-}
-.play:disabled {
-    opacity: .4;
-    cursor: not-allowed;
-}
-.reload {
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .modal-box h2 { margin-bottom: 20px; font-size: 22px; }
+  .modal-box input[type="password"],
+  .modal-box input[type="file"] {
     width: 100%;
-    margin-top: 12px;
-    height: 45px;
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 14px;
-    background: rgba(255,255,255,.04);
-    color: #aeb9c9;
-    font-size: 14px;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  .modal-box input[type="file"] {
+    padding: 8px;
+    background: #f0f0f0;
+  }
+  .modal-box button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #1e3c72;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-}
-.info {
+    transition: 0.25s;
+    margin-bottom: 10px;
+  }
+  .modal-box button:hover { background: #2a5298; }
+
+  .close-btn {
+    background: #ccc !important;
+    color: #000 !important;
+    margin-top: 5px;
+  }
+  .close-btn:hover { background: #aaa !important; }
+
+  .status {
     margin-top: 20px;
-    padding: 13px;
-    border-radius: 14px;
-    background: rgba(255,255,255,.025);
-    color: #687589;
-    font-size: 11px;
-    line-height: 1.5;
+    font-size: 14px;
+    color: #fff;
+    opacity: 0.85;
     text-align: center;
-}
-.dot {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #777;
-    margin-right: 5px;
-}
-.dot.green {
-    background: #31d17c;
-    box-shadow: 0 0 8px #31d17c;
-}
-.dot.red {
-    background: #ff4d5e;
-}
-.loading {
-    animation: pulse 1s infinite alternate;
-}
-@keyframes pulse {
-    from { opacity: .45; }
-    to { opacity: 1; }
-}
+  }
 </style>
 </head>
 <body>
-<div class="player">
-    <div class="logo">
-        🎵
+
+  <h1>Добро пожаловать 👋</h1>
+
+  <div class="menu">
+    <button onclick="playMusic('🏠 Главная')">🏠 Главная</button>
+    <button onclick="playMusic('📰 Новости')">📰 Новости</button>
+    <button onclick="playMusic('ℹ️ О нас')">ℹ️ О нас</button>
+    <button onclick="playMusic('✉️ Контакты')">✉️ Контакты</button>
+    <button class="admin-btn" onclick="openAdmin()">🔐 Админ панель</button>
+  </div>
+
+  <div class="status" id="status">Музыка не загружена</div>
+
+  <!-- Модальное окно пароля -->
+  <div class="modal" id="passModal">
+    <div class="modal-box">
+      <h2>🔐 Введите пароль</h2>
+      <input type="password" id="passInput" placeholder="Пароль" autocomplete="off">
+      <button onclick="checkPass()">Войти</button>
+      <button class="close-btn" onclick="closeModal('passModal')">Отмена</button>
     </div>
-    <div class="title">
-        Music Player
+  </div>
+
+  <!-- Модальное окно загрузки музыки -->
+  <div class="modal" id="uploadModal">
+    <div class="modal-box">
+      <h2>🎵 Загрузите музыку</h2>
+      <p style="font-size:14px;margin-bottom:15px;color:#555;">Выберите mp3 файл — он будет играть при нажатии кнопок</p>
+      <input type="file" id="musicFile" accept="audio/mpeg,audio/mp3,audio/*">
+      <button onclick="saveMusic()">✅ Сохранить</button>
+      <button class="close-btn" onclick="closeModal('uploadModal')">Закрыть</button>
     </div>
-    <div class="subtitle">
-        Музыка от администратора
-    </div>
-    <div class="track">
-        <div class="track-label">
-            Сейчас доступно
-        </div>
-        <div class="track-name" id="trackName">
-            Музыка ещё не загружена
-        </div>
-    </div>
-    <div class="status" id="status">
-        <span class="dot"></span>
-        Проверка...
-    </div>
-    <button
-        class="play"
-        id="playButton"
-        disabled>
-        ▶️ ПРОИГРАТЬ
-    </button>
-    <button
-        class="reload"
-        id="reloadButton">
-        🔄 Обновить музыку
-    </button>
-    <div class="info">
-        Администратор отправляет аудиофайл
-        Telegram-боту. После загрузки трек
-        становится доступен здесь.
-    </div>
-</div>
+  </div>
+
+  <!-- Скрытый аудио-плеер -->
+  <audio id="bgMusic" loop></audio>
+
 <script>
-/* =========================================================
-   НАСТРОЙКИ
-   ========================================================= */
-/*
-   ⚠️ ВАЖНО:
-   Не публикуй настоящий BOT_TOKEN
-   в открытом HTML.
-   Для теста можешь вставить его сюда.
-*/
-const BOT_TOKEN = "ВСТАВЬ_СЮДА_ТОКЕН_БОТА";
-/*
-   Telegram ID администратора
-*/
-const ADMIN_ID = "ВСТАВЬ_СЮДА_ADMIN_ID";
-/* =========================================================
-   ОСНОВНЫЕ ПЕРЕМЕННЫЕ
-   ========================================================= */
-let currentAudio = null;
-let currentFile = null;
-let lastUpdateId = 0;
-let musicReady = false;
-/* =========================================================
-   ЭЛЕМЕНТЫ
-   ========================================================= */
-const playButton =
-    document.getElementById("playButton");
-const reloadButton =
-    document.getElementById("reloadButton");
-const status =
-    document.getElementById("status");
-const trackName =
-    document.getElementById("trackName");
-/* =========================================================
-   СТАТУС
-   ========================================================= */
-function setStatus(text, type = "") {
-    let dot = "";
-    if (type === "green") {
-        dot = '<span class="dot green"></span>';
+  const ADMIN_PASSWORD = "676767";
+  let musicURL = localStorage.getItem("savedMusic") || "";
+
+  // При загрузке страницы — если музыка была сохранена, восстанавливаем
+  window.addEventListener("DOMContentLoaded", () => {
+    if (musicURL) {
+      document.getElementById("bgMusic").src = musicURL;
+      document.getElementById("status").textContent = "✅ Музыка загружена";
     }
-    else if (type === "red") {
-        dot = '<span class="dot red"></span>';
+  });
+
+  // Открыть окно пароля
+  function openAdmin() {
+    document.getElementById("passInput").value = "";
+    document.getElementById("passModal").classList.add("show");
+    setTimeout(() => document.getElementById("passInput").focus(), 100);
+  }
+
+  // Проверить пароль
+  function checkPass() {
+    const val = document.getElementById("passInput").value;
+    if (val === ADMIN_PASSWORD) {
+      closeModal("passModal");
+      openUpload();
+    } else {
+      alert("❌ Неверный пароль!");
+      document.getElementById("passInput").value = "";
     }
-    else {
-        dot = '<span class="dot"></span>';
+  }
+
+  // Открыть окно загрузки
+  function openUpload() {
+    document.getElementById("uploadModal").classList.add("show");
+  }
+
+  // Сохранить музыку
+  function saveMusic() {
+    const fileInput = document.getElementById("musicFile");
+    if (!fileInput.files || fileInput.files.length === 0) {
+      alert("⚠️ Выберите файл с музыкой!");
+      return;
     }
-    status.innerHTML = dot + text;
-}
-/* =========================================================
-   ПРОВЕРКА НАСТРОЕК
-   ========================================================= */
-function settingsOK() {
-    if (
-        !BOT_TOKEN ||
-        BOT_TOKEN === "7688724556:AAHH2pcTId8Ty42Jj4UnBh6mvWwBZZWCxWc"
-    ) {
-        setStatus(
-            "Укажи BOT_TOKEN в коде",
-            "red"
-        );
-        return false;
+    const file = fileInput.files[0];
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      musicURL = e.target.result; // base64
+      try {
+        localStorage.setItem("savedMusic", musicURL);
+      } catch (err) {
+        alert("⚠️ Файл слишком большой для сохранения. Но он будет играть до перезагрузки.");
+      }
+      document.getElementById("bgMusic").src = musicURL;
+      document.getElementById("status").textContent = "✅ Музыка загружена: " + file.name;
+      closeModal("uploadModal");
+      alert("✅ Музыка сохранена! Теперь она заиграет при нажатии кнопок.");
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Воспроизвести музыку при нажатии кнопки
+  function playMusic(page) {
+    const music = document.getElementById("bgMusic");
+    if (!music.src) {
+      alert("🎵 Музыка ещё не загружена админом!");
+      return;
     }
-    if (
-        !ADMIN_ID ||
-        ADMIN_ID === "7895911575"
-    ) {
-        setStatus(
-            "Укажи ADMIN_ID в коде",
-            "red"
-        );
-        return false;
+    if (music.paused) {
+      music.play().catch(err => console.log("Ошибка воспроизведения:", err));
     }
-    return true;
-}
-/* =========================================================
-   TELEGRAM API
-   ========================================================= */
-async function telegram(method, data = {}) {
-    const url =
-        "https://api.telegram.org/bot" +
-        BOT_TOKEN +
-        "/" +
-        method;
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type":
-                "application/json"
-        },
-        body: JSON.stringify(data)
+    console.log("Переход на:", page);
+  }
+
+  // Закрыть модальное окно
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("show");
+  }
+
+  // Enter в поле пароля
+  document.getElementById("passInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") checkPass();
+  });
+
+  // Закрытие по клику вне окна
+  document.querySelectorAll(".modal").forEach(m => {
+    m.addEventListener("click", e => {
+      if (e.target === m) m.classList.remove("show");
     });
-    return await response.json();
-}
-/* =========================================================
-   ПОЛУЧЕНИЕ НОВЫХ СООБЩЕНИЙ
-   ========================================================= */
-async function getUpdates() {
-    if (!settingsOK()) {
-        return [];
-    }
-    try {
-        const result = await telegram(
-            "getUpdates",
-            {
-                offset: lastUpdateId + 1,
-                limit: 100,
-                timeout: 0
-            }
-        );
-        if (!result.ok) {
-            console.error(result);
-            setStatus(
-                "Ошибка Telegram API",
-                "red"
-            );
-            return [];
-        }
-        return result.result || [];
-    } catch (error) {
-        console.error(error);
-        setStatus(
-            "Не удалось подключиться к Telegram",
-            "red"
-        );
-        return [];
-    }
-}
-/* =========================================================
-   ПОИСК ПОСЛЕДНЕЙ МУЗЫКИ АДМИНА
-   ========================================================= */
-async function findMusic() {
-    if (!settingsOK()) {
-        return;
-    }
-    setStatus(
-        "Ищу музыку администратора..."
-    );
-    playButton.disabled = true;
-    musicReady = false;
-    const updates =
-        await getUpdates();
-    let found = null;
-    for (const update of updates) {
-        if (
-            update.update_id >
-            lastUpdateId
-        ) {
-            lastUpdateId =
-                update.update_id;
-        }
-        const message =
-            update.message;
-        if (!message) {
-            continue;
-        }
-        /*
-           Проверяем отправителя
-        */
-        if (
-            String(message.from?.id) !==
-            String(ADMIN_ID)
-        ) {
-            continue;
-        }
-        /*
-           Telegram audio
-        */
-        if (message.audio) {
-            found = {
-                fileId:
-                    message.audio.file_id,
-                name:
-                    message.audio.file_name ||
-                    "Музыка.mp3",
-                date:
-                    message.date
-            };
-        }
-        /*
-           Telegram document с аудио
-        */
-        else if (
-            message.document &&
-            message.document.mime_type &&
-            message.document.mime_type
-                .startsWith("audio/")
-        ) {
-            found = {
-                fileId:
-                    message.document.file_id,
-                name:
-                    message.document.file_name ||
-                    "Музыка",
-                date:
-                    message.date
-            };
-        }
-    }
-    if (!found) {
-        setStatus(
-            "Музыка не найдена",
-            "red"
-        );
-        trackName.textContent =
-            "Администратор ещё не отправил музыку";
-        return;
-    }
-    currentFile = found;
-    musicReady = true;
-    trackName.textContent =
-        found.name;
-    setStatus(
-        "Музыка доступна",
-        "green"
-    );
-    playButton.disabled = false;
-}
-/* =========================================================
-   ПОЛУЧЕНИЕ TELEGRAM FILE
-   ========================================================= */
-async function getTelegramFile(fileId) {
-    const result =
-        await telegram(
-            "getFile",
-            {
-                file_id: fileId
-            }
-        );
-    if (!result.ok) {
-        throw new Error(
-            "Telegram не вернул файл"
-        );
-    }
-    return result.result.file_path;
-}
-/* =========================================================
-   СКАЧИВАНИЕ АУДИО
-   ========================================================= */
-async function downloadMusic() {
-    if (!currentFile) {
-        throw new Error(
-            "Музыка не выбрана"
-        );
-    }
-    setStatus(
-        "Загружаю музыку..."
-    );
-    const filePath =
-        await getTelegramFile(
-            currentFile.fileId
-        );
-    const fileURL =
-        "https://api.telegram.org/file/bot" +
-        BOT_TOKEN +
-        "/" +
-        filePath;
-    const response =
-        await fetch(fileURL);
-    if (!response.ok) {
-        throw new Error(
-            "Не удалось скачать музыку"
-        );
-    }
-    const blob =
-        await response.blob();
-    const localURL =
-        URL.createObjectURL(blob);
-    return localURL;
-}
-/* =========================================================
-   ВОСПРОИЗВЕДЕНИЕ
-   ========================================================= */
-async function playMusic() {
-    if (!musicReady || !currentFile) {
-        await findMusic();
-        if (!musicReady) {
-            return;
-        }
-    }
-    try {
-        playButton.disabled = true;
-        playButton.textContent =
-            "⏳ ЗАГРУЗКА...";
-        const musicURL =
-            await downloadMusic();
-        /*
-           Удаляем старый audio
-        */
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.src = "";
-            currentAudio = null;
-        }
-        /*
-           Создаём новый плеер
-        */
-        currentAudio =
-            new Audio(musicURL);
-        currentAudio.preload =
-            "auto";
-        /*
-           Запускаем музыку
-        */
-        await currentAudio.play();
-        setStatus(
-            "Музыка играет",
-            "green"
-        );
-        playButton.textContent =
-            "⏸️ ОСТАНОВИТЬ";
-        playButton.disabled = false;
-        currentAudio.onended =
-            function() {
-                playButton.textContent =
-                    "▶️ ПРОИГРАТЬ";
-                setStatus(
-                    "Музыка закончилась",
-                    "green"
-                );
-            };
-    } catch (error) {
-        console.error(error);
-        setStatus(
-            "Ошибка воспроизведения",
-            "red"
-        );
-        playButton.textContent =
-            "▶️ ПРОИГРАТЬ";
-        playButton.disabled = false;
-    }
-}
-/* =========================================================
-   ОСТАНОВКА
-   ========================================================= */
-function stopMusic() {
-    if (!currentAudio) {
-        return;
-    }
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
-    playButton.textContent =
-        "▶️ ПРОИГРАТЬ";
-    setStatus(
-        "Музыка остановлена",
-        "green"
-    );
-}
-/* =========================================================
-   КНОПКА
-   ========================================================= */
-playButton.addEventListener(
-    "click",
-    async function() {
-        if (
-            currentAudio &&
-            !currentAudio.paused
-        ) {
-            stopMusic();
-            return;
-        }
-        await playMusic();
-    }
-);
-/* =========================================================
-   ОБНОВЛЕНИЕ
-   ========================================================= */
-reloadButton.addEventListener(
-    "click",
-    async function() {
-        reloadButton.disabled =
-            true;
-        reloadButton.textContent =
-            "⏳ Проверяю...";
-        await findMusic();
-        reloadButton.disabled =
-            false;
-        reloadButton.textContent =
-            "🔄 Обновить музыку";
-    }
-);
-/* =========================================================
-   АВТОПРОВЕРКА
-   ========================================================= */
-setInterval(
-    async function() {
-        if (
-            currentAudio &&
-            !currentAudio.paused
-        ) {
-            return;
-        }
-        await findMusic();
-    },
-    15000
-);
-/* =========================================================
-   ЗАПУСК
-   ========================================================= */
-findMusic();
+  });
 </script>
+
 </body>
 </html>
