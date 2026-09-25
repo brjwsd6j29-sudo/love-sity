@@ -3,305 +3,1187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Launcher</title>
+<title>GAME HUB</title>
 
 <style>
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#070b12;
+    --card:rgba(18,25,38,.78);
+    --line:rgba(255,255,255,.08);
+    --cyan:#00eaff;
+    --blue:#387cff;
+    --purple:#9b5cff;
+    --green:#00e88a;
+    --red:#ff416c;
+    --text:#f7f9ff;
+    --muted:#8d98aa;
 }
 
 body{
-  font-family:'Segoe UI',sans-serif;
-  background: radial-gradient(circle at top,#0f2027,#0b1217);
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
-  overflow:hidden;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(0,234,255,.12),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(155,92,255,.14),transparent 30%),
+        radial-gradient(circle at 50% 100%,rgba(56,124,255,.12),transparent 35%),
+        var(--bg);
+    color:var(--text);
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    overflow-x:hidden;
 }
 
-/* BACKGROUND PARTICLES */
-body::before{
-  content:"";
-  position:absolute;
-  width:200%;
-  height:200%;
-  background:radial-gradient(#00ffff22 1px, transparent 1px);
-  background-size:40px 40px;
-  animation:moveBg 20s linear infinite;
-}
-@keyframes moveBg{
-  from{transform:translate(0,0);}
-  to{transform:translate(-200px,-200px);}
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
 }
 
-/* MAIN CARD */
-.container{
-  position:relative;
-  width:100%;
-  max-width:420px;
-  padding:30px;
-  border-radius:25px;
-  backdrop-filter:blur(20px);
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-  box-shadow:0 0 40px rgba(0,255,255,0.2);
-  text-align:center;
+.grid{
+    position:absolute;
+    inset:-50%;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:45px 45px;
+    transform:perspective(500px) rotateX(60deg);
+    animation:gridMove 18s linear infinite;
 }
 
-/* TITLE */
-h1{
-  font-size:28px;
-  margin-bottom:10px;
-  background:linear-gradient(90deg,#00ffff,#00ff95);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+@keyframes gridMove{
+    from{transform:perspective(500px) rotateX(60deg) translateY(0);}
+    to{transform:perspective(500px) rotateX(60deg) translateY(45px);}
 }
 
-.subtitle{
-  font-size:13px;
-  opacity:0.7;
-  margin-bottom:25px;
+.orb{
+    position:absolute;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:.18;
 }
 
-/* STATUS */
-.status{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:25px;
-  font-size:14px;
+.orb.one{
+    background:var(--cyan);
+    left:-100px;
+    top:20%;
 }
 
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#00ff95;
-  box-shadow:0 0 10px #00ff95;
-  animation:pulse 1.5s infinite;
-}
-@keyframes pulse{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.5);}
+.orb.two{
+    background:var(--purple);
+    right:-100px;
+    bottom:10%;
 }
 
-/* BUTTONS */
-.menu{
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+/* APP */
+
+.app{
+    position:relative;
+    z-index:2;
+    width:min(100%,500px);
+    margin:auto;
+    min-height:100vh;
+    padding:22px 16px 30px;
 }
 
-.btn{
-  padding:16px;
-  border:none;
-  border-radius:14px;
-  font-size:17px;
-  font-weight:600;
-  cursor:pointer;
-  color:#fff;
-  background:linear-gradient(135deg,#1f2937,#111827);
-  transition:0.25s;
-  position:relative;
-  overflow:hidden;
+/* TOP */
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:24px;
 }
 
-.btn::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg,transparent,rgba(0,255,255,0.4),transparent);
-  opacity:0;
-  transition:0.3s;
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
 }
 
-.btn:hover::before{
-  opacity:1;
-  animation:shine 1s;
-}
-@keyframes shine{
-  from{transform:translateX(-100%);}
-  to{transform:translateX(100%);}
-}
-
-.btn:hover{
-  transform:translateY(-3px) scale(1.02);
-  box-shadow:0 0 20px rgba(0,255,255,0.5);
-}
-
-.btn:active{
-  transform:scale(0.95);
+.logo{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--cyan),var(--blue));
+    color:#001016;
+    font-size:22px;
+    font-weight:900;
+    box-shadow:0 0 25px rgba(0,234,255,.3);
 }
 
-/* SPECIAL BUTTON */
-.play{
-  background:linear-gradient(135deg,#00ff95,#00bfff);
-  color:#000;
-  font-weight:700;
+.brand h1{
+    font-size:18px;
+    letter-spacing:1px;
+}
+
+.brand p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:2px;
+}
+
+.online{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 11px;
+    border-radius:20px;
+    background:rgba(0,232,138,.08);
+    border:1px solid rgba(0,232,138,.15);
+    font-size:11px;
+    color:#9dffd8;
+}
+
+.online-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
+}
+
+/* PROFILE */
+
+.profile{
+    position:relative;
+    overflow:hidden;
+    padding:22px;
+    border:1px solid var(--line);
+    border-radius:25px;
+    background:linear-gradient(
+        135deg,
+        rgba(25,37,58,.9),
+        rgba(12,17,27,.8)
+    );
+    box-shadow:0 20px 60px rgba(0,0,0,.3);
+    margin-bottom:18px;
+}
+
+.profile::after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    right:-80px;
+    top:-90px;
+    border-radius:50%;
+    background:var(--cyan);
+    filter:blur(70px);
+    opacity:.12;
+}
+
+.profile-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.player{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.avatar{
+    width:52px;
+    height:52px;
+    border-radius:17px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    background:linear-gradient(135deg,#242e42,#111827);
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.player small{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.player strong{
+    display:block;
+    font-size:16px;
+    margin-top:3px;
+}
+
+.level{
+    text-align:right;
+}
+
+.level span{
+    color:var(--cyan);
+    font-size:11px;
+}
+
+.level strong{
+    display:block;
+    margin-top:3px;
+    font-size:18px;
+}
+
+.balance{
+    margin-top:20px;
+    padding-top:17px;
+    border-top:1px solid var(--line);
+}
+
+.balance-label{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.balance-value{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:4px;
+    font-size:27px;
+    font-weight:800;
+}
+
+.coin{
+    width:24px;
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:linear-gradient(135deg,#ffd86b,#ff9d00);
+    color:#482400;
+    font-size:12px;
+}
+
+/* SECTION */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:24px 4px 12px;
+}
+
+.section-title h2{
+    font-size:15px;
+}
+
+.section-title span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* GAME CARD */
+
+.game-card{
+    position:relative;
+    min-height:150px;
+    padding:21px;
+    margin-bottom:13px;
+    border-radius:23px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    cursor:pointer;
+    background:
+        linear-gradient(135deg,rgba(23,34,52,.95),rgba(10,15,24,.95));
+    transition:.25s ease;
+}
+
+.game-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(0,234,255,.3);
+    box-shadow:0 15px 35px rgba(0,0,0,.35);
+}
+
+.game-card:active{
+    transform:scale(.98);
+}
+
+.game-card::before{
+    content:"";
+    position:absolute;
+    width:160px;
+    height:160px;
+    right:-50px;
+    top:-45px;
+    border-radius:50%;
+    filter:blur(10px);
+    opacity:.18;
+}
+
+.crash::before{
+    background:#ff4d6d;
+}
+
+.roulette::before{
+    background:#9b5cff;
+}
+
+.game-icon{
+    width:48px;
+    height:48px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    margin-bottom:18px;
+    background:rgba(255,255,255,.07);
+}
+
+.game-card h3{
+    font-size:17px;
+}
+
+.game-card p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.arrow{
+    position:absolute;
+    right:18px;
+    bottom:18px;
+    width:32px;
+    height:32px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.07);
+    color:#fff;
+}
+
+/* MENU GRID */
+
+.menu-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.menu-card{
+    min-height:105px;
+    border-radius:20px;
+    padding:17px;
+    border:1px solid var(--line);
+    background:rgba(15,22,34,.8);
+    cursor:pointer;
+    transition:.25s;
+}
+
+.menu-card:hover{
+    transform:translateY(-3px);
+    border-color:rgba(255,255,255,.18);
+}
+
+.menu-card:active{
+    transform:scale(.96);
+}
+
+.menu-icon{
+    font-size:22px;
+    margin-bottom:13px;
+}
+
+.menu-card strong{
+    display:block;
+    font-size:13px;
+}
+
+.menu-card span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-top:4px;
 }
 
 /* ADMIN */
-.admin{
-  margin-top:10px;
-  background:linear-gradient(135deg,#ff416c,#ff4b2b);
+
+.admin-button{
+    width:100%;
+    margin-top:18px;
+    padding:16px;
+    border:1px solid rgba(255,65,108,.25);
+    border-radius:17px;
+    background:linear-gradient(
+        135deg,
+        rgba(255,65,108,.16),
+        rgba(255,75,43,.08)
+    );
+    color:#ff8ca5;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.admin-button:hover{
+    background:rgba(255,65,108,.22);
+    box-shadow:0 0 25px rgba(255,65,108,.15);
+}
+
+.admin-button:active{
+    transform:scale(.97);
+}
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    color:#596476;
+    font-size:10px;
+    margin-top:25px;
 }
 
 /* MODAL */
+
 .modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.8);
-  display:none;
-  justify-content:center;
-  align-items:center;
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(12px);
 }
 
-.modal.active{
-  display:flex;
+.modal.show{
+    display:flex;
 }
 
 .modal-box{
-  background:#111827;
-  padding:25px;
-  border-radius:20px;
-  width:90%;
-  max-width:350px;
-  text-align:center;
-  box-shadow:0 0 30px rgba(0,255,255,0.2);
+    width:100%;
+    max-width:420px;
+    max-height:90vh;
+    overflow:auto;
+    padding:25px;
+    border-radius:25px;
+    border:1px solid rgba(255,255,255,.1);
+    background:#101722;
+    box-shadow:0 25px 80px rgba(0,0,0,.6);
+    animation:modalIn .3s ease;
 }
 
-input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  margin:10px 0;
-  font-size:15px;
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:scale(.9) translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
 }
 
-.modal button{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  margin-top:10px;
-  font-weight:700;
-  cursor:pointer;
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
 }
 
-.login{
-  background:#00ff95;
-  color:#000;
+.modal-header h2{
+    font-size:19px;
 }
 
 .close{
-  background:#333;
-  color:#fff;
+    width:34px;
+    height:34px;
+    border:0;
+    border-radius:11px;
+    background:rgba(255,255,255,.07);
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
 }
 
-/* LOADING ANIMATION */
-.loader{
-  margin-top:20px;
-  display:flex;
-  justify-content:center;
-  gap:5px;
+.input{
+    width:100%;
+    padding:15px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.1);
+    outline:none;
+    background:#080d15;
+    color:#fff;
+    font-size:15px;
+    margin-bottom:12px;
 }
-.loader span{
-  width:6px;
-  height:6px;
-  background:#00ffff;
-  border-radius:50%;
-  animation:blink 1s infinite;
-}
-.loader span:nth-child(2){animation-delay:0.2s;}
-.loader span:nth-child(3){animation-delay:0.4s;}
 
-@keyframes blink{
-  0%,100%{opacity:0.3;}
-  50%{opacity:1;}
+.input:focus{
+    border-color:var(--cyan);
+    box-shadow:0 0 15px rgba(0,234,255,.1);
+}
+
+.modal-btn{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--cyan),var(--blue));
+    color:#001016;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.cancel-btn{
+    width:100%;
+    margin-top:8px;
+    padding:13px;
+    border:0;
+    border-radius:14px;
+    background:#202938;
+    color:#fff;
+    cursor:pointer;
+}
+
+.error{
+    min-height:18px;
+    margin-bottom:10px;
+    color:#ff6684;
+    font-size:12px;
+    text-align:center;
+}
+
+/* ADMIN PANEL */
+
+.admin-info{
+    padding:15px;
+    border-radius:16px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--line);
+    margin-bottom:12px;
+}
+
+.admin-info p{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+}
+
+.admin-info b{
+    color:#fff;
+}
+
+.admin-action{
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    border:0;
+    border-radius:13px;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    background:linear-gradient(135deg,#1677ff,#713cff);
+}
+
+.admin-action.red{
+    background:linear-gradient(135deg,#ff416c,#ff4b2b);
+}
+
+.message{
+    text-align:center;
+    font-size:12px;
+    min-height:20px;
+    margin-top:10px;
+    color:#65ffbd;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translate(-50%,20px);
+    opacity:0;
+    z-index:300;
+    padding:12px 18px;
+    border-radius:14px;
+    background:#172131;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+    font-size:12px;
+    transition:.3s;
+    pointer-events:none;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* MOBILE */
+
+@media(max-width:380px){
+    .app{
+        padding:16px 12px 25px;
+    }
+
+    .profile{
+        padding:18px;
+    }
+
+    .game-card{
+        min-height:140px;
+    }
+
+    .balance-value{
+        font-size:24px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>GAME CORE</h1>
-  <div class="subtitle">виртуальный игровой центр</div>
-
-  <div class="status">
-    <div class="dot"></div>
-    <span>Сервер онлайн</span>
-  </div>
-
-  <div class="menu">
-    <button class="btn play" onclick="clickAction()">▶ Играть</button>
-    <button class="btn" onclick="clickAction()">🎮 Режимы</button>
-    <button class="btn" onclick="clickAction()">🏆 Рейтинг</button>
-    <button class="btn" onclick="clickAction()">💬 Сообщество</button>
-    <button class="btn admin" onclick="openAdmin()">🔐 Панель</button>
-  </div>
-
-  <div class="loader">
-    <span></span><span></span><span></span>
-  </div>
+<div class="background">
+    <div class="grid"></div>
+    <div class="orb one"></div>
+    <div class="orb two"></div>
 </div>
 
-<!-- ADMIN MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-box">
-    <h2>Доступ</h2>
-    <input type="password" id="pass" placeholder="Введите пароль">
-    <button class="login" onclick="login()">Войти</button>
-    <button class="close" onclick="closeModal()">Назад</button>
-    <p id="error" style="color:#ff4b2b;margin-top:10px;"></p>
-  </div>
+<div class="app">
+
+    <!-- TOP -->
+    <div class="top">
+
+        <div class="brand">
+            <div class="logo">◆</div>
+
+            <div>
+                <h1>GAME HUB</h1>
+                <p>YOUR PLAYGROUND</p>
+            </div>
+        </div>
+
+        <div class="online">
+            <div class="online-dot"></div>
+            ONLINE
+        </div>
+
+    </div>
+
+    <!-- PROFILE -->
+    <div class="profile">
+
+        <div class="profile-top">
+
+            <div class="player">
+
+                <div class="avatar">
+                    👤
+                </div>
+
+                <div>
+                    <small>Игрок</small>
+                    <strong>Player</strong>
+                </div>
+
+            </div>
+
+            <div class="level">
+                <span>LEVEL</span>
+                <strong>01</strong>
+            </div>
+
+        </div>
+
+        <div class="balance">
+
+            <div class="balance-label">
+                Ваш баланс
+            </div>
+
+            <div class="balance-value">
+                <div class="coin">◆</div>
+                <span>10 000</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- GAMES -->
+
+    <div class="section-title">
+        <h2>🎮 Игровая зона</h2>
+        <span>2 режима</span>
+    </div>
+
+    <div class="game-card crash" onclick="gameClick('Crash')">
+
+        <div class="game-icon">
+            🚀
+        </div>
+
+        <h3>CRASH</h3>
+
+        <p>
+            Поймай множитель до падения
+        </p>
+
+        <div class="arrow">
+            →
+        </div>
+
+    </div>
+
+    <div class="game-card roulette" onclick="gameClick('Roulette')">
+
+        <div class="game-icon">
+            🎰
+        </div>
+
+        <h3>ROULETTE</h3>
+
+        <p>
+            Испытай удачу
+        </p>
+
+        <div class="arrow">
+            →
+        </div>
+
+    </div>
+
+    <!-- MENU -->
+
+    <div class="section-title">
+        <h2>⚡ Разделы</h2>
+    </div>
+
+    <div class="menu-grid">
+
+        <div class="menu-card" onclick="menuClick('profile')">
+            <div class="menu-icon">👤</div>
+            <strong>Профиль</strong>
+            <span>Мой аккаунт</span>
+        </div>
+
+        <div class="menu-card" onclick="menuClick('top')">
+            <div class="menu-icon">🏆</div>
+            <strong>Рейтинг</strong>
+            <span>Лучшие игроки</span>
+        </div>
+
+        <div class="menu-card" onclick="menuClick('bonus')">
+            <div class="menu-icon">🎁</div>
+            <strong>Бонусы</strong>
+            <span>Получить награду</span>
+        </div>
+
+        <div class="menu-card" onclick="menuClick('info')">
+            <div class="menu-icon">ℹ️</div>
+            <strong>Информация</strong>
+            <span>Правила проекта</span>
+        </div>
+
+    </div>
+
+    <!-- ADMIN -->
+
+    <button class="admin-button" onclick="openAdmin()">
+        🔐 СИСТЕМА АДМИНИСТРАТОРА
+    </button>
+
+    <div class="footer">
+        GAME HUB • v2.0
+    </div>
+
 </div>
 
-<audio id="audio" loop src="music.mp4"></audio>
+
+<!-- PASSWORD MODAL -->
+
+<div class="modal" id="passwordModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>🔐 Администратор</h2>
+
+            <button class="close" onclick="closeModal('passwordModal')">
+                ×
+            </button>
+
+        </div>
+
+        <input
+            class="input"
+            type="password"
+            id="password"
+            maxlength="30"
+            placeholder="Введите пароль"
+        >
+
+        <div class="error" id="passwordError"></div>
+
+        <button class="modal-btn" onclick="loginAdmin()">
+            ВОЙТИ
+        </button>
+
+        <button class="cancel-btn" onclick="closeModal('passwordModal')">
+            Отмена
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ADMIN PANEL -->
+
+<div class="modal" id="adminModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>⚙️ Admin Control</h2>
+
+            <button class="close" onclick="closeModal('adminModal')">
+                ×
+            </button>
+
+        </div>
+
+        <div class="admin-info">
+
+            <p>
+                <b>Статус системы:</b>
+                <span style="color:#00e88a;">● ONLINE</span>
+            </p>
+
+            <p>
+                <b>Игровой сервер:</b>
+                активен
+            </p>
+
+            <p>
+                <b>Версия:</b>
+                GAME HUB 2.0
+            </p>
+
+        </div>
+
+        <button
+            class="admin-action"
+            onclick="adminAction('Система обновлена')"
+        >
+            🔄 Обновить систему
+        </button>
+
+        <button
+            class="admin-action"
+            onclick="adminAction('Игровой сервер перезапущен')"
+        >
+            🚀 Перезапустить сервер
+        </button>
+
+        <button
+            class="admin-action"
+            onclick="adminAction('Кэш очищен')"
+        >
+            🧹 Очистить кэш
+        </button>
+
+        <button
+            class="admin-action red"
+            onclick="adminAction('Режим обслуживания включён')"
+        >
+            🛠 Режим обслуживания
+        </button>
+
+        <div class="message" id="adminMessage"></div>
+
+        <button class="cancel-btn" onclick="closeModal('adminModal')">
+            Закрыть
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div class="toast" id="toast"></div>
+
+
+<!-- MUSIC -->
+
+<audio
+    id="bgMusic"
+    src="music.mp4"
+    loop
+    preload="auto">
+</audio>
+
 
 <script>
-const audio = document.getElementById("audio");
-const PASSWORD = "676767";
 
-/* PLAY ON CLICK */
-function clickAction(){
-  if(audio.paused){
-    audio.volume = 0.7;
-    audio.play().catch(()=>{});
-  }
+/* ==========================================
+   НАСТРОЙКИ
+========================================== */
+
+const ADMIN_PASSWORD = "676767";
+
+const audio = document.getElementById("bgMusic");
+
+
+/* ==========================================
+   МУЗЫКА
+   Запускается после нажатия пользователя
+========================================== */
+
+function playMusic(){
+
+    if(audio.paused){
+
+        audio.volume = 0.7;
+
+        audio.play().catch(error => {
+            console.log("Автозапуск заблокирован:", error);
+        });
+
+    }
+
 }
 
-/* ADMIN */
+
+/* ==========================================
+   ИГРЫ
+========================================== */
+
+function gameClick(game){
+
+    playMusic();
+
+    showToast("🎮 Открытие " + game);
+
+    /*
+       Здесь позже можно поставить переход:
+
+       location.href = "crash.html";
+
+       или
+
+       location.href = "roulette.html";
+    */
+
+}
+
+
+/* ==========================================
+   МЕНЮ
+========================================== */
+
+function menuClick(section){
+
+    playMusic();
+
+    const names = {
+
+        profile:"👤 Профиль",
+        top:"🏆 Рейтинг",
+        bonus:"🎁 Бонусы",
+        info:"ℹ️ Информация"
+
+    };
+
+    showToast(names[section] || "Раздел");
+
+}
+
+
+/* ==========================================
+   АДМИН
+========================================== */
+
 function openAdmin(){
-  document.getElementById("modal").classList.add("active");
+
+    playMusic();
+
+    document.getElementById("password").value = "";
+    document.getElementById("passwordError").textContent = "";
+
+    document
+        .getElementById("passwordModal")
+        .classList.add("show");
+
+    setTimeout(() => {
+
+        document.getElementById("password").focus();
+
+    },200);
+
 }
 
-function closeModal(){
-  document.getElementById("modal").classList.remove("active");
+
+function loginAdmin(){
+
+    playMusic();
+
+    const password =
+        document.getElementById("password").value.trim();
+
+    const error =
+        document.getElementById("passwordError");
+
+    if(password === ADMIN_PASSWORD){
+
+        error.textContent = "";
+
+        closeModal("passwordModal");
+
+        document
+            .getElementById("adminModal")
+            .classList.add("show");
+
+        showToast("🔓 Доступ разрешён");
+
+    }else{
+
+        error.textContent = "❌ Неверный пароль";
+
+        document.getElementById("password").value = "";
+
+        document.getElementById("password").focus();
+
+    }
+
 }
 
-function login(){
-  const val = document.getElementById("pass").value;
-  if(val === PASSWORD){
-    alert("Доступ разрешён");
-    closeModal();
-  }else{
-    document.getElementById("error").textContent = "Неверный пароль";
-  }
+
+/* ==========================================
+   АДМИН ДЕЙСТВИЯ
+========================================== */
+
+function adminAction(text){
+
+    playMusic();
+
+    const message =
+        document.getElementById("adminMessage");
+
+    message.textContent = "✓ " + text;
+
+    setTimeout(() => {
+
+        message.textContent = "";
+
+    },2500);
+
 }
 
-/* AUTO LOAD */
-window.addEventListener("click",()=>{
-  if(audio.paused){
-    audio.play().catch(()=>{});
-  }
-},{once:true});
+
+/* ==========================================
+   MODAL
+========================================== */
+
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList.remove("show");
+
+}
+
+
+/* Закрытие по фону */
+
+document.querySelectorAll(".modal").forEach(modal => {
+
+    modal.addEventListener("click", function(e){
+
+        if(e.target === modal){
+
+            modal.classList.remove("show");
+
+        }
+
+    });
+
+});
+
+
+/* ESC */
+
+document.addEventListener("keydown", e => {
+
+    if(e.key === "Escape"){
+
+        document
+            .querySelectorAll(".modal")
+            .forEach(modal => {
+
+                modal.classList.remove("show");
+
+            });
+
+    }
+
+});
+
+
+/* ENTER */
+
+document
+    .getElementById("password")
+    .addEventListener("keydown", e => {
+
+        if(e.key === "Enter"){
+
+            loginAdmin();
+
+        }
+
+    });
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+let toastTimer;
+
+function showToast(text){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = text;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },1800);
+
+}
+
 </script>
 
 </body>
