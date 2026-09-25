@@ -3,531 +3,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Игровой проект</title>
+<title>Game Launcher</title>
+
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    min-height: 100vh;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    overflow-x: hidden;
-  }
+body{
+  font-family:'Segoe UI',sans-serif;
+  background: radial-gradient(circle at top,#0f2027,#0b1217);
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  overflow:hidden;
+}
 
-  .container { width: 100%; max-width: 500px; text-align: center; }
+/* BACKGROUND PARTICLES */
+body::before{
+  content:"";
+  position:absolute;
+  width:200%;
+  height:200%;
+  background:radial-gradient(#00ffff22 1px, transparent 1px);
+  background-size:40px 40px;
+  animation:moveBg 20s linear infinite;
+}
+@keyframes moveBg{
+  from{transform:translate(0,0);}
+  to{transform:translate(-200px,-200px);}
+}
 
-  h1 {
-    font-size: 30px;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    animation: fadeIn 0.8s ease;
-  }
+/* MAIN CARD */
+.container{
+  position:relative;
+  width:100%;
+  max-width:420px;
+  padding:30px;
+  border-radius:25px;
+  backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 0 40px rgba(0,255,255,0.2);
+  text-align:center;
+}
 
-  .subtitle {
-    font-size: 15px;
-    opacity: 0.75;
-    margin-bottom: 35px;
-    animation: fadeIn 1.2s ease;
-  }
+/* TITLE */
+h1{
+  font-size:28px;
+  margin-bottom:10px;
+  background:linear-gradient(90deg,#00ffff,#00ff95);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-  .menu {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    animation: fadeIn 0.6s ease;
-  }
+.subtitle{
+  font-size:13px;
+  opacity:0.7;
+  margin-bottom:25px;
+}
 
-  .menu button {
-    padding: 16px 22px;
-    font-size: 18px;
-    border: none;
-    border-radius: 14px;
-    background: rgba(255,255,255,0.95);
-    color: #0f2027;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.25s ease;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-  }
-  .menu button:hover {
-    background: #ffd700;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(255,215,0,0.4);
-  }
-  .menu button:active { transform: scale(0.97); }
+/* STATUS */
+.status{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:25px;
+  font-size:14px;
+}
 
-  .admin-btn {
-    background: linear-gradient(135deg, #ff416c, #ff4b2b) !important;
-    color: #fff !important;
-    margin-top: 10px;
-  }
-  .admin-btn:hover {
-    box-shadow: 0 10px 25px rgba(255,65,108,0.5) !important;
-  }
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#00ff95;
+  box-shadow:0 0 10px #00ff95;
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.5);}
+}
 
-  .music-indicator {
-    margin-top: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 14px;
-    opacity: 0.9;
-    min-height: 30px;
-  }
+/* BUTTONS */
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
 
-  .equalizer { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
-  .equalizer span {
-    width: 4px;
-    background: #ffd700;
-    border-radius: 2px;
-    animation: bounce 0.8s infinite ease-in-out;
-  }
-  .equalizer span:nth-child(1) { animation-delay: 0s; }
-  .equalizer span:nth-child(2) { animation-delay: 0.15s; }
-  .equalizer span:nth-child(3) { animation-delay: 0.3s; }
-  .equalizer span:nth-child(4) { animation-delay: 0.45s; }
-  .equalizer.paused span { animation-play-state: paused; height: 4px; }
+.btn{
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  font-size:17px;
+  font-weight:600;
+  cursor:pointer;
+  color:#fff;
+  background:linear-gradient(135deg,#1f2937,#111827);
+  transition:0.25s;
+  position:relative;
+  overflow:hidden;
+}
 
-  @keyframes bounce {
-    0%, 100% { height: 4px; }
-    50% { height: 20px; }
-  }
+.btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(0,255,255,0.4),transparent);
+  opacity:0;
+  transition:0.3s;
+}
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+.btn:hover::before{
+  opacity:1;
+  animation:shine 1s;
+}
+@keyframes shine{
+  from{transform:translateX(-100%);}
+  to{transform:translateX(100%);}
+}
 
-  .modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(4px);
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    padding: 20px;
-    overflow-y: auto;
-  }
-  .modal.show { display: flex; }
+.btn:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 0 20px rgba(0,255,255,0.5);
+}
 
-  .modal-box {
-    background: #fff;
-    color: #0f2027;
-    border-radius: 20px;
-    padding: 28px 24px;
-    width: 100%;
-    max-width: 460px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    max-height: 92vh;
-    overflow-y: auto;
-    animation: popIn 0.35s ease;
-  }
+.btn:active{
+  transform:scale(0.95);
+}
 
-  @keyframes popIn {
-    from { transform: scale(0.85); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
+/* SPECIAL BUTTON */
+.play{
+  background:linear-gradient(135deg,#00ff95,#00bfff);
+  color:#000;
+  font-weight:700;
+}
 
-  .modal-box h2 {
-    margin-bottom: 20px;
-    font-size: 22px;
-    text-align: center;
-    color: #0f2027;
-  }
+/* ADMIN */
+.admin{
+  margin-top:10px;
+  background:linear-gradient(135deg,#ff416c,#ff4b2b);
+}
 
-  .modal-box p {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.55;
-    margin-bottom: 12px;
-  }
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.8);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
 
-  .modal-box input[type="password"] {
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid #ddd;
-    border-radius: 12px;
-    font-size: 16px;
-    margin-bottom: 14px;
-    outline: none;
-    transition: border 0.2s;
-    font-family: inherit;
-  }
-  .modal-box input:focus { border-color: #ffd700; }
+.modal.active{
+  display:flex;
+}
 
-  .modal-box button {
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #0f2027, #2c5364);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-    margin-bottom: 9px;
-    font-family: inherit;
-  }
-  .modal-box button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
-  .modal-box button:active { transform: scale(0.97); }
+.modal-box{
+  background:#111827;
+  padding:25px;
+  border-radius:20px;
+  width:90%;
+  max-width:350px;
+  text-align:center;
+  box-shadow:0 0 30px rgba(0,255,255,0.2);
+}
 
-  .close-btn {
-    background: #e0e0e0 !important;
-    color: #333 !important;
-  }
-  .close-btn:hover { background: #c8c8c8 !important; }
+input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin:10px 0;
+  font-size:15px;
+}
 
-  .msg {
-    font-size: 13px;
-    text-align: center;
-    margin-bottom: 10px;
-    min-height: 18px;
-    font-weight: 600;
-    padding: 8px;
-    border-radius: 8px;
-  }
-  .msg.error   { color: #ff416c; background: #fff0f3; }
-  .msg.success { color: #16a34a; background: #f0fdf4; }
-  .msg.info    { color: #0369a1; background: #f0f9ff; }
+.modal button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  margin-top:10px;
+  font-weight:700;
+  cursor:pointer;
+}
 
-  .step {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
-    font-size: 13.5px;
-    color: #333;
-    text-align: left;
-    line-height: 1.5;
-  }
-  .step-num {
-    flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    background: #ffd700;
-    color: #0f2027;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 12px;
-    margin-top: 1px;
-  }
+.login{
+  background:#00ff95;
+  color:#000;
+}
 
-  .info-block {
-    background: #f3f4f6;
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 16px;
-    border-left: 4px solid #ffd700;
-  }
+.close{
+  background:#333;
+  color:#fff;
+}
 
-  .link-box {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .link-box input {
-    flex: 1;
-    padding: 10px 12px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 13px;
-    font-family: monospace;
-    background: #f9f9f9;
-    color: #333;
-  }
-  .link-box button {
-    width: auto;
-    padding: 10px 14px;
-    margin: 0;
-    font-size: 13px;
-    background: #ffd700 !important;
-    color: #0f2027 !important;
-  }
+/* LOADING ANIMATION */
+.loader{
+  margin-top:20px;
+  display:flex;
+  justify-content:center;
+  gap:5px;
+}
+.loader span{
+  width:6px;
+  height:6px;
+  background:#00ffff;
+  border-radius:50%;
+  animation:blink 1s infinite;
+}
+.loader span:nth-child(2){animation-delay:0.2s;}
+.loader span:nth-child(3){animation-delay:0.4s;}
 
-  @media (max-width: 480px) {
-    h1 { font-size: 24px; }
-    .menu button { font-size: 16px; padding: 14px 18px; }
-    .modal-box { padding: 22px 16px; }
-  }
+@keyframes blink{
+  0%,100%{opacity:0.3;}
+  50%{opacity:1;}
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>🥳 Добро пожаловать</h1>
-  <p class="subtitle">Нажми на игры — чтобы играть</p>
+  <h1>GAME CORE</h1>
+  <div class="subtitle">виртуальный игровой центр</div>
+
+  <div class="status">
+    <div class="dot"></div>
+    <span>Сервер онлайн</span>
+  </div>
 
   <div class="menu">
-    <button onclick="handleClick('🏠 Главная меню')">🏠 Главная меню</button>
-    <button onclick="handleClick('🎮 Игры')">🎮 Игры</button>
-    <button onclick="handleClick('ℹ️ Важно')">ℹ️ Важно</button>
-    <button onclick="handleClick('✉️ Связь с нами')">✉️ Связь с нами</button>
-    <button class="admin-btn" onclick="openPassModal()">🔐 Админ панель</button>
+    <button class="btn play" onclick="clickAction()">▶ Играть</button>
+    <button class="btn" onclick="clickAction()">🎮 Режимы</button>
+    <button class="btn" onclick="clickAction()">🏆 Рейтинг</button>
+    <button class="btn" onclick="clickAction()">💬 Сообщество</button>
+    <button class="btn admin" onclick="openAdmin()">🔐 Панель</button>
   </div>
 
-  <div class="music-indicator">
-    <div class="equalizer paused" id="eq">
-      <span></span><span></span><span></span><span></span>
-    </div>
-    <span id="statusText">Загрузка музыки…</span>
+  <div class="loader">
+    <span></span><span></span><span></span>
   </div>
 </div>
 
-<!-- ПАРОЛЬ -->
-<div class="modal" id="passModal">
+<!-- ADMIN MODAL -->
+<div class="modal" id="modal">
   <div class="modal-box">
-    <h2>🔐 Введите пароль</h2>
-    <input type="password" id="passInput" placeholder="Пароль" autocomplete="off" maxlength="20">
-    <div class="msg error" id="passError"></div>
-    <button onclick="checkPassword()">Войти</button>
-    <button class="close-btn" onclick="closeModal('passModal')">Отмена</button>
+    <h2>Доступ</h2>
+    <input type="password" id="pass" placeholder="Введите пароль">
+    <button class="login" onclick="login()">Войти</button>
+    <button class="close" onclick="closeModal()">Назад</button>
+    <p id="error" style="color:#ff4b2b;margin-top:10px;"></p>
   </div>
 </div>
 
-<!-- АДМИН ПАНЕЛЬ -->
-<div class="modal" id="adminModal">
-  <div class="modal-box">
-    <h2>⚙️ Админ панель</h2>
-
-    <div class="info-block">
-      <p style="margin:0;font-weight:700;color:#0f2027;margin-bottom:8px;">📌 Как поменять музыку для ВСЕХ:</p>
-      <div class="step">
-        <div class="step-num">1</div>
-        <div>Открой свой репозиторий на <b>github.com</b></div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>Нажми <b>Add file → Upload files</b></div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>Перетащи новый mp3-файл и назови его <b>music.mp3</b></div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div>Нажми <b>Commit changes</b> — согласись заменить старый файл</div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div>Через 1–2 минуты музыка заиграет у <b>всех посетителей</b> 🎉</div>
-      </div>
-    </div>
-
-    <p style="font-size:13px;color:#666;text-align:left;">💡 Ссылка на твой репозиторий:</p>
-    <div class="link-box">
-      <input type="text" id="repoLink" readonly>
-      <button onclick="copyRepoLink()">Копировать</button>
-    </div>
-
-    <p style="font-size:13px;color:#666;text-align:left;">💡 Прямая ссылка на музыку:</p>
-    <div class="link-box">
-      <input type="text" id="musicLink" readonly>
-      <button onclick="copyMusicLink()">Копировать</button>
-    </div>
-
-    <div class="msg" id="adminMsg"></div>
-
-    <button onclick="reloadMusic()" style="background:linear-gradient(135deg,#0ea5e9,#0369a1);">🔄 Обновить музыку сейчас</button>
-    <button class="close-btn" onclick="closeModal('adminModal')">Закрыть</button>
-  </div>
-</div>
-
-<!-- АУДИО -->
-<audio id="bgMusic" loop preload="auto"></audio>
+<audio id="audio" loop src="music.mp4"></audio>
 
 <script>
-/* ============================================================
-   НАСТРОЙКИ
-============================================================ */
-const ADMIN_PASSWORD = "676767";
-const MUSIC_FILE     = "music.mp4";
+const audio = document.getElementById("audio");
+const PASSWORD = "676767";
 
-/* ============================================================
-   ЭЛЕМЕНТЫ
-============================================================ */
-const audio      = document.getElementById("bgMusic");
-const eq         = document.getElementById("eq");
-const statusText = document.getElementById("statusText");
-
-/* ============================================================
-   АВТООПРЕДЕЛЕНИЕ АДРЕСА МУЗЫКИ
-============================================================ */
-function getMusicUrl() {
-  // cache-busting: обновляем раз в 5 минут
-  const stamp = Math.floor(Date.now() / (5 * 60 * 1000));
-  return MUSIC_FILE + "?v=" + stamp;
-}
-
-function getRepoUrl() {
-  const host = location.hostname;
-  const parts = location.pathname.split("/").filter(Boolean);
-  if (host.endsWith(".github.io")) {
-    const user = host.split(".")[0];
-    const repo = parts[0] || (user + ".github.io");
-    return `https://github.com/${user}/${repo}`;
-  }
-  return "https://github.com";
-}
-
-function getRawMusicUrl() {
-  const host = location.hostname;
-  const parts = location.pathname.split("/").filter(Boolean);
-  if (host.endsWith(".github.io")) {
-    const user = host.split(".")[0];
-    const repo = parts[0] || (user + ".github.io");
-    return `https://github.com/${user}/${repo}/raw/main/${MUSIC_FILE}`;
-  }
-  return location.origin + "/" + MUSIC_FILE;
-}
-
-/* ============================================================
-   ЗАГРУЗКА И СОБЫТИЯ АУДИО
-============================================================ */
-function loadMusic() {
-  statusText.textContent = "Загрузка музыки…";
-  audio.src = getMusicUrl();
-  audio.load();
-}
-
-audio.addEventListener("canplaythrough", () => {
-  if (audio.paused) statusText.textContent = "✅ Сайт работает 100%";
-});
-audio.addEventListener("play", () => {
-  eq.classList.remove("paused");
-  statusText.textContent = "▶️ Музыка играет";
-});
-audio.addEventListener("pause", () => {
-  eq.classList.add("paused");
-  statusText.textContent = "⏸ Музыка на паузе";
-});
-audio.addEventListener("error", () => {
-  statusText.textContent = "⚠️ Файл music.mp3 не найден в репозитории";
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-  loadMusic();
-
-  // Показываем ссылки в админ панели
-  document.getElementById("repoLink").value  = getRepoUrl();
-  document.getElementById("musicLink").value = getRawMusicUrl();
-});
-
-/* ============================================================
-   КЛИК ПО МЕНЮ — ИГРАЕМ МУЗЫКУ
-============================================================ */
-function handleClick(pageName) {
-  if (audio.paused) {
+/* PLAY ON CLICK */
+function clickAction(){
+  if(audio.paused){
     audio.volume = 0.7;
-    audio.play().catch(err => {
-      console.warn("Не удалось запустить:", err);
-      statusText.textContent = "⚠️ Не удалось запустить музыку";
-    });
-  }
-  console.log("Переход:", pageName);
-}
-
-/* ============================================================
-   ПАРОЛЬ
-============================================================ */
-function openPassModal() {
-  document.getElementById("passInput").value = "";
-  document.getElementById("passError").textContent = "";
-  document.getElementById("passModal").classList.add("show");
-  setTimeout(() => document.getElementById("passInput").focus(), 120);
-}
-
-function checkPassword() {
-  const val = document.getElementById("passInput").value.trim();
-  if (val === ADMIN_PASSWORD) {
-    closeModal("passModal");
-    document.getElementById("adminMsg").textContent = "";
-    document.getElementById("adminMsg").className = "msg";
-    document.getElementById("adminModal").classList.add("show");
-  } else {
-    document.getElementById("passError").textContent = "❌ Неверный пароль!";
-    document.getElementById("passInput").value = "";
-    document.getElementById("passInput").focus();
+    audio.play().catch(()=>{});
   }
 }
 
-/* ============================================================
-   ДЕЙСТВИЯ АДМИНА
-============================================================ */
-function reloadMusic() {
-  loadMusic();
-  const msg = document.getElementById("adminMsg");
-  msg.textContent = "🔄 Музыка перезагружена";
-  msg.className = "msg success";
-  setTimeout(() => { msg.textContent = ""; msg.className = "msg"; }, 2500);
+/* ADMIN */
+function openAdmin(){
+  document.getElementById("modal").classList.add("active");
 }
 
-function copyRepoLink() {
-  const el = document.getElementById("repoLink");
-  el.select();
-  el.setSelectionRange(0, 99999);
-  try {
-    navigator.clipboard.writeText(el.value);
-    showAdminMsg("✅ Ссылка скопирована");
-  } catch {
-    document.execCommand("copy");
-    showAdminMsg("✅ Ссылка скопирована");
+function closeModal(){
+  document.getElementById("modal").classList.remove("active");
+}
+
+function login(){
+  const val = document.getElementById("pass").value;
+  if(val === PASSWORD){
+    alert("Доступ разрешён");
+    closeModal();
+  }else{
+    document.getElementById("error").textContent = "Неверный пароль";
   }
 }
 
-function copyMusicLink() {
-  const el = document.getElementById("musicLink");
-  el.select();
-  el.setSelectionRange(0, 99999);
-  try {
-    navigator.clipboard.writeText(el.value);
-    showAdminMsg("✅ Ссылка скопирована");
-  } catch {
-    document.execCommand("copy");
-    showAdminMsg("✅ Ссылка скопирована");
+/* AUTO LOAD */
+window.addEventListener("click",()=>{
+  if(audio.paused){
+    audio.play().catch(()=>{});
   }
-}
-
-function showAdminMsg(text) {
-  const msg = document.getElementById("adminMsg");
-  msg.textContent = text;
-  msg.className = "msg success";
-  setTimeout(() => { msg.textContent = ""; msg.className = "msg"; }, 2500);
-}
-
-/* ============================================================
-   ЗАКРЫТИЕ МОДАЛЬНЫХ ОКОН
-============================================================ */
-function closeModal(id) {
-  document.getElementById(id).classList.remove("show");
-}
-
-document.getElementById("passInput").addEventListener("keydown", e => {
-  if (e.key === "Enter") checkPassword();
-});
-
-document.querySelectorAll(".modal").forEach(m => {
-  m.addEventListener("click", e => {
-    if (e.target === m) m.classList.remove("show");
-  });
-});
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") {
-    document.querySelectorAll(".modal").forEach(m => m.classList.remove("show"));
-  }
-});
+},{once:true});
 </script>
 
 </body>
