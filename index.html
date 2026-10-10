@@ -1,611 +1,399 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Camera Telegram</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Camera Pro</title>
 <style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  padding: 18px;
-  background: #101522;
-  color: #f5f7ff;
-  font-family: Arial, sans-serif;
-}
-
-.container {
-  max-width: 760px;
-  margin: auto;
-}
-
-h1 { text-align: center; }
-
-.panel {
-  background: #1b2335;
-  padding: 18px;
-  margin: 15px 0;
-  border-radius: 16px;
-}
-
-input, select, button {
-  width: 100%;
-  padding: 13px;
-  margin: 6px 0;
-  border: 0;
-  border-radius: 9px;
-  font-size: 15px;
-}
-
-input, select {
-  background: #303b50;
-  color: white;
-}
-
-button {
-  background: #3588ff;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button.stop { background: #d84757; }
-button.secondary { background: #414d63; }
-
-video {
-  display: block;
-  width: 100%;
-  background: black;
-  border-radius: 12px;
-  transform: scaleX(-1);
-}
-
-.status {
-  background: #101522;
-  border-radius: 8px;
-  padding: 12px;
-  margin-top: 10px;
-  overflow-wrap: anywhere;
-}
-
-.small {
-  color: #b9c5da;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-#events {
-  max-height: 220px;
-  overflow-y: auto;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-label {
-  display: block;
-  margin-top: 12px;
-  font-size: 14px;
-}
-
-.check {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.check input {
-  width: auto;
-}
-
+*{box-sizing:border-box}
+body{margin:0;padding:16px;background:#101522;color:#f5f7ff;font-family:Arial,sans-serif}
+main{max-width:760px;margin:auto}
+.panel{background:#1c2638;padding:16px;border-radius:15px;margin:14px 0}
+input,select,button{width:100%;padding:12px;margin:6px 0;border:0;border-radius:8px;font-size:15px}
+input,select{background:#303b50;color:white}
+button{background:#3588ff;color:white;font-weight:bold;cursor:pointer}
+.stop{background:#d94757}.secondary{background:#46536a}
+video{width:100%;background:#000;border-radius:10px}
+label{display:block;margin:12px 0}
+.check{display:flex;align-items:center;gap:9px}
+.check input{width:auto}
+.small{font-size:13px;line-height:1.5;color:#bdc9dc}
+.status{padding:12px;background:#101522;border-radius:8px;overflow-wrap:anywhere}
+#events{max-height:200px;overflow:auto;font-size:13px;line-height:1.6}
 </style>
 </head>
-
 <body>
-<div class="container">
-
-<h1>📷 AI Camera</h1>
-<p class="small" style="text-align:center">
-Распознавание жестов и выражений лица с отправкой снимков в Telegram
-</p>
+<main>
+<h1>📷 AI Camera Pro</h1>
+<p class="small">Распознавание событий, фотографии и короткие видеоклипы.</p>
 
 <div class="panel">
-  <h3>🤖 Настройки Telegram</h3>
-
-  <label>Токен бота</label>
-  <input id="token" type="password"
-    placeholder="Вставь токен от BotFather"
-    autocomplete="off">
-
-  <label>Chat ID</label>
-  <input id="chatId" placeholder="Например, 123456789">
-
-  <button id="testBtn">📨 Тест Telegram</button>
-
-  <p class="small">
-    Не публикуй токен в открытом GitHub-репозитории.
-    Для публичного сайта используй сервер-посредник.
-  </p>
+<h3>🤖 Telegram</h3>
+<label>Токен бота
+<input id="token" type="password" autocomplete="off" placeholder="Токен от BotFather">
+</label>
+<label>Chat ID
+<input id="chat" placeholder="ID чата">
+</label>
+<button id="test">Проверить Telegram</button>
+<p class="small">Не публикуй токен. Для постоянного использования нужен сервер-посредник: токен в браузере можно раскрыть.</p>
 </div>
 
 <div class="panel">
-  <h3>🎥 Камера</h3>
-
-  <label>Выбор камеры</label>
-  <select id="camera">
-    <option value="environment">Задняя камера</option>
-    <option value="user">Передняя камера</option>
-  </select>
-
-  <video id="video" autoplay muted playsinline></video>
-
-  <canvas id="canvas" hidden></canvas>
-
-  <div class="status" id="status">
-    Камера выключена
-  </div>
-
-  <button id="startBtn">▶ Включить камеру</button>
-  <button id="stopBtn" class="stop">■ Выключить камеру</button>
-  <button id="photoBtn" class="secondary">📸 Сделать снимок</button>
+<h3>🎥 Камера и микрофон</h3>
+<select id="facing">
+<option value="environment">Задняя камера</option>
+<option value="user">Передняя камера</option>
+</select>
+<video id="preview" autoplay muted playsinline></video>
+<div class="status" id="status">Камера выключена</div>
+<button id="start">▶ Включить камеру</button>
+<button id="stop" class="stop">■ Выключить</button>
+<button id="snapshot" class="secondary">📸 Сделать и отправить снимок</button>
+<button id="record" class="secondary">🎬 Записать 3 секунды со звуком</button>
 </div>
 
 <div class="panel">
-  <h3>🧠 Распознавание</h3>
-
-  <label class="check">
-    <input type="checkbox" id="handsEnabled" checked>
-    Распознавать жесты рук
-  </label>
-
-  <label class="check">
-    <input type="checkbox" id="faceEnabled" checked>
-    Распознавать мимику
-  </label>
-
-  <label class="check">
-    <input type="checkbox" id="palmEnabled" checked>
-    Открытая ладонь
-  </label>
-
-  <label class="check">
-    <input type="checkbox" id="middleEnabled" checked>
-    Жест средним пальцем
-  </label>
-
-  <label class="check">
-    <input type="checkbox" id="smileEnabled" checked>
-    Улыбка
-  </label>
-
-  <label class="check">
-    <input type="checkbox" id="mouthEnabled" checked>
-    Открытый рот
-  </label>
-
-  <label class="check">
-    <input type="checkbox" id="winkEnabled" checked>
-    Подмигивание
-  </label>
-
-  <label>Пауза между отправками</label>
-  <select id="cooldown">
-    <option value="3">3 секунды</option>
-    <option value="5" selected>5 секунд</option>
-    <option value="10">10 секунд</option>
-    <option value="20">20 секунд</option>
-    <option value="60">60 секунд</option>
-  </select>
-
-  <label class="check">
-    <input type="checkbox" id="autoSend" checked>
-    Автоматически отправлять обнаруженные жесты
-  </label>
+<h3>🧠 Обнаружение событий</h3>
+<label class="check"><input type="checkbox" id="person" checked> Обнаруживать человека</label>
+<label class="check"><input type="checkbox" id="hands" checked> Распознавать жесты рук</label>
+<label class="check"><input type="checkbox" id="face" checked> Анализировать мимику</label>
+<label class="check"><input type="checkbox" id="palm" checked> Открытая ладонь</label>
+<label class="check"><input type="checkbox" id="middle" checked> Средний палец</label>
+<label class="check"><input type="checkbox" id="smile" checked> Улыбка</label>
+<label class="check"><input type="checkbox" id="mouth" checked> Открытый рот</label>
+<label class="check"><input type="checkbox" id="wink" checked> Подмигивание</label>
+<label class="check"><input type="checkbox" id="auto" checked> Автоматически отправлять события</label>
+<label class="check"><input type="checkbox" id="autoVideo"> Записывать видео при событии</label>
+<label>Пауза между уведомлениями
+<select id="cooldown">
+<option value="10">10 секунд</option>
+<option value="20" selected>20 секунд</option>
+<option value="30">30 секунд</option>
+<option value="60">60 секунд</option>
+</select></label>
 </div>
 
 <div class="panel">
-  <h3>📋 Журнал событий</h3>
-  <div id="events">Ожидание запуска...</div>
-  <button id="clearBtn" class="secondary">Очистить журнал</button>
+<h3>📋 Журнал</h3>
+<div id="events">Ожидание запуска</div>
+<button id="clear" class="secondary">Очистить журнал</button>
 </div>
-
-<p class="small">
-  Камера анализируется локально в браузере. Фото отправляется
-  в Telegram только при ручном снимке или обнаружении включённого
-  жеста. Держи страницу открытой, пока используешь камеру.
-</p>
-
-</div>
+<p class="small">Распознавание работает локально в браузере. Запись требует разрешения на микрофон. Оставь страницу открытой. Совместимость кодека и отправки видео зависит от браузера.</p>
+</main>
 
 <script type="module">
 import {
-  FilesetResolver,
-  HandLandmarker,
-  FaceLandmarker
+ FilesetResolver, HandLandmarker, FaceLandmarker, ObjectDetector
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
+const video=$("preview");
+const canvas=document.createElement("canvas");
+const ctx=canvas.getContext("2d");
 
-const video = $("video");
-const canvas = $("canvas");
-const ctx = canvas.getContext("2d");
+let stream=null, handsModel=null, faceModel=null, objectModel=null;
+let running=false, busy=false, lastVideoTime=-1;
+let lastEventAt=0, lastGesture="", gestureSince=0;
+let lastWink=0, lastSmile=0, lastMouth=0;
+let lastPerson=0, personVisible=false;
 
-let stream = null;
-let handModel = null;
-let faceModel = null;
-let running = false;
-let busy = false;
-let lastVideoTime = -1;
-let lastSent = 0;
-let previousGesture = "";
-let gestureSince = 0;
-let winkSince = 0;
-let lastWink = 0;
-let lastSmile = 0;
-let lastMouth = 0;
+function log(s){
+ const el=document.createElement("div");
+ el.textContent=new Date().toLocaleTimeString()+" — "+s;
+ $("events").prepend(el);
+}
+function status(s){$("status").textContent=s}
 
-function log(message) {
-  const row = document.createElement("div");
-  row.textContent = new Date().toLocaleTimeString() + " — " + message;
-  $("events").prepend(row);
+function credentials(){
+ const token=$("token").value.trim();
+ const chat=$("chat").value.trim();
+ if(!token||!chat) throw Error("Введи токен Telegram и Chat ID");
+ return {token,chat};
 }
 
-function setStatus(message) {
-  $("status").textContent = message;
+async function tg(method,form){
+ const {token,chat}=credentials();
+ form.set("chat_id",chat);
+ const r=await fetch(`https://api.telegram.org/bot${token}/${method}`,{
+  method:"POST",body:form
+ });
+ const d=await r.json();
+ if(!d.ok) throw Error(d.description||"Ошибка Telegram");
+ return d;
 }
 
-function getToken() {
-  return $("token").value.trim();
-}
-
-function getChatId() {
-  return $("chatId").value.trim();
-}
-
-async function telegram(method, form) {
-  const token = getToken();
-
-  if (!token || !getChatId()) {
-    throw new Error("Введи токен бота и Chat ID");
-  }
-
-  const url =
-    "https://api.telegram.org/bot" + token + "/" + method;
-
-  form.set("chat_id", getChatId());
-
-  // Прямой запрос из браузера может быть ограничен CORS.
-  const response = await fetch(url, {
-    method: "POST",
-    body: form
-  });
-
-  const data = await response.json();
-
-  if (!data.ok) {
-    throw new Error(data.description || "Ошибка Telegram API");
-  }
-
-  return data;
-}
-
-$("testBtn").onclick = async () => {
-  try {
-    setStatus("Отправка тестового сообщения...");
-    const form = new FormData();
-    form.set("text", "✅ AI Camera: Telegram-бот подключён!");
-    await telegram("sendMessage", form);
-    setStatus("Тестовое сообщение отправлено");
-    log("Telegram подключён");
-  } catch (e) {
-    setStatus("Ошибка Telegram: " + e.message);
-    log("Ошибка отправки: " + e.message);
-  }
+$("test").onclick=async()=>{
+ try{
+  const f=new FormData();
+  f.set("text","✅ AI Camera Pro: тестовое сообщение");
+  await tg("sendMessage",f);
+  status("Тест Telegram отправлен");
+  log("Telegram работает");
+ }catch(e){status("Ошибка: "+e.message);log(e.message)}
 };
 
-async function loadModels() {
-  if (handModel && faceModel) return;
+async function loadModels(){
+ if(handsModel&&faceModel&&objectModel)return;
+ status("Загружаю модели AI...");
+ const vision=await FilesetResolver.forVisionTasks(
+  "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"
+ );
+ const delegate="GPU";
+ const create=async(fn,options)=>{
+  try{return await fn(vision,{...options,baseOptions:{...options.baseOptions,delegate}})}
+  catch(e){
+   return await fn(vision,{...options,baseOptions:{...options.baseOptions,delegate:"CPU"}});
+  }
+ };
+ handsModel=await create(HandLandmarker.createFromOptions,{
+  baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task"},
+  runningMode:"VIDEO",numHands:2
+ });
+ faceModel=await create(FaceLandmarker.createFromOptions,{
+  baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task"},
+  runningMode:"VIDEO",numFaces:1
+ });
+ objectModel=await create(ObjectDetector.createFromOptions,{
+  baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite"},
+  runningMode:"VIDEO",scoreThreshold:0.55,maxResults:10
+ });
+ log("Модели загружены");
+}
 
-  setStatus("Загрузка моделей распознавания...");
-
-  const vision = await FilesetResolver.forVisionTasks(
-    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"
-  );
-
-  handModel = await HandLandmarker.createFromOptions(vision, {
-    baseOptions: {
-      modelAssetPath:
-        "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
-      delegate: "GPU"
-    },
-    runningMode: "VIDEO",
-    numHands: 2
+async function start(){
+ if(running)return;
+ try{
+  await loadModels();
+  stream=await navigator.mediaDevices.getUserMedia({
+   audio:true,
+   video:{facingMode:{ideal:$("facing").value},
+          width:{ideal:1280},height:{ideal:720}}
   });
-
-  faceModel = await FaceLandmarker.createFromOptions(vision, {
-    baseOptions: {
-      modelAssetPath:
-        "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
-      delegate: "GPU"
-    },
-    runningMode: "VIDEO",
-    numFaces: 1
-  });
-
-  log("Модели распознавания загружены");
-}
-
-async function startCamera() {
-  try {
-    if (running) return;
-
-    if (!navigator.mediaDevices?.getUserMedia) {
-      throw new Error("Камера требует HTTPS или localhost");
-    }
-
-    setStatus("Запуск камеры...");
-    await loadModels();
-
-    stream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: {
-        facingMode: { ideal: $("camera").value },
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      }
-    });
-
-    video.srcObject = stream;
-    await video.play();
-
-    running = true;
-    lastVideoTime = -1;
-    setStatus("Камера включена. Анализ жестов...");
-    log("Камера включена");
-    requestAnimationFrame(loop);
-  } catch (e) {
-    setStatus("Не удалось запустить камеру: " + e.message);
-    log("Ошибка камеры: " + e.message);
-  }
-}
-
-function stopCamera() {
-  running = false;
-
-  if (stream) {
-    stream.getTracks().forEach(track => track.stop());
-    stream = null;
-  }
-
-  video.srcObject = null;
-  setStatus("Камера выключена");
-  log("Камера выключена");
-}
-
-$("startBtn").onclick = startCamera;
-$("stopBtn").onclick = stopCamera;
-
-$("camera").onchange = async () => {
-  if (running) {
-    stopCamera();
-    await startCamera();
-  }
-};
-
-function distance(a, b) {
-  return Math.hypot(a.x - b.x, a.y - b.y);
-}
-
-// Определяем, выпрямлены ли пальцы.
-// Для среднего пальца сравниваем его кончик и суставы.
-function fingerExtended(hand, tip, pip, mcp) {
-  return hand[tip].y < hand[pip].y &&
-         hand[pip].y < hand[mcp].y;
-}
-
-function classifyHand(hand) {
-  const index = fingerExtended(hand, 8, 6, 5);
-  const middle = fingerExtended(hand, 12, 10, 9);
-  const ring = fingerExtended(hand, 16, 14, 13);
-  const pinky = fingerExtended(hand, 20, 18, 17);
-
-  const wrist = hand[0];
-  const middleTip = hand[12];
-
-  const middleUp =
-    middleTip.y < hand[10].y &&
-    hand[10].y < hand[9].y;
-
-  const othersDown = !index && !ring && !pinky;
-
-  if (middleUp && othersDown) {
-    return "🖕 Жест средним пальцем";
-  }
-
-  if (index && middle && ring && pinky) {
-    return "👋 Открытая ладонь";
-  }
-
-  return null;
-}
-
-function getFaceSignals(landmarks) {
-  // MediaPipe Face Mesh landmark indices:
-  // 13/14 — губы, 61/291 — уголки рта,
-  // 159/145 — левый глаз, 386/374 — правый глаз.
-  const p = i => landmarks[i];
-
-  const mouthHeight = distance(p(13), p(14));
-  const mouthWidth = distance(p(61), p(291));
-
-  const mouthOpen = mouthHeight > 0.035;
-  const smile = mouthWidth > 0.075 &&
-                mouthHeight / Math.max(mouthWidth, 0.001) < 0.35;
-
-  const leftEye = distance(p(159), p(145));
-  const rightEye = distance(p(386), p(374));
-
-  // Эвристика, а не безошибочное распознавание подмигивания.
-  const wink = (leftEye < 0.012 && rightEye > 0.018) ||
-               (rightEye < 0.012 && leftEye > 0.018);
-
-  return { mouthOpen, smile, wink };
-}
-
-async function sendPhoto(caption) {
-  if (busy) return;
-
-  const now = Date.now();
-  const wait = Number($("cooldown").value) * 1000;
-
-  if (now - lastSent < wait) return;
-
-  if (!stream || video.readyState < 2) return;
-
-  busy = true;
-  lastSent = now;
-
-  try {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-
-    // Сохраняем естественную ориентацию исходной камеры.
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    const blob = await new Promise(resolve =>
-      canvas.toBlob(resolve, "image/jpeg", 0.85)
-    );
-
-    if (!blob) throw new Error("Не удалось создать снимок");
-
-    const form = new FormData();
-    form.set("photo", blob, "camera.jpg");
-    form.set("caption", caption);
-
-    setStatus("Отправка фотографии в Telegram...");
-    await telegram("sendPhoto", form);
-
-    setStatus("Фото отправлено: " + caption);
-    log("Фото отправлено: " + caption);
-  } catch (e) {
-    setStatus("Ошибка отправки: " + e.message);
-    log("Ошибка отправки фотографии: " + e.message);
-  } finally {
-    busy = false;
-  }
-}
-
-$("photoBtn").onclick = () => sendPhoto("📸 Ручной снимок с AI Camera");
-
-function detectGesture(name) {
-  if (!name) {
-    previousGesture = "";
-    gestureSince = 0;
-    return;
-  }
-
-  if (name !== previousGesture) {
-    previousGesture = name;
-    gestureSince = Date.now();
-    return;
-  }
-
-  // Жест должен сохраняться около 400 мс,
-  // чтобы уменьшить количество случайных срабатываний.
-  if (Date.now() - gestureSince > 400 &&
-      $("autoSend").checked) {
-    sendPhoto(name);
-    gestureSince = Date.now() + 100000;
-  }
-}
-
-function loop() {
-  if (!running) return;
-
-  if (video.readyState >= 2 &&
-      video.currentTime !== lastVideoTime) {
-
-    lastVideoTime = video.currentTime;
-    const now = performance.now();
-    let detected = null;
-
-    try {
-      if ($("handsEnabled").checked && handModel) {
-        const result = handModel.detectForVideo(video, now);
-
-        for (const hand of result.landmarks || []) {
-          const gesture = classifyHand(hand);
-
-          if (gesture === "👋 Открытая ладонь" &&
-              $("palmEnabled").checked) {
-            detected = gesture;
-            break;
-          }
-
-          if (gesture === "🖕 Жест средним пальцем" &&
-              $("middleEnabled").checked) {
-            detected = gesture;
-            break;
-          }
-        }
-      }
-
-      if ($("faceEnabled").checked && faceModel) {
-        const result = faceModel.detectForVideo(video, now);
-        const face = result.faceLandmarks?.[0];
-
-        if (face) {
-          const signals = getFaceSignals(face);
-
-          if (signals.wink && $("winkEnabled").checked) {
-            if (!winkSince) winkSince = Date.now();
-
-            if (Date.now() - winkSince > 250 &&
-                Date.now() - lastWink > 3000) {
-              detected = "😉 Подмигивание";
-              lastWink = Date.now();
-            }
-          } else {
-            winkSince = 0;
-          }
-
-          if (signals.smile && $("smileEnabled").checked &&
-              Date.now() - lastSmile > 5000) {
-            detected = detected || "😄 Улыбка";
-            lastSmile = Date.now();
-          }
-
-          if (signals.mouthOpen && $("mouthEnabled").checked &&
-              Date.now() - lastMouth > 5000) {
-            detected = detected || "😮 Открытый рот";
-            lastMouth = Date.now();
-          }
-        }
-      }
-
-      if (detected) {
-        setStatus("Обнаружено: " + detected);
-        detectGesture(detected);
-      } else {
-        detectGesture(null);
-        setStatus("Камера работает. Ожидание жеста...");
-      }
-
-    } catch (e) {
-      setStatus("Ошибка распознавания: " + e.message);
-    }
-  }
-
+  video.srcObject=stream;
+  await video.play();
+  running=true;
+  lastVideoTime=-1;
+  status("Камера включена; анализ событий");
+  log("Камера и микрофон включены");
   requestAnimationFrame(loop);
+ }catch(e){
+  status("Не удалось запустить: "+e.message);
+  log(e.message);
+ }
 }
 
-$("clearBtn").onclick = () => {
-  $("events").replaceChildren();
-  log("Журнал очищен");
+function stop(){
+ running=false;
+ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+ video.srcObject=null;
+ status("Камера выключена");
+ log("Камера и микрофон выключены");
+}
+
+$("start").onclick=start;
+$("stop").onclick=stop;
+$("facing").onchange=async()=>{if(running){stop();await start()}};
+
+function takeFrame(){
+ if(!video.videoWidth)throw Error("Камера ещё не готова");
+ canvas.width=video.videoWidth;
+ canvas.height=video.videoHeight;
+ ctx.drawImage(video,0,0,canvas.width,canvas.height);
+}
+
+async function sendSnapshot(caption){
+ takeFrame();
+ const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",0.88));
+ if(!blob)throw Error("Не удалось создать снимок");
+ const f=new FormData();
+ f.set("photo",blob,"camera.jpg");
+ f.set("caption",caption);
+ await tg("sendPhoto",f);
+ log("Снимок отправлен: "+caption);
+}
+
+$("snapshot").onclick=async()=>{
+ try{await sendSnapshot("📸 AI Camera Pro — снимок")}
+ catch(e){status("Ошибка снимка: "+e.message);log(e.message)}
 };
 
-window.addEventListener("pagehide", stopCamera);
+function videoMime(){
+ const types=[
+  "video/mp4",
+  "video/webm;codecs=vp8,opus",
+  "video/webm"
+ ];
+ return types.find(t=>MediaRecorder.isTypeSupported(t))||"";
+}
+
+async function recordClip(caption="🎬 Событие AI Camera"){
+ if(!stream||!running)throw Error("Сначала включи камеру");
+ if(!window.MediaRecorder)throw Error("Запись видео не поддерживается браузером");
+ if(busy)throw Error("Предыдущая отправка ещё выполняется");
+
+ busy=true;
+ try{
+  const mime=videoMime();
+  const recorder=new MediaRecorder(stream,mime?{mimeType:mime}:{});
+  const chunks=[];
+  recorder.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+  status("🔴 Запись видео 3 секунды...");
+  log("Началась 3-секундная запись");
+
+  const finished=new Promise((resolve,reject)=>{
+   recorder.onstop=resolve;
+   recorder.onerror=()=>reject(Error("Ошибка записи"));
+  });
+
+  recorder.start();
+  await new Promise(resolve=>setTimeout(resolve,3000));
+  if(recorder.state!=="inactive")recorder.stop();
+  await finished;
+
+  const type=recorder.mimeType||"video/webm";
+  const blob=new Blob(chunks,{type});
+  if(!blob.size)throw Error("Получен пустой видеоклип");
+
+  const ext=type.includes("mp4")?"mp4":"webm";
+  const f=new FormData();
+  f.set("video",blob,"clip."+ext);
+  f.set("caption",caption+" (3 секунды)");
+  try{
+   await tg("sendVideo",f);
+  }catch(e){
+   // Telegram может не принять данный кодек как видео.
+   // В таком случае пробуем отправить файл как документ.
+   const doc=new FormData();
+   doc.set("document",blob,"clip."+ext);
+   doc.set("caption",caption+" (видеофайл)");
+   await tg("sendDocument",doc);
+  }
+  status("Видеоклип отправлен");
+  log("Видеоклип отправлен в Telegram");
+ }finally{busy=false}
+}
+
+$("record").onclick=async()=>{
+ try{await recordClip("🎬 Ручная запись")}
+ catch(e){status("Ошибка видео: "+e.message);log(e.message)}
+};
+
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function extended(h,tip,pip,mcp){
+ return h[tip].y<h[pip].y&&h[pip].y<h[mcp].y;
+}
+function handGesture(h){
+ const i=extended(h,8,6,5);
+ const m=extended(h,12,10,9);
+ const r=extended(h,16,14,13);
+ const p=extended(h,20,18,17);
+ if(m&&!i&&!r&&!p)return $("middle").checked?"🖕 Средний палец":null;
+ if(i&&m&&r&&p)return $("palm").checked?"👋 Открытая ладонь":null;
+ if(i&&m&&!r&&!p)return "✌️ Два пальца";
+ if(i&&!m&&!r&&!p)return "☝️ Указательный палец";
+ return null;
+}
+
+function faceSignals(l){
+ const d=(a,b)=>dist(l[a],l[b]);
+ const mouth=d(13,14);
+ const width=d(61,291);
+ const smile=width>0.075&&mouth/Math.max(width,0.001)<0.35;
+ const open=mouth>0.035;
+ const le=d(159,145), re=d(386,374);
+ const wink=(le<0.012&&re>0.018)||(re<0.012&&le>0.018);
+ return {smile,open,wink};
+}
+
+async function trigger(name){
+ if(!$("auto").checked)return;
+ const now=Date.now();
+ if(now-lastEventAt<Number($("cooldown").value)*1000)return;
+ lastEventAt=now;
+ log("Обнаружено: "+name);
+ status("Обнаружено: "+name);
+
+ try{
+  if($("autoVideo").checked){
+   await recordClip(name);
+  }else{
+   await sendSnapshot(name);
+  }
+ }catch(e){
+  status("Ошибка события: "+e.message);
+  log(e.message);
+ }
+}
+
+function stableEvent(name){
+ if(!name){lastGesture="";gestureSince=0;return}
+ if(name!==lastGesture){
+  lastGesture=name;gestureSince=Date.now();return;
+ }
+ if(Date.now()-gestureSince>500){
+  const event=name;
+  gestureSince=Date.now()+100000;
+  trigger(event);
+ }
+}
+
+function loop(){
+ if(!running)return;
+ if(video.readyState>=2&&video.currentTime!==lastVideoTime){
+  lastVideoTime=video.currentTime;
+  const now=performance.now();
+  let event=null;
+
+  try{
+   if($("person").checked){
+    const result=objectModel.detectForVideo(video,now);
+    const found=(result.detections||[]).some(d=>
+     d.categories?.some(c=>c.categoryName==="person"&&c.score>0.55)
+    );
+    if(found&&!personVisible&&Date.now()-lastPerson>5000){
+     personVisible=true;
+     lastPerson=Date.now();
+     event="🧍 Обнаружен человек";
+    }
+    if(!found)personVisible=false;
+   }
+
+   if($("hands").checked&&!event){
+    const res=handsModel.detectForVideo(video,now);
+    for(const h of res.landmarks||[]){
+     const g=handGesture(h);
+     if(g){event=g;break}
+    }
+   }
+
+   if($("face").checked&&!event){
+    const res=faceModel.detectForVideo(video,now);
+    const l=res.faceLandmarks?.[0];
+    if(l){
+     const s=faceSignals(l);
+     if(s.wink&&$("wink").checked&&Date.now()-lastWink>4000){
+      event="😉 Подмигивание";lastWink=Date.now();
+     }else if(s.smile&&$("smile").checked&&Date.now()-lastSmile>6000){
+      event="😄 Улыбка";lastSmile=Date.now();
+     }else if(s.open&&$("mouth").checked&&Date.now()-lastMouth>6000){
+      event="😮 Открытый рот";lastMouth=Date.now();
+     }
+    }
+   }
+
+   if(event)stableEvent(event);
+   else stableEvent(null);
+
+   if(!event)status("Камера работает — ожидание событий");
+  }catch(e){status("Ошибка распознавания: "+e.message)}
+ }
+ requestAnimationFrame(loop);
+}
+
+$("clear").onclick=()=>{$("events").replaceChildren();log("Журнал очищен")};
+window.addEventListener("pagehide",stop);
 </script>
 </body>
 </html>
