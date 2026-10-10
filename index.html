@@ -3,397 +3,199 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI Camera Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#090b14">
+<title>VoiceClone AI</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:16px;background:#101522;color:#f5f7ff;font-family:Arial,sans-serif}
-main{max-width:760px;margin:auto}
-.panel{background:#1c2638;padding:16px;border-radius:15px;margin:14px 0}
-input,select,button{width:100%;padding:12px;margin:6px 0;border:0;border-radius:8px;font-size:15px}
-input,select{background:#303b50;color:white}
-button{background:#3588ff;color:white;font-weight:bold;cursor:pointer}
-.stop{background:#d94757}.secondary{background:#46536a}
-video{width:100%;background:#000;border-radius:10px}
-label{display:block;margin:12px 0}
-.check{display:flex;align-items:center;gap:9px}
-.check input{width:auto}
-.small{font-size:13px;line-height:1.5;color:#bdc9dc}
-.status{padding:12px;background:#101522;border-radius:8px;overflow-wrap:anywhere}
-#events{max-height:200px;overflow:auto;font-size:13px;line-height:1.6}
+:root{--bg:#090b14;--card:#121626;--line:#272e48;--purple:#7957ff;--blue:#477dff;--text:#f5f6ff;--muted:#9da9c7;--green:#54e2b5}
+body{margin:0;background:radial-gradient(ellipse at top,#19204a 0,transparent 50%),var(--bg);color:var(--text);font:15px Arial,sans-serif}
+header{padding:17px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px}
+.logo{background:linear-gradient(135deg,#8b4dff,#397dff);padding:11px;border-radius:13px;font-size:21px}
+.brand{font-size:21px;font-weight:800}
+.brand small{display:block;color:var(--muted);font-size:10px;font-weight:400;margin-top:4px}
+main{width:min(100% - 26px,760px);margin:auto}
+.hero{text-align:center;padding:34px 4px 24px}
+.tag{color:#b5a4ff;font-size:11px;letter-spacing:2px;font-weight:bold}
+h1{font-size:clamp(32px,8vw,49px);line-height:1.1;letter-spacing:-1.5px;margin:15px 0}
+h1 span{background:linear-gradient(90deg,#bb70ff,#558bff);color:transparent;background-clip:text}
+.hero p{color:var(--muted);line-height:1.65;font-size:14px;max-width:480px;margin:0 auto}
+.card{background:linear-gradient(145deg,#151a2d,#101422);border:1px solid var(--line);border-radius:18px;padding:19px;margin-bottom:15px;min-width:0}
+.heading{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.num{background:linear-gradient(135deg,#9653ff,#397aff);border-radius:12px;width:39px;height:39px;display:grid;place-items:center;font-weight:bold;flex-shrink:0}
+h2{font-size:17px;margin:0}
+.desc{font-size:12px;line-height:1.6;color:var(--muted);margin:8px 0 16px}
+label{display:block;font-size:12px;color:#cdd5ed;margin:13px 0 7px}
+input,textarea,select{display:block;width:100%;background:#0a0e1b;color:white;border:1px solid #303956;border-radius:11px;padding:13px;font:14px Arial;outline:none}
+input:focus,textarea:focus,select:focus{border-color:#9179ff}
+textarea{min-height:140px;resize:vertical;line-height:1.6}
+button,.download{width:100%;min-height:48px;border:0;border-radius:12px;padding:13px;background:linear-gradient(100deg,#8951ff,#426cff);color:white;font-weight:bold;font-size:14px;cursor:pointer;margin-top:12px;display:flex;justify-content:center;align-items:center;gap:8px;text-decoration:none}
+button:disabled{opacity:.5}
+.secondary{background:#19213a;border:1px solid #354467}
+.upload{border:1px dashed #6576b6;background:#0c1326;padding:22px 12px;border-radius:13px;text-align:center;cursor:pointer}
+.upload b{font-size:13px;display:block;margin:7px}
+.upload span{color:var(--muted);font-size:11px}
+.upload input{display:none}
+.status{font-size:12px;line-height:1.6;padding:12px;border-radius:10px;margin-top:12px;overflow-wrap:anywhere;background:#101d32;color:#c4d4ff;white-space:pre-wrap}
+.ok{background:#0b2825;color:var(--green)}
+.err{background:#2b1421;color:#ffb6c4}
+.hidden{display:none!important}
+.note{font-size:11px;line-height:1.65;color:#a5b2d0;border:1px solid #393054;background:#19152b;padding:13px;border-radius:12px;margin:16px 0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row button{font-size:12px}
+audio{width:100%;margin-top:14px;height:42px}
+footer{text-align:center;color:#7f8baa;font-size:11px;padding:20px 8px 35px;line-height:1.8}
+@media(min-width:650px){.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.card{margin:0}.hero{padding-top:48px}.full{grid-column:1/-1}}
+@media(max-width:370px){.card{padding:15px}h1{font-size:31px}.row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<header>
+ <div class="logo">🎙️</div>
+ <div class="brand">VoiceClone AI<small>ТВОЙ ГОЛОС · ТВОИ ПРАВИЛА</small></div>
+</header>
+
 <main>
-<h1>📷 AI Camera Pro</h1>
-<p class="small">Распознавание событий, фотографии и короткие видеоклипы.</p>
+<section class="hero">
+ <div class="tag">✦ AI VOICE STUDIO</div>
+ <h1>Текст звучит<br><span>твоим голосом</span></h1>
+ <p>Добавь свою аудиозапись, создай голосовую модель и превращай текст в речь.</p>
+</section>
 
-<div class="panel">
-<h3>🤖 Telegram</h3>
-<label>Токен бота
-<input id="token" type="password" autocomplete="off" placeholder="Токен от BotFather">
-</label>
-<label>Chat ID
-<input id="chat" placeholder="ID чата">
-</label>
-<button id="test">Проверить Telegram</button>
-<p class="small">Не публикуй токен. Для постоянного использования нужен сервер-посредник: токен в браузере можно раскрыть.</p>
+<div class="grid">
+<section class="card">
+ <div class="heading"><div class="num">1</div><h2>Твоя голосовая запись</h2></div>
+ <p class="desc">Загрузи запись своего голоса без музыки и фонового шума.</p>
+ <label>API-ключ ElevenLabs</label>
+ <input id="key" type="password" autocomplete="off" placeholder="Вставь API-ключ">
+ <div class="note">Ключ вводится в браузере и не сохраняется этим сайтом. Но запросы к API могут быть видны в инструментах браузера. Не используй этот способ с ключом, который нельзя раскрывать.</div>
+ <label>Название голоса</label>
+ <input id="voiceName" value="Мой голос" maxlength="60">
+ <label class="upload">
+  <b>📁 Выбрать аудиофайл</b>
+  <span id="fileLabel">Нажми сюда · MP3, WAV, M4A · до 10 МБ</span>
+  <input id="audio" type="file" accept="audio/*,.mp3,.wav,.m4a,.ogg,.webm">
+ </label>
+ <div id="fileStatus" class="status hidden"></div>
+ <button id="clone">✨ Создать голосовую модель</button>
+ <div id="cloneStatus" class="status hidden"></div>
+</section>
+
+<section class="card">
+ <div class="heading"><div class="num">2</div><h2>Настройки голоса</h2></div>
+ <p class="desc">Если у тебя уже есть голосовая модель, можешь указать её ID.</p>
+ <label>Voice ID</label>
+ <input id="voiceId" placeholder="ID голосовой модели">
+ <button class="secondary" id="saveVoice">✓ Использовать этот голос</button>
+ <div id="voiceStatus" class="status hidden"></div>
+ <div class="note">Используй только свой голос или голос, на клонирование которого есть разрешение.</div>
+</section>
+
+<section class="card">
+ <div class="heading"><div class="num">3</div><h2>Текст для озвучки</h2></div>
+ <p class="desc">Напиши, что должен произнести твой голос.</p>
+ <label>Твой текст <span id="count" style="float:right">0 / 5000</span></label>
+ <textarea id="text" maxlength="5000" placeholder="Привет! Это мой голос. Теперь я могу озвучивать любой текст..."></textarea>
+ <label>Модель генерации</label>
+ <select id="model">
+  <option value="eleven_multilingual_v2">Multilingual v2</option>
+  <option value="eleven_turbo_v2_5">Turbo v2.5</option>
+ </select>
+ <div class="row">
+  <button class="secondary" id="example">Вставить пример</button>
+  <button id="generate">🔊 Озвучить текст</button>
+ </div>
+ <div id="genStatus" class="status hidden"></div>
+</section>
+
+<section class="card">
+ <div class="heading"><div class="num">4</div><h2>Твоя озвучка</h2></div>
+ <p class="desc">Здесь появится аудио, которое можно прослушать и скачать.</p>
+ <div id="empty" class="note">🎧 Пока нет аудио. Сначала создай голос и введи текст.</div>
+ <div id="result" class="hidden">
+  <div class="status ok">✓ Аудио готово!</div>
+  <audio id="player" controls></audio>
+  <a id="download" class="download" download="my-voice.mp3">⬇ Скачать MP3</a>
+ </div>
+</section>
 </div>
 
-<div class="panel">
-<h3>🎥 Камера и микрофон</h3>
-<select id="facing">
-<option value="environment">Задняя камера</option>
-<option value="user">Передняя камера</option>
-</select>
-<video id="preview" autoplay muted playsinline></video>
-<div class="status" id="status">Камера выключена</div>
-<button id="start">▶ Включить камеру</button>
-<button id="stop" class="stop">■ Выключить</button>
-<button id="snapshot" class="secondary">📸 Сделать и отправить снимок</button>
-<button id="record" class="secondary">🎬 Записать 3 секунды со звуком</button>
+<div class="note">
+ <b>Подключение ИИ</b><br>
+ Для клонирования и озвучивания требуется аккаунт ElevenLabs с доступом к соответствующим API. Если браузер блокирует запросы CORS, понадобится сервер-посредник. GitHub Pages сам по себе серверный код не запускает.
 </div>
-
-<div class="panel">
-<h3>🧠 Обнаружение событий</h3>
-<label class="check"><input type="checkbox" id="person" checked> Обнаруживать человека</label>
-<label class="check"><input type="checkbox" id="hands" checked> Распознавать жесты рук</label>
-<label class="check"><input type="checkbox" id="face" checked> Анализировать мимику</label>
-<label class="check"><input type="checkbox" id="palm" checked> Открытая ладонь</label>
-<label class="check"><input type="checkbox" id="middle" checked> Средний палец</label>
-<label class="check"><input type="checkbox" id="smile" checked> Улыбка</label>
-<label class="check"><input type="checkbox" id="mouth" checked> Открытый рот</label>
-<label class="check"><input type="checkbox" id="wink" checked> Подмигивание</label>
-<label class="check"><input type="checkbox" id="auto" checked> Автоматически отправлять события</label>
-<label class="check"><input type="checkbox" id="autoVideo"> Записывать видео при событии</label>
-<label>Пауза между уведомлениями
-<select id="cooldown">
-<option value="10">10 секунд</option>
-<option value="20" selected>20 секунд</option>
-<option value="30">30 секунд</option>
-<option value="60">60 секунд</option>
-</select></label>
-</div>
-
-<div class="panel">
-<h3>📋 Журнал</h3>
-<div id="events">Ожидание запуска</div>
-<button id="clear" class="secondary">Очистить журнал</button>
-</div>
-<p class="small">Распознавание работает локально в браузере. Запись требует разрешения на микрофон. Оставь страницу открытой. Совместимость кодека и отправки видео зависит от браузера.</p>
+<footer>VoiceClone AI · Адаптировано для телефона 📱<br>Не используй синтезированный голос для мошенничества или обмана.</footer>
 </main>
 
-<script type="module">
-import {
- FilesetResolver, HandLandmarker, FaceLandmarker, ObjectDetector
-} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
-
+<script>
 const $=id=>document.getElementById(id);
-const video=$("preview");
-const canvas=document.createElement("canvas");
-const ctx=canvas.getContext("2d");
-
-let stream=null, handsModel=null, faceModel=null, objectModel=null;
-let running=false, busy=false, lastVideoTime=-1;
-let lastEventAt=0, lastGesture="", gestureSince=0;
-let lastWink=0, lastSmile=0, lastMouth=0;
-let lastPerson=0, personVisible=false;
-
-function log(s){
- const el=document.createElement("div");
- el.textContent=new Date().toLocaleTimeString()+" — "+s;
- $("events").prepend(el);
-}
-function status(s){$("status").textContent=s}
-
-function credentials(){
- const token=$("token").value.trim();
- const chat=$("chat").value.trim();
- if(!token||!chat) throw Error("Введи токен Telegram и Chat ID");
- return {token,chat};
-}
-
-async function tg(method,form){
- const {token,chat}=credentials();
- form.set("chat_id",chat);
- const r=await fetch(`https://api.telegram.org/bot${token}/${method}`,{
-  method:"POST",body:form
- });
- const d=await r.json();
- if(!d.ok) throw Error(d.description||"Ошибка Telegram");
- return d;
-}
-
-$("test").onclick=async()=>{
- try{
-  const f=new FormData();
-  f.set("text","✅ AI Camera Pro: тестовое сообщение");
-  await tg("sendMessage",f);
-  status("Тест Telegram отправлен");
-  log("Telegram работает");
- }catch(e){status("Ошибка: "+e.message);log(e.message)}
+let file=null,voice="",audioUrl="";
+function msg(id,text,type=""){const e=$(id);e.textContent=text;e.className="status"+(type?" "+type:"");}
+function key(){const k=$("key").value.trim();if(!k){msg("cloneStatus","Сначала введи API-ключ ElevenLabs.","err");return null;}return k;}
+$("audio").onchange=()=>{
+ const f=$("audio").files[0];if(!f)return;
+ if(f.size>10*1024*1024){file=null;msg("fileStatus","Файл больше 10 МБ.","err");return;}
+ file=f;$("fileLabel").textContent=f.name+" · "+(f.size/1024/1024).toFixed(1)+" МБ";
+ msg("fileStatus","Аудиозапись выбрана.","ok");
 };
-
-async function loadModels(){
- if(handsModel&&faceModel&&objectModel)return;
- status("Загружаю модели AI...");
- const vision=await FilesetResolver.forVisionTasks(
-  "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"
- );
- const delegate="GPU";
- const create=async(fn,options)=>{
-  try{return await fn(vision,{...options,baseOptions:{...options.baseOptions,delegate}})}
-  catch(e){
-   return await fn(vision,{...options,baseOptions:{...options.baseOptions,delegate:"CPU"}});
-  }
- };
- handsModel=await create(HandLandmarker.createFromOptions,{
-  baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task"},
-  runningMode:"VIDEO",numHands:2
- });
- faceModel=await create(FaceLandmarker.createFromOptions,{
-  baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task"},
-  runningMode:"VIDEO",numFaces:1
- });
- objectModel=await create(ObjectDetector.createFromOptions,{
-  baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite"},
-  runningMode:"VIDEO",scoreThreshold:0.55,maxResults:10
- });
- log("Модели загружены");
-}
-
-async function start(){
- if(running)return;
+$("text").oninput=()=>$("count").textContent=$("text").value.length+" / 5000";
+$("example").onclick=()=>{
+ $("text").value="Привет! Это мой собственный голос. Теперь я могу озвучивать свои идеи, видео и проекты с помощью искусственного интеллекта.";
+ $("text").dispatchEvent(new Event("input"));
+};
+$("saveVoice").onclick=()=>{
+ const id=$("voiceId").value.trim();
+ if(!id){msg("voiceStatus","Введи Voice ID.","err");return;}
+ voice=id;msg("voiceStatus","Голос выбран. Теперь можешь озвучить текст.","ok");
+};
+$("clone").onclick=async()=>{
+ const k=key();if(!k)return;
+ if(!file){msg("cloneStatus","Сначала загрузи аудиозапись.","err");return;}
+ if(!confirm("Подтверди, что это твой голос или у тебя есть разрешение на его клонирование."))return;
+ const b=$("clone");b.disabled=true;b.textContent="Создаём модель...";
+ msg("cloneStatus","Отправляем запись сервису...");
  try{
-  await loadModels();
-  stream=await navigator.mediaDevices.getUserMedia({
-   audio:true,
-   video:{facingMode:{ideal:$("facing").value},
-          width:{ideal:1280},height:{ideal:720}}
+  const fd=new FormData();
+  fd.append("name",$("voiceName").value.trim()||"Мой голос");
+  fd.append("description","My personal voice");
+  fd.append("files",file,file.name);
+  const r=await fetch("https://api.elevenlabs.io/v1/voices/add",{
+   method:"POST",headers:{"xi-api-key":k},body:fd
   });
-  video.srcObject=stream;
-  await video.play();
-  running=true;
-  lastVideoTime=-1;
-  status("Камера включена; анализ событий");
-  log("Камера и микрофон включены");
-  requestAnimationFrame(loop);
- }catch(e){
-  status("Не удалось запустить: "+e.message);
-  log(e.message);
- }
-}
-
-function stop(){
- running=false;
- if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
- video.srcObject=null;
- status("Камера выключена");
- log("Камера и микрофон выключены");
-}
-
-$("start").onclick=start;
-$("stop").onclick=stop;
-$("facing").onchange=async()=>{if(running){stop();await start()}};
-
-function takeFrame(){
- if(!video.videoWidth)throw Error("Камера ещё не готова");
- canvas.width=video.videoWidth;
- canvas.height=video.videoHeight;
- ctx.drawImage(video,0,0,canvas.width,canvas.height);
-}
-
-async function sendSnapshot(caption){
- takeFrame();
- const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",0.88));
- if(!blob)throw Error("Не удалось создать снимок");
- const f=new FormData();
- f.set("photo",blob,"camera.jpg");
- f.set("caption",caption);
- await tg("sendPhoto",f);
- log("Снимок отправлен: "+caption);
-}
-
-$("snapshot").onclick=async()=>{
- try{await sendSnapshot("📸 AI Camera Pro — снимок")}
- catch(e){status("Ошибка снимка: "+e.message);log(e.message)}
+  if(!r.ok)throw Error(await errorText(r));
+  const d=await r.json();
+  if(!d.voice_id)throw Error("Сервис не вернул Voice ID.");
+  voice=d.voice_id;$("voiceId").value=voice;
+  msg("cloneStatus","Голос создан! Теперь введи текст.","ok");
+  msg("voiceStatus","Голосовая модель готова.","ok");
+ }catch(e){msg("cloneStatus","Ошибка: "+e.message+"\nЕсли это CORS, потребуется сервер-посредник.","err");}
+ finally{b.disabled=false;b.textContent="✨ Создать голосовую модель";}
 };
-
-function videoMime(){
- const types=[
-  "video/mp4",
-  "video/webm;codecs=vp8,opus",
-  "video/webm"
- ];
- return types.find(t=>MediaRecorder.isTypeSupported(t))||"";
-}
-
-async function recordClip(caption="🎬 Событие AI Camera"){
- if(!stream||!running)throw Error("Сначала включи камеру");
- if(!window.MediaRecorder)throw Error("Запись видео не поддерживается браузером");
- if(busy)throw Error("Предыдущая отправка ещё выполняется");
-
- busy=true;
+async function errorText(r){const t=await r.text();try{const j=JSON.parse(t);return j.detail?.message||j.detail||j.message||t;}catch{return t||"HTTP "+r.status;}}
+$("generate").onclick=async()=>{
+ const k=key();if(!k)return;
+ voice=$("voiceId").value.trim()||voice;
+ if(!voice){msg("genStatus","Сначала создай голос или введи Voice ID.","err");return;}
+ const text=$("text").value.trim();
+ if(!text){msg("genStatus","Введи текст для озвучки.","err");return;}
+ const b=$("generate");b.disabled=true;b.textContent="Генерируем...";
+ $("result").classList.add("hidden");msg("genStatus","Создаём аудио...");
  try{
-  const mime=videoMime();
-  const recorder=new MediaRecorder(stream,mime?{mimeType:mime}:{});
-  const chunks=[];
-  recorder.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
-  status("🔴 Запись видео 3 секунды...");
-  log("Началась 3-секундная запись");
-
-  const finished=new Promise((resolve,reject)=>{
-   recorder.onstop=resolve;
-   recorder.onerror=()=>reject(Error("Ошибка записи"));
+  const r=await fetch("https://api.elevenlabs.io/v1/text-to-speech/"+encodeURIComponent(voice),{
+   method:"POST",
+   headers:{"xi-api-key":k,"Content-Type":"application/json","Accept":"audio/mpeg"},
+   body:JSON.stringify({text,model_id:$("model").value,voice_settings:{stability:.5,similarity_boost:.75}})
   });
-
-  recorder.start();
-  await new Promise(resolve=>setTimeout(resolve,3000));
-  if(recorder.state!=="inactive")recorder.stop();
-  await finished;
-
-  const type=recorder.mimeType||"video/webm";
-  const blob=new Blob(chunks,{type});
-  if(!blob.size)throw Error("Получен пустой видеоклип");
-
-  const ext=type.includes("mp4")?"mp4":"webm";
-  const f=new FormData();
-  f.set("video",blob,"clip."+ext);
-  f.set("caption",caption+" (3 секунды)");
-  try{
-   await tg("sendVideo",f);
-  }catch(e){
-   // Telegram может не принять данный кодек как видео.
-   // В таком случае пробуем отправить файл как документ.
-   const doc=new FormData();
-   doc.set("document",blob,"clip."+ext);
-   doc.set("caption",caption+" (видеофайл)");
-   await tg("sendDocument",doc);
-  }
-  status("Видеоклип отправлен");
-  log("Видеоклип отправлен в Telegram");
- }finally{busy=false}
-}
-
-$("record").onclick=async()=>{
- try{await recordClip("🎬 Ручная запись")}
- catch(e){status("Ошибка видео: "+e.message);log(e.message)}
+  if(!r.ok)throw Error(await errorText(r));
+  const blob=await r.blob();
+  if(audioUrl)URL.revokeObjectURL(audioUrl);
+  audioUrl=URL.createObjectURL(blob);
+  $("player").src=audioUrl;$("download").href=audioUrl;
+  $("result").classList.remove("hidden");$("empty").classList.add("hidden");
+  msg("genStatus","Озвучка готова!","ok");
+ }catch(e){msg("genStatus","Ошибка: "+e.message+"\nЕсли браузер блокирует CORS, нужен сервер-посредник. Не публикуй свой API-ключ.","err");}
+ finally{b.disabled=false;b.textContent="🔊 Озвучить текст";}
 };
-
-function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
-function extended(h,tip,pip,mcp){
- return h[tip].y<h[pip].y&&h[pip].y<h[mcp].y;
-}
-function handGesture(h){
- const i=extended(h,8,6,5);
- const m=extended(h,12,10,9);
- const r=extended(h,16,14,13);
- const p=extended(h,20,18,17);
- if(m&&!i&&!r&&!p)return $("middle").checked?"🖕 Средний палец":null;
- if(i&&m&&r&&p)return $("palm").checked?"👋 Открытая ладонь":null;
- if(i&&m&&!r&&!p)return "✌️ Два пальца";
- if(i&&!m&&!r&&!p)return "☝️ Указательный палец";
- return null;
-}
-
-function faceSignals(l){
- const d=(a,b)=>dist(l[a],l[b]);
- const mouth=d(13,14);
- const width=d(61,291);
- const smile=width>0.075&&mouth/Math.max(width,0.001)<0.35;
- const open=mouth>0.035;
- const le=d(159,145), re=d(386,374);
- const wink=(le<0.012&&re>0.018)||(re<0.012&&le>0.018);
- return {smile,open,wink};
-}
-
-async function trigger(name){
- if(!$("auto").checked)return;
- const now=Date.now();
- if(now-lastEventAt<Number($("cooldown").value)*1000)return;
- lastEventAt=now;
- log("Обнаружено: "+name);
- status("Обнаружено: "+name);
-
- try{
-  if($("autoVideo").checked){
-   await recordClip(name);
-  }else{
-   await sendSnapshot(name);
-  }
- }catch(e){
-  status("Ошибка события: "+e.message);
-  log(e.message);
- }
-}
-
-function stableEvent(name){
- if(!name){lastGesture="";gestureSince=0;return}
- if(name!==lastGesture){
-  lastGesture=name;gestureSince=Date.now();return;
- }
- if(Date.now()-gestureSince>500){
-  const event=name;
-  gestureSince=Date.now()+100000;
-  trigger(event);
- }
-}
-
-function loop(){
- if(!running)return;
- if(video.readyState>=2&&video.currentTime!==lastVideoTime){
-  lastVideoTime=video.currentTime;
-  const now=performance.now();
-  let event=null;
-
-  try{
-   if($("person").checked){
-    const result=objectModel.detectForVideo(video,now);
-    const found=(result.detections||[]).some(d=>
-     d.categories?.some(c=>c.categoryName==="person"&&c.score>0.55)
-    );
-    if(found&&!personVisible&&Date.now()-lastPerson>5000){
-     personVisible=true;
-     lastPerson=Date.now();
-     event="🧍 Обнаружен человек";
-    }
-    if(!found)personVisible=false;
-   }
-
-   if($("hands").checked&&!event){
-    const res=handsModel.detectForVideo(video,now);
-    for(const h of res.landmarks||[]){
-     const g=handGesture(h);
-     if(g){event=g;break}
-    }
-   }
-
-   if($("face").checked&&!event){
-    const res=faceModel.detectForVideo(video,now);
-    const l=res.faceLandmarks?.[0];
-    if(l){
-     const s=faceSignals(l);
-     if(s.wink&&$("wink").checked&&Date.now()-lastWink>4000){
-      event="😉 Подмигивание";lastWink=Date.now();
-     }else if(s.smile&&$("smile").checked&&Date.now()-lastSmile>6000){
-      event="😄 Улыбка";lastSmile=Date.now();
-     }else if(s.open&&$("mouth").checked&&Date.now()-lastMouth>6000){
-      event="😮 Открытый рот";lastMouth=Date.now();
-     }
-    }
-   }
-
-   if(event)stableEvent(event);
-   else stableEvent(null);
-
-   if(!event)status("Камера работает — ожидание событий");
-  }catch(e){status("Ошибка распознавания: "+e.message)}
- }
- requestAnimationFrame(loop);
-}
-
-$("clear").onclick=()=>{$("events").replaceChildren();log("Журнал очищен")};
-window.addEventListener("pagehide",stop);
 </script>
 </body>
 </html>
